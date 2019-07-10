@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="sauti_api_base_url">https://doc-mentorme.herokuapp.com/</string>
+    <string name="sauti_login_authorization">Basic bGFtYmRhLWNsaWVudDpsYW1iZGEtc2VjcmV0</string>
+
+</resources>
