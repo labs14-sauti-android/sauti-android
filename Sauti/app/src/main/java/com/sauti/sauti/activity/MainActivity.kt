@@ -1,7 +1,8 @@
-package com.sauti.sauti
+package com.sauti.sauti.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.sauti.sauti.R
 
 class MainActivity : AppCompatActivity() {
 
