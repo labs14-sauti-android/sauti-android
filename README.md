@@ -33,11 +33,11 @@
 ## 🚫 Project Overview
 
 
-1️⃣ [Trello Board](🚫add link to trello board here)
+1️⃣ [Trello Board](https://trello.com/b/enXrzu84/labs14-sauti-android)
 
 1️⃣ [Product Canvas](🚫add link to product canvas here)
 
-1️⃣ [UX Design files](🚫add link to design files here) - 🚫 delete if not applicable
+1️⃣ [UX Design files](https://docs.google.com/document/d/1mUNYeXya164nLiz675752_pfIjYeEFqyk946wpw7NCw/edit) 
 
 🚫 Replace lorem ipsum with a description of your project
 
