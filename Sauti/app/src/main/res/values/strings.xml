@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Sauti</string>
+
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="menu_prices">Prices</string>
+    <string name="menu_border">Border</string>
+    <string name="menu_marketplace">Marketplace</string>
+    <string name="menu_rates">Rates</string>
+    <string name="menu_calculator">Calculator</string>
 </resources>
