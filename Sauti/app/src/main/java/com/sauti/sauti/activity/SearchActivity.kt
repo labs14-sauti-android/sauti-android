@@ -1,20 +1,60 @@
 package com.sauti.sauti.activity
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.sauti.sauti.R
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
+import com.sauti.sauti.R
+import com.sauti.sauti.SautiApp
+import com.sauti.sauti.model.User
+import com.sauti.sauti.view_model.UserViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.nav_header_main.view.*
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class SearchActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    @Inject
+    lateinit var userViewModelFactory: UserViewModel.Factory
+
+    private lateinit var userViewModel: UserViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_search)
+
+        // inject user
+        val userComponent = (applicationContext as SautiApp).getUserComponent()
+        userComponent.inject(this)
+
+        userViewModel = ViewModelProviders.of(this, userViewModelFactory).get(UserViewModel::class.java)
+
+        setSupportActionBar(toolbar)
+
+        val toggle = ActionBarDrawerToggle(
+            this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+
+        drawer_layout.addDrawerListener(toggle)
+
+        toggle.syncState()
+
+        nav_view.setNavigationItemSelectedListener(this)
+
+        userViewModel.getUserLiveData().observe(this, Observer<User> {
+            nav_view.n_main_t_name.text = it.username ?: ""
+        })
+
+        userViewModel.getCurrentUser()
+
+    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
@@ -41,34 +81,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        setSupportActionBar(toolbar)
-
-        fab.setOnClickListener{
-            Snackbar.make(it, "This is a thing", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
-
-        val toggle = ActionBarDrawerToggle(
-            this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        )
-
-        drawer_layout.addDrawerListener(toggle)
-
-        toggle.syncState()
-
-        nav_view.setNavigationItemSelectedListener(this)
-
-        val intent = Intent(this, LoginActivity::class.java)
-        startActivity(intent)
-
-        finish()
-
-    }
-
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
@@ -92,5 +104,4 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 }

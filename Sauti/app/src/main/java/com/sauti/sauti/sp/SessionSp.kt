@@ -38,7 +38,7 @@ class SessionSp(private val context: Context) {
     /** Seconds */
     fun setLoggedInAt(loggedInAt: Long) {
         val editor = sp.edit()
-        editor.putLong(KEY_EXPIRES_IN, loggedInAt)
+        editor.putLong(KEY_LOGGED_IN_AT, loggedInAt)
         editor.apply()
     }
 
