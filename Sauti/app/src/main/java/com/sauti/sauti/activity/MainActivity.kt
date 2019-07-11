@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        val intent = Intent(this, LoginActivity::class.java)
+        val intent = Intent(this, LanguageActivity::class.java)
         startActivity(intent)
 
         finish()

@@ -27,6 +27,16 @@
 
     </group>
 
+    <group
+            android:id="@+id/menu_bottom"
+            android:checkableBehavior="none">
+
+        <item
+                android:id="@+id/nav_log_in_out"
+                android:icon="@drawable/half_star"
+                android:title="@string/menu_log_in" >
+        </item>
+    </group>
 
 
 </menu>
