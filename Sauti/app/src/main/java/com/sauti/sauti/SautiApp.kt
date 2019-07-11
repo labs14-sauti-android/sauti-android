@@ -4,15 +4,14 @@ import android.app.Application
 import com.sauti.sauti.di.component.DaggerMainComponent
 import com.sauti.sauti.di.component.LoginComponent
 import com.sauti.sauti.di.component.MainComponent
-import com.sauti.sauti.di.module.AppModule
-import com.sauti.sauti.di.module.DataModule
-import com.sauti.sauti.di.module.LoginModule
-import com.sauti.sauti.di.module.NetworkModule
+import com.sauti.sauti.di.component.UserComponent
+import com.sauti.sauti.di.module.*
 
 class SautiApp : Application() {
 
     private lateinit var mainComponent: MainComponent
     private var loginComponent: LoginComponent? = null
+    private var userComponent: UserComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -30,5 +29,13 @@ class SautiApp : Application() {
         }
 
         return loginComponent!!
+    }
+
+    fun getUserComponent(): UserComponent {
+        if (userComponent == null) {
+            userComponent = mainComponent.plus(UserModule())
+        }
+
+        return userComponent!!
     }
 }

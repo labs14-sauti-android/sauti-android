@@ -1,10 +1,11 @@
 package com.sauti.sauti.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.snackbar.Snackbar
 import com.sauti.sauti.R
 import com.sauti.sauti.SautiApp
 import com.sauti.sauti.model.LoginResponse
@@ -40,13 +41,17 @@ class LoginActivity : AppCompatActivity() {
             sessionSp.setExpiresIn(it.expiresIn ?: 0)
             sessionSp.setLoggedInAt(System.currentTimeMillis() / 1000L)
 
-            Snackbar.make(a_login_ll_root, "Login successful", Snackbar.LENGTH_LONG).show()
+            Toast.makeText(this, "Login successful", Toast.LENGTH_LONG).show()
+
+            val intent = Intent(this, SearchActivity::class.java)
+            startActivity(intent)
+            finish()
         })
 
         // error
         loginViewModel.getErrorLiveData().observe(this, Observer {
 
-            Snackbar.make(a_login_ll_root, "Login failed. ${it.message}", Snackbar.LENGTH_LONG).show()
+            Toast.makeText(this, "Login failed. ${it.message}", Toast.LENGTH_LONG).show()
         })
 
         // login button

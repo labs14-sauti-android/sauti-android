@@ -1,11 +1,9 @@
 package com.sauti.sauti.api
 
 import com.sauti.sauti.model.LoginResponse
+import com.sauti.sauti.model.User
 import io.reactivex.Single
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface SautiApiService {
 
@@ -17,5 +15,8 @@ interface SautiApiService {
         @Field("username") username: String,
         @Field("password") password: String
     ): Single<LoginResponse>
+
+    @GET("users/getusername")
+    fun getCurrentUser(@Header("Authorization") authorization: String): Single<User>
 
 }
