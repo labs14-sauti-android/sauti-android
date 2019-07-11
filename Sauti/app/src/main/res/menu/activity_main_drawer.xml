@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+                android:id="@+id/nav_prices"
+                android:icon="@drawable/half_star"
+                android:title="@string/menu_prices"/>
+        <item
+                android:id="@+id/nav_border"
+                android:icon="@drawable/half_star"
+                android:title="@string/menu_border"/>
+        <item
+                android:id="@+id/nav_marketplace"
+                android:icon="@drawable/half_star"
+                android:title="@string/menu_marketplace"/>
+        <item
+                android:id="@+id/nav_rates"
+                android:icon="@drawable/half_star"
+                android:title="@string/menu_rates"/>
+        <item
+                android:id="@+id/nav_tax"
+                android:icon="@drawable/half_star"
+                android:title="@string/menu_calculator"/>
+
+    </group>
+
+
+
+</menu>
