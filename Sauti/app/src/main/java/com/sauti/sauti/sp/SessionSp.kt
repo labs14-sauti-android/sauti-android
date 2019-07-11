@@ -63,4 +63,8 @@ class SessionSp(private val context: Context) {
         return true
     }
 
+    fun invalidateToken() {
+        setAccessToken("")
+    }
+
 }

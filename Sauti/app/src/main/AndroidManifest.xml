@@ -15,7 +15,8 @@
         <activity android:name=".activity.SearchActivity"
                   android:label="Search"
                   android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activity.LanguageActivity">
+        <activity android:name=".activity.LanguageActivity"
+                  android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".activity.LoginActivity">
         </activity>

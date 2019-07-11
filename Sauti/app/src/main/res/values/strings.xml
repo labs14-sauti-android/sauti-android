@@ -11,4 +11,7 @@
     <string name="menu_marketplace">Marketplace</string>
     <string name="menu_rates">Rates</string>
     <string name="menu_calculator">Calculator</string>
+    <string name="menu_log_in">Log In</string>
+    <string name="menu_log_out">Log Out</string>
+    <string name="not_logged_in">Not Logged In</string>
 </resources>

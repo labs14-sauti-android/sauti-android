@@ -1,5 +1,6 @@
 package com.sauti.sauti.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -24,7 +25,13 @@ class LanguageActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
             select_language_spinner.adapter = adapter
         }
 
+        button.setOnClickListener {
+            // TODO save selected language
+            val intent = Intent(this@LanguageActivity, SearchActivity::class.java)
+            startActivity(intent)
 
+            finish()
+        }
     }
 
 
