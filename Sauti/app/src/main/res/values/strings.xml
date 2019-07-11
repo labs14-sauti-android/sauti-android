@@ -3,10 +3,9 @@
 
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
-
     <string name="nav_header_desc">Navigation header</string>
-
     <string name="nav_header_subtitle">android.studio@android.com</string>
+
     <string name="menu_prices">Prices</string>
     <string name="menu_border">Border</string>
     <string name="menu_marketplace">Marketplace</string>
