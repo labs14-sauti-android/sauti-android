@@ -90,7 +90,7 @@ class SearchActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 if (sessionSp.isAccessTokenValid()) { // log out
                     // TODO call api logout
                     sessionSp.invalidateToken()
-                    item.title = getString(R.string.menu_log_out)
+                    item.title = getString(R.string.menu_log_in)
 
                     setUserNavInfoAsLoggedOut()
 
