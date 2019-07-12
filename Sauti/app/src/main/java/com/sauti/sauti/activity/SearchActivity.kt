@@ -99,6 +99,8 @@ class SearchActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 } else {
                     val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
+
+                    finish()
                 }
 
                 return true
