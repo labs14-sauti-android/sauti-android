@@ -43,8 +43,6 @@ class LoginActivity : AppCompatActivity() {
 
             Toast.makeText(this, "Login successful", Toast.LENGTH_LONG).show()
 
-            val intent = Intent(this, SearchActivity::class.java)
-            startActivity(intent)
             finish()
         })
 

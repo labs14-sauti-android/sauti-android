@@ -53,6 +53,11 @@ class SearchActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
         nav_view.setNavigationItemSelectedListener(this)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         if (sessionSp.isAccessTokenValid()) {
             nav_view.menu.findItem(R.id.nav_log_in_out).title = getString(R.string.menu_log_out)
         } else {
@@ -65,7 +70,6 @@ class SearchActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         })
 
         userViewModel.getCurrentUser()
-
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -99,8 +103,6 @@ class SearchActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 } else {
                     val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
-
-                    finish()
                 }
 
                 return true
