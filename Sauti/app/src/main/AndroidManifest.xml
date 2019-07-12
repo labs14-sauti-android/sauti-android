@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.sauti.sauti">
+          package="com.labs.sauti">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-            android:name=".SautiApp"
+            android:name="com.labs.sauti.SautiApp"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".activity.SearchActivity"
+        <activity android:name="com.labs.sauti.activity.SearchActivity"
                   android:label="Search"
                   android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activity.LanguageActivity"
+        <activity android:name="com.labs.sauti.activity.LanguageActivity"
                   android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".activity.LoginActivity">
+        <activity android:name="com.labs.sauti.activity.LoginActivity">
         </activity>
         <activity
-                android:name=".activity.MainActivity"
+                android:name="com.labs.sauti.activity.MainActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
