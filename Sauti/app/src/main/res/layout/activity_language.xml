@@ -19,25 +19,30 @@
             app:layout_constraintBottom_toTopOf="@+id/select_language_spinner_constraint"/>
     <ImageView
             android:layout_width="0dp"
-            android:layout_height="318dp" tools:srcCompat="@tools:sample/backgrounds/scenic"
+            android:layout_height="318dp"
+            android:src="@drawable/feature"
             android:id="@+id/select_language_splash_imageview"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0" android:scaleType="fitXY"/>
+            android:scaleType="centerCrop"
+    />
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="#ef4645"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/select_language_splash_imageview" android:id="@+id/select_language_spinner_constraint">
+            android:id="@+id/select_language_spinner_constraint"
+            app:layout_constraintHorizontal_bias="0.0" android:layout_marginBottom="49dp"
+            app:layout_constraintBottom_toTopOf="@+id/select_language_splash_imageview">
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/select_language_text_view"
                 app:layout_constraintStart_toStartOf="@+id/select_language_spinner"
                 android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/select_language_spinner" app:layout_constraintEnd_toEndOf="@+id/select_language_spinner"
+                app:layout_constraintBottom_toTopOf="@+id/select_language_spinner"
+                app:layout_constraintEnd_toEndOf="@+id/select_language_spinner"
                 app:layout_constraintHorizontal_bias="0.0"
                 android:text="Select Language"
                 android:layout_marginTop="32dp" app:layout_constraintTop_toTopOf="parent"
@@ -47,7 +52,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/button"
-                app:layout_constraintStart_toStartOf="@+id/select_language_spinner" app:layout_constraintEnd_toEndOf="@+id/select_language_spinner"
+                app:layout_constraintStart_toStartOf="@+id/select_language_spinner"
+                app:layout_constraintEnd_toEndOf="@+id/select_language_spinner"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="24dp"/>
         <Spinner

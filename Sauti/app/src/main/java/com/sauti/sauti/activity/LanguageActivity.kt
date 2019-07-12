@@ -17,7 +17,7 @@ class LanguageActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         setContentView(R.layout.activity_language)
 
 
-        ArrayAdapter.createFromResource(this,
+/*        ArrayAdapter.createFromResource(this,
             R.array.languages_array,
             android.R.layout.simple_spinner_item
         ).also { adapter->
@@ -31,7 +31,7 @@ class LanguageActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
             startActivity(intent)
 
             finish()
-        }
+        }*/
     }
 
 
