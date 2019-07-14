@@ -48,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
         // error
         loginViewModel.getErrorLiveData().observe(this, Observer {
 
-            Toast.makeText(this, "Login failed. ${it.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Login failed. ${it.errorDescription}", Toast.LENGTH_LONG).show()
         })
 
         // login button

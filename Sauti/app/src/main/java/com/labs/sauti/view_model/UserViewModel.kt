@@ -8,6 +8,7 @@ import com.labs.sauti.model.SautiApiError
 import com.labs.sauti.model.User
 import com.labs.sauti.repository.SautiRepository
 import com.labs.sauti.sp.SessionSp
+import retrofit2.HttpException
 
 class UserViewModel(private val sautiRepository: SautiRepository, private val sessionSp: SessionSp): BaseViewModel() {
 
@@ -24,8 +25,7 @@ class UserViewModel(private val sautiRepository: SautiRepository, private val se
                     userLiveData.postValue(it)
                 },
                 {
-                    val error = SautiApiError(it.message ?: "")
-                    errorLiveData.postValue(error)
+                    errorLiveData.postValue(SautiApiError.fromThrowable(it))
                 }
             )
 

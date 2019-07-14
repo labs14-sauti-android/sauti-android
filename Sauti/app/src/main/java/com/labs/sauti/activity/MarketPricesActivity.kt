@@ -14,11 +14,11 @@ class MarketPricesActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         activityType = ActivityType.MARKET_PRICES
 
-        // inject
-        (applicationContext as SautiApp).getMarketPricesComponent().inject(this)
-
         super.onCreate(savedInstanceState)
         setBaseContentView(R.layout.activity_market_prices)
+
+        // inject
+        (applicationContext as SautiApp).getMarketPricesComponent().inject(this)
 
         // hamburger
         setSupportActionBar(toolbar)
