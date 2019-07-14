@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -22,9 +21,6 @@ import javax.inject.Inject
 
 open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    @Inject
-    lateinit var userViewModelFactory: UserViewModel.Factory
-
     private lateinit var userViewModel: UserViewModel
 
     @Inject
@@ -34,11 +30,11 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
 
-        // inject user
+        // @NOTE: inheritance inject doesn't work. We cannot inject both BaseActivity and its child
+        // so we just get the userViewModelFactory directly from the UserComponent
         val userComponent = (applicationContext as SautiApp).getUserComponent()
-        userComponent.inject(this)
 
-        userViewModel = ViewModelProviders.of(this, userViewModelFactory).get(UserViewModel::class.java)
+        userViewModel = ViewModelProviders.of(this, userComponent.userViewModelFactory()).get(UserViewModel::class.java)
 
         nav_view.setNavigationItemSelectedListener(this)
 
