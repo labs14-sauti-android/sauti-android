@@ -1,5 +1,6 @@
 package com.labs.sauti.di.module
 
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.labs.sauti.api.SautiApiService
 import dagger.Module
@@ -21,7 +22,7 @@ class NetworkModule(private val baseUrl: String) {
 
     @Provides
     @Singleton
-    fun provideRetrofit() : Retrofit {
+    fun provideRetrofit(gson: Gson) : Retrofit {
         val okHttpClient = OkHttpClient.Builder()
             .readTimeout(READ_TIMEOUT, TimeUnit.MILLISECONDS)
             .connectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS)
@@ -29,7 +30,7 @@ class NetworkModule(private val baseUrl: String) {
 
         return Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()))
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync()) // createAsync. observer call async by default
             .client(okHttpClient)
             .build()
