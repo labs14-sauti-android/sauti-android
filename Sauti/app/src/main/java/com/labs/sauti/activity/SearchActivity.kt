@@ -5,12 +5,28 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.labs.sauti.R
+import com.labs.sauti.SautiApp
+import com.labs.sauti.sp.SessionSp
+import com.labs.sauti.view_model.UserViewModel
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.activity_search.*
+import javax.inject.Inject
 
 class SearchActivity : BaseActivity() {
 
+    @Inject
+    override lateinit var userViewModelFactory: UserViewModel.Factory
+
+    @Inject
+    override lateinit var sessionSp: SessionSp
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        activityType = ActivityType.SEARCH
+
+        // TODO testing only
+        val marketPricesComponent = (applicationContext as SautiApp).getMarketPricesComponent()
+        marketPricesComponent.inject(this)
+
         super.onCreate(savedInstanceState)
         setBaseContentView(R.layout.activity_search)
 

@@ -6,35 +6,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
 import com.labs.sauti.R
-import com.labs.sauti.SautiApp
 import com.labs.sauti.model.User
 import com.labs.sauti.sp.SessionSp
 import com.labs.sauti.view_model.UserViewModel
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
-import javax.inject.Inject
 
-open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+// @NOTE: inheritance inject doesn't work. We cannot inject both BaseActivity and its child. Only inject the child
+abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    protected var activityType = ActivityType.MARKET_PRICES
+
+    abstract var userViewModelFactory: UserViewModel.Factory
     private lateinit var userViewModel: UserViewModel
 
-    @Inject
-    lateinit var sessionSp: SessionSp
+    abstract var sessionSp: SessionSp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
 
-        // @NOTE: inheritance inject doesn't work. We cannot inject both BaseActivity and its child
-        // so we just get the userViewModelFactory directly from the UserComponent
-        val userComponent = (applicationContext as SautiApp).getUserComponent()
-
-        userViewModel = ViewModelProviders.of(this, userComponent.userViewModelFactory()).get(UserViewModel::class.java)
+        userViewModel = ViewModelProviders.of(this, userViewModelFactory).get(UserViewModel::class.java)
 
         nav_view.setNavigationItemSelectedListener(this)
 
@@ -55,6 +51,14 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         })
 
         userViewModel.getCurrentUser()
+
+        when (activityType) {
+            ActivityType.MARKET_PRICES -> nav_view.menu.findItem(R.id.nav_prices).isChecked = true
+
+            // TODO test only remove
+            ActivityType.SEARCH -> nav_view.menu.findItem(R.id.nav_border).isChecked = true
+        }
+
     }
 
     fun setBaseContentView(resId: Int) {
@@ -66,9 +70,26 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_prices -> {
+                if (activityType == ActivityType.MARKET_PRICES) return true
+
+                val intent = Intent(this, MarketPricesActivity::class.java)
+                startActivity(intent)
+
+                drawer_layout.closeDrawer(GravityCompat.START)
+                finish()
+
                 return true
             }
             R.id.nav_border-> {
+                // TODO only for testing remove
+                if (activityType == ActivityType.SEARCH) return true
+
+                val intent = Intent(this, SearchActivity::class.java)
+                startActivity(intent)
+
+                drawer_layout.closeDrawer(GravityCompat.START)
+                finish()
+
                 return true
             }
             R.id.nav_marketplace -> {
@@ -99,8 +120,7 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
 
         }
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        drawerLayout.closeDrawer(GravityCompat.START)
+        drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
 
