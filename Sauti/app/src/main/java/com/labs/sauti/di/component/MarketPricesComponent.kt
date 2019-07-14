@@ -8,7 +8,4 @@ import dagger.Subcomponent
 @Subcomponent(modules = [MarketPricesModule::class])
 interface MarketPricesComponent {
     fun inject(marketPricesActivity: MarketPricesActivity)
-
-    // TODO test only remove this
-    fun inject(searchActivity: SearchActivity)
 }

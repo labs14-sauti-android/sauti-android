@@ -10,27 +10,30 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
 import com.labs.sauti.R
+import com.labs.sauti.SautiApp
 import com.labs.sauti.model.User
 import com.labs.sauti.sp.SessionSp
 import com.labs.sauti.view_model.UserViewModel
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
+import javax.inject.Inject
 
 // @NOTE: inheritance inject doesn't work. We cannot inject both BaseActivity and its child. Only inject the child
-abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     protected var activityType = ActivityType.MARKET_PRICES
 
-    abstract var userViewModelFactory: UserViewModel.Factory
     private lateinit var userViewModel: UserViewModel
 
-    abstract var sessionSp: SessionSp
+    private val injectWrapper = InjectWrapper()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
 
-        userViewModel = ViewModelProviders.of(this, userViewModelFactory).get(UserViewModel::class.java)
+        (applicationContext as SautiApp).getMainComponent().inject(injectWrapper)
+
+        userViewModel = ViewModelProviders.of(this, injectWrapper.userViewModelFactory).get(UserViewModel::class.java)
 
         nav_view.setNavigationItemSelectedListener(this)
 
@@ -39,7 +42,7 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
     override fun onResume() {
         super.onResume()
 
-        if (sessionSp.isAccessTokenValid()) {
+        if (injectWrapper.sessionSp.isAccessTokenValid()) {
             nav_view.menu.findItem(R.id.nav_log_in_out).title = getString(R.string.menu_log_out)
         } else {
             setUserNavInfoAsLoggedOut()
@@ -102,9 +105,9 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
                 return true
             }
             R.id.nav_log_in_out -> {
-                if (sessionSp.isAccessTokenValid()) { // log out
+                if (injectWrapper.sessionSp.isAccessTokenValid()) { // log out
                     // TODO call api logout
-                    sessionSp.invalidateToken()
+                    injectWrapper.sessionSp.invalidateToken()
                     item.title = getString(R.string.menu_log_in)
 
                     setUserNavInfoAsLoggedOut()
@@ -135,4 +138,13 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
     private fun setUserNavInfoAsLoggedOut() {
         nav_view.getHeaderView(0).n_main_t_name.text = getString(R.string.not_logged_in)
     }
+
+    class InjectWrapper {
+        @Inject
+        lateinit var userViewModelFactory: UserViewModel.Factory
+
+        @Inject
+        lateinit var sessionSp: SessionSp
+    }
+
 }

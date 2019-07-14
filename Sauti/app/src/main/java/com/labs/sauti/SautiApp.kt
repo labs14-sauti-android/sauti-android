@@ -20,6 +20,8 @@ class SautiApp : Application() {
             .build()
     }
 
+    fun getMainComponent() = mainComponent
+
     fun getLoginComponent(): LoginComponent {
         if (loginComponent == null) {
             loginComponent = mainComponent.plus(LoginModule())
