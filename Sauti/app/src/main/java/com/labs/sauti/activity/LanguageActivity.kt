@@ -3,21 +3,28 @@ package com.labs.sauti.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.labs.sauti.R
+import io.reactivex.Completable
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_language.*
+import java.util.concurrent.TimeUnit
 
-class LanguageActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
+class LanguageActivity : AppCompatActivity() {
 
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_language)
 
 
-        ArrayAdapter.createFromResource(this,
+/*        ArrayAdapter.createFromResource(this,
             R.array.languages_array,
             android.R.layout.simple_spinner_item
         ).also { adapter->
@@ -31,12 +38,19 @@ class LanguageActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
             startActivity(intent)
 
             finish()
-        }
+        }*/
+
+        val intent = Intent(this@LanguageActivity, DashboardActivity::class.java)
+
+        compositeDisposable.add(Completable.timer(3000, TimeUnit.MILLISECONDS)
+            .subscribe {startActivity(intent)}
+        )
+
     }
 
 
-    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
     }
-
 }
