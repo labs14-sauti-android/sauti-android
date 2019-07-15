@@ -56,10 +56,10 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         userViewModel.getCurrentUser()
 
         when (activityType) {
-            ActivityType.MARKET_PRICES -> nav_view.menu.findItem(R.id.nav_prices).isChecked = true
+            ActivityType.MARKET_PRICES -> nav_view.menu.findItem(R.id.nav_market_prices).isChecked = true
 
             // TODO test only remove
-            ActivityType.SEARCH -> nav_view.menu.findItem(R.id.nav_border).isChecked = true
+            ActivityType.SEARCH -> nav_view.menu.findItem(R.id.nav_tax_calculator).isChecked = true
         }
 
     }
@@ -72,7 +72,7 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_prices -> {
+            R.id.nav_market_prices -> {
                 if (activityType == ActivityType.MARKET_PRICES) return true
 
                 val intent = Intent(this, MarketPricesActivity::class.java)
@@ -83,7 +83,7 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
                 return true
             }
-            R.id.nav_border-> {
+            R.id.nav_tax_calculator-> {
                 // TODO only for testing remove
                 if (activityType == ActivityType.SEARCH) return true
 
@@ -95,13 +95,10 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
                 return true
             }
-            R.id.nav_marketplace -> {
+            R.id.nav_trade_info -> {
                 return true
             }
-            R.id.nav_rates -> {
-                return true
-            }
-            R.id.nav_tax -> {
+            R.id.nav_exchange_rates -> {
                 return true
             }
             R.id.nav_log_in_out -> {

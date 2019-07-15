@@ -5,25 +5,21 @@
 
     <group android:checkableBehavior="single">
         <item
-                android:id="@+id/nav_prices"
+                android:id="@+id/nav_market_prices"
                 android:icon="@drawable/half_star"
-                android:title="@string/menu_prices"/>
+                android:title="@string/menu_market_prices"/>
         <item
-                android:id="@+id/nav_border"
+                android:id="@+id/nav_tax_calculator"
                 android:icon="@drawable/half_star"
-                android:title="@string/menu_border"/>
+                android:title="@string/menu_tax_calculator"/>
         <item
-                android:id="@+id/nav_marketplace"
+                android:id="@+id/nav_trade_info"
                 android:icon="@drawable/half_star"
-                android:title="@string/menu_marketplace"/>
+                android:title="@string/menu_trade_info"/>
         <item
-                android:id="@+id/nav_rates"
+                android:id="@+id/nav_exchange_rates"
                 android:icon="@drawable/half_star"
-                android:title="@string/menu_rates"/>
-        <item
-                android:id="@+id/nav_tax"
-                android:icon="@drawable/half_star"
-                android:title="@string/menu_calculator"/>
+                android:title="@string/menu_exchange_rates"/>
 
     </group>
 

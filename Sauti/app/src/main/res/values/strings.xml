@@ -6,11 +6,10 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
 
-    <string name="menu_prices">Prices</string>
-    <string name="menu_border">Border</string>
-    <string name="menu_marketplace">Marketplace</string>
-    <string name="menu_rates">Rates</string>
-    <string name="menu_calculator">Calculator</string>
+    <string name="menu_market_prices">Market Prices</string>
+    <string name="menu_tax_calculator">Tax Calculator</string>
+    <string name="menu_trade_info">Trade Info</string>
+    <string name="menu_exchange_rates">Exchange Rates</string>
     <string name="menu_log_in">Log In</string>
     <string name="menu_log_out">Log Out</string>
     <string name="not_logged_in">Not Logged In</string>
