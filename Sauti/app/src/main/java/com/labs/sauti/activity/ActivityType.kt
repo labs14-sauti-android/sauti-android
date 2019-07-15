@@ -1,5 +1,5 @@
 package com.labs.sauti.activity
 
 enum class ActivityType {
-    MARKET_PRICES, TAX_CALCULATOR
+    MARKET_PRICES, TAX_CALCULATOR, DASHBOARD
 }
