@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
+import com.labs.sauti.fragment.SignInFragment
 import com.labs.sauti.model.User
 import com.labs.sauti.sp.SessionSp
 import com.labs.sauti.view_model.UserViewModel
@@ -19,8 +20,8 @@ import kotlinx.android.synthetic.main.nav_header_main.view.*
 import javax.inject.Inject
 
 // @NOTE: inheritance inject doesn't work. We cannot inject both BaseActivity and its child. Only inject the child
-open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
+open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+SignInFragment.OnSignInCompletedListener{
     protected var activityType = ActivityType.MARKET_PRICES
 
     private lateinit var userViewModel: UserViewModel
@@ -49,10 +50,10 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             nav_view.menu.findItem(R.id.nav_log_in_out).title = getString(R.string.menu_log_in)
         }
 
+        // user data
         userViewModel.getUserLiveData().observe(this, Observer<User> {
             nav_view.n_main_t_name.text = it.username ?: ""
         })
-
         userViewModel.getCurrentUser()
 
         when (activityType) {
@@ -139,8 +140,12 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                     drawer_layout.closeDrawer(GravityCompat.START)
 
                 } else {
-                    val intent = Intent(this, LoginActivity::class.java)
-                    startActivity(intent)
+                    val signInFragment = SignInFragment.newInstance()
+
+                    supportFragmentManager.beginTransaction()
+                        .add(R.id.fragment_container, signInFragment)
+                        .addToBackStack(null)
+                        .commit()
                 }
 
                 return true
@@ -152,6 +157,11 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     }
 
     override fun onBackPressed() {
+        if (supportFragmentManager.fragments.size != 0) {
+            super.onBackPressed()
+            return
+        }
+
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
@@ -161,6 +171,16 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
     private fun setUserNavInfoAsLoggedOut() {
         nav_view.getHeaderView(0).n_main_t_name.text = getString(R.string.not_logged_in)
+    }
+
+    override fun onSignInCompleted() {
+        // user data
+        userViewModel.getUserLiveData().observe(this, Observer<User> {
+            nav_view.n_main_t_name.text = it.username ?: ""
+        })
+        userViewModel.getCurrentUser()
+
+        nav_view.menu.findItem(R.id.nav_log_in_out).title = getString(R.string.menu_log_out)
     }
 
     class InjectWrapper {

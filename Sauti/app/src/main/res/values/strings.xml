@@ -16,4 +16,7 @@
     <string name="your_recent_market_prices">Your Recent Market Prices</string>
     <string name="menu_marketplace">Marketplace</string>
     <string name="menu_dashboard">Dashboard</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
