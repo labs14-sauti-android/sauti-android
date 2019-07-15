@@ -59,7 +59,7 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             ActivityType.MARKET_PRICES -> nav_view.menu.findItem(R.id.nav_market_prices).isChecked = true
 
             // TODO test only remove
-            ActivityType.SEARCH -> nav_view.menu.findItem(R.id.nav_tax_calculator).isChecked = true
+            ActivityType.TAX_CALCULATOR -> nav_view.menu.findItem(R.id.nav_tax_calculator).isChecked = true
         }
 
     }
@@ -85,9 +85,9 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
             R.id.nav_tax_calculator-> {
                 // TODO only for testing remove
-                if (activityType == ActivityType.SEARCH) return true
+                if (activityType == ActivityType.TAX_CALCULATOR) return true
 
-                val intent = Intent(this, SearchActivity::class.java)
+                val intent = Intent(this, TaxCalculatorActivity::class.java)
                 startActivity(intent)
 
                 drawer_layout.closeDrawer(GravityCompat.START)

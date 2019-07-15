@@ -20,8 +20,8 @@
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-                android:name=".activity.SearchActivity"
-                android:label="Search"
+                android:name=".activity.TaxCalculatorActivity"
+                android:label="Tax Calculator"
                 android:theme="@style/AppTheme.NoActionBar"/>
         <activity
                 android:name=".activity.LanguageActivity"

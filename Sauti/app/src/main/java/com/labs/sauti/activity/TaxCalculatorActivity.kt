@@ -6,15 +6,15 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.labs.sauti.R
 import kotlinx.android.synthetic.main.activity_base.*
-import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.activity_tax_calculator.*
 
-class SearchActivity : BaseActivity() {
+class TaxCalculatorActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        activityType = ActivityType.SEARCH
+        activityType = ActivityType.TAX_CALCULATOR
 
         super.onCreate(savedInstanceState)
-        setBaseContentView(R.layout.activity_search)
+        setBaseContentView(R.layout.activity_tax_calculator)
 
         // hamburger
         setSupportActionBar(toolbar)
