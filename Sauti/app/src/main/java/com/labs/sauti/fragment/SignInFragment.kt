@@ -14,7 +14,7 @@ import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.model.LoginResponse
 import com.labs.sauti.sp.SessionSp
-import com.labs.sauti.view_model.LoginViewModel
+import com.labs.sauti.view_model.AuthenticationViewModel
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import java.lang.RuntimeException
 import javax.inject.Inject
@@ -22,9 +22,9 @@ import javax.inject.Inject
 class SignInFragment : Fragment() {
 
     @Inject
-    lateinit var loginViewModelFactory: LoginViewModel.Factory
+    lateinit var authenticationViewModelFactory: AuthenticationViewModel.Factory
 
-    private lateinit var loginViewModel: LoginViewModel
+    private lateinit var authenticationViewModel: AuthenticationViewModel
 
     @Inject
     lateinit var sessionSp: SessionSp
@@ -43,8 +43,8 @@ class SignInFragment : Fragment() {
 
         }
 
-        (context!!.applicationContext as SautiApp).getLoginComponent().inject(this)
-        loginViewModel = ViewModelProviders.of(this, loginViewModelFactory).get(LoginViewModel::class.java)
+        (context!!.applicationContext as SautiApp).getAuthenticationComponent().inject(this)
+        authenticationViewModel = ViewModelProviders.of(this, authenticationViewModelFactory).get(AuthenticationViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -59,12 +59,12 @@ class SignInFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // success
-        loginViewModel.getLoginResponseLiveData().observe(this, Observer<LoginResponse> {
+        authenticationViewModel.getLoginResponseLiveData().observe(this, Observer<LoginResponse> {
             sessionSp.setAccessToken(it.accessToken ?: "")
             sessionSp.setExpiresIn(it.expiresIn ?: 0)
             sessionSp.setLoggedInAt(System.currentTimeMillis() / 1000L)
 
-            Toast.makeText(context, "Login successful", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Sign in successful", Toast.LENGTH_LONG).show()
 
             onSignInCompletedListener!!.onSignInCompleted()
 
@@ -72,13 +72,13 @@ class SignInFragment : Fragment() {
         })
 
         // error
-        loginViewModel.getErrorLiveData().observe(this, Observer {
-            Toast.makeText(context, "Login failed. ${it.errorDescription}", Toast.LENGTH_LONG).show()
+        authenticationViewModel.getErrorLiveData().observe(this, Observer {
+            Toast.makeText(context, "Sign in failed. ${it.errorDescription}", Toast.LENGTH_LONG).show()
         })
 
         // button
         b_sign_in.setOnClickListener {
-            loginViewModel.login(et_username.text.toString(), et_password.text.toString())
+            authenticationViewModel.login(et_username.text.toString(), et_password.text.toString())
         }
     }
 

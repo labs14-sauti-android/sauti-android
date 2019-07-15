@@ -4,7 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,6 +18,7 @@ import com.labs.sauti.model.User
 import com.labs.sauti.sp.SessionSp
 import com.labs.sauti.view_model.UserViewModel
 import kotlinx.android.synthetic.main.activity_base.*
+import kotlinx.android.synthetic.main.app_bar_base.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import javax.inject.Inject
 
@@ -37,6 +40,14 @@ SignInFragment.OnSignInCompletedListener{
         userViewModel = ViewModelProviders.of(this, injectWrapper.userViewModelFactory).get(UserViewModel::class.java)
 
         nav_view.setNavigationItemSelectedListener(this)
+
+        // hamburger
+        setSupportActionBar(toolbar)
+        val toggle = ActionBarDrawerToggle(
+            this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+        drawer_layout.addDrawerListener(toggle)
+        toggle.syncState()
 
     }
 
@@ -67,8 +78,8 @@ SignInFragment.OnSignInCompletedListener{
     }
 
     fun setBaseContentView(resId: Int) {
-        val view = LayoutInflater.from(this).inflate(resId, drawer_layout, false)
-        drawer_layout.addView(view, 0)
+        val view = LayoutInflater.from(this).inflate(resId, ll_content, false)
+        ll_content.addView(view)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -166,6 +177,23 @@ SignInFragment.OnSignInCompletedListener{
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.main, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        return when (item.itemId) {
+            R.id.action_settings -> true
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

@@ -15,6 +15,8 @@
             android:layout_height="match_parent"
             tools:openDrawer="start">
 
+        <include layout="@layout/app_bar_base"/>
+
         <com.google.android.material.navigation.NavigationView
                 android:id="@+id/nav_view"
                 android:layout_width="wrap_content"
@@ -25,7 +27,5 @@
                 app:menu="@menu/activity_main_drawer"/>
 
     </androidx.drawerlayout.widget.DrawerLayout>
-
-
 
 </FrameLayout>
