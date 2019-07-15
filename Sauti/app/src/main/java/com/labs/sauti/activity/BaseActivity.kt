@@ -59,6 +59,7 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             ActivityType.MARKET_PRICES -> nav_view.menu.findItem(R.id.nav_market_prices).isChecked = true
             ActivityType.TAX_CALCULATOR -> nav_view.menu.findItem(R.id.nav_tax_calculator).isChecked = true
             ActivityType.TRADE_INFO -> nav_view.menu.findItem(R.id.nav_trade_info).isChecked = true
+            ActivityType.EXCHANGE_RATES -> nav_view.menu.findItem(R.id.nav_exchange_rates).isChecked = true
             ActivityType.DASHBOARD -> nav_view.menu.findItem(R.id.nav_dashboard).isChecked = true
         }
 
@@ -106,6 +107,14 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 return true
             }
             R.id.nav_exchange_rates -> {
+                if (activityType == ActivityType.EXCHANGE_RATES) return true
+
+                val intent = Intent(this, ExchangeRatesActivity::class.java)
+                startActivity(intent)
+
+                drawer_layout.closeDrawer(GravityCompat.START)
+                finish()
+
                 return true
             }
             R.id.nav_dashboard -> {
