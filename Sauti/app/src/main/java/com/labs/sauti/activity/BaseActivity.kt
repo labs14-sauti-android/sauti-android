@@ -15,8 +15,7 @@ import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.fragment.SignInFragment
 import com.labs.sauti.model.User
-import com.labs.sauti.sp.SessionSp
-import com.labs.sauti.view_model.UserViewModel
+import com.labs.sauti.view_model.AuthenticationViewModel
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.app_bar_base.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
@@ -27,7 +26,7 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 SignInFragment.OnSignInCompletedListener{
     protected var activityType = ActivityType.MARKET_PRICES
 
-    private lateinit var userViewModel: UserViewModel
+    private lateinit var authenticationViewModel: AuthenticationViewModel
 
     private val injectWrapper = InjectWrapper()
 
@@ -35,9 +34,9 @@ SignInFragment.OnSignInCompletedListener{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
 
-        (applicationContext as SautiApp).getMainComponent().inject(injectWrapper)
+        (applicationContext as SautiApp).getAuthenticationComponent().inject(injectWrapper)
 
-        userViewModel = ViewModelProviders.of(this, injectWrapper.userViewModelFactory).get(UserViewModel::class.java)
+        authenticationViewModel = ViewModelProviders.of(this, injectWrapper.authenticationViewModelFactory).get(AuthenticationViewModel::class.java)
 
         nav_view.setNavigationItemSelectedListener(this)
 
@@ -54,18 +53,21 @@ SignInFragment.OnSignInCompletedListener{
     override fun onResume() {
         super.onResume()
 
-        if (injectWrapper.sessionSp.isAccessTokenValid()) {
-            nav_view.menu.findItem(R.id.nav_log_in_out).title = getString(R.string.menu_log_out)
-        } else {
-            setUserNavInfoAsLoggedOut()
-            nav_view.menu.findItem(R.id.nav_log_in_out).title = getString(R.string.menu_log_in)
-        }
+        authenticationViewModel.getIsSignedInLiveData().observe(this, Observer<Boolean> {
+            if (it) {
+                nav_view.menu.findItem(R.id.nav_log_in_out).title = getString(R.string.menu_log_out)
+            } else {
+                setUserNavInfoAsLoggedOut()
+                nav_view.menu.findItem(R.id.nav_log_in_out).title = getString(R.string.menu_log_in)
+            }
+        })
+        authenticationViewModel.isSignedIn()
 
         // user data
-        userViewModel.getUserLiveData().observe(this, Observer<User> {
+        authenticationViewModel.getUserLiveData().observe(this, Observer<User> {
             nav_view.n_main_t_name.text = it.username ?: ""
         })
-        userViewModel.getCurrentUser()
+        authenticationViewModel.getCurrentUser()
 
         when (activityType) {
             ActivityType.MARKET_PRICES -> nav_view.menu.findItem(R.id.nav_market_prices).isChecked = true
@@ -141,11 +143,10 @@ SignInFragment.OnSignInCompletedListener{
                 return true
             }
             R.id.nav_log_in_out -> {
-                if (injectWrapper.sessionSp.isAccessTokenValid()) { // log out
-                    // TODO call api logout
-                    injectWrapper.sessionSp.invalidateToken()
-                    item.title = getString(R.string.menu_log_in)
+                if (item.title == getString(R.string.menu_log_out)) {
+                    authenticationViewModel.signOut()
 
+                    item.title = getString(R.string.menu_log_in)
                     setUserNavInfoAsLoggedOut()
 
                     drawer_layout.closeDrawer(GravityCompat.START)
@@ -203,20 +204,17 @@ SignInFragment.OnSignInCompletedListener{
 
     override fun onSignInCompleted() {
         // user data
-        userViewModel.getUserLiveData().observe(this, Observer<User> {
+        authenticationViewModel.getUserLiveData().observe(this, Observer<User> {
             nav_view.n_main_t_name.text = it.username ?: ""
         })
-        userViewModel.getCurrentUser()
+        authenticationViewModel.getCurrentUser()
 
         nav_view.menu.findItem(R.id.nav_log_in_out).title = getString(R.string.menu_log_out)
     }
 
     class InjectWrapper {
         @Inject
-        lateinit var userViewModelFactory: UserViewModel.Factory
-
-        @Inject
-        lateinit var sessionSp: SessionSp
+        lateinit var authenticationViewModelFactory: AuthenticationViewModel.Factory
     }
 
 }

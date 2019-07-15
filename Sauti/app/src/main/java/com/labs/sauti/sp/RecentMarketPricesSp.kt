@@ -6,7 +6,7 @@ import com.labs.sauti.model.MarketPrice
 import com.google.gson.reflect.TypeToken
 
 
-
+// TODO should this be in the DB?
 class RecentMarketPricesSp(private val context: Context, private val gson: Gson) {
 
     companion object {

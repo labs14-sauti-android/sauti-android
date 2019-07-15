@@ -1,5 +1,6 @@
 package com.labs.sauti.di.component
 
+import com.labs.sauti.activity.BaseActivity
 import com.labs.sauti.di.module.AuthenticationModule
 import com.labs.sauti.fragment.SignInFragment
 import dagger.Subcomponent
@@ -8,5 +9,6 @@ import dagger.Subcomponent
 interface AuthenticationComponent {
 
     fun inject(signInFragment: SignInFragment)
+    fun inject(baseActivityInjectWrapper: BaseActivity.InjectWrapper)
 
 }

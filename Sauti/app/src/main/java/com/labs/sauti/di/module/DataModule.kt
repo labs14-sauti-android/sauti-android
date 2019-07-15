@@ -28,8 +28,8 @@ class DataModule(private val sautiAuthorization: String) {
 
     @Provides
     @Singleton
-    fun provideSautiRepository(sautiApiService: SautiApiService): SautiRepository {
-        return SautiRepositoryImpl(sautiApiService, sautiAuthorization)
+    fun provideSautiRepository(sautiApiService: SautiApiService, sessionSp: SessionSp): SautiRepository {
+        return SautiRepositoryImpl(sautiApiService, sautiAuthorization, sessionSp)
     }
 
 }

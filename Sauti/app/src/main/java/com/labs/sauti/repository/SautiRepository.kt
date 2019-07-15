@@ -7,6 +7,8 @@ import io.reactivex.Single
 interface SautiRepository {
 
     fun login(username: String, password: String): Single<LoginResponse>
-    fun getCurrentUser(accessToken: String): Single<User>
+    fun signOut(): Single<Unit>
+    fun isAccessTokenValid(): Single<Boolean>
+    fun getCurrentUser(): Single<User>
 
 }
