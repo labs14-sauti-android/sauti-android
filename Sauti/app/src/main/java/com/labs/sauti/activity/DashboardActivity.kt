@@ -8,13 +8,13 @@ import com.labs.sauti.R
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.activity_market_prices.*
 
-class DashBoardActivity : BaseActivity() {
+class DashboardActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         activityType = ActivityType.DASHBOARD
 
         super.onCreate(savedInstanceState)
-        setBaseContentView(R.layout.activity_dash_board)
+        setBaseContentView(R.layout.activity_dashboard)
 
         // hamburger
         setSupportActionBar(toolbar)

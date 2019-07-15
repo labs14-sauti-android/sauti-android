@@ -58,6 +58,7 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         when (activityType) {
             ActivityType.MARKET_PRICES -> nav_view.menu.findItem(R.id.nav_market_prices).isChecked = true
             ActivityType.TAX_CALCULATOR -> nav_view.menu.findItem(R.id.nav_tax_calculator).isChecked = true
+            ActivityType.TRADE_INFO -> nav_view.menu.findItem(R.id.nav_trade_info).isChecked = true
             ActivityType.DASHBOARD -> nav_view.menu.findItem(R.id.nav_dashboard).isChecked = true
         }
 
@@ -83,7 +84,6 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 return true
             }
             R.id.nav_tax_calculator-> {
-                // TODO only for testing remove
                 if (activityType == ActivityType.TAX_CALCULATOR) return true
 
                 val intent = Intent(this, TaxCalculatorActivity::class.java)
@@ -95,6 +95,14 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 return true
             }
             R.id.nav_trade_info -> {
+                if (activityType == ActivityType.TRADE_INFO) return true
+
+                val intent = Intent(this, TradeInfoActivity::class.java)
+                startActivity(intent)
+
+                drawer_layout.closeDrawer(GravityCompat.START)
+                finish()
+
                 return true
             }
             R.id.nav_exchange_rates -> {
@@ -103,7 +111,7 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             R.id.nav_dashboard -> {
                 if (activityType == ActivityType.DASHBOARD) return true
 
-                val intent = Intent(this, DashBoardActivity::class.java)
+                val intent = Intent(this, DashboardActivity::class.java)
                 startActivity(intent)
 
                 drawer_layout.closeDrawer(GravityCompat.START)
