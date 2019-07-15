@@ -12,9 +12,14 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".activity.TradeInfoActivity"
-                  android:label="Trade Info"
+        <activity android:name=".activity.ExchangeRatesActivity"
+                  android:label="Exchange Rates"
                   android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+                android:name=".activity.TradeInfoActivity"
+                android:label="Trade Info"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".activity.DashboardActivity"
