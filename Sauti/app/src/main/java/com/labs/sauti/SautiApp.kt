@@ -7,7 +7,7 @@ import com.labs.sauti.di.module.*
 class SautiApp : Application() {
 
     private lateinit var mainComponent: MainComponent
-    private var loginComponent: LoginComponent? = null
+    private var authenticationComponent: AuthenticationComponent? = null
     private var marketPricesComponent: MarketPricesComponent? = null
 
     override fun onCreate() {
@@ -22,12 +22,12 @@ class SautiApp : Application() {
 
     fun getMainComponent() = mainComponent
 
-    fun getLoginComponent(): LoginComponent {
-        if (loginComponent == null) {
-            loginComponent = mainComponent.plus(LoginModule())
+    fun getAuthenticationComponent(): AuthenticationComponent {
+        if (authenticationComponent == null) {
+            authenticationComponent = mainComponent.plus(AuthenticationModule())
         }
 
-        return loginComponent!!
+        return authenticationComponent!!
     }
 
     fun getMarketPricesComponent(): MarketPricesComponent {

@@ -26,7 +26,8 @@
                 android:label="Dashboard"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".activity.BaseActivity">
+        <activity android:name=".activity.BaseActivity"
+                  android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".activity.MarketPricesActivity"
@@ -40,8 +41,6 @@
         <activity
                 android:name=".activity.LanguageActivity"
                 android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity android:name=".activity.LoginActivity">
         </activity>
         <activity
                 android:name=".activity.MainActivity"

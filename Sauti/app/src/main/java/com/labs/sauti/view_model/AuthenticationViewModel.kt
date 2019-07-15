@@ -8,7 +8,7 @@ import com.labs.sauti.model.LoginResponse
 import com.labs.sauti.model.SautiApiError
 import com.labs.sauti.repository.SautiRepository
 
-class LoginViewModel(private val sautiRepository: SautiRepository) : BaseViewModel() {
+class AuthenticationViewModel(private val sautiRepository: SautiRepository) : BaseViewModel() {
 
     private val loginResponseLiveData = MutableLiveData<LoginResponse>()
     private val errorLiveData = MutableLiveData<SautiApiError>()
@@ -33,7 +33,7 @@ class LoginViewModel(private val sautiRepository: SautiRepository) : BaseViewMod
     class Factory(private val sautiRepository: SautiRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return LoginViewModel(sautiRepository) as T
+            return AuthenticationViewModel(sautiRepository) as T
         }
     }
 }
