@@ -1,17 +1,14 @@
 package com.labs.sauti
 
 import android.app.Application
-import com.labs.sauti.di.component.DaggerMainComponent
-import com.labs.sauti.di.component.LoginComponent
-import com.labs.sauti.di.component.MainComponent
-import com.labs.sauti.di.component.UserComponent
+import com.labs.sauti.di.component.*
 import com.labs.sauti.di.module.*
 
 class SautiApp : Application() {
 
     private lateinit var mainComponent: MainComponent
     private var loginComponent: LoginComponent? = null
-    private var userComponent: UserComponent? = null
+    private var marketPricesComponent: MarketPricesComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -23,6 +20,8 @@ class SautiApp : Application() {
             .build()
     }
 
+    fun getMainComponent() = mainComponent
+
     fun getLoginComponent(): LoginComponent {
         if (loginComponent == null) {
             loginComponent = mainComponent.plus(LoginModule())
@@ -31,11 +30,11 @@ class SautiApp : Application() {
         return loginComponent!!
     }
 
-    fun getUserComponent(): UserComponent {
-        if (userComponent == null) {
-            userComponent = mainComponent.plus(UserModule())
+    fun getMarketPricesComponent(): MarketPricesComponent {
+        if (marketPricesComponent == null) {
+            marketPricesComponent = mainComponent.plus(MarketPricesModule())
         }
 
-        return userComponent!!
+        return marketPricesComponent!!
     }
 }

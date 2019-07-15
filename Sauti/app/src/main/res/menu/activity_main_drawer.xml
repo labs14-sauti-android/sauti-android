@@ -3,37 +3,52 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-        <item
-                android:id="@+id/nav_prices"
-                android:icon="@drawable/half_star"
-                android:title="@string/menu_prices"/>
-        <item
-                android:id="@+id/nav_border"
-                android:icon="@drawable/half_star"
-                android:title="@string/menu_border"/>
-        <item
-                android:id="@+id/nav_marketplace"
-                android:icon="@drawable/half_star"
-                android:title="@string/menu_marketplace"/>
-        <item
-                android:id="@+id/nav_rates"
-                android:icon="@drawable/half_star"
-                android:title="@string/menu_rates"/>
-        <item
-                android:id="@+id/nav_tax"
-                android:icon="@drawable/half_star"
-                android:title="@string/menu_calculator"/>
+    <group
+            android:id="@+id/menu_0">
+        <item android:id="@+id/nav_marketplace"
+              android:icon="@drawable/half_star"
+              android:title="@string/menu_marketplace"/>
 
     </group>
 
     <group
-            android:id="@+id/menu_bottom"
+            android:id="@+id/menu_1"
+            android:checkableBehavior="single">
+        <item
+                android:id="@+id/nav_market_prices"
+                android:icon="@drawable/half_star"
+                android:title="@string/menu_market_prices"/>
+        <item
+                android:id="@+id/nav_tax_calculator"
+                android:icon="@drawable/half_star"
+                android:title="@string/menu_tax_calculator"/>
+        <item
+                android:id="@+id/nav_trade_info"
+                android:icon="@drawable/half_star"
+                android:title="@string/menu_trade_info"/>
+        <item
+                android:id="@+id/nav_exchange_rates"
+                android:icon="@drawable/half_star"
+                android:title="@string/menu_exchange_rates"/>
+
+    </group>
+
+    <group
+            android:id="@+id/menu_2"
+            android:checkableBehavior="single">
+
+        <item
+                android:id="@+id/nav_dashboard"
+                android:title="@string/menu_dashboard"/>
+
+    </group>
+
+    <group
+            android:id="@+id/menu_3"
             android:checkableBehavior="none">
 
         <item
                 android:id="@+id/nav_log_in_out"
-                android:icon="@drawable/half_star"
                 android:title="@string/menu_log_in" >
         </item>
     </group>

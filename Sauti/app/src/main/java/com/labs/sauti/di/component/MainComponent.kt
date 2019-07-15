@@ -1,12 +1,15 @@
 package com.labs.sauti.di.component
 
+import com.labs.sauti.activity.BaseActivity
 import com.labs.sauti.di.module.*
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppModule::class, NetworkModule::class, DataModule::class])
+@Component(modules = [AppModule::class, NetworkModule::class, DataModule::class, GsonModule::class, UserModule::class])
 interface MainComponent {
     fun plus(loginModule: LoginModule): LoginComponent
-    fun plus(userModule: UserModule): UserComponent
+    fun plus(marketPricesModule: MarketPricesModule): MarketPricesComponent
+
+    fun inject(baseActivityInjectWrapper: BaseActivity.InjectWrapper)
 }

@@ -22,9 +22,7 @@ class LoginViewModel(private val sautiRepository: SautiRepository) : BaseViewMod
                 loginResponseLiveData.postValue(it)
             },
             {
-                val error = SautiApiError(it.message ?: "")
-
-                errorLiveData.postValue(error)
+                errorLiveData.postValue(SautiApiError.fromThrowable(it))
             }
         )
 

@@ -27,7 +27,7 @@ class LanguageActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
         button.setOnClickListener {
             // TODO save selected language
-            val intent = Intent(this@LanguageActivity, SearchActivity::class.java)
+            val intent = Intent(this@LanguageActivity, DashboardActivity::class.java)
             startActivity(intent)
 
             finish()
