@@ -57,9 +57,8 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
         when (activityType) {
             ActivityType.MARKET_PRICES -> nav_view.menu.findItem(R.id.nav_market_prices).isChecked = true
-
-            // TODO test only remove
             ActivityType.TAX_CALCULATOR -> nav_view.menu.findItem(R.id.nav_tax_calculator).isChecked = true
+            ActivityType.DASHBOARD -> nav_view.menu.findItem(R.id.nav_dashboard).isChecked = true
         }
 
     }
@@ -99,6 +98,17 @@ open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 return true
             }
             R.id.nav_exchange_rates -> {
+                return true
+            }
+            R.id.nav_dashboard -> {
+                if (activityType == ActivityType.DASHBOARD) return true
+
+                val intent = Intent(this, DashBoardActivity::class.java)
+                startActivity(intent)
+
+                drawer_layout.closeDrawer(GravityCompat.START)
+                finish()
+
                 return true
             }
             R.id.nav_log_in_out -> {
