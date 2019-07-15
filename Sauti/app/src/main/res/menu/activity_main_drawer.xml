@@ -3,7 +3,17 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group
+            android:id="@+id/menu_0">
+        <item android:id="@+id/nav_marketplace"
+              android:icon="@drawable/half_star"
+              android:title="@string/menu_marketplace"/>
+
+    </group>
+
+    <group
+            android:id="@+id/menu_1"
+            android:checkableBehavior="single">
         <item
                 android:id="@+id/nav_market_prices"
                 android:icon="@drawable/half_star"
@@ -24,12 +34,21 @@
     </group>
 
     <group
-            android:id="@+id/menu_bottom"
+            android:id="@+id/menu_2"
+            android:checkableBehavior="single">
+
+        <item
+                android:id="@+id/nav_dashboard"
+                android:title="@string/menu_dashboard"/>
+
+    </group>
+
+    <group
+            android:id="@+id/menu_3"
             android:checkableBehavior="none">
 
         <item
                 android:id="@+id/nav_log_in_out"
-                android:icon="@drawable/half_star"
                 android:title="@string/menu_log_in" >
         </item>
     </group>
