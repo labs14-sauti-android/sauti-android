@@ -1,11 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              tools:context=".activity.MarketPricesActivity">
+            tools:context=".activity.MarketPricesActivity">
 
-    <include layout="@layout/content_market_prices"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:orientation="vertical">
 
-</LinearLayout>
+        <LinearLayout
+                android:id="@+id/ll_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/t_details_product_at_market"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Red Beans At Makueni"/>
+            <TextView
+                    android:id="@+id/t_details_wholesale"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Wholesale: 90 KES/1Kg"/>
+            <TextView
+                    android:id="@+id/t_details_retail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Retail: 120 KES/1Kg"/>
+            <TextView
+                    android:id="@+id/t_details_updated"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Updated: 2019-06-24"/>
+            <TextView
+                    android:id="@+id/t_details_source"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Source: EAGC-RATIN"/>
+
+        </LinearLayout>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/your_recent_market_prices"/>
+
+        <LinearLayout
+                android:id="@+id/ll_recent_market_prices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <include layout="@layout/item_recent_market_price"/>
+            <include layout="@layout/item_recent_market_price"/>
+
+        </LinearLayout>
+
+        <TextView
+                android:id="@+id/t_no_recent_market_prices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/b_search"
+            android:layout_margin="20dp"
+            android:layout_gravity="bottom|end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+</FrameLayout>

@@ -66,6 +66,7 @@ class AuthenticationViewModel(private val sautiRepository: SautiRepository) : Ba
                 userLiveData.postValue(it)
             },
             {
+                // TODO return a more generic error
                 errorLiveData.postValue(SautiApiError.fromThrowable(it))
             }
         )

@@ -18,6 +18,7 @@
             android:orientation="vertical">
 
         <TextView
+                android:id="@+id/t_recent_product_at_market"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Mixed Beans at Gitega"
@@ -25,6 +26,7 @@
                 android:gravity="center"/>
 
         <TextView
+                android:id="@+id/t_recent_wholesale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Wholesale: 703 BIF/1kg"
@@ -32,6 +34,7 @@
                 android:gravity="center"/>
 
         <TextView
+                android:id="@+id/t_recent_retail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Retail: 811 BIF/1kg"
@@ -39,12 +42,14 @@
                 android:gravity="center"/>
 
         <TextView
+                android:id="@+id/t_recent_updated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Updated: 2019-06-24"
                 android:gravity="center"/>
 
         <TextView
+                android:id="@+id/t_recent_source"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Source: EAGC-RATIN"
