@@ -81,6 +81,7 @@ class MarketPricesActivity : BaseActivity(), MarketPriceSearchFragment.OnSearchC
     }
 
     override fun onSearchCompleted(marketPrice: MarketPrice) {
+        setMarketPriceViewDetails(marketPrice)
         ll_details.visibility = View.VISIBLE
         marketPricesViewModel.getRecentMarketPrices()
     }

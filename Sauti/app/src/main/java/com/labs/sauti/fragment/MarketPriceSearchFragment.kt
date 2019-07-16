@@ -1,7 +1,6 @@
 package com.labs.sauti.fragment
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
@@ -56,6 +56,7 @@ class MarketPriceSearchFragment : Fragment() {
         ll_markets.visibility = View.GONE
         ll_categories.visibility = View.GONE
         ll_commodities.visibility = View.GONE
+        b_search.isEnabled = false
 
         // countries
         marketPricesViewModel.getCountriesLiveData().observe(this, Observer {
@@ -137,6 +138,10 @@ class MarketPriceSearchFragment : Fragment() {
                     commoditySelected()
                 }
             }
+        })
+
+        marketPricesViewModel.getErrorLiveData().observe(this, Observer {
+            Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
         })
 
         b_search.setOnClickListener {

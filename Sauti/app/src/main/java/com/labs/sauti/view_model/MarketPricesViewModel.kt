@@ -19,6 +19,7 @@ class MarketPricesViewModel(private val sautiRepository: SautiRepository): BaseV
     private val searchMarketPriceLiveData = MutableLiveData<MarketPrice>()
     private val recentMarketPricesLiveData = MutableLiveData<MutableList<MarketPrice>>()
     // TODO error
+    private val errorLiveData = MutableLiveData<Throwable>()
 
     fun getCountriesLiveData(): LiveData<MutableList<String>> = countriesLiveData
     fun getMarketsLiveData(): LiveData<MutableList<String>> = marketsLiveData
@@ -26,6 +27,8 @@ class MarketPricesViewModel(private val sautiRepository: SautiRepository): BaseV
     fun getCommoditiesLiveData(): LiveData<MutableList<String>> = commoditiesLiveData
     fun getSearchMarketPriceLiveData(): LiveData<MarketPrice> = searchMarketPriceLiveData
     fun getRecentMarketPricesLiveData(): LiveData<MutableList<MarketPrice>> = recentMarketPricesLiveData
+
+    fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
 
     fun getCountries() {
         val disposable = sautiRepository.getMarketPriceCountries()
@@ -37,7 +40,7 @@ class MarketPricesViewModel(private val sautiRepository: SautiRepository): BaseV
                     countriesLiveData.postValue(it)
                 },
                 {
-                    // TODO
+                    errorLiveData.postValue(it)
                 }
             )
         addDisposable(disposable)
@@ -53,7 +56,7 @@ class MarketPricesViewModel(private val sautiRepository: SautiRepository): BaseV
                     marketsLiveData.postValue(it)
                 },
                 {
-                    // TODO
+                    errorLiveData.postValue(it)
                 }
             )
         addDisposable(disposable)
@@ -69,7 +72,7 @@ class MarketPricesViewModel(private val sautiRepository: SautiRepository): BaseV
                     categoriesLiveData.postValue(it)
                 },
                 {
-                    // TODO
+                    errorLiveData.postValue(it)
                 }
             )
         addDisposable(disposable)
@@ -86,7 +89,7 @@ class MarketPricesViewModel(private val sautiRepository: SautiRepository): BaseV
                     commoditiesLiveData.postValue(it)
                 },
                 {
-                    // TODO
+                    errorLiveData.postValue(it)
                 }
             )
         addDisposable(disposable)
@@ -98,7 +101,7 @@ class MarketPricesViewModel(private val sautiRepository: SautiRepository): BaseV
                 searchMarketPriceLiveData.postValue(it)
             },
             {
-                // TODO
+                errorLiveData.postValue(it)
             }
         )
         addDisposable(disposable)
@@ -110,7 +113,7 @@ class MarketPricesViewModel(private val sautiRepository: SautiRepository): BaseV
                 recentMarketPricesLiveData.postValue(it)
             },
             {
-                // TODO
+                errorLiveData.postValue(it)
             }
         )
         addDisposable(disposable)

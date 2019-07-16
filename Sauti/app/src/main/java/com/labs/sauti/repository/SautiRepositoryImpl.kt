@@ -1,10 +1,15 @@
 package com.labs.sauti.repository
 
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import com.labs.sauti.api.SautiApiService
 import com.labs.sauti.model.*
 import com.labs.sauti.sp.RecentMarketPricesSp
 import com.labs.sauti.sp.SessionSp
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
 class SautiRepositoryImpl(
     private val sautiApiService: SautiApiService,
@@ -51,20 +56,74 @@ class SautiRepositoryImpl(
 
     override fun getMarketPriceCountries(): Single<MutableList<MarketPriceCountry>> {
         // TODO test only
-        val countries = mutableListOf<MarketPriceCountry>()
-        countries.add(MarketPriceCountry("Kenya"))
-        countries.add(MarketPriceCountry("Uganda"))
+        return Single.fromCallable {
+            val request = Request.Builder()
+                .url("http://sautiafrica.org/endpoints/api.php?url=v1/marketPrices/&type=json")
+                .build()
+            val responseBody = OkHttpClient.Builder().build()
+                .newCall(request)
+                .execute()
+                .body()
 
-        return Single.just(countries)
+            responseBody ?: throw Throwable("No response")
+
+            val responseStr = responseBody.string()
+
+            val gson = GsonBuilder().create()
+            val typeToken = object: TypeToken<MutableList<MarketPrice>>() {}.type
+            val marketPrices = gson.fromJson<MutableList<MarketPrice>>(responseStr, typeToken)
+            val countrySet = hashSetOf<String>()
+            marketPrices.forEach {
+                if (it.country != null) {
+                    countrySet.add(it.country!!)
+                }
+            }
+            val countries = mutableListOf<MarketPriceCountry>()
+            countrySet.forEach {
+                countries.add(MarketPriceCountry(it))
+            }
+            countries.sortBy { it.country }
+            countries.toMutableList()
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+
     }
 
     override fun getMarketPriceMarkets(marketPriceCountry: MarketPriceCountry): Single<MutableList<MarketPriceMarket>> {
         // TODO test only
-        val markets = mutableListOf<MarketPriceMarket>()
-        markets.add(MarketPriceMarket("Nairobi"))
-        markets.add(MarketPriceMarket("Kampala"))
+        return Single.fromCallable {
+            val request = Request.Builder()
+                .url("http://sautiafrica.org/endpoints/api.php?url=v1/marketPrices/&type=json")
+                .build()
+            val responseBody = OkHttpClient.Builder().build()
+                .newCall(request)
+                .execute()
+                .body()
 
-        return Single.just(markets)
+            responseBody ?: throw Throwable("No response")
+
+            val responseStr = responseBody.string()
+
+            val gson = GsonBuilder().create()
+            val typeToken = object: TypeToken<MutableList<MarketPrice>>() {}.type
+            val marketPrices = gson.fromJson<MutableList<MarketPrice>>(responseStr, typeToken)
+            val marketSet = hashSetOf<String>()
+            marketPrices.forEach {
+                if (it.market != null &&
+                    it.country == marketPriceCountry.country) {
+                    marketSet.add(it.market!!)
+                }
+            }
+            val markets = mutableListOf<MarketPriceMarket>()
+            marketSet.forEach {
+                markets.add(MarketPriceMarket(it))
+            }
+            markets.sortBy { it.market }
+            markets.toMutableList()
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
     }
 
     override fun getMarketPriceCategories(
@@ -72,11 +131,39 @@ class SautiRepositoryImpl(
         marketPriceMarket: MarketPriceMarket
     ): Single<MutableList<MarketPriceCategory>> {
         // TODO test only
-        val categories = mutableListOf<MarketPriceCategory>()
-        categories.add(MarketPriceCategory("Tubers"))
-        categories.add(MarketPriceCategory("Beans"))
+        return Single.fromCallable {
+            val request = Request.Builder()
+                .url("http://sautiafrica.org/endpoints/api.php?url=v1/marketPrices/&type=json")
+                .build()
+            val responseBody = OkHttpClient.Builder().build()
+                .newCall(request)
+                .execute()
+                .body()
 
-        return Single.just(categories)
+            responseBody ?: throw Throwable("No response")
+
+            val responseStr = responseBody.string()
+
+            val gson = GsonBuilder().create()
+            val typeToken = object: TypeToken<MutableList<MarketPrice>>() {}.type
+            val marketPrices = gson.fromJson<MutableList<MarketPrice>>(responseStr, typeToken)
+            val categorySet = hashSetOf<String>()
+            marketPrices.forEach {
+                if (it.productCat != null &&
+                    it.country == marketPriceCountry.country &&
+                    it.market == marketPriceMarket.market) {
+                    categorySet.add(it.productCat!!)
+                }
+            }
+            val categories = mutableListOf<MarketPriceCategory>()
+            categorySet.forEach {
+                categories.add(MarketPriceCategory(it))
+            }
+            categories.sortBy { it.category }
+            categories.toMutableList()
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
     }
 
     override fun getMarketPriceCommodities(
@@ -85,25 +172,73 @@ class SautiRepositoryImpl(
         marketPriceCategory: MarketPriceCategory
     ): Single<MutableList<MarketPriceCommodity>> {
         // TODO test only
-        val commodities = mutableListOf<MarketPriceCommodity>()
-        commodities.add(MarketPriceCommodity("Potato"))
-        commodities.add(MarketPriceCommodity("Green Beans"))
+        return Single.fromCallable {
+            val request = Request.Builder()
+                .url("http://sautiafrica.org/endpoints/api.php?url=v1/marketPrices/&type=json")
+                .build()
+            val responseBody = OkHttpClient.Builder().build()
+                .newCall(request)
+                .execute()
+                .body()
 
-        return Single.just(commodities)
+            responseBody ?: throw Throwable("No response")
+
+            val responseStr = responseBody.string()
+
+            val gson = GsonBuilder().create()
+            val typeToken = object: TypeToken<MutableList<MarketPrice>>() {}.type
+            val marketPrices = gson.fromJson<MutableList<MarketPrice>>(responseStr, typeToken)
+            val commoditySet = hashSetOf<String>()
+            marketPrices.forEach {
+                if (it.product != null &&
+                    it.country == marketPriceCountry.country &&
+                    it.market == marketPriceMarket.market &&
+                    it.productCat == marketPriceCategory.category) {
+                    commoditySet.add(it.product!!)
+                }
+            }
+            val commodities = mutableListOf<MarketPriceCommodity>()
+            commoditySet.forEach {
+                commodities.add(MarketPriceCommodity(it))
+            }
+            commodities.sortBy { it.commodity }
+            commodities.toMutableList()
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
     }
 
     override fun searchMarketPrice(country: String, market: String, category: String, commodity: String): Single<MarketPrice> {
         // TODO test only
-        val marketPrice = MarketPrice()
-        marketPrice.country = "TestCountry"
-        marketPrice.market = "TestMarket"
-        marketPrice.product = "TestProduct"
-        marketPrice.wholesale = 555L
-        marketPrice.retail = 444L
-        marketPrice.currency = "UGX"
-        marketPrice.date = "2019-07-13 00:00:00"
+        return Single.fromCallable {
+            val request = Request.Builder()
+                .url("http://sautiafrica.org/endpoints/api.php?url=v1/marketPrices/&type=json")
+                .build()
+            val responseBody = OkHttpClient.Builder().build()
+                .newCall(request)
+                .execute()
+                .body()
 
-        return Single.just(marketPrice)
+            responseBody ?: throw Throwable("No response")
+
+            val responseStr = responseBody.string()
+
+            val gson = GsonBuilder().create()
+            val typeToken = object: TypeToken<MutableList<MarketPrice>>() {}.type
+            val marketPrices = gson.fromJson<MutableList<MarketPrice>>(responseStr, typeToken)
+            marketPrices.forEach {
+                if (it.country == country &&
+                    it.market == market &&
+                    it.productCat == category &&
+                    it.product == commodity) {
+                    return@fromCallable it
+                }
+            }
+
+            throw Throwable("Cannot find market price")
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
             .doOnSuccess {
                 recentMarketPricesSp.insertRecentMarketPrice(it)
             }
