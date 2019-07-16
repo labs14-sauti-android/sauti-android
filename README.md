@@ -6,7 +6,7 @@
 
 # 1️⃣ Sauti
 
-1️⃣ You can find the deployed project at [Sauti](🚫https://play.google.com/store/apps/details?id=com.labs.sauti).
+1️⃣ You can find the deployed project at [Sauti](https://play.google.com/store/apps/details?id=com.labs.sauti).
 
 ## 4️⃣ Contributors
 
