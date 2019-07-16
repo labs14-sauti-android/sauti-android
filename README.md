@@ -4,9 +4,9 @@
 
 🚫 Each student has a required minimum number of meaningful PRs each week per the rubric.  Contributing to docs does NOT count as a PR to meet your weekly requirements.
 
-# 1️⃣ Sauti
+# Sauti
 
-1️⃣ You can find the deployed project at [Sauti](https://play.google.com/store/apps/details?id=com.labs.sauti).
+You can find the deployed project at [Sauti](https://play.google.com/store/apps/details?id=com.labs.sauti).
 
 ## 4️⃣ Contributors
 
