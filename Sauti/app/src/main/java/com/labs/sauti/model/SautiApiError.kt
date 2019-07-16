@@ -10,7 +10,7 @@ class SautiApiError {
     companion object {
         fun fromThrowable(throwable: Throwable): SautiApiError {
             return if (throwable is HttpException) {
-                val errorBody = throwable.response().errorBody()
+                val errorBody = throwable.response()?.errorBody()
                 if (errorBody == null) {
                     SautiApiError()
                 } else {
