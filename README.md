@@ -37,6 +37,9 @@ You can find the deployed project at [Sauti](https://play.google.com/store/apps/
 1️⃣ [Product Canvas](🚫add link to product canvas here)
 
  [UX Design files](https://docs.google.com/document/d/1mUNYeXya164nLiz675752_pfIjYeEFqyk946wpw7NCw/edit) 
+ 
+ [Zeplin Wireframes](https://zpl.io/VDKM1Dv) 
+ 
 
 🚫 Replace lorem ipsum with a description of your project
 
