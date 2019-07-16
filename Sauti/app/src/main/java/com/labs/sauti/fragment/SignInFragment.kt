@@ -35,9 +35,6 @@ class SignInFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
 
         (context!!.applicationContext as SautiApp).getAuthenticationComponent().inject(this)
         authenticationViewModel = ViewModelProviders.of(this, authenticationViewModelFactory).get(AuthenticationViewModel::class.java)

@@ -7,13 +7,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
+import com.labs.sauti.fragment.MarketPriceSearchFragment
 import com.labs.sauti.model.MarketPrice
 import com.labs.sauti.view_model.MarketPricesViewModel
 import kotlinx.android.synthetic.main.activity_market_prices.*
 import kotlinx.android.synthetic.main.item_recent_market_price.view.*
 import javax.inject.Inject
 
-class MarketPricesActivity : BaseActivity() {
+class MarketPricesActivity : BaseActivity(), MarketPriceSearchFragment.OnSearchCompletedListener {
 
     companion object {
         private const val MAX_MARKET_RECENT_PRICE_SHOWN = 2
@@ -35,10 +36,6 @@ class MarketPricesActivity : BaseActivity() {
         marketPricesViewModel = ViewModelProviders.of(this, marketPricesViewModelFactory).get(MarketPricesViewModel::class.java)
 
         ll_details.visibility = View.GONE
-        marketPricesViewModel.getSearchMarketPriceLiveData().observe(this, Observer<MarketPrice> {
-            ll_details.visibility = View.VISIBLE
-            marketPricesViewModel.getRecentMarketPrices()
-        })
 
         marketPricesViewModel.getRecentMarketPricesLiveData().observe(this, Observer<MutableList<MarketPrice>> {
             ll_recent_market_prices.removeAllViews()
@@ -66,7 +63,11 @@ class MarketPricesActivity : BaseActivity() {
         marketPricesViewModel.getRecentMarketPrices()
 
         b_search.setOnClickListener {
-            marketPricesViewModel.searchMarketPrice("", "", "", "")
+            val marketPriceSearchFragment = MarketPriceSearchFragment.newInstance()
+            supportFragmentManager.beginTransaction()
+                .add(R.id.fl_root, marketPriceSearchFragment)
+                .addToBackStack(null)
+                .commit()
         }
 
     }
@@ -79,5 +80,8 @@ class MarketPricesActivity : BaseActivity() {
         t_details_source.text = "Where does source come from?"
     }
 
-
+    override fun onSearchCompleted(marketPrice: MarketPrice) {
+        ll_details.visibility = View.VISIBLE
+        marketPricesViewModel.getRecentMarketPrices()
+    }
 }

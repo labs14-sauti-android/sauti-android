@@ -1,9 +1,7 @@
 package com.labs.sauti.repository
 
 import com.labs.sauti.api.SautiApiService
-import com.labs.sauti.model.LoginResponse
-import com.labs.sauti.model.MarketPrice
-import com.labs.sauti.model.User
+import com.labs.sauti.model.*
 import com.labs.sauti.sp.RecentMarketPricesSp
 import com.labs.sauti.sp.SessionSp
 import io.reactivex.Single
@@ -49,6 +47,49 @@ class SautiRepositoryImpl(
         return Single.fromCallable {
             throw Throwable("Not logged in")
         }
+    }
+
+    override fun getMarketPriceCountries(): Single<MutableList<MarketPriceCountry>> {
+        // TODO test only
+        val countries = mutableListOf<MarketPriceCountry>()
+        countries.add(MarketPriceCountry("Kenya"))
+        countries.add(MarketPriceCountry("Uganda"))
+
+        return Single.just(countries)
+    }
+
+    override fun getMarketPriceMarkets(marketPriceCountry: MarketPriceCountry): Single<MutableList<MarketPriceMarket>> {
+        // TODO test only
+        val markets = mutableListOf<MarketPriceMarket>()
+        markets.add(MarketPriceMarket("Nairobi"))
+        markets.add(MarketPriceMarket("Kampala"))
+
+        return Single.just(markets)
+    }
+
+    override fun getMarketPriceCategories(
+        marketPriceCountry: MarketPriceCountry,
+        marketPriceMarket: MarketPriceMarket
+    ): Single<MutableList<MarketPriceCategory>> {
+        // TODO test only
+        val categories = mutableListOf<MarketPriceCategory>()
+        categories.add(MarketPriceCategory("Tubers"))
+        categories.add(MarketPriceCategory("Beans"))
+
+        return Single.just(categories)
+    }
+
+    override fun getMarketPriceCommodities(
+        marketPriceCountry: MarketPriceCountry,
+        marketPriceMarket: MarketPriceMarket,
+        marketPriceCategory: MarketPriceCategory
+    ): Single<MutableList<MarketPriceCommodity>> {
+        // TODO test only
+        val commodities = mutableListOf<MarketPriceCommodity>()
+        commodities.add(MarketPriceCommodity("Potato"))
+        commodities.add(MarketPriceCommodity("Green Beans"))
+
+        return Single.just(commodities)
     }
 
     override fun searchMarketPrice(country: String, market: String, category: String, commodity: String): Single<MarketPrice> {
