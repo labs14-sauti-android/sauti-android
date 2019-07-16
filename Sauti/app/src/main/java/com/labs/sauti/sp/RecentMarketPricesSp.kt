@@ -6,12 +6,12 @@ import com.labs.sauti.model.MarketPrice
 import com.google.gson.reflect.TypeToken
 
 
-
+// TODO should this be in the DB?
 class RecentMarketPricesSp(private val context: Context, private val gson: Gson) {
 
     companion object {
         private const val SP_NAME = "recent_market_prices"
-        private const val RECENT_MARKET_PRICES_SIZE = 2
+        private const val RECENT_MARKET_PRICES_SIZE = 10
         private const val KEY_RECENT_MARKET_PRICES = "recent_market_prices"
 
     }
@@ -19,40 +19,24 @@ class RecentMarketPricesSp(private val context: Context, private val gson: Gson)
     private val sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE)
 
     fun insertRecentMarketPrice(marketPrice: MarketPrice) {
-        val recentMarketPrices = getRecentMarketPrices()
+        var recentMarketPrices = getRecentMarketPrices()
 
-        recentMarketPrices.add(0, marketPrice)
-        clampRecentMarketPrices(recentMarketPrices)
+        recentMarketPrices.add(0, marketPrice) // insert at 0
+
+        if (recentMarketPrices.size > RECENT_MARKET_PRICES_SIZE) {
+            recentMarketPrices =  recentMarketPrices.subList(0, RECENT_MARKET_PRICES_SIZE - 1)
+        }
 
         val editor = sp.edit()
         editor.putString(KEY_RECENT_MARKET_PRICES, gson.toJson(recentMarketPrices))
         editor.apply()
     }
 
-    fun getRecentMarketPrices(): MutableList<MarketPrice?> {
+    fun getRecentMarketPrices(): MutableList<MarketPrice> {
         val recentMarketPricesStr = sp.getString(KEY_RECENT_MARKET_PRICES, "[]")
 
-        val listType = object : TypeToken<MutableList<MarketPrice?>>() {}.type
-        var recentMarketPrices = gson.fromJson<MutableList<MarketPrice?>>(recentMarketPricesStr, listType)
-
-        clampRecentMarketPrices(recentMarketPrices)
-
-        return recentMarketPrices
-    }
-
-    private fun clampRecentMarketPrices(recentMarketPrices: MutableList<MarketPrice?>): MutableList<MarketPrice?> {
-        when {
-            recentMarketPrices.size < RECENT_MARKET_PRICES_SIZE -> { // increase size
-                val increaseBy = RECENT_MARKET_PRICES_SIZE - recentMarketPrices.size
-                for (i in 0..increaseBy) {
-                    recentMarketPrices.add(null)
-                }
-            }
-            recentMarketPrices.size > RECENT_MARKET_PRICES_SIZE -> // reduce size
-                return recentMarketPrices.subList(0, RECENT_MARKET_PRICES_SIZE - 1)
-        }
-
-        return recentMarketPrices
+        val listType = object : TypeToken<MutableList<MarketPrice>>() {}.type
+        return gson.fromJson(recentMarketPricesStr, listType)
     }
 
 }

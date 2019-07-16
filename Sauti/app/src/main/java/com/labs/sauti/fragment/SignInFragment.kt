@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.model.LoginResponse
-import com.labs.sauti.sp.SessionSp
 import com.labs.sauti.view_model.AuthenticationViewModel
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import java.lang.RuntimeException
@@ -26,9 +25,6 @@ class SignInFragment : Fragment() {
 
     private lateinit var authenticationViewModel: AuthenticationViewModel
 
-    @Inject
-    lateinit var sessionSp: SessionSp
-
     private var onSignInCompletedListener: OnSignInCompletedListener? = null
 
     companion object {
@@ -39,9 +35,6 @@ class SignInFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
 
         (context!!.applicationContext as SautiApp).getAuthenticationComponent().inject(this)
         authenticationViewModel = ViewModelProviders.of(this, authenticationViewModelFactory).get(AuthenticationViewModel::class.java)
@@ -60,10 +53,6 @@ class SignInFragment : Fragment() {
 
         // success
         authenticationViewModel.getLoginResponseLiveData().observe(this, Observer<LoginResponse> {
-            sessionSp.setAccessToken(it.accessToken ?: "")
-            sessionSp.setExpiresIn(it.expiresIn ?: 0)
-            sessionSp.setLoggedInAt(System.currentTimeMillis() / 1000L)
-
             Toast.makeText(context, "Sign in successful", Toast.LENGTH_LONG).show()
 
             onSignInCompletedListener!!.onSignInCompleted()
@@ -78,7 +67,7 @@ class SignInFragment : Fragment() {
 
         // button
         b_sign_in.setOnClickListener {
-            authenticationViewModel.login(et_username.text.toString(), et_password.text.toString())
+            authenticationViewModel.signIn(et_username.text.toString(), et_password.text.toString())
         }
     }
 

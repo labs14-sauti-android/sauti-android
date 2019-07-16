@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".fragment.MarketPriceSearchFragment"
+             android:clickable="true"
+             android:focusable="true"
+            android:background="#FFFFFF">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Start Search"
+                android:textSize="24sp"
+                android:layout_marginBottom="40dp"/>
+
+        <LinearLayout
+                android:id="@+id/ll_countries"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="40dp">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Select Country For Markets"/>
+
+            <Spinner
+                    android:id="@+id/s_countries"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+            </Spinner>
+
+        </LinearLayout>
+
+        <ProgressBar
+                android:id="@+id/pb_countries"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+        <LinearLayout
+                android:id="@+id/ll_markets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="40dp">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Select Market"/>
+
+            <Spinner
+                    android:id="@+id/s_markets"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+            </Spinner>
+
+        </LinearLayout>
+
+        <ProgressBar
+                android:id="@+id/pb_markets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+        <LinearLayout
+                android:id="@+id/ll_categories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="40dp">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Select Category For Commodity"/>
+
+            <Spinner
+                    android:id="@+id/s_categories"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+            </Spinner>
+
+        </LinearLayout>
+
+        <ProgressBar
+                android:id="@+id/pb_categories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+        <LinearLayout
+                android:id="@+id/ll_commodities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="40dp">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Select Category For Commodity"/>
+
+            <Spinner
+                    android:id="@+id/s_commodities"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+            </Spinner>
+
+        </LinearLayout>
+
+        <ProgressBar
+                android:id="@+id/pb_commodities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+        <!--TODO replace button with progress bar when searching-->
+
+        <Button
+                android:id="@+id/b_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Search"/>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,6 +1,8 @@
 package com.labs.sauti.sp
 
 import android.content.Context
+import com.google.gson.GsonBuilder
+import com.labs.sauti.model.User
 
 class SessionSp(private val context: Context) {
 
@@ -9,6 +11,7 @@ class SessionSp(private val context: Context) {
         private const val KEY_ACCESS_TOKEN = "access_token"
         private const val KEY_EXPIRES_IN = "expires_in"
         private const val KEY_LOGGED_IN_AT = "logged_in_at"
+        private const val KEY_USER = "user"
 
         private const val ELAPSED_TIME_BIAS = 60L
     }
@@ -65,6 +68,21 @@ class SessionSp(private val context: Context) {
 
     fun invalidateToken() {
         setAccessToken("")
+    }
+
+    fun getUser(): User? {
+        val userStr = sp.getString(KEY_USER, null) ?: return null
+        return GsonBuilder().create().fromJson(userStr, User::class.java)
+    }
+
+    fun setUser(user: User?) {
+        val editor = sp.edit()
+        if (user == null) {
+            editor.remove(KEY_USER)
+        } else {
+            editor.putString(KEY_USER, GsonBuilder().create().toJson(user))
+        }
+        editor.apply()
     }
 
 }
