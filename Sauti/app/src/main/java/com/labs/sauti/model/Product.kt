@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 * Prelim model. Not final.
 * */
 
-@Entity(tableName = "product")
+@Entity(tableName = "products")
 data class Product (
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "exercise_id")
