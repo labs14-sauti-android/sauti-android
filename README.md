@@ -4,11 +4,11 @@
 
 🚫 Each student has a required minimum number of meaningful PRs each week per the rubric.  Contributing to docs does NOT count as a PR to meet your weekly requirements.
 
-# 1️⃣ Sauti
+# Sauti
 
-1️⃣ You can find the deployed project at [🚫URL NAME GOES HERE](🚫copy and paste URL here).
+You can find the deployed project at [Sauti](https://play.google.com/store/apps/details?id=com.labs.sauti).
 
-## 4️⃣ Contributors
+## Contributors
 
 
 |                                       [Israel Dela Cruz](https://github.com/kurochin143)                                        |                                       [Debi Jones](https://github.com/doc-jones)                                        |                                       [Patrick Martin](https://github.com/vespertineSiren)                                        |                                       [Troy Schennum](https://github.com/TroySchennum)                                        |                                       [Edwin Torres - TL](https://github.com/etorresm2)                                        |
@@ -32,11 +32,14 @@
 ## 🚫 Project Overview
 
 
-1️⃣ [Trello Board](https://trello.com/b/enXrzu84/labs14-sauti-android)
+ [Trello Board](https://trello.com/b/enXrzu84/labs14-sauti-android)
 
 1️⃣ [Product Canvas](🚫add link to product canvas here)
 
-1️⃣ [UX Design files](https://docs.google.com/document/d/1mUNYeXya164nLiz675752_pfIjYeEFqyk946wpw7NCw/edit) 
+ [UX Design files](https://docs.google.com/document/d/1mUNYeXya164nLiz675752_pfIjYeEFqyk946wpw7NCw/edit) 
+ 
+ [Zeplin Wireframes](https://zpl.io/VDKM1Dv) 
+ 
 
 🚫 Replace lorem ipsum with a description of your project
 
