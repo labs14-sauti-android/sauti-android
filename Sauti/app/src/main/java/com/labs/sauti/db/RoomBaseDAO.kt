@@ -1,4 +1,4 @@
-package com.labs.sauti.repository
+package com.labs.sauti.db
 
 import androidx.room.*
 import io.reactivex.Completable
@@ -12,6 +12,10 @@ interface BaseDao<in T> {
     @Delete
     fun delete(type: T) : Completable
 
+    @Delete
+    fun deleteALL(type: T) : Completable
+
     @Update
     fun update(type: T) : Completable
+
 }
