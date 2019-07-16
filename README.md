@@ -8,7 +8,7 @@
 
 You can find the deployed project at [Sauti](https://play.google.com/store/apps/details?id=com.labs.sauti).
 
-## 4️⃣ Contributors
+## Contributors
 
 
 |                                       [Israel Dela Cruz](https://github.com/kurochin143)                                        |                                       [Debi Jones](https://github.com/doc-jones)                                        |                                       [Patrick Martin](https://github.com/vespertineSiren)                                        |                                       [Troy Schennum](https://github.com/TroySchennum)                                        |                                       [Edwin Torres - TL](https://github.com/etorresm2)                                        |
