@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.labs.sauti.model.ProductRoom
+import com.labs.sauti.model.TradeInfoRoom
 
 
 const val DATABASE_SCHEMA_VERSION = 1
@@ -13,7 +14,7 @@ const val DB_NAME = "local-db"
 
 //Example of adding more entities
 // entities = [ProductRoom::class, TradeInfo::Class]
-@Database(entities = [ProductRoom::class], version = DATABASE_SCHEMA_VERSION)
+@Database(entities = [ProductRoom::class, TradeInfoRoom::class], version = DATABASE_SCHEMA_VERSION)
 abstract class SautiRoomDatabase : RoomDatabase() {
 
     abstract fun productDao() : ProductDao
