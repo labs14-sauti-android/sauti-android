@@ -12,9 +12,6 @@ interface BaseDao<in T> {
     @Delete
     fun delete(type: T) : Completable
 
-    @Delete
-    fun deleteALL(type: T) : Completable
-
     @Update
     fun update(type: T) : Completable
 

@@ -1,7 +1,8 @@
 package com.labs.sauti.db
 
-import androidx.lifecycle.LiveData
-import com.labs.sauti.model.Product
+import com.labs.sauti.model.ProductRoom
+
+//CAN BE REMOVED AND CONNECT DIRECTLY TO DAO
 
 class ProductRepository(private val productDao: ProductDao) {
 
@@ -9,10 +10,11 @@ class ProductRepository(private val productDao: ProductDao) {
     //Executiion done on a seperate thread.
     // Observed LiveData will notify the observer when the data has changed.
     //List will be placed into LiveData in the ViewModel
-    val allProducts: List<Product> = productDao.getAllProductssAlphabetized()
+    val allProducts: List<ProductRoom> = productDao.getAllProductsAlphabetized()
 
-    //Called from non-ui thread.
-    fun insertProduct(product: Product) {
-        productDao.insert(product)
+    //Must be called from non-ui thread.
+    //TODO: Will do a check in the database and add accordingly.
+    fun insertProduct(productRoom: ProductRoom) {
+        productDao.insert(productRoom)
     }
 }

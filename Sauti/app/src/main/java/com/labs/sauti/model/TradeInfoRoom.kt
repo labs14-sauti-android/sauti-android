@@ -1,6 +1,7 @@
 package com.labs.sauti.model
 
 import androidx.room.ColumnInfo
+import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 /*
@@ -12,8 +13,9 @@ import androidx.room.PrimaryKey
 * */
 
 
+@Entity(tableName = "trade_info")
 data class TradeInfoRoom (
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "tradeinfo_id")
-    val productID: Long = 0
+    val tradeinfoID: Long = 0
 )
