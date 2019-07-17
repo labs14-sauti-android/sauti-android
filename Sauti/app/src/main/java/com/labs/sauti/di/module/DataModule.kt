@@ -3,6 +3,7 @@ package com.labs.sauti.di.module
 import android.content.Context
 import com.google.gson.Gson
 import com.labs.sauti.api.SautiApiService
+import com.labs.sauti.db.SautiRoomDatabase
 import com.labs.sauti.repository.SautiRepository
 import com.labs.sauti.repository.SautiRepositoryImpl
 import com.labs.sauti.sp.RecentMarketPricesSp
@@ -30,6 +31,12 @@ class DataModule(private val sautiAuthorization: String) {
     @Singleton
     fun provideSautiRepository(sautiApiService: SautiApiService, sessionSp: SessionSp, recentMarketPricesSp: RecentMarketPricesSp): SautiRepository {
         return SautiRepositoryImpl(sautiApiService, sautiAuthorization, sessionSp, recentMarketPricesSp)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSautiRoomDatabase(context: Context) : SautiRoomDatabase{
+        return SautiRoomDatabase.getDatabase(context)
     }
 
 }
