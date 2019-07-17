@@ -49,7 +49,7 @@ class MarketPriceSearchFragment : Fragment() {
         marketPricesViewModel.getSearchMarketPriceLiveData().observe(this, Observer {
             onSearchCompletedListener?.onSearchCompleted(it)
 
-            activity!!.supportFragmentManager!!.popBackStack()
+            activity!!.supportFragmentManager.popBackStack()
         })
 
         ll_countries.visibility = View.GONE
