@@ -28,23 +28,23 @@ data class ProductData (
     @SerializedName("productname")
     @Expose
     @ColumnInfo(name = "product_name")
-    val name: String,
+    val name: String? = null,
 
     //Does the user even care about category or is this a way for
     //us to neatly present data.
     @SerializedName("productcategory")
     @Expose
     @ColumnInfo(name = "product_cat")
-    var productCat: String,
+    var productCat: String? = null,
 
     @SerializedName("wholesaleprice")
     @Expose
     @ColumnInfo(name = "price_wholesale")
-    val wholesale : Int,
+    val wholesale : Int? = null,
 
     @SerializedName("retailprice")
     @Expose
     @ColumnInfo(name = "price_retail")
-    val retail : Int
+    val retail : Int? = null
 
 )
