@@ -14,7 +14,7 @@ import androidx.room.PrimaryKey
 
 
 @Entity(tableName = "trade_info")
-data class TradeInfoRoom (
+data class TradeInfoData (
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "tradeinfo_id")
     val tradeinfoID: Long = 0

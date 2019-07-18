@@ -3,6 +3,7 @@ package com.labs.sauti.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 
 /*
 * Prelim model. Not final.
@@ -13,7 +14,8 @@ import androidx.room.PrimaryKey
 
 
 @Entity(tableName = "products")
-data class ProductRoom (
+data class ProductData (
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "product_id")
     val productID: Long = 0,
