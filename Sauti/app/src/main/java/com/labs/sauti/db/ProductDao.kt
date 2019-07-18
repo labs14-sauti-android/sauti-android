@@ -1,14 +1,16 @@
 package com.labs.sauti.db
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
-import com.labs.sauti.model.Product
+import com.labs.sauti.model.ProductRoom
 
 @Dao
-interface ProductDao : BaseDao<Product> {
+interface ProductDao : BaseDao<ProductRoom> {
 
     @Query(value = "SELECT * FROM products ORDER BY product_name")
-    fun getAllProductssAlphabetized(): List<Product>
+    fun getAllProductsAlphabetized(): List<ProductRoom>
+
+    @Query("DELETE FROM products")
+    fun deleteAll()
 
 }

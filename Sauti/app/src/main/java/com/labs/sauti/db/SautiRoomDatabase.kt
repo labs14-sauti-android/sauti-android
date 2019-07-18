@@ -4,7 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.labs.sauti.model.Product
+import com.labs.sauti.model.ProductRoom
+import com.labs.sauti.model.TradeInfoRoom
 
 
 const val DATABASE_SCHEMA_VERSION = 1
@@ -12,14 +13,14 @@ const val DB_NAME = "local-db"
 
 
 //Example of adding more entities
-// entities = [Product::class, TradeInfo::Class]
-@Database(entities = [Product::class], version = DATABASE_SCHEMA_VERSION)
+// entities = [ProductRoom::class, TradeInfo::Class]
+@Database(entities = [ProductRoom::class, TradeInfoRoom::class], version = DATABASE_SCHEMA_VERSION)
 abstract class SautiRoomDatabase : RoomDatabase() {
 
     abstract fun productDao() : ProductDao
 
     //add DAO
-    // abstract fun tradeInfoDao(): TradeInfoDao
+    abstract fun tradeInfoDao(): TradeInfoDao
 
     companion object {
         @Volatile
@@ -38,6 +39,4 @@ abstract class SautiRoomDatabase : RoomDatabase() {
                 .build()
         }
     }
-
-
 }
