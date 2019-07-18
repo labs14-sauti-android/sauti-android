@@ -3,6 +3,7 @@ package com.labs.sauti.db
 import androidx.room.Dao
 import androidx.room.Query
 import com.labs.sauti.model.ProductData
+import io.reactivex.Completable
 
 @Dao
 interface ProductDao : BaseDao<ProductData> {
@@ -11,6 +12,6 @@ interface ProductDao : BaseDao<ProductData> {
     fun getAllProductsAlphabetized(): List<ProductData>
 
     @Query("DELETE FROM products")
-    fun deleteAll()
+    fun deleteAll() : Completable
 
 }

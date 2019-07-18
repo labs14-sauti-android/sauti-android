@@ -3,6 +3,7 @@ package com.labs.sauti.db
 import androidx.room.Dao
 import androidx.room.Query
 import com.labs.sauti.model.TradeInfoData
+import io.reactivex.Completable
 
 //CAN BE REMOVED AND CONNECT DIRECTLY TO DAO
 
@@ -16,6 +17,6 @@ interface TradeInfoDao : BaseDao<TradeInfoData> {
     fun getAllTradeInfo(): List<TradeInfoData>
 
     @Query("DELETE FROM trade_info")
-    fun deleteAll()
+    fun deleteAll() : Completable
 
 }
