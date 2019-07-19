@@ -6,6 +6,7 @@ import com.labs.sauti.api.SautiApiService
 import com.labs.sauti.cache.MarketPriceRoomCache
 import com.labs.sauti.cache.RecentMarketPriceRoomCache
 import com.labs.sauti.db.SautiRoomDatabase
+import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.mapper.MarketPriceDataRecentMarketPriceDataMapper
 import com.labs.sauti.repository.SautiRepository
 import com.labs.sauti.repository.SautiRepositoryImpl
@@ -45,6 +46,7 @@ class DataModule(private val sautiAuthorization: String) {
     @Provides
     @Singleton
     fun provideSautiRepository(
+        networkHelper: NetworkHelper,
         sautiApiService: SautiApiService,
         sessionSp: SessionSp,
         marketPriceRoomCache: MarketPriceRoomCache,
@@ -52,6 +54,7 @@ class DataModule(private val sautiAuthorization: String) {
         marketPriceDataRecentMarketPriceDataMapper: MarketPriceDataRecentMarketPriceDataMapper
     ): SautiRepository {
         return SautiRepositoryImpl(
+            networkHelper,
             sautiApiService,
             sautiAuthorization,
             sessionSp,

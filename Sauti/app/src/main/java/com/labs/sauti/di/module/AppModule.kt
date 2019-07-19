@@ -1,6 +1,7 @@
 package com.labs.sauti.di.module
 
 import android.content.Context
+import com.labs.sauti.helper.NetworkHelper
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -12,6 +13,12 @@ class AppModule(private val context: Context) {
     @Singleton
     fun provideAppContext(): Context {
         return context.applicationContext
+    }
+
+    @Provides
+    @Singleton
+    fun provideNetworkHelper(context: Context): NetworkHelper {
+        return NetworkHelper(context)
     }
 
 }

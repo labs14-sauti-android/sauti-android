@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken
 import com.labs.sauti.api.SautiApiService
 import com.labs.sauti.cache.MarketPriceRoomCache
 import com.labs.sauti.cache.RecentMarketPriceRoomCache
+import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.mapper.Mapper
 import com.labs.sauti.mapper.MarketPriceDataRecentMarketPriceDataMapper
 import com.labs.sauti.model.*
@@ -15,6 +16,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 
 class SautiRepositoryImpl(
+    private val networkHelper: NetworkHelper,
     private val sautiApiService: SautiApiService,
     private val sautiAuthorization: String,
     private val sessionSp: SessionSp,
@@ -55,14 +57,14 @@ class SautiRepositoryImpl(
         }
 
         // TODO test this and see if it actually does what I think it does
-        return Single.fromCallable {
-            throw Throwable("Not logged in")
-        }
+        return Single.error(Throwable())
     }
 
     override fun getMarketPriceCountries(): Single<MutableList<MarketPriceCountry>> {
         // TODO test only
         return Single.fromCallable {
+            if (!networkHelper.hasNetworkConnection()) throw Throwable("No network connection")
+
             val request = Request.Builder()
                 .url("http://sautiafrica.org/endpoints/api.php?url=v1/marketPrices/&type=json")
                 .build()
