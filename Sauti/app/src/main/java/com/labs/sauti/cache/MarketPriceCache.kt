@@ -6,7 +6,7 @@ import io.reactivex.Single
 
 interface MarketPriceCache {
 
-    fun save(marketPriceData: MarketPriceData)
+    fun save(marketPriceData: MarketPriceData): Completable
     fun getCountries(): Single<MutableList<String>>
     fun getMarkets(country: String): Single<MutableList<String>>
     fun getCategories(country: String, market: String): Single<MutableList<String>>

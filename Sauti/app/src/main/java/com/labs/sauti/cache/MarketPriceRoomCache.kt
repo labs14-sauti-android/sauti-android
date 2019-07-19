@@ -1,6 +1,5 @@
 package com.labs.sauti.cache
 
-import android.annotation.SuppressLint
 import com.labs.sauti.db.SautiRoomDatabase
 import com.labs.sauti.model.MarketPriceData
 import io.reactivex.Completable
@@ -8,23 +7,20 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
 class MarketPriceRoomCache(private val sautiRoomDatabase: SautiRoomDatabase) : MarketPriceCache {
-    @SuppressLint("CheckResult")
-    // TODO proper rxjava
-    override fun save(marketPriceData: MarketPriceData) {
-        search(
+    override fun save(marketPriceData: MarketPriceData): Completable {
+        return search(
             marketPriceData.country!!,
             marketPriceData.market!!,
             marketPriceData.productCat!!,
             marketPriceData.product!!
-        ).subscribe(
-            {
-                marketPriceData.id = it.id
-                sautiRoomDatabase.marketPriceDao().update(marketPriceData)
-            },
-            {
-                sautiRoomDatabase.marketPriceDao().insert(marketPriceData)
-            }
-        )
+        ).doOnSuccess {
+            marketPriceData.id = it.id
+            sautiRoomDatabase.marketPriceDao().update(marketPriceData).blockingAwait()
+        }.onErrorResumeNext {
+            sautiRoomDatabase.marketPriceDao().insert(marketPriceData).toSingleDefault(marketPriceData)
+        }.flatMapCompletable {
+            Completable.complete()
+        }
     }
 
     override fun getCountries(): Single<MutableList<String>> {

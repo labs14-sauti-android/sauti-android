@@ -7,7 +7,7 @@ import io.reactivex.Single
 // TODO use entity because this is in the domain layer
 interface RecentMarketPriceCache {
 
-    fun save(recentMarketPriceData: RecentMarketPriceData)
+    fun save(recentMarketPriceData: RecentMarketPriceData): Completable
     fun getAll(): Single<MutableList<RecentMarketPriceData>>
 
 }

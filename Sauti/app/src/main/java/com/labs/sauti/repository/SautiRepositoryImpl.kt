@@ -237,15 +237,16 @@ class SautiRepositoryImpl(
             throw Throwable("Cannot find market price")
         }
             .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.io())
+            .doOnSuccess {
+                marketPriceRoomCache.save(it).blockingAwait()
+            }
             .onErrorResumeNext {
                 marketPriceRoomCache.search(country, market, category, product)
             }
             .doOnSuccess {
-                marketPriceRoomCache.save(it)
                 recentMarketPriceRoomCache.save(marketPriceDataRecentMarketPriceDataMapper.mapFrom(it).apply {
                     timeCreated = System.currentTimeMillis()
-                })
+                }).blockingAwait()
             }
     }
 
