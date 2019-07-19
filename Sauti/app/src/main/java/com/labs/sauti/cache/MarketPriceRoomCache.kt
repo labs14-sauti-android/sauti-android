@@ -25,6 +25,38 @@ class MarketPriceRoomCache(private val sautiRoomDatabase: SautiRoomDatabase) : M
         )
     }
 
+    override fun getCountries(): Single<MutableList<String>> {
+        return Single.fromCallable {
+            sautiRoomDatabase.marketPriceDao().getCountries()
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+    }
+
+    override fun getMarkets(country: String): Single<MutableList<String>> {
+        return Single.fromCallable {
+            sautiRoomDatabase.marketPriceDao().getMarkets(country)
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+    }
+
+    override fun getCategories(country: String, market: String): Single<MutableList<String>> {
+        return Single.fromCallable {
+            sautiRoomDatabase.marketPriceDao().getCategories(country, market)
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+    }
+
+    override fun getProducts(country: String, market: String, category: String): Single<MutableList<String>> {
+        return Single.fromCallable {
+            sautiRoomDatabase.marketPriceDao().getProducts(country, market, category)
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+    }
+
     override fun search(country: String, market: String, category: String, product: String): Single<MarketPriceData> {
         return Single.fromCallable {
             sautiRoomDatabase.marketPriceDao().getBySearch(country, market, category, product) ?: throw Throwable()

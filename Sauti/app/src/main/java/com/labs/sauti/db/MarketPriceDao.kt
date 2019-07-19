@@ -1,7 +1,6 @@
 package com.labs.sauti.db
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Query
 import com.labs.sauti.model.MarketPriceData
 

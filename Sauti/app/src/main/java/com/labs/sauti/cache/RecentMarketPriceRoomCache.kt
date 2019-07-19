@@ -2,6 +2,7 @@ package com.labs.sauti.cache
 
 import com.labs.sauti.db.SautiRoomDatabase
 import com.labs.sauti.model.RecentMarketPriceData
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
@@ -14,7 +15,7 @@ class RecentMarketPriceRoomCache(
     }
 
     override fun save(recentMarketPriceData: RecentMarketPriceData) {
-        sautiRoomDatabase.recentMarketPriceDao().insert(recentMarketPriceData)
+        sautiRoomDatabase.recentMarketPriceDao().insert(recentMarketPriceData).blockingAwait()
         val exceededBy = sautiRoomDatabase.recentMarketPriceDao().getCount() - MAX_CACHE_SIZE
         if (exceededBy > 0) {
             sautiRoomDatabase.recentMarketPriceDao().deleteOldestRecentMarketPrice(exceededBy)
@@ -22,12 +23,7 @@ class RecentMarketPriceRoomCache(
     }
 
     override fun getAll(): Single<MutableList<RecentMarketPriceData>> {
-        return Single.fromCallable {
-            sautiRoomDatabase.recentMarketPriceDao().getAllRecentMarketPriceOrderByTimeCreated()
-        }
-            .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.io())
-
+        return sautiRoomDatabase.recentMarketPriceDao().getAllRecentMarketPriceOrderByTimeCreated()
     }
 
 }

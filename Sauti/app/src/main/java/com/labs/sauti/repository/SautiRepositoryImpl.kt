@@ -93,7 +93,16 @@ class SautiRepositoryImpl(
         }
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
+            .onErrorResumeNext {
+                marketPriceRoomCache.getCountries()
+                    .flatMap {
+                        val countries= it.map { country ->
+                            MarketPriceCountry(country)
+                        }.toMutableList()
 
+                        Single.just(countries)
+                    }
+            }
     }
 
     override fun getMarketPriceMarkets(marketPriceCountry: MarketPriceCountry): Single<MutableList<MarketPriceMarket>> {
