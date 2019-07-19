@@ -4,10 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.labs.sauti.model.MarketPrice
-import com.labs.sauti.model.MarketPriceCategory
-import com.labs.sauti.model.MarketPriceCountry
-import com.labs.sauti.model.MarketPriceMarket
+import com.labs.sauti.model.*
 import com.labs.sauti.repository.SautiRepository
 
 class MarketPricesViewModel(private val sautiRepository: SautiRepository): BaseViewModel() {
@@ -16,8 +13,8 @@ class MarketPricesViewModel(private val sautiRepository: SautiRepository): BaseV
     private val marketsLiveData = MutableLiveData<MutableList<String>>()
     private val categoriesLiveData = MutableLiveData<MutableList<String>>()
     private val commoditiesLiveData = MutableLiveData<MutableList<String>>()
-    private val searchMarketPriceLiveData = MutableLiveData<MarketPrice>()
-    private val recentMarketPricesLiveData = MutableLiveData<MutableList<MarketPrice>>()
+    private val searchMarketPriceLiveData = MutableLiveData<MarketPriceData>()
+    private val recentMarketPricesLiveData = MutableLiveData<MutableList<RecentMarketPriceData>>()
     // TODO error
     private val errorLiveData = MutableLiveData<Throwable>()
 
@@ -25,8 +22,8 @@ class MarketPricesViewModel(private val sautiRepository: SautiRepository): BaseV
     fun getMarketsLiveData(): LiveData<MutableList<String>> = marketsLiveData
     fun getCategoriesLiveData(): LiveData<MutableList<String>> = categoriesLiveData
     fun getCommoditiesLiveData(): LiveData<MutableList<String>> = commoditiesLiveData
-    fun getSearchMarketPriceLiveData(): LiveData<MarketPrice> = searchMarketPriceLiveData
-    fun getRecentMarketPricesLiveData(): LiveData<MutableList<MarketPrice>> = recentMarketPricesLiveData
+    fun getSearchMarketPriceLiveData(): LiveData<MarketPriceData> = searchMarketPriceLiveData
+    fun getRecentMarketPricesLiveData(): LiveData<MutableList<RecentMarketPriceData>> = recentMarketPricesLiveData
 
     fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
 

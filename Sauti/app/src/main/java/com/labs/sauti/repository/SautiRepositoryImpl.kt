@@ -3,8 +3,11 @@ package com.labs.sauti.repository
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.labs.sauti.api.SautiApiService
+import com.labs.sauti.cache.MarketPriceRoomCache
+import com.labs.sauti.cache.RecentMarketPriceRoomCache
+import com.labs.sauti.mapper.Mapper
+import com.labs.sauti.mapper.MarketPriceDataRecentMarketPriceDataMapper
 import com.labs.sauti.model.*
-import com.labs.sauti.sp.RecentMarketPricesSp
 import com.labs.sauti.sp.SessionSp
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -15,7 +18,10 @@ class SautiRepositoryImpl(
     private val sautiApiService: SautiApiService,
     private val sautiAuthorization: String,
     private val sessionSp: SessionSp,
-    private val recentMarketPricesSp: RecentMarketPricesSp) : SautiRepository {
+    private val marketPriceRoomCache: MarketPriceRoomCache,
+    private val recentMarketPriceRoomCache: RecentMarketPriceRoomCache,
+    private val marketPriceDataRecentMarketPriceDataMapper: Mapper<MarketPriceData, RecentMarketPriceData>
+) : SautiRepository {
     override fun login(username: String, password: String): Single<LoginResponse> {
         return sautiApiService.login(sautiAuthorization, "password", username, password)
             .doOnSuccess {
@@ -70,8 +76,8 @@ class SautiRepositoryImpl(
             val responseStr = responseBody.string()
 
             val gson = GsonBuilder().create()
-            val typeToken = object: TypeToken<MutableList<MarketPrice>>() {}.type
-            val marketPrices = gson.fromJson<MutableList<MarketPrice>>(responseStr, typeToken)
+            val typeToken = object: TypeToken<MutableList<MarketPriceData>>() {}.type
+            val marketPrices = gson.fromJson<MutableList<MarketPriceData>>(responseStr, typeToken)
             val countrySet = hashSetOf<String>()
             marketPrices.forEach {
                 if (it.country != null) {
@@ -106,8 +112,8 @@ class SautiRepositoryImpl(
             val responseStr = responseBody.string()
 
             val gson = GsonBuilder().create()
-            val typeToken = object: TypeToken<MutableList<MarketPrice>>() {}.type
-            val marketPrices = gson.fromJson<MutableList<MarketPrice>>(responseStr, typeToken)
+            val typeToken = object: TypeToken<MutableList<MarketPriceData>>() {}.type
+            val marketPrices = gson.fromJson<MutableList<MarketPriceData>>(responseStr, typeToken)
             val marketSet = hashSetOf<String>()
             marketPrices.forEach {
                 if (it.market != null &&
@@ -145,8 +151,8 @@ class SautiRepositoryImpl(
             val responseStr = responseBody.string()
 
             val gson = GsonBuilder().create()
-            val typeToken = object: TypeToken<MutableList<MarketPrice>>() {}.type
-            val marketPrices = gson.fromJson<MutableList<MarketPrice>>(responseStr, typeToken)
+            val typeToken = object: TypeToken<MutableList<MarketPriceData>>() {}.type
+            val marketPrices = gson.fromJson<MutableList<MarketPriceData>>(responseStr, typeToken)
             val categorySet = hashSetOf<String>()
             marketPrices.forEach {
                 if (it.productCat != null &&
@@ -186,8 +192,8 @@ class SautiRepositoryImpl(
             val responseStr = responseBody.string()
 
             val gson = GsonBuilder().create()
-            val typeToken = object: TypeToken<MutableList<MarketPrice>>() {}.type
-            val marketPrices = gson.fromJson<MutableList<MarketPrice>>(responseStr, typeToken)
+            val typeToken = object: TypeToken<MutableList<MarketPriceData>>() {}.type
+            val marketPrices = gson.fromJson<MutableList<MarketPriceData>>(responseStr, typeToken)
             val commoditySet = hashSetOf<String>()
             marketPrices.forEach {
                 if (it.product != null &&
@@ -208,7 +214,7 @@ class SautiRepositoryImpl(
             .observeOn(Schedulers.io())
     }
 
-    override fun searchMarketPrice(country: String, market: String, category: String, commodity: String): Single<MarketPrice> {
+    override fun searchMarketPrice(country: String, market: String, category: String, commodity: String): Single<MarketPriceData> {
         // TODO test only
         return Single.fromCallable {
             val request = Request.Builder()
@@ -224,8 +230,8 @@ class SautiRepositoryImpl(
             val responseStr = responseBody.string()
 
             val gson = GsonBuilder().create()
-            val typeToken = object: TypeToken<MutableList<MarketPrice>>() {}.type
-            val marketPrices = gson.fromJson<MutableList<MarketPrice>>(responseStr, typeToken)
+            val typeToken = object: TypeToken<MutableList<MarketPriceData>>() {}.type
+            val marketPrices = gson.fromJson<MutableList<MarketPriceData>>(responseStr, typeToken)
             marketPrices.forEach {
                 if (it.country == country &&
                     it.market == market &&
@@ -240,11 +246,14 @@ class SautiRepositoryImpl(
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .doOnSuccess {
-                recentMarketPricesSp.insertRecentMarketPrice(it)
+                marketPriceRoomCache.save(it)
+                recentMarketPriceRoomCache.save(marketPriceDataRecentMarketPriceDataMapper.mapFrom(it).apply {
+                    timeCreated = System.currentTimeMillis()
+                })
             }
     }
 
-    override fun getRecentMarketPrices(): Single<MutableList<MarketPrice>> {
-        return Single.just(recentMarketPricesSp.getRecentMarketPrices())
+    override fun getRecentMarketPrices(): Single<MutableList<RecentMarketPriceData>> {
+        return recentMarketPriceRoomCache.getAll()
     }
 }

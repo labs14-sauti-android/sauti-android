@@ -1,18 +1,16 @@
 package com.labs.sauti.db
 
 import androidx.room.*
-import io.reactivex.Completable
-
 
 @Dao
 interface BaseDao<in T> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(type: T): Completable
+    fun insert(type: T): Long
 
     @Delete
-    fun delete(type: T) : Completable
+    fun delete(type: T)
 
     @Update
-    fun update(type: T) : Completable
+    fun update(type: T)
 
 }
