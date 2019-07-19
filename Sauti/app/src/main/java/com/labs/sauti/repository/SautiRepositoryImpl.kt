@@ -7,7 +7,6 @@ import com.labs.sauti.cache.MarketPriceRoomCache
 import com.labs.sauti.cache.RecentMarketPriceRoomCache
 import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.mapper.Mapper
-import com.labs.sauti.mapper.MarketPriceDataRecentMarketPriceDataMapper
 import com.labs.sauti.model.*
 import com.labs.sauti.sp.SessionSp
 import io.reactivex.Single
@@ -60,7 +59,42 @@ class SautiRepositoryImpl(
         return Single.error(Throwable())
     }
 
-    override fun getMarketPriceCountries(): Single<MutableList<MarketPriceCountry>> {
+    override fun getMarketPriceCountries(): Single<MutableList<String>> {
+        // TODO test only
+        return Single.fromCallable {
+            if (!networkHelper.hasNetworkConnection()) throw Throwable("No network connection")
+
+            val request = Request.Builder()
+                .url("http://sautiafrica.org/endpoints/api.php?url=v1/marketPrices/&type=json")
+                .build()
+            val responseBody = OkHttpClient.Builder().build()
+                .newCall(request)
+                .execute()
+                .body()
+
+            responseBody ?: throw Throwable("No response")
+
+            val responseStr = responseBody.string()
+
+            val gson = GsonBuilder().create()
+            val typeToken = object: TypeToken<MutableList<String>>() {}.type
+            val marketPrices = gson.fromJson<MutableList<MarketPriceData>>(responseStr, typeToken)
+            val countrySet = hashSetOf<String>()
+            marketPrices.forEach {
+                if (it.country != null) {
+                    countrySet.add(it.country!!)
+                }
+            }
+            countrySet.toMutableList()
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+            .onErrorResumeNext {
+                marketPriceRoomCache.getCountries()
+            }
+    }
+
+    override fun getMarketPriceMarkets(country: String): Single<MutableList<String>> {
         // TODO test only
         return Single.fromCallable {
             if (!networkHelper.hasNetworkConnection()) throw Throwable("No network connection")
@@ -80,75 +114,27 @@ class SautiRepositoryImpl(
             val gson = GsonBuilder().create()
             val typeToken = object: TypeToken<MutableList<MarketPriceData>>() {}.type
             val marketPrices = gson.fromJson<MutableList<MarketPriceData>>(responseStr, typeToken)
-            val countrySet = hashSetOf<String>()
+            val marketSet = hashSetOf<String>()
             marketPrices.forEach {
-                if (it.country != null) {
-                    countrySet.add(it.country!!)
+                if (it.market != null &&
+                    it.country == country) {
+                    marketSet.add(it.market!!)
                 }
             }
-            val countries = mutableListOf<MarketPriceCountry>()
-            countrySet.forEach {
-                countries.add(MarketPriceCountry(it))
-            }
-            countries.sortBy { it.country }
-            countries.toMutableList()
+            marketSet.toMutableList()
         }
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .onErrorResumeNext {
-                marketPriceRoomCache.getCountries()
-                    .flatMap {
-                        val countries= it.map { country ->
-                            MarketPriceCountry(country)
-                        }.toMutableList()
-
-                        Single.just(countries)
-                    }
+                marketPriceRoomCache.getMarkets(country)
             }
     }
 
-    override fun getMarketPriceMarkets(marketPriceCountry: MarketPriceCountry): Single<MutableList<MarketPriceMarket>> {
+    override fun getMarketPriceCategories(country: String, market: String): Single<MutableList<String>> {
         // TODO test only
         return Single.fromCallable {
-            val request = Request.Builder()
-                .url("http://sautiafrica.org/endpoints/api.php?url=v1/marketPrices/&type=json")
-                .build()
-            val responseBody = OkHttpClient.Builder().build()
-                .newCall(request)
-                .execute()
-                .body()
+            if (!networkHelper.hasNetworkConnection()) throw Throwable("No network connection")
 
-            responseBody ?: throw Throwable("No response")
-
-            val responseStr = responseBody.string()
-
-            val gson = GsonBuilder().create()
-            val typeToken = object: TypeToken<MutableList<MarketPriceData>>() {}.type
-            val marketPrices = gson.fromJson<MutableList<MarketPriceData>>(responseStr, typeToken)
-            val marketSet = hashSetOf<String>()
-            marketPrices.forEach {
-                if (it.market != null &&
-                    it.country == marketPriceCountry.country) {
-                    marketSet.add(it.market!!)
-                }
-            }
-            val markets = mutableListOf<MarketPriceMarket>()
-            marketSet.forEach {
-                markets.add(MarketPriceMarket(it))
-            }
-            markets.sortBy { it.market }
-            markets.toMutableList()
-        }
-            .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.io())
-    }
-
-    override fun getMarketPriceCategories(
-        marketPriceCountry: MarketPriceCountry,
-        marketPriceMarket: MarketPriceMarket
-    ): Single<MutableList<MarketPriceCategory>> {
-        // TODO test only
-        return Single.fromCallable {
             val request = Request.Builder()
                 .url("http://sautiafrica.org/endpoints/api.php?url=v1/marketPrices/&type=json")
                 .build()
@@ -167,29 +153,25 @@ class SautiRepositoryImpl(
             val categorySet = hashSetOf<String>()
             marketPrices.forEach {
                 if (it.productCat != null &&
-                    it.country == marketPriceCountry.country &&
-                    it.market == marketPriceMarket.market) {
+                    it.country == country &&
+                    it.market == market) {
                     categorySet.add(it.productCat!!)
                 }
             }
-            val categories = mutableListOf<MarketPriceCategory>()
-            categorySet.forEach {
-                categories.add(MarketPriceCategory(it))
-            }
-            categories.sortBy { it.category }
-            categories.toMutableList()
+            categorySet.toMutableList()
         }
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
+            .onErrorResumeNext {
+                marketPriceRoomCache.getCategories(country, market)
+            }
     }
 
-    override fun getMarketPriceCommodities(
-        marketPriceCountry: MarketPriceCountry,
-        marketPriceMarket: MarketPriceMarket,
-        marketPriceCategory: MarketPriceCategory
-    ): Single<MutableList<MarketPriceCommodity>> {
+    override fun getMarketPriceProducts(country: String, market: String, category: String): Single<MutableList<String>> {
         // TODO test only
         return Single.fromCallable {
+            if (!networkHelper.hasNetworkConnection()) throw Throwable("No network connection")
+
             val request = Request.Builder()
                 .url("http://sautiafrica.org/endpoints/api.php?url=v1/marketPrices/&type=json")
                 .build()
@@ -205,29 +187,29 @@ class SautiRepositoryImpl(
             val gson = GsonBuilder().create()
             val typeToken = object: TypeToken<MutableList<MarketPriceData>>() {}.type
             val marketPrices = gson.fromJson<MutableList<MarketPriceData>>(responseStr, typeToken)
-            val commoditySet = hashSetOf<String>()
+            val productSet = hashSetOf<String>()
             marketPrices.forEach {
                 if (it.product != null &&
-                    it.country == marketPriceCountry.country &&
-                    it.market == marketPriceMarket.market &&
-                    it.productCat == marketPriceCategory.category) {
-                    commoditySet.add(it.product!!)
+                    it.country == country &&
+                    it.market == market &&
+                    it.productCat == category) {
+                    productSet.add(it.product!!)
                 }
             }
-            val commodities = mutableListOf<MarketPriceCommodity>()
-            commoditySet.forEach {
-                commodities.add(MarketPriceCommodity(it))
-            }
-            commodities.sortBy { it.commodity }
-            commodities.toMutableList()
+            productSet.toMutableList()
         }
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
+            .onErrorResumeNext {
+                marketPriceRoomCache.getProducts(country, market, category)
+            }
     }
 
-    override fun searchMarketPrice(country: String, market: String, category: String, commodity: String): Single<MarketPriceData> {
+    override fun searchMarketPrice(country: String, market: String, category: String, product: String): Single<MarketPriceData> {
         // TODO test only
         return Single.fromCallable {
+            if (!networkHelper.hasNetworkConnection()) throw Throwable("No network connection")
+
             val request = Request.Builder()
                 .url("http://sautiafrica.org/endpoints/api.php?url=v1/marketPrices/&type=json")
                 .build()
@@ -247,7 +229,7 @@ class SautiRepositoryImpl(
                 if (it.country == country &&
                     it.market == market &&
                     it.productCat == category &&
-                    it.product == commodity) {
+                    it.product == product) {
                     return@fromCallable it
                 }
             }
@@ -256,6 +238,9 @@ class SautiRepositoryImpl(
         }
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
+            .onErrorResumeNext {
+                marketPriceRoomCache.search(country, market, category, product)
+            }
             .doOnSuccess {
                 marketPriceRoomCache.save(it)
                 recentMarketPriceRoomCache.save(marketPriceDataRecentMarketPriceDataMapper.mapFrom(it).apply {

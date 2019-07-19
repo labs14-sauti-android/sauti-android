@@ -121,7 +121,7 @@ class MarketPriceSearchFragment : Fragment() {
         })
 
         // commodities
-        marketPricesViewModel.getCommoditiesLiveData().observe(this, Observer {
+        marketPricesViewModel.getProductsLiveData().observe(this, Observer {
             pb_commodities.visibility = View.GONE
             ll_commodities.visibility = View.VISIBLE
 
@@ -197,7 +197,7 @@ class MarketPriceSearchFragment : Fragment() {
             val category = s_categories.selectedItem as String
 
             pb_commodities.visibility = View.VISIBLE
-            marketPricesViewModel.getCommodities(country, market, category)
+            marketPricesViewModel.getProducts(country, market, category)
         }
     }
 

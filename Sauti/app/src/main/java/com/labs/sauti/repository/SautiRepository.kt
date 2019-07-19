@@ -10,18 +10,12 @@ interface SautiRepository {
     fun isAccessTokenValid(): Single<Boolean>
     fun getCurrentUser(): Single<User>
 
-    fun getMarketPriceCountries(): Single<MutableList<MarketPriceCountry>>
-    fun getMarketPriceMarkets(marketPriceCountry: MarketPriceCountry): Single<MutableList<MarketPriceMarket>>
-    fun getMarketPriceCategories(
-        marketPriceCountry: MarketPriceCountry,
-        marketPriceMarket: MarketPriceMarket
-    ): Single<MutableList<MarketPriceCategory>>
-    fun getMarketPriceCommodities(
-        marketPriceCountry: MarketPriceCountry,
-        marketPriceMarket: MarketPriceMarket,
-        marketPriceCategory: MarketPriceCategory
-    ): Single<MutableList<MarketPriceCommodity>>
-    fun searchMarketPrice(country: String, market: String, category: String, commodity: String): Single<MarketPriceData>
+    fun getMarketPriceCountries(): Single<MutableList<String>>
+    fun getMarketPriceMarkets(country: String): Single<MutableList<String>>
+    fun getMarketPriceCategories(country: String, market: String): Single<MutableList<String>>
+    fun getMarketPriceProducts(country: String, market: String, category: String): Single<MutableList<String>>
+    fun searchMarketPrice(country: String, market: String, category: String, product: String): Single<MarketPriceData>
+
     fun getRecentMarketPrices(): Single<MutableList<RecentMarketPriceData>>
 
 }
