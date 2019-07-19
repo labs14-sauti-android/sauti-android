@@ -4,12 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-
-import com.labs.sauti.model.MarketPriceData
-import com.labs.sauti.model.ProductRoom
-import com.labs.sauti.model.RecentMarketPriceData
-import com.labs.sauti.model.TradeInfoRoom
-
+import com.labs.sauti.model.*
 
 
 const val DATABASE_SCHEMA_VERSION = 1
@@ -21,8 +16,8 @@ const val DB_NAME = "local-db"
 // entities = [ProductRoom::class, TradeInfo::Class]
 @Database(
     entities = [
-        ProductRoom::class,
-        TradeInfoRoom::class,
+        ProductData::class,
+        TradeInfoData::class,
         MarketPriceData::class,
         RecentMarketPriceData::class],
     version = DATABASE_SCHEMA_VERSION,
