@@ -11,19 +11,25 @@ class RecentMarketPriceRoomCache(
 ) : RecentMarketPriceCache {
 
     companion object {
-        private const val MAX_CACHE_SIZE = 5 // TODO test only, use 1000 or more
+        private const val MAX_RECENT_ITEMS = 20
     }
 
-    override fun save(recentMarketPriceData: RecentMarketPriceData) {
-        sautiRoomDatabase.recentMarketPriceDao().insert(recentMarketPriceData).blockingAwait()
-        val exceededBy = sautiRoomDatabase.recentMarketPriceDao().getCount() - MAX_CACHE_SIZE
-        if (exceededBy > 0) {
-            sautiRoomDatabase.recentMarketPriceDao().deleteOldestRecentMarketPrice(exceededBy)
-        }
+    override fun save(recentMarketPriceData: RecentMarketPriceData): Completable {
+        return sautiRoomDatabase.recentMarketPriceDao().insert(recentMarketPriceData)
+            .andThen(sautiRoomDatabase.recentMarketPriceDao().getCount())
+            .flatMapCompletable {
+                val exceededBy = it - MAX_RECENT_ITEMS
+                if (exceededBy > 0) {
+                    return@flatMapCompletable sautiRoomDatabase.recentMarketPriceDao().deleteOldestRecentMarketPrice(exceededBy)
+                }
+
+                Completable.complete()
+            }
     }
 
     override fun getAll(): Single<MutableList<RecentMarketPriceData>> {
         return sautiRoomDatabase.recentMarketPriceDao().getAllRecentMarketPriceOrderByTimeCreated()
+            .subscribeOn(Schedulers.io())
     }
 
 }
