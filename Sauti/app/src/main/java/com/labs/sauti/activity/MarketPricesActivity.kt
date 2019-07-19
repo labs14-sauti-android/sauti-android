@@ -37,6 +37,7 @@ class MarketPricesActivity : BaseActivity(), MarketPriceSearchFragment.OnSearchC
 
         ll_details.visibility = View.GONE
 
+        ll_recent_market_prices.removeAllViews()
         marketPricesViewModel.getRecentMarketPricesLiveData().observe(this, Observer {
             ll_recent_market_prices.removeAllViews()
 

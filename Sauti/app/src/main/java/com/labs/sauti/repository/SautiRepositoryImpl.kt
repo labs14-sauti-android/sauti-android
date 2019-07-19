@@ -61,7 +61,7 @@ class SautiRepositoryImpl(
 
     override fun getMarketPriceCountries(): Single<MutableList<String>> {
         // TODO test only
-        return Single.fromCallable {
+        val network = Single.fromCallable {
             if (!networkHelper.hasNetworkConnection()) throw Throwable("No network connection")
 
             val request = Request.Builder()
@@ -77,7 +77,7 @@ class SautiRepositoryImpl(
             val responseStr = responseBody.string()
 
             val gson = GsonBuilder().create()
-            val typeToken = object: TypeToken<MutableList<String>>() {}.type
+            val typeToken = object: TypeToken<MutableList<MarketPriceData>>() {}.type
             val marketPrices = gson.fromJson<MutableList<MarketPriceData>>(responseStr, typeToken)
             val countrySet = hashSetOf<String>()
             marketPrices.forEach {
@@ -87,11 +87,11 @@ class SautiRepositoryImpl(
             }
             countrySet.toMutableList()
         }
+
+        return network.onErrorResumeNext {
+            marketPriceRoomCache.getCountries()
+        }
             .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.io())
-            .onErrorResumeNext {
-                marketPriceRoomCache.getCountries()
-            }
     }
 
     override fun getMarketPriceMarkets(country: String): Single<MutableList<String>> {
@@ -124,7 +124,6 @@ class SautiRepositoryImpl(
             marketSet.toMutableList()
         }
             .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.io())
             .onErrorResumeNext {
                 marketPriceRoomCache.getMarkets(country)
             }
@@ -169,6 +168,7 @@ class SautiRepositoryImpl(
 
     override fun getMarketPriceProducts(country: String, market: String, category: String): Single<MutableList<String>> {
         // TODO test only
+
         return Single.fromCallable {
             if (!networkHelper.hasNetworkConnection()) throw Throwable("No network connection")
 
