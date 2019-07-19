@@ -4,9 +4,9 @@
                                                    android:orientation="vertical"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent"
-                                                   app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                                                   android:id="@+id/primary_fragment_container">
+                                                   app:layout_behavior="@string/appbar_scrolling_view_behavior">
     <!-- This will be the container in which fragments
-     will be placed. -->
+     will be placed.
+     TODO: Consider deleting this in favor of content_base-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
