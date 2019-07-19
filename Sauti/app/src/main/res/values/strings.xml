@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Sauti<font fgcolor='#e84c3d'>H.</font></string>
+    <string name="app_name">Sauti
+        <font fgcolor='#e84c3d'>H.</font>
+    </string>
 
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
@@ -19,6 +21,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="language_activity_text">Sauti<font fgcolor='#e84c3d'>.</font></string>
+    <string name="language_activity_text">Sauti
+        <font fgcolor='#e84c3d'>.</font>
+    </string>
 
 </resources>
