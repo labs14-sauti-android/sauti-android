@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.fragment.MarketPriceSearchFragment
-import com.labs.sauti.model.MarketPrice
+import com.labs.sauti.model.MarketPriceData
 import com.labs.sauti.view_model.MarketPricesViewModel
 import kotlinx.android.synthetic.main.activity_market_prices.*
 import kotlinx.android.synthetic.main.item_recent_market_price.view.*
@@ -37,27 +37,30 @@ class MarketPricesActivity : BaseActivity(), MarketPriceSearchFragment.OnSearchC
 
         ll_details.visibility = View.GONE
 
-        marketPricesViewModel.getRecentMarketPricesLiveData().observe(this, Observer<MutableList<MarketPrice>> {
+        marketPricesViewModel.getRecentMarketPricesLiveData().observe(this, Observer {
             ll_recent_market_prices.removeAllViews()
 
-            for ((index, marketPrice) in it.withIndex()) {
+            for ((index, recentMarketPrice) in it.withIndex()) {
                 if (index == MAX_MARKET_RECENT_PRICE_SHOWN) break
 
                 val recentMarketPriceView = LayoutInflater.from(this).inflate(R.layout.item_recent_market_price, ll_recent_market_prices, false)
 
-                recentMarketPriceView.t_recent_product_at_market.text = "${marketPrice.product} at ${marketPrice.market}"
-                recentMarketPriceView.t_recent_wholesale.text = "Wholesale: ${marketPrice.wholesale} ${marketPrice.currency}/1Kg"
-                recentMarketPriceView.t_recent_retail.text = "Retail: ${marketPrice.retail} ${marketPrice.currency}/1Kg"
-                recentMarketPriceView.t_recent_updated.text = marketPrice.date
+                recentMarketPriceView.t_recent_product_at_market.text = "${recentMarketPrice.product} at ${recentMarketPrice.market}"
+                recentMarketPriceView.t_recent_wholesale.text = "Wholesale: ${recentMarketPrice.wholesale} ${recentMarketPrice.currency}/1Kg"
+                recentMarketPriceView.t_recent_retail.text = "Retail: ${recentMarketPrice.retail} ${recentMarketPrice.currency}/1Kg"
+                recentMarketPriceView.t_recent_updated.text = recentMarketPrice.date
                 recentMarketPriceView.t_recent_source.text = "Where does source come from?"
 
                 recentMarketPriceView.setOnClickListener {
                     ll_details.visibility = View.VISIBLE
-                    setMarketPriceViewDetails(marketPrice)
+                    t_details_product_at_market.text = "${recentMarketPrice.product} at ${recentMarketPrice.market}"
+                    t_details_wholesale.text = "Wholesale: ${recentMarketPrice.wholesale} ${recentMarketPrice.currency}/1Kg"
+                    t_details_retail.text = "Retail: ${recentMarketPrice.retail} ${recentMarketPrice.currency}/1Kg"
+                    t_details_updated.text = recentMarketPrice.date
+                    t_details_source.text = "Where does source come from?"
                 }
 
                 ll_recent_market_prices.addView(recentMarketPriceView)
-
             }
         })
         marketPricesViewModel.getRecentMarketPrices()
@@ -72,17 +75,14 @@ class MarketPricesActivity : BaseActivity(), MarketPriceSearchFragment.OnSearchC
 
     }
 
-    private fun setMarketPriceViewDetails(marketPrice: MarketPrice) {
+    override fun onSearchCompleted(marketPrice: MarketPriceData) {
+        ll_details.visibility = View.VISIBLE
         t_details_product_at_market.text = "${marketPrice.product} at ${marketPrice.market}"
         t_details_wholesale.text = "Wholesale: ${marketPrice.wholesale} ${marketPrice.currency}/1Kg"
         t_details_retail.text = "Retail: ${marketPrice.retail} ${marketPrice.currency}/1Kg"
         t_details_updated.text = marketPrice.date
         t_details_source.text = "Where does source come from?"
-    }
 
-    override fun onSearchCompleted(marketPrice: MarketPrice) {
-        setMarketPriceViewDetails(marketPrice)
-        ll_details.visibility = View.VISIBLE
         marketPricesViewModel.getRecentMarketPrices()
     }
 }

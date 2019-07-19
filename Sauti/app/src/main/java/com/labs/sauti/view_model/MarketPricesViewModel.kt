@@ -4,10 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.labs.sauti.model.MarketPrice
-import com.labs.sauti.model.MarketPriceCategory
-import com.labs.sauti.model.MarketPriceCountry
-import com.labs.sauti.model.MarketPriceMarket
+import com.labs.sauti.model.*
 import com.labs.sauti.repository.SautiRepository
 
 class MarketPricesViewModel(private val sautiRepository: SautiRepository): BaseViewModel() {
@@ -15,26 +12,23 @@ class MarketPricesViewModel(private val sautiRepository: SautiRepository): BaseV
     private val countriesLiveData = MutableLiveData<MutableList<String>>()
     private val marketsLiveData = MutableLiveData<MutableList<String>>()
     private val categoriesLiveData = MutableLiveData<MutableList<String>>()
-    private val commoditiesLiveData = MutableLiveData<MutableList<String>>()
-    private val searchMarketPriceLiveData = MutableLiveData<MarketPrice>()
-    private val recentMarketPricesLiveData = MutableLiveData<MutableList<MarketPrice>>()
+    private val productsLiveData = MutableLiveData<MutableList<String>>()
+    private val searchMarketPriceLiveData = MutableLiveData<MarketPriceData>()
+    private val recentMarketPricesLiveData = MutableLiveData<MutableList<RecentMarketPriceData>>()
     // TODO error
     private val errorLiveData = MutableLiveData<Throwable>()
 
     fun getCountriesLiveData(): LiveData<MutableList<String>> = countriesLiveData
     fun getMarketsLiveData(): LiveData<MutableList<String>> = marketsLiveData
     fun getCategoriesLiveData(): LiveData<MutableList<String>> = categoriesLiveData
-    fun getCommoditiesLiveData(): LiveData<MutableList<String>> = commoditiesLiveData
-    fun getSearchMarketPriceLiveData(): LiveData<MarketPrice> = searchMarketPriceLiveData
-    fun getRecentMarketPricesLiveData(): LiveData<MutableList<MarketPrice>> = recentMarketPricesLiveData
+    fun getProductsLiveData(): LiveData<MutableList<String>> = productsLiveData
+    fun getSearchMarketPriceLiveData(): LiveData<MarketPriceData> = searchMarketPriceLiveData
+    fun getRecentMarketPricesLiveData(): LiveData<MutableList<RecentMarketPriceData>> = recentMarketPricesLiveData
 
     fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
 
     fun getCountries() {
         val disposable = sautiRepository.getMarketPriceCountries()
-            .map {
-                return@map it.mapNotNull { mpc -> mpc.country }.toMutableList()
-            }
             .subscribe(
                 {
                     countriesLiveData.postValue(it)
@@ -47,10 +41,7 @@ class MarketPricesViewModel(private val sautiRepository: SautiRepository): BaseV
     }
 
     fun getMarkets(country: String) {
-        val disposable = sautiRepository.getMarketPriceMarkets(MarketPriceCountry(country))
-            .map {
-                return@map it.mapNotNull { mpm -> mpm.market }.toMutableList()
-            }
+        val disposable = sautiRepository.getMarketPriceMarkets(country)
             .subscribe(
                 {
                     marketsLiveData.postValue(it)
@@ -63,10 +54,7 @@ class MarketPricesViewModel(private val sautiRepository: SautiRepository): BaseV
     }
 
     fun getCategories(country: String, market: String) {
-        val disposable = sautiRepository.getMarketPriceCategories(MarketPriceCountry(country), MarketPriceMarket(market))
-            .map {
-                return@map it.mapNotNull { mpc -> mpc.category }.toMutableList()
-            }
+        val disposable = sautiRepository.getMarketPriceCategories(country, market)
             .subscribe(
                 {
                     categoriesLiveData.postValue(it)
@@ -78,15 +66,11 @@ class MarketPricesViewModel(private val sautiRepository: SautiRepository): BaseV
         addDisposable(disposable)
     }
 
-    fun getCommodities(country: String, market: String, category: String) {
-        val disposable = sautiRepository.getMarketPriceCommodities(
-            MarketPriceCountry(country), MarketPriceMarket(market), MarketPriceCategory(category))
-            .map {
-                return@map it.mapNotNull { mpc -> mpc.commodity }.toMutableList()
-            }
+    fun getProducts(country: String, market: String, category: String) {
+        val disposable = sautiRepository.getMarketPriceProducts(country, market, category)
             .subscribe(
                 {
-                    commoditiesLiveData.postValue(it)
+                    productsLiveData.postValue(it)
                 },
                 {
                     errorLiveData.postValue(it)
@@ -95,8 +79,8 @@ class MarketPricesViewModel(private val sautiRepository: SautiRepository): BaseV
         addDisposable(disposable)
     }
 
-    fun searchMarketPrice(country: String, market: String, category: String, commodity: String) {
-        val disposable = sautiRepository.searchMarketPrice(country, market, category, commodity).subscribe(
+    fun searchMarketPrice(country: String, market: String, category: String, product: String) {
+        val disposable = sautiRepository.searchMarketPrice(country, market, category, product).subscribe(
             {
                 searchMarketPriceLiveData.postValue(it)
             },

@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
-import com.labs.sauti.model.MarketPrice
+import com.labs.sauti.model.MarketPriceData
 import com.labs.sauti.view_model.MarketPricesViewModel
 import kotlinx.android.synthetic.main.fragment_market_price_search.*
 import javax.inject.Inject
@@ -121,7 +121,7 @@ class MarketPriceSearchFragment : Fragment() {
         })
 
         // commodities
-        marketPricesViewModel.getCommoditiesLiveData().observe(this, Observer {
+        marketPricesViewModel.getProductsLiveData().observe(this, Observer {
             pb_commodities.visibility = View.GONE
             ll_commodities.visibility = View.VISIBLE
 
@@ -197,7 +197,7 @@ class MarketPriceSearchFragment : Fragment() {
             val category = s_categories.selectedItem as String
 
             pb_commodities.visibility = View.VISIBLE
-            marketPricesViewModel.getCommodities(country, market, category)
+            marketPricesViewModel.getProducts(country, market, category)
         }
     }
 
@@ -222,7 +222,7 @@ class MarketPriceSearchFragment : Fragment() {
     }
 
     interface OnSearchCompletedListener {
-        fun onSearchCompleted(marketPrice: MarketPrice)
+        fun onSearchCompleted(marketPrice: MarketPriceData)
     }
 
     companion object {

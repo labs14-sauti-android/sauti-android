@@ -2,7 +2,7 @@ package com.labs.sauti.sp
 
 import android.content.Context
 import com.google.gson.Gson
-import com.labs.sauti.model.MarketPrice
+import com.labs.sauti.model.MarketPriceData
 import com.google.gson.reflect.TypeToken
 
 
@@ -18,7 +18,7 @@ class RecentMarketPricesSp(private val context: Context, private val gson: Gson)
 
     private val sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE)
 
-    fun insertRecentMarketPrice(marketPrice: MarketPrice) {
+    fun insertRecentMarketPrice(marketPrice: MarketPriceData) {
         var recentMarketPrices = getRecentMarketPrices()
 
         recentMarketPrices.add(0, marketPrice) // insert at 0
@@ -32,10 +32,10 @@ class RecentMarketPricesSp(private val context: Context, private val gson: Gson)
         editor.apply()
     }
 
-    fun getRecentMarketPrices(): MutableList<MarketPrice> {
+    fun getRecentMarketPrices(): MutableList<MarketPriceData> {
         val recentMarketPricesStr = sp.getString(KEY_RECENT_MARKET_PRICES, "[]")
 
-        val listType = object : TypeToken<MutableList<MarketPrice>>() {}.type
+        val listType = object : TypeToken<MutableList<MarketPriceData>>() {}.type
         return gson.fromJson(recentMarketPricesStr, listType)
     }
 
