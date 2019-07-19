@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
@@ -215,6 +216,13 @@ SignInFragment.OnSignInCompletedListener{
     class InjectWrapper {
         @Inject
         lateinit var authenticationViewModelFactory: AuthenticationViewModel.Factory
+    }
+
+    private fun replaceFragment(fragment : Fragment) {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.primary_fragment_container, fragment)
+            .commit()
     }
 
 }
