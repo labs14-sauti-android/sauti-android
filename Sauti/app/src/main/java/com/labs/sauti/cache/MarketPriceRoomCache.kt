@@ -17,7 +17,7 @@ class MarketPriceRoomCache(private val sautiRoomDatabase: SautiRoomDatabase) : M
             marketPriceData.id = it.id
             sautiRoomDatabase.marketPriceDao().update(marketPriceData).blockingAwait()
         }.onErrorResumeNext {
-            sautiRoomDatabase.marketPriceDao().insert(marketPriceData).toSingleDefault(marketPriceData)
+            sautiRoomDatabase.marketPriceDao().insert(marketPriceData).flatMapSingle { Single.just(marketPriceData) }
         }.flatMapCompletable {
             Completable.complete()
         }

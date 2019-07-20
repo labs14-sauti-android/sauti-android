@@ -16,9 +16,9 @@ class RecentMarketPriceRoomCache(
 
     override fun save(recentMarketPriceData: RecentMarketPriceData): Completable {
         return sautiRoomDatabase.recentMarketPriceDao().insert(recentMarketPriceData)
-            .andThen(sautiRoomDatabase.recentMarketPriceDao().getCount())
             .flatMapCompletable {
-                val exceededBy = it - MAX_RECENT_ITEMS
+                val count = sautiRoomDatabase.recentMarketPriceDao().getCount().blockingGet()
+                val exceededBy = count - MAX_RECENT_ITEMS
                 if (exceededBy > 0) {
                     return@flatMapCompletable sautiRoomDatabase.recentMarketPriceDao().deleteOldestRecentMarketPrice(exceededBy)
                 }

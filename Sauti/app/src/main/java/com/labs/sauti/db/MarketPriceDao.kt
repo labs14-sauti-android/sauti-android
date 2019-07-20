@@ -30,7 +30,4 @@ interface MarketPriceDao : BaseDao<MarketPriceData> {
     @Query("DELETE FROM market_prices")
     fun deleteAll(): Completable
 
-    @Query("SELECT DISTINCT country FROM market_prices")
-    fun getCountries_(): MutableList<String>
-
 }
