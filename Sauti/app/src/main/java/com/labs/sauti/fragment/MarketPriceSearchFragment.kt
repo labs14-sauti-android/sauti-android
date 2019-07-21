@@ -46,12 +46,6 @@ class MarketPriceSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        marketPricesViewModel.getSearchMarketPriceLiveData().observe(this, Observer {
-            onMarketPriceSearchCompletedListener?.onMarketPriceSearchCompleted(it)
-
-            activity!!.supportFragmentManager.popBackStack()
-        })
-
         ll_countries.visibility = View.GONE
         ll_markets.visibility = View.GONE
         ll_categories.visibility = View.GONE
@@ -142,6 +136,12 @@ class MarketPriceSearchFragment : Fragment() {
 
         marketPricesViewModel.getErrorLiveData().observe(this, Observer {
             Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+        })
+
+        marketPricesViewModel.getSearchMarketPriceLiveData().observe(this, Observer {
+            onMarketPriceSearchCompletedListener?.onMarketPriceSearchCompleted(it)
+
+            fragmentManager!!.popBackStack()
         })
 
         b_search.setOnClickListener {

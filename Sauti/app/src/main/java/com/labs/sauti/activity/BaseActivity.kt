@@ -19,6 +19,7 @@ import com.labs.sauti.model.User
 import com.labs.sauti.view_model.AuthenticationViewModel
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.app_bar_base.*
+import kotlinx.android.synthetic.main.content_base.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import javax.inject.Inject
 
@@ -81,8 +82,8 @@ SignInFragment.OnSignInCompletedListener{
     }
 
     fun setBaseContentView(resId: Int) {
-        val view = LayoutInflater.from(this).inflate(resId, ll_content, false)
-        ll_content.addView(view)
+        val view = LayoutInflater.from(this).inflate(resId, primary_fragment_container, false)
+        primary_fragment_container.addView(view)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
