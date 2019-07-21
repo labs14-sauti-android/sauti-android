@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_market_price_search.*
 import javax.inject.Inject
 
 class MarketPriceSearchFragment : Fragment() {
-    private var onSearchCompletedListener: OnSearchCompletedListener? = null
+    private var onMarketPriceSearchCompletedListener: OnMarketPriceSearchCompletedListener? = null
 
     @Inject
     lateinit var marketPricesViewModelFactory: MarketPricesViewModel.Factory
@@ -47,7 +47,7 @@ class MarketPriceSearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         marketPricesViewModel.getSearchMarketPriceLiveData().observe(this, Observer {
-            onSearchCompletedListener?.onSearchCompleted(it)
+            onMarketPriceSearchCompletedListener?.onMarketPriceSearchCompleted(it)
 
             activity!!.supportFragmentManager.popBackStack()
         })
@@ -202,6 +202,8 @@ class MarketPriceSearchFragment : Fragment() {
     }
 
     private fun commoditySelected() {
+        b_search.isEnabled = false
+
         if (s_commodities.selectedItem is String && s_commodities.selectedItem != "") {
             b_search.isEnabled = true
         }
@@ -209,20 +211,20 @@ class MarketPriceSearchFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnSearchCompletedListener) {
-            onSearchCompletedListener = context
+        if (parentFragment is OnMarketPriceSearchCompletedListener) {
+            onMarketPriceSearchCompletedListener = parentFragment as OnMarketPriceSearchCompletedListener
         } else {
-            throw RuntimeException("Context must implement OnSearchCompletedListener")
+            throw RuntimeException("Parent must implement OnSearchCompletedListener")
         }
     }
 
     override fun onDetach() {
         super.onDetach()
-        onSearchCompletedListener = null
+        onMarketPriceSearchCompletedListener = null
     }
 
-    interface OnSearchCompletedListener {
-        fun onSearchCompleted(marketPrice: MarketPriceData)
+    interface OnMarketPriceSearchCompletedListener {
+        fun onMarketPriceSearchCompleted(marketPrice: MarketPriceData)
     }
 
     companion object {
