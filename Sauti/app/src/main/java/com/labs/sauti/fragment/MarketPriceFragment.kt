@@ -1,5 +1,6 @@
 package com.labs.sauti.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -19,7 +20,11 @@ import kotlinx.android.synthetic.main.fragment_market_price.*
 import kotlinx.android.synthetic.main.item_recent_market_price.view.*
 import javax.inject.Inject
 
-class MarketPriceFragment : Fragment(), MarketPriceSearchFragment.OnMarketPriceSearchCompletedListener {
+class MarketPriceFragment : Fragment(), MarketPriceSearchFragment.OnMarketPriceSearchCompletedListener,
+OnFragmentFullScreenStateChangedListener {
+
+    // TODO shouldn't listeners be nonnull because they are checked at onAttach anyway?
+    private var onFragmentFullScreenStateChangedListener: OnFragmentFullScreenStateChangedListener? = null
 
     @Inject
     lateinit var marketPriceViewModelFactory: MarketPriceViewModel.Factory
@@ -96,10 +101,11 @@ class MarketPriceFragment : Fragment(), MarketPriceSearchFragment.OnMarketPriceS
             .add(R.id.fl_fragment_container, marketPriceSearchFragment)
             .addToBackStack(null)
             .commit()
+
+        onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(true)
     }
 
-    override fun onMarketPriceSearchCompleted(marketPrice: MarketPriceData) {
-        ll_details.visibility = View.VISIBLE
+    override fun onMarketPriceSearchCompleted(marketPrice: MarketPriceData) {ll_details.visibility = View.VISIBLE
         t_details_product_at_market.text = "${marketPrice.product} at ${marketPrice.market}"
         t_details_wholesale.text = "Wholesale: ${marketPrice.wholesale} ${marketPrice.currency}/1Kg"
         t_details_retail.text = "Retail: ${marketPrice.retail} ${marketPrice.currency}/1Kg"
@@ -107,6 +113,26 @@ class MarketPriceFragment : Fragment(), MarketPriceSearchFragment.OnMarketPriceS
         t_details_source.text = "Where does source come from?"
 
         marketPriceViewModel.getRecentMarketPrices()
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        if (context is OnFragmentFullScreenStateChangedListener) {
+            onFragmentFullScreenStateChangedListener = context
+        } else {
+            throw RuntimeException("Context must implement OnFragmentFullScreenStateChangedListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+
+        onFragmentFullScreenStateChangedListener = null
+    }
+
+    override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
+        onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(isFullScreen)
     }
 
     companion object {

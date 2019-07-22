@@ -19,8 +19,10 @@ import com.labs.sauti.view_model.MarketPriceViewModel
 import kotlinx.android.synthetic.main.fragment_market_price_search.*
 import javax.inject.Inject
 
+// TODO button color when disabled. or just hide the button?
 class MarketPriceSearchFragment : Fragment() {
     private var onMarketPriceSearchCompletedListener: OnMarketPriceSearchCompletedListener? = null
+    private var onFragmentFullScreenStateChangedListener: OnFragmentFullScreenStateChangedListener? = null
 
     @Inject
     lateinit var marketPricesViewModelFactory: MarketPriceViewModel.Factory
@@ -141,6 +143,7 @@ class MarketPriceSearchFragment : Fragment() {
         marketPricesViewModel.getSearchMarketPriceLiveData().observe(this, Observer {
             onMarketPriceSearchCompletedListener?.onMarketPriceSearchCompleted(it)
 
+            onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
             fragmentManager!!.popBackStack()
         })
 
@@ -216,11 +219,20 @@ class MarketPriceSearchFragment : Fragment() {
         } else {
             throw RuntimeException("Parent must implement OnSearchCompletedListener")
         }
+
+        if (parentFragment is OnFragmentFullScreenStateChangedListener) {
+            onFragmentFullScreenStateChangedListener = parentFragment as OnFragmentFullScreenStateChangedListener
+        } else {
+            throw RuntimeException("Parent must implement OnFragmentFullScreenStateChangedListener")
+        }
     }
 
     override fun onDetach() {
         super.onDetach()
         onMarketPriceSearchCompletedListener = null
+
+        onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
+        onFragmentFullScreenStateChangedListener = null
     }
 
     interface OnMarketPriceSearchCompletedListener {
