@@ -15,23 +15,25 @@ import androidx.lifecycle.ViewModelProviders
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.model.MarketPriceData
-import com.labs.sauti.view_model.MarketPricesViewModel
+import com.labs.sauti.view_model.MarketPriceViewModel
 import kotlinx.android.synthetic.main.fragment_market_price_search.*
 import javax.inject.Inject
 
+// TODO button color when disabled. or just hide the button?
 class MarketPriceSearchFragment : Fragment() {
-    private var onSearchCompletedListener: OnSearchCompletedListener? = null
+    private var onMarketPriceSearchCompletedListener: OnMarketPriceSearchCompletedListener? = null
+    private var onFragmentFullScreenStateChangedListener: OnFragmentFullScreenStateChangedListener? = null
 
     @Inject
-    lateinit var marketPricesViewModelFactory: MarketPricesViewModel.Factory
+    lateinit var marketPricesViewModelFactory: MarketPriceViewModel.Factory
 
-    private lateinit var marketPricesViewModel: MarketPricesViewModel
+    private lateinit var marketPricesViewModel: MarketPriceViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        (context!!.applicationContext as SautiApp).getMarketPricesComponent().inject(this)
-        marketPricesViewModel = ViewModelProviders.of(this, marketPricesViewModelFactory).get(MarketPricesViewModel::class.java)
+        (context!!.applicationContext as SautiApp).getMarketPriceComponent().inject(this)
+        marketPricesViewModel = ViewModelProviders.of(this, marketPricesViewModelFactory).get(MarketPriceViewModel::class.java)
 
     }
 
@@ -45,12 +47,6 @@ class MarketPriceSearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        marketPricesViewModel.getSearchMarketPriceLiveData().observe(this, Observer {
-            onSearchCompletedListener?.onSearchCompleted(it)
-
-            activity!!.supportFragmentManager.popBackStack()
-        })
 
         ll_countries.visibility = View.GONE
         ll_markets.visibility = View.GONE
@@ -144,6 +140,13 @@ class MarketPriceSearchFragment : Fragment() {
             Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
         })
 
+        marketPricesViewModel.getSearchMarketPriceLiveData().observe(this, Observer {
+            onMarketPriceSearchCompletedListener?.onMarketPriceSearchCompleted(it)
+
+            onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
+            fragmentManager!!.popBackStack()
+        })
+
         b_search.setOnClickListener {
             if (s_countries.selectedItem is String &&
                 s_markets.selectedItem is String &&
@@ -202,6 +205,8 @@ class MarketPriceSearchFragment : Fragment() {
     }
 
     private fun commoditySelected() {
+        b_search.isEnabled = false
+
         if (s_commodities.selectedItem is String && s_commodities.selectedItem != "") {
             b_search.isEnabled = true
         }
@@ -209,20 +214,29 @@ class MarketPriceSearchFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnSearchCompletedListener) {
-            onSearchCompletedListener = context
+        if (parentFragment is OnMarketPriceSearchCompletedListener) {
+            onMarketPriceSearchCompletedListener = parentFragment as OnMarketPriceSearchCompletedListener
         } else {
-            throw RuntimeException("Context must implement OnSearchCompletedListener")
+            throw RuntimeException("Parent must implement OnSearchCompletedListener")
+        }
+
+        if (parentFragment is OnFragmentFullScreenStateChangedListener) {
+            onFragmentFullScreenStateChangedListener = parentFragment as OnFragmentFullScreenStateChangedListener
+        } else {
+            throw RuntimeException("Parent must implement OnFragmentFullScreenStateChangedListener")
         }
     }
 
     override fun onDetach() {
         super.onDetach()
-        onSearchCompletedListener = null
+        onMarketPriceSearchCompletedListener = null
+
+        onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
+        onFragmentFullScreenStateChangedListener = null
     }
 
-    interface OnSearchCompletedListener {
-        fun onSearchCompleted(marketPrice: MarketPriceData)
+    interface OnMarketPriceSearchCompletedListener {
+        fun onMarketPriceSearchCompleted(marketPrice: MarketPriceData)
     }
 
     companion object {

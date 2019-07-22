@@ -8,7 +8,7 @@ class SautiApp : Application() {
 
     private lateinit var mainComponent: MainComponent
     private var authenticationComponent: AuthenticationComponent? = null
-    private var marketPricesComponent: MarketPricesComponent? = null
+    private var marketPriceComponent: MarketPriceComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -30,11 +30,11 @@ class SautiApp : Application() {
         return authenticationComponent!!
     }
 
-    fun getMarketPricesComponent(): MarketPricesComponent {
-        if (marketPricesComponent == null) {
-            marketPricesComponent = mainComponent.plus(MarketPricesModule())
+    fun getMarketPriceComponent(): MarketPriceComponent {
+        if (marketPriceComponent == null) {
+            marketPriceComponent = mainComponent.plus(MarketPriceModule())
         }
 
-        return marketPricesComponent!!
+        return marketPriceComponent!!
     }
 }

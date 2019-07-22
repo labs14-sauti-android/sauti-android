@@ -43,7 +43,10 @@ class LanguageActivity : AppCompatActivity() {
         val intent = Intent(this@LanguageActivity, DashboardActivity::class.java)
 
         compositeDisposable.add(Completable.timer(3000, TimeUnit.MILLISECONDS)
-            .subscribe {startActivity(intent)}
+            .subscribe {
+                startActivity(intent)
+                finish()
+            }
         )
 
     }

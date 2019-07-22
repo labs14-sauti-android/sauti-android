@@ -1,29 +1,14 @@
 package com.labs.sauti.activity
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.labs.sauti.R
-import com.labs.sauti.SautiApp
-import com.labs.sauti.fragment.MarketPriceSearchFragment
-import com.labs.sauti.model.MarketPriceData
-import com.labs.sauti.view_model.MarketPricesViewModel
-import kotlinx.android.synthetic.main.activity_market_prices.*
-import kotlinx.android.synthetic.main.item_recent_market_price.view.*
-import javax.inject.Inject
+import com.labs.sauti.fragment.MarketPriceFragment
 
-class MarketPricesActivity : BaseActivity(), MarketPriceSearchFragment.OnSearchCompletedListener {
+class MarketPricesActivity : BaseActivity() {
 
-    companion object {
-        private const val MAX_MARKET_RECENT_PRICE_SHOWN = 2
-    }
-
-    @Inject
-    lateinit var marketPricesViewModelFactory: MarketPricesViewModel.Factory
-
-    private lateinit var marketPricesViewModel: MarketPricesViewModel
+    private lateinit var fragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         activityType = ActivityType.MARKET_PRICES
@@ -31,59 +16,34 @@ class MarketPricesActivity : BaseActivity(), MarketPriceSearchFragment.OnSearchC
         super.onCreate(savedInstanceState)
         setBaseContentView(R.layout.activity_market_prices)
 
-        // inject
-        (applicationContext as SautiApp).getMarketPricesComponent().inject(this)
-        marketPricesViewModel = ViewModelProviders.of(this, marketPricesViewModelFactory).get(MarketPricesViewModel::class.java)
-
-        ll_details.visibility = View.GONE
-
-        ll_recent_market_prices.removeAllViews()
-        marketPricesViewModel.getRecentMarketPricesLiveData().observe(this, Observer {
-            ll_recent_market_prices.removeAllViews()
-
-            for ((index, recentMarketPrice) in it.withIndex()) {
-                if (index == MAX_MARKET_RECENT_PRICE_SHOWN) break
-
-                val recentMarketPriceView = LayoutInflater.from(this).inflate(R.layout.item_recent_market_price, ll_recent_market_prices, false)
-
-                recentMarketPriceView.t_recent_product_at_market.text = "${recentMarketPrice.product} at ${recentMarketPrice.market}"
-                recentMarketPriceView.t_recent_wholesale.text = "Wholesale: ${recentMarketPrice.wholesale} ${recentMarketPrice.currency}/1Kg"
-                recentMarketPriceView.t_recent_retail.text = "Retail: ${recentMarketPrice.retail} ${recentMarketPrice.currency}/1Kg"
-                recentMarketPriceView.t_recent_updated.text = recentMarketPrice.date
-                recentMarketPriceView.t_recent_source.text = "Where does source come from?"
-
-                recentMarketPriceView.setOnClickListener {
-                    ll_details.visibility = View.VISIBLE
-                    t_details_product_at_market.text = "${recentMarketPrice.product} at ${recentMarketPrice.market}"
-                    t_details_wholesale.text = "Wholesale: ${recentMarketPrice.wholesale} ${recentMarketPrice.currency}/1Kg"
-                    t_details_retail.text = "Retail: ${recentMarketPrice.retail} ${recentMarketPrice.currency}/1Kg"
-                    t_details_updated.text = recentMarketPrice.date
-                    t_details_source.text = "Where does source come from?"
-                }
-
-                ll_recent_market_prices.addView(recentMarketPriceView)
-            }
-        })
-        marketPricesViewModel.getRecentMarketPrices()
-
-        b_search.setOnClickListener {
-            val marketPriceSearchFragment = MarketPriceSearchFragment.newInstance()
-            supportFragmentManager.beginTransaction()
-                .add(R.id.fl_root, marketPriceSearchFragment)
-                .addToBackStack(null)
-                .commit()
-        }
+        fragment = MarketPriceFragment.newInstance()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fl_root, fragment)
+            .commit()
 
     }
 
-    override fun onSearchCompleted(marketPrice: MarketPriceData) {
-        ll_details.visibility = View.VISIBLE
-        t_details_product_at_market.text = "${marketPrice.product} at ${marketPrice.market}"
-        t_details_wholesale.text = "Wholesale: ${marketPrice.wholesale} ${marketPrice.currency}/1Kg"
-        t_details_retail.text = "Retail: ${marketPrice.retail} ${marketPrice.currency}/1Kg"
-        t_details_updated.text = marketPrice.date
-        t_details_source.text = "Where does source come from?"
+    override fun onBackPressed() {
+        if (!recursivePopBackStack(fragment.childFragmentManager)) {
+            super.onBackPressed()
+        }
+    }
 
-        marketPricesViewModel.getRecentMarketPrices()
+    private fun recursivePopBackStack(fragmentManager: FragmentManager): Boolean {
+        for (fragment in fragmentManager.fragments) {
+            if (fragment != null && fragment.isVisible) {
+                if (recursivePopBackStack(fragment.childFragmentManager)) {
+                    return true
+                }
+            }
+        }
+
+        // pop front most
+        if (fragmentManager.backStackEntryCount > 0) {
+            fragmentManager.popBackStack()
+            return true
+        }
+
+        return false
     }
 }

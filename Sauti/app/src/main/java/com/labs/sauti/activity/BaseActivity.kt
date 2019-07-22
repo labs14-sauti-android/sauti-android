@@ -6,25 +6,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
+
+import androidx.drawerlayout.widget.DrawerLayout
+
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
+import com.labs.sauti.fragment.OnFragmentFullScreenStateChangedListener
 import com.labs.sauti.fragment.SignInFragment
 import com.labs.sauti.model.User
 import com.labs.sauti.view_model.AuthenticationViewModel
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.app_bar_base.*
+import kotlinx.android.synthetic.main.content_base.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import javax.inject.Inject
 
 // @NOTE: inheritance inject doesn't work. We cannot inject both BaseActivity and its child. Only inject the child
 open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-SignInFragment.OnSignInCompletedListener{
+SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListener{
     protected var activityType = ActivityType.MARKET_PRICES
 
     private lateinit var authenticationViewModel: AuthenticationViewModel
@@ -81,8 +87,8 @@ SignInFragment.OnSignInCompletedListener{
     }
 
     fun setBaseContentView(resId: Int) {
-        val view = LayoutInflater.from(this).inflate(resId, ll_content, false)
-        ll_content.addView(view)
+        val view = LayoutInflater.from(this).inflate(resId, primary_fragment_container, false)
+        primary_fragment_container.addView(view)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -169,6 +175,7 @@ SignInFragment.OnSignInCompletedListener{
         return true
     }
 
+    // TODO implement double backpress to close the app
     override fun onBackPressed() {
         if (supportFragmentManager.fragments.size != 0) {
             super.onBackPressed()
@@ -211,6 +218,17 @@ SignInFragment.OnSignInCompletedListener{
         authenticationViewModel.getCurrentUser()
 
         nav_view.menu.findItem(R.id.nav_log_in_out).title = getString(R.string.menu_log_out)
+    }
+
+    override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
+        if (isFullScreen) {
+            toolbar.visibility = View.GONE
+            drawer_layout.closeDrawer(GravityCompat.START)
+            drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        } else {
+            toolbar.visibility = View.VISIBLE
+            drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+        }
     }
 
     class InjectWrapper {

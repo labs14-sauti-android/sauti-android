@@ -15,7 +15,6 @@ import com.labs.sauti.SautiApp
 import com.labs.sauti.model.LoginResponse
 import com.labs.sauti.view_model.AuthenticationViewModel
 import kotlinx.android.synthetic.main.fragment_sign_in.*
-import java.lang.RuntimeException
 import javax.inject.Inject
 
 class SignInFragment : Fragment() {

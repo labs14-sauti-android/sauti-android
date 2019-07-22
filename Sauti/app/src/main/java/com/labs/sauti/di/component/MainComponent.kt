@@ -8,5 +8,5 @@ import javax.inject.Singleton
 @Component(modules = [AppModule::class, NetworkModule::class, DataModule::class, GsonModule::class])
 interface MainComponent {
     fun plus(authenticationModule: AuthenticationModule): AuthenticationComponent
-    fun plus(marketPricesModule: MarketPricesModule): MarketPricesComponent
+    fun plus(marketPriceModule: MarketPriceModule): MarketPriceComponent
 }

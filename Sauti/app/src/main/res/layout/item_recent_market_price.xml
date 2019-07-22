@@ -9,6 +9,7 @@
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
         android:layout_weight="0.5"
+        app:cardBackgroundColor="@color/recent_market_price_background_color"
         tools:layout_width="match_parent">
 
     <LinearLayout
@@ -21,39 +22,51 @@
                 android:id="@+id/t_recent_product_at_market"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Mixed Beans at Gitega"
+                tools:text="Mixed Beans at Gitega"
                 android:textStyle="bold"
-                android:gravity="center"/>
+                android:textSize="15.5sp"
+                android:gravity="center"
+                android:textColor="@color/recent_market_price_text_color"
+                android:layout_marginBottom="8dp"/>
 
         <TextView
                 android:id="@+id/t_recent_wholesale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Wholesale: 703 BIF/1kg"
+                tools:text="Wholesale: 703 BIF/1kg"
                 android:textStyle="bold"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:textColor="@color/recent_market_price_text_color"
+                android:textSize="13.5sp"/>
 
         <TextView
                 android:id="@+id/t_recent_retail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Retail: 811 BIF/1kg"
+                tools:text="Retail: 811 BIF/1kg"
                 android:textStyle="bold"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:textColor="@color/recent_market_price_text_color"
+                android:layout_marginBottom="8dp"
+                android:textSize="13.5sp"/>
 
         <TextView
                 android:id="@+id/t_recent_updated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Updated: 2019-06-24"
-                android:gravity="center"/>
+                tools:text="Updated: 2019-06-24"
+                android:gravity="center"
+                android:textColor="@color/recent_market_price_text_color"
+                android:textSize="12sp"/>
 
         <TextView
                 android:id="@+id/t_recent_source"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Source: EAGC-RATIN"
-                android:gravity="center"/>
+                tools:text="Source: EAGC-RATIN"
+                android:gravity="center"
+                android:textColor="@color/recent_market_price_text_color"
+                android:textSize="12sp"/>
 
     </LinearLayout>
 

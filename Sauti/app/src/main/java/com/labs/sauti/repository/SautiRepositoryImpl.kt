@@ -62,7 +62,7 @@ class SautiRepositoryImpl(
     override fun getMarketPriceCountries(): Single<MutableList<String>> {
         // TODO test only
         val network = Single.fromCallable {
-            if (!networkHelper.hasNetworkConnection()) throw Throwable("No network connection")
+            if (!networkHelper.hasNetworkConnection()) throw Exception("No network connection")
 
             val request = Request.Builder()
                 .url("http://sautiafrica.org/endpoints/api.php?url=v1/marketPrices/&type=json")
@@ -72,7 +72,7 @@ class SautiRepositoryImpl(
                 .execute()
                 .body()
 
-            responseBody ?: throw Throwable("No response")
+            responseBody ?: throw Exception("No response")
 
             val responseStr = responseBody.string()
 
@@ -97,7 +97,7 @@ class SautiRepositoryImpl(
     override fun getMarketPriceMarkets(country: String): Single<MutableList<String>> {
         // TODO test only
         return Single.fromCallable {
-            if (!networkHelper.hasNetworkConnection()) throw Throwable("No network connection")
+            if (!networkHelper.hasNetworkConnection()) throw Exception("No network connection")
 
             val request = Request.Builder()
                 .url("http://sautiafrica.org/endpoints/api.php?url=v1/marketPrices/&type=json")
@@ -107,7 +107,7 @@ class SautiRepositoryImpl(
                 .execute()
                 .body()
 
-            responseBody ?: throw Throwable("No response")
+            responseBody ?: throw Exception("No response")
 
             val responseStr = responseBody.string()
 
@@ -132,7 +132,7 @@ class SautiRepositoryImpl(
     override fun getMarketPriceCategories(country: String, market: String): Single<MutableList<String>> {
         // TODO test only
         return Single.fromCallable {
-            if (!networkHelper.hasNetworkConnection()) throw Throwable("No network connection")
+            if (!networkHelper.hasNetworkConnection()) throw Exception("No network connection")
 
             val request = Request.Builder()
                 .url("http://sautiafrica.org/endpoints/api.php?url=v1/marketPrices/&type=json")
@@ -142,7 +142,7 @@ class SautiRepositoryImpl(
                 .execute()
                 .body()
 
-            responseBody ?: throw Throwable("No response")
+            responseBody ?: throw Exception("No response")
 
             val responseStr = responseBody.string()
 
@@ -170,7 +170,7 @@ class SautiRepositoryImpl(
         // TODO test only
 
         return Single.fromCallable {
-            if (!networkHelper.hasNetworkConnection()) throw Throwable("No network connection")
+            if (!networkHelper.hasNetworkConnection()) throw Exception("No network connection")
 
             val request = Request.Builder()
                 .url("http://sautiafrica.org/endpoints/api.php?url=v1/marketPrices/&type=json")
@@ -180,7 +180,7 @@ class SautiRepositoryImpl(
                 .execute()
                 .body()
 
-            responseBody ?: throw Throwable("No response")
+            responseBody ?: throw Exception("No response")
 
             val responseStr = responseBody.string()
 
@@ -208,7 +208,7 @@ class SautiRepositoryImpl(
     override fun searchMarketPrice(country: String, market: String, category: String, product: String): Single<MarketPriceData> {
         // TODO test only
         return Single.fromCallable {
-            if (!networkHelper.hasNetworkConnection()) throw Throwable("No network connection")
+            if (!networkHelper.hasNetworkConnection()) throw Exception("No network connection")
 
             val request = Request.Builder()
                 .url("http://sautiafrica.org/endpoints/api.php?url=v1/marketPrices/&type=json")
@@ -218,7 +218,7 @@ class SautiRepositoryImpl(
                 .execute()
                 .body()
 
-            responseBody ?: throw Throwable("No response")
+            responseBody ?: throw Exception("No response")
 
             val responseStr = responseBody.string()
 
@@ -234,7 +234,7 @@ class SautiRepositoryImpl(
                 }
             }
 
-            throw Throwable("Cannot find market price")
+            throw Exception("Cannot find market price")
         }
             .subscribeOn(Schedulers.io())
             .doOnSuccess {
