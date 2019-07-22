@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.model.MarketPriceData
-import com.labs.sauti.view_model.MarketPricesViewModel
+import com.labs.sauti.view_model.MarketPriceViewModel
 import kotlinx.android.synthetic.main.fragment_market_price_search.*
 import javax.inject.Inject
 
@@ -23,15 +23,15 @@ class MarketPriceSearchFragment : Fragment() {
     private var onMarketPriceSearchCompletedListener: OnMarketPriceSearchCompletedListener? = null
 
     @Inject
-    lateinit var marketPricesViewModelFactory: MarketPricesViewModel.Factory
+    lateinit var marketPricesViewModelFactory: MarketPriceViewModel.Factory
 
-    private lateinit var marketPricesViewModel: MarketPricesViewModel
+    private lateinit var marketPricesViewModel: MarketPriceViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        (context!!.applicationContext as SautiApp).getMarketPricesComponent().inject(this)
-        marketPricesViewModel = ViewModelProviders.of(this, marketPricesViewModelFactory).get(MarketPricesViewModel::class.java)
+        (context!!.applicationContext as SautiApp).getMarketPriceComponent().inject(this)
+        marketPricesViewModel = ViewModelProviders.of(this, marketPricesViewModelFactory).get(MarketPriceViewModel::class.java)
 
     }
 

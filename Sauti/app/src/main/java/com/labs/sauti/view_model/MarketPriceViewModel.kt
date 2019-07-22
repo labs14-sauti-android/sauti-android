@@ -7,8 +7,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.labs.sauti.model.*
 import com.labs.sauti.repository.SautiRepository
 
-class MarketPricesViewModel(private val sautiRepository: SautiRepository): BaseViewModel() {
+class MarketPriceViewModel(private val sautiRepository: SautiRepository): BaseViewModel() {
 
+    // TODO make these lazy
     private val countriesLiveData = MutableLiveData<MutableList<String>>()
     private val marketsLiveData = MutableLiveData<MutableList<String>>()
     private val categoriesLiveData = MutableLiveData<MutableList<String>>()
@@ -106,7 +107,7 @@ class MarketPricesViewModel(private val sautiRepository: SautiRepository): BaseV
     class Factory(private val sautiRepository: SautiRepository): ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return MarketPricesViewModel(sautiRepository) as T
+            return MarketPriceViewModel(sautiRepository) as T
         }
     }
 

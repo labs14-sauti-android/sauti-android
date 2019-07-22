@@ -1,7 +1,6 @@
 package com.labs.sauti.di.module
 
 import android.content.Context
-import com.google.gson.Gson
 import com.labs.sauti.api.SautiApiService
 import com.labs.sauti.cache.MarketPriceRoomCache
 import com.labs.sauti.cache.RecentMarketPriceRoomCache
@@ -10,7 +9,6 @@ import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.mapper.MarketPriceDataRecentMarketPriceDataMapper
 import com.labs.sauti.repository.SautiRepository
 import com.labs.sauti.repository.SautiRepositoryImpl
-import com.labs.sauti.sp.RecentMarketPricesSp
 import com.labs.sauti.sp.SessionSp
 import dagger.Module
 import dagger.Provides
