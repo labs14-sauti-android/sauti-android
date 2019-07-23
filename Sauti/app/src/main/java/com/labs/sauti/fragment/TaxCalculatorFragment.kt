@@ -11,11 +11,12 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.labs.sauti.R
-class TaxCalculatorFragment : Fragment() {
+
+class TaxCalculatorFragment : BaseFragment() {
+    override fun getFragmentType(): Type = Type.TAX_CALCULATOR
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -31,19 +32,9 @@ class TaxCalculatorFragment : Fragment() {
 
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-
-    }
-
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             TaxCalculatorFragment()
 
     }

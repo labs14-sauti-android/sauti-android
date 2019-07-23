@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_market_price.*
 import kotlinx.android.synthetic.main.item_recent_market_price.view.*
 import javax.inject.Inject
 
-class MarketPriceFragment : Fragment(), MarketPriceSearchFragment.OnMarketPriceSearchCompletedListener,
+class MarketPriceFragment : BaseFragment(), MarketPriceSearchFragment.OnMarketPriceSearchCompletedListener,
 OnFragmentFullScreenStateChangedListener {
 
     // TODO shouldn't listeners be nonnull because they are checked at onAttach anyway?
@@ -31,6 +31,8 @@ OnFragmentFullScreenStateChangedListener {
 
     private lateinit var marketPriceViewModel: MarketPriceViewModel
     private lateinit var binding: FragmentMarketPriceBinding
+
+    override fun getFragmentType(): Type = Type.MARKET_PRICE
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
