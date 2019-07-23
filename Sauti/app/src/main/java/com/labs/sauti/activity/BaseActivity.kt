@@ -9,6 +9,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
@@ -22,9 +23,10 @@ import com.labs.sauti.view_model.AuthenticationViewModel
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.app_bar_base.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
+import java.lang.RuntimeException
 import javax.inject.Inject
 
-open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
 SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListener{
 
     @Inject
@@ -32,7 +34,7 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
 
     private lateinit var authenticationViewModel: AuthenticationViewModel
 
-    private lateinit var baseFragment: BaseFragment
+    private lateinit var baseFragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +55,7 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
         toggle.syncState()
 
         // initial base fragment
-        toolbar.title = "Dashboard"
+        toolbar.title = "Dashboard" // TODO this is not working
         baseFragment = DashboardFragment.newInstance()
         supportFragmentManager.beginTransaction()
             .replace(R.id.primary_fragment_container, baseFragment)
@@ -86,38 +88,44 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_dashboard -> {
-                replaceBaseFragment(BaseFragment.Type.DASHBOARD)
-                drawer_layout.closeDrawer(GravityCompat.START)
+                if (replaceFragment(DashboardFragment::class.java)) {
+                    drawer_layout.closeDrawer(GravityCompat.START)
+                }
 
                 return true
             }
             R.id.nav_market_prices -> {
-                replaceBaseFragment(BaseFragment.Type.MARKET_PRICE)
-                drawer_layout.closeDrawer(GravityCompat.START)
+                if (replaceFragment(MarketPriceFragment::class.java)) {
+                    drawer_layout.closeDrawer(GravityCompat.START)
+                }
 
                 return true
             }
             R.id.nav_tax_calculator-> {
-                replaceBaseFragment(BaseFragment.Type.TAX_CALCULATOR)
-                drawer_layout.closeDrawer(GravityCompat.START)
+                if (replaceFragment(TaxCalculatorFragment::class.java)) {
+                    drawer_layout.closeDrawer(GravityCompat.START)
+                }
 
                 return true
             }
             R.id.nav_trade_info -> {
-                replaceBaseFragment(BaseFragment.Type.TRADE_INFO)
-                drawer_layout.closeDrawer(GravityCompat.START)
+                if (replaceFragment(TradeInfoFragment::class.java)) {
+                    drawer_layout.closeDrawer(GravityCompat.START)
+                }
 
                 return true
             }
             R.id.nav_exchange_rates -> {
-                replaceBaseFragment(BaseFragment.Type.EXCHANGE_RATES)
-                drawer_layout.closeDrawer(GravityCompat.START)
+                if (replaceFragment(ExchangeRatesFragment::class.java)) {
+                    drawer_layout.closeDrawer(GravityCompat.START)
+                }
 
                 return true
             }
             R.id.nav_marketplace -> {
-                replaceBaseFragment(BaseFragment.Type.MARKETPLACE)
-                drawer_layout.closeDrawer(GravityCompat.START)
+                if (replaceFragment(MarketplaceFragment::class.java)) {
+                    drawer_layout.closeDrawer(GravityCompat.START)
+                }
 
                 return true
             }
@@ -200,61 +208,6 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
         }
     }
 
-    private fun replaceBaseFragment(baseFragmentType: BaseFragment.Type) {
-        var shouldReplace = false
-        when (baseFragmentType) {
-            BaseFragment.Type.DASHBOARD -> {
-                if (baseFragment.getFragmentType() != BaseFragment.Type.DASHBOARD) {
-                    shouldReplace = true
-                    baseFragment = DashboardFragment.newInstance()
-                    toolbar.title = "Dashboard"
-                }
-            }
-            BaseFragment.Type.MARKET_PRICE -> {
-                if (baseFragment.getFragmentType() != BaseFragment.Type.MARKET_PRICE) {
-                    shouldReplace = true
-                    baseFragment = MarketPriceFragment.newInstance()
-                    toolbar.title = "Market Price"
-                }
-            }
-            BaseFragment.Type.TAX_CALCULATOR -> {
-                if (baseFragment.getFragmentType() != BaseFragment.Type.TAX_CALCULATOR) {
-                    shouldReplace = true
-                    baseFragment = TaxCalculatorFragment.newInstance()
-                    toolbar.title = "Tax Calculator"
-                }
-            }
-            BaseFragment.Type.TRADE_INFO -> {
-                if (baseFragment.getFragmentType() != BaseFragment.Type.TRADE_INFO) {
-                    shouldReplace = true
-                    baseFragment = TradeInfoFragment.newInstance()
-                    toolbar.title = "Trade Info"
-                }
-            }
-            BaseFragment.Type.EXCHANGE_RATES -> {
-                if (baseFragment.getFragmentType() != BaseFragment.Type.EXCHANGE_RATES) {
-                    shouldReplace = true
-                    baseFragment = ExchangeRatesFragment.newInstance()
-                    toolbar.title = "Exchange Rates"
-                }
-            }
-            BaseFragment.Type.MARKETPLACE -> {
-                if (baseFragment.getFragmentType() != BaseFragment.Type.MARKETPLACE) {
-                    shouldReplace = true
-                    baseFragment = MarketplaceFragment.newInstance()
-                    toolbar.title = "Marketplace"
-                }
-            }
-        }
-
-        if (shouldReplace) {
-            supportFragmentManager.popBackStack()
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.primary_fragment_container, baseFragment)
-                .commit()
-        }
-    }
-
     /** Pop the child of the fragment in the fragmentManager*/
     private fun recursivePopBackStack(fragmentManager: FragmentManager): Boolean {
         for (fragment in fragmentManager.fragments) {
@@ -272,5 +225,64 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
         }
 
         return false
+    }
+
+    private fun <T : Fragment> replaceFragment(c: Class<T>): Boolean {
+        var shouldReplace = false
+        when {
+            c.isAssignableFrom(Fragment::class.java) -> throw RuntimeException("Invalid Fragment")
+            c.isAssignableFrom(DashboardFragment::class.java) -> {
+                if (baseFragment !is DashboardFragment) {
+                    shouldReplace = true
+                    baseFragment = DashboardFragment.newInstance()
+                    toolbar.title = "Dashboard"
+                }
+            }
+            c.isAssignableFrom(MarketPriceFragment::class.java) -> {
+                if (baseFragment !is MarketPriceFragment) {
+                    shouldReplace = true
+                    baseFragment = MarketPriceFragment.newInstance()
+                    toolbar.title = "Market Price"
+                }
+            }
+            c.isAssignableFrom(TaxCalculatorFragment::class.java) -> {
+                if (baseFragment !is TaxCalculatorFragment) {
+                    shouldReplace = true
+                    baseFragment = TaxCalculatorFragment.newInstance()
+                    toolbar.title = "Tax Calculator"
+                }
+            }
+            c.isAssignableFrom(TradeInfoFragment::class.java) -> {
+                if (baseFragment !is TradeInfoFragment) {
+                    shouldReplace = true
+                    baseFragment = TradeInfoFragment.newInstance()
+                    toolbar.title = "Trade Info"
+                }
+            }
+            c.isAssignableFrom(ExchangeRatesFragment::class.java) -> {
+                if (baseFragment !is ExchangeRatesFragment) {
+                    shouldReplace = true
+                    baseFragment = ExchangeRatesFragment.newInstance()
+                    toolbar.title = "Exchange Rates"
+                }
+            }
+            c.isAssignableFrom(MarketplaceFragment::class.java) -> {
+                if (baseFragment !is MarketplaceFragment) {
+                    shouldReplace = true
+                    baseFragment = MarketplaceFragment.newInstance()
+                    toolbar.title = "Marketplace"
+                }
+            }
+            else -> throw RuntimeException("Invalid Fragment")
+        }
+
+        if (shouldReplace) {
+            supportFragmentManager.popBackStack()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.primary_fragment_container, baseFragment)
+                .commit()
+        }
+
+        return shouldReplace
     }
 }

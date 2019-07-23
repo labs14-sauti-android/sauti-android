@@ -1,9 +1,5 @@
 package com.labs.sauti.fragment
 
-import android.content.Context
-
-import android.net.Uri
-
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,8 +8,7 @@ import android.view.ViewGroup
 
 import com.labs.sauti.R
 
-class TaxCalculatorFragment : BaseFragment() {
-    override fun getFragmentType(): Type = Type.TAX_CALCULATOR
+class TaxCalculatorFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
