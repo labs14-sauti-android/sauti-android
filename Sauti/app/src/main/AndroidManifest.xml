@@ -14,32 +14,9 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
-        <activity android:name=".activity.ExchangeRatesActivity"
-                  android:label="Exchange Rates"
-                  android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-                android:name=".activity.TradeInfoActivity"
-                android:label="Trade Info"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-                android:name=".activity.DashboardActivity"
-                android:label="Dashboard"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
         <activity android:name=".activity.BaseActivity"
                   android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity
-                android:name=".activity.MarketPricesActivity"
-                android:label="Market Prices"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-                android:name=".activity.TaxCalculatorActivity"
-                android:label="Tax Calculator"
-                android:theme="@style/AppTheme.NoActionBar"/>
         <activity
                 android:name=".activity.LanguageActivity"
                 android:theme="@style/AppTheme.NoActionBar">

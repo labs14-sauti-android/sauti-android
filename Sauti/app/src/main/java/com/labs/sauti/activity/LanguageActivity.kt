@@ -40,7 +40,7 @@ class LanguageActivity : AppCompatActivity() {
             finish()
         }*/
 
-        val intent = Intent(this@LanguageActivity, DashboardActivity::class.java)
+        val intent = Intent(this@LanguageActivity, BaseActivity::class.java)
 
         compositeDisposable.add(Completable.timer(3000, TimeUnit.MILLISECONDS)
             .subscribe {

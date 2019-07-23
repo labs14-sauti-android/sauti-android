@@ -1,9 +1,7 @@
 package com.labs.sauti.activity
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -11,39 +9,40 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 
 import androidx.drawerlayout.widget.DrawerLayout
-
 import androidx.fragment.app.Fragment
+
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
-import com.labs.sauti.fragment.OnFragmentFullScreenStateChangedListener
-import com.labs.sauti.fragment.SignInFragment
+import com.labs.sauti.fragment.*
 import com.labs.sauti.model.User
 import com.labs.sauti.view_model.AuthenticationViewModel
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.app_bar_base.*
-import kotlinx.android.synthetic.main.content_base.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
+import java.lang.RuntimeException
 import javax.inject.Inject
 
-// @NOTE: inheritance inject doesn't work. We cannot inject both BaseActivity and its child. Only inject the child
-open class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
 SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListener{
-    protected var activityType = ActivityType.MARKET_PRICES
+
+    @Inject
+    lateinit var authenticationViewModelFactory: AuthenticationViewModel.Factory
 
     private lateinit var authenticationViewModel: AuthenticationViewModel
 
-    private val injectWrapper = InjectWrapper()
+    private lateinit var baseFragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
 
-        (applicationContext as SautiApp).getAuthenticationComponent().inject(injectWrapper)
+        (applicationContext as SautiApp).getAuthenticationComponent().inject(this)
 
-        authenticationViewModel = ViewModelProviders.of(this, injectWrapper.authenticationViewModelFactory).get(AuthenticationViewModel::class.java)
+        authenticationViewModel = ViewModelProviders.of(this, authenticationViewModelFactory).get(AuthenticationViewModel::class.java)
 
         nav_view.setNavigationItemSelectedListener(this)
 
@@ -54,6 +53,13 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
         )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
+
+        // initial base fragment
+        toolbar.title = "Dashboard" // TODO this is not working
+        baseFragment = DashboardFragment.newInstance()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.primary_fragment_container, baseFragment)
+            .commit()
 
     }
 
@@ -76,76 +82,50 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
         })
         authenticationViewModel.getCurrentUser()
 
-        when (activityType) {
-            ActivityType.MARKET_PRICES -> nav_view.menu.findItem(R.id.nav_market_prices).isChecked = true
-            ActivityType.TAX_CALCULATOR -> nav_view.menu.findItem(R.id.nav_tax_calculator).isChecked = true
-            ActivityType.TRADE_INFO -> nav_view.menu.findItem(R.id.nav_trade_info).isChecked = true
-            ActivityType.EXCHANGE_RATES -> nav_view.menu.findItem(R.id.nav_exchange_rates).isChecked = true
-            ActivityType.DASHBOARD -> nav_view.menu.findItem(R.id.nav_dashboard).isChecked = true
-        }
-
-    }
-
-    fun setBaseContentView(resId: Int) {
-        val view = LayoutInflater.from(this).inflate(resId, primary_fragment_container, false)
-        primary_fragment_container.addView(view)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
+            R.id.nav_dashboard -> {
+                if (replaceFragment(DashboardFragment::class.java)) {
+                    drawer_layout.closeDrawer(GravityCompat.START)
+                }
+
+                return true
+            }
             R.id.nav_market_prices -> {
-                if (activityType == ActivityType.MARKET_PRICES) return true
-
-                val intent = Intent(this, MarketPricesActivity::class.java)
-                startActivity(intent)
-
-                drawer_layout.closeDrawer(GravityCompat.START)
-                finish()
+                if (replaceFragment(MarketPriceFragment::class.java)) {
+                    drawer_layout.closeDrawer(GravityCompat.START)
+                }
 
                 return true
             }
             R.id.nav_tax_calculator-> {
-                if (activityType == ActivityType.TAX_CALCULATOR) return true
-
-                val intent = Intent(this, TaxCalculatorActivity::class.java)
-                startActivity(intent)
-
-                drawer_layout.closeDrawer(GravityCompat.START)
-                finish()
+                if (replaceFragment(TaxCalculatorFragment::class.java)) {
+                    drawer_layout.closeDrawer(GravityCompat.START)
+                }
 
                 return true
             }
             R.id.nav_trade_info -> {
-                if (activityType == ActivityType.TRADE_INFO) return true
-
-                val intent = Intent(this, TradeInfoActivity::class.java)
-                startActivity(intent)
-
-                drawer_layout.closeDrawer(GravityCompat.START)
-                finish()
+                if (replaceFragment(TradeInfoFragment::class.java)) {
+                    drawer_layout.closeDrawer(GravityCompat.START)
+                }
 
                 return true
             }
             R.id.nav_exchange_rates -> {
-                if (activityType == ActivityType.EXCHANGE_RATES) return true
-
-                val intent = Intent(this, ExchangeRatesActivity::class.java)
-                startActivity(intent)
-
-                drawer_layout.closeDrawer(GravityCompat.START)
-                finish()
+                if (replaceFragment(ExchangeRatesFragment::class.java)) {
+                    drawer_layout.closeDrawer(GravityCompat.START)
+                }
 
                 return true
             }
-            R.id.nav_dashboard -> {
-                if (activityType == ActivityType.DASHBOARD) return true
-
-                val intent = Intent(this, DashboardActivity::class.java)
-                startActivity(intent)
-
-                drawer_layout.closeDrawer(GravityCompat.START)
-                finish()
+            R.id.nav_marketplace -> {
+                if (replaceFragment(MarketplaceFragment::class.java)) {
+                    drawer_layout.closeDrawer(GravityCompat.START)
+                }
 
                 return true
             }
@@ -162,30 +142,27 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
                     val signInFragment = SignInFragment.newInstance()
 
                     supportFragmentManager.beginTransaction()
-                        .add(R.id.fragment_container, signInFragment)
+                        .replace(R.id.fragment_container, signInFragment)
                         .addToBackStack(null)
                         .commit()
                 }
 
                 return true
             }
-
         }
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
 
     // TODO implement double backpress to close the app
+    // TODO close the login pop up instead of the nav drawer first
     override fun onBackPressed() {
-        if (supportFragmentManager.fragments.size != 0) {
-            super.onBackPressed()
-            return
-        }
-
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
+        if (!recursivePopBackStack(baseFragment.childFragmentManager)) {
+            if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                drawer_layout.closeDrawer(GravityCompat.START)
+            } else {
+                super.onBackPressed()
+            }
         }
     }
 
@@ -231,18 +208,81 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
         }
     }
 
-    class InjectWrapper {
-        @Inject
-        lateinit var authenticationViewModelFactory: AuthenticationViewModel.Factory
+    /** Pop the child of the fragment in the fragmentManager*/
+    private fun recursivePopBackStack(fragmentManager: FragmentManager): Boolean {
+        for (fragment in fragmentManager.fragments) {
+            if (fragment != null && fragment.isVisible) {
+                if (recursivePopBackStack(fragment.childFragmentManager)) {
+                    return true
+                }
+            }
+        }
+
+        // pop front most
+        if (fragmentManager.backStackEntryCount > 0) {
+            fragmentManager.popBackStack()
+            return true
+        }
+
+        return false
     }
 
-    private fun replaceFragment(fragment : Fragment) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.primary_fragment_container, fragment)
-            .commit()
+    private fun <T : Fragment> replaceFragment(c: Class<T>): Boolean {
+        var shouldReplace = false
+        when {
+            c.isAssignableFrom(Fragment::class.java) -> throw RuntimeException("Invalid Fragment")
+            c.isAssignableFrom(DashboardFragment::class.java) -> {
+                if (baseFragment !is DashboardFragment) {
+                    shouldReplace = true
+                    baseFragment = DashboardFragment.newInstance()
+                    toolbar.title = "Dashboard"
+                }
+            }
+            c.isAssignableFrom(MarketPriceFragment::class.java) -> {
+                if (baseFragment !is MarketPriceFragment) {
+                    shouldReplace = true
+                    baseFragment = MarketPriceFragment.newInstance()
+                    toolbar.title = "Market Price"
+                }
+            }
+            c.isAssignableFrom(TaxCalculatorFragment::class.java) -> {
+                if (baseFragment !is TaxCalculatorFragment) {
+                    shouldReplace = true
+                    baseFragment = TaxCalculatorFragment.newInstance()
+                    toolbar.title = "Tax Calculator"
+                }
+            }
+            c.isAssignableFrom(TradeInfoFragment::class.java) -> {
+                if (baseFragment !is TradeInfoFragment) {
+                    shouldReplace = true
+                    baseFragment = TradeInfoFragment.newInstance()
+                    toolbar.title = "Trade Info"
+                }
+            }
+            c.isAssignableFrom(ExchangeRatesFragment::class.java) -> {
+                if (baseFragment !is ExchangeRatesFragment) {
+                    shouldReplace = true
+                    baseFragment = ExchangeRatesFragment.newInstance()
+                    toolbar.title = "Exchange Rates"
+                }
+            }
+            c.isAssignableFrom(MarketplaceFragment::class.java) -> {
+                if (baseFragment !is MarketplaceFragment) {
+                    shouldReplace = true
+                    baseFragment = MarketplaceFragment.newInstance()
+                    toolbar.title = "Marketplace"
+                }
+            }
+            else -> throw RuntimeException("Invalid Fragment")
+        }
+
+        if (shouldReplace) {
+            supportFragmentManager.popBackStack()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.primary_fragment_container, baseFragment)
+                .commit()
+        }
+
+        return shouldReplace
     }
-
-
-
 }

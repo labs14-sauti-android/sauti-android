@@ -7,8 +7,7 @@ import dagger.Subcomponent
 
 @Subcomponent(modules = [AuthenticationModule::class])
 interface AuthenticationComponent {
-
     fun inject(signInFragment: SignInFragment)
-    fun inject(baseActivityInjectWrapper: BaseActivity.InjectWrapper)
+    fun inject(baseActivity: BaseActivity)
 
 }
