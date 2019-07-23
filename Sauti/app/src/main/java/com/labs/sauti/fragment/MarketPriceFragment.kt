@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_market_price.*
 import kotlinx.android.synthetic.main.item_recent_market_price.view.*
 import javax.inject.Inject
 
+// TODO 5 weeks old max market price
 class MarketPriceFragment : Fragment(), MarketPriceSearchFragment.OnMarketPriceSearchCompletedListener,
 OnFragmentFullScreenStateChangedListener {
 
