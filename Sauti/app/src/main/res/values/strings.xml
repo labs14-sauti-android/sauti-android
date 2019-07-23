@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">Sauti
-        <font fgcolor='#e84c3d'>H.</font>
+    <string name="app_name">Sauti<font fgcolor='#e84c3d'>.</font>
     </string>
 
     <string name="navigation_drawer_open">Open</string>
