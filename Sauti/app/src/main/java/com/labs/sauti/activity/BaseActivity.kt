@@ -2,7 +2,6 @@ package com.labs.sauti.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -54,6 +53,7 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
         toggle.syncState()
 
         // initial base fragment
+        toolbar.title = "Dashboard"
         baseFragment = DashboardFragment.newInstance()
         supportFragmentManager.beginTransaction()
             .replace(R.id.primary_fragment_container, baseFragment)
