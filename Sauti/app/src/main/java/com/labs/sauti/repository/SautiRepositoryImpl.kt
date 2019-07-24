@@ -4,7 +4,6 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.labs.sauti.api.SautiApiService
 import com.labs.sauti.cache.MarketPriceRoomCache
-import com.labs.sauti.cache.RecentMarketPriceCache
 import com.labs.sauti.cache.RecentMarketPriceRoomCache
 import com.labs.sauti.cache.RecentMarketPriceSearchRoomCache
 import com.labs.sauti.helper.NetworkHelper
@@ -82,7 +81,7 @@ class SautiRepositoryImpl(
             val gson = GsonBuilder().create()
             val typeToken = object: TypeToken<MutableList<MarketPriceData>>() {}.type
             val marketPrices = gson.fromJson<MutableList<MarketPriceData>>(responseStr, typeToken)
-            val countrySet = hashSetOf<String>()
+            val countrySet = sortedSetOf<String>()
             marketPrices.forEach {
                 if (it.country != null) {
                     countrySet.add(it.country!!)
@@ -117,7 +116,7 @@ class SautiRepositoryImpl(
             val gson = GsonBuilder().create()
             val typeToken = object: TypeToken<MutableList<MarketPriceData>>() {}.type
             val marketPrices = gson.fromJson<MutableList<MarketPriceData>>(responseStr, typeToken)
-            val marketSet = hashSetOf<String>()
+            val marketSet = sortedSetOf<String>()
             marketPrices.forEach {
                 if (it.market != null &&
                     it.country == country) {
@@ -152,7 +151,7 @@ class SautiRepositoryImpl(
             val gson = GsonBuilder().create()
             val typeToken = object: TypeToken<MutableList<MarketPriceData>>() {}.type
             val marketPrices = gson.fromJson<MutableList<MarketPriceData>>(responseStr, typeToken)
-            val categorySet = hashSetOf<String>()
+            val categorySet = sortedSetOf<String>()
             marketPrices.forEach {
                 if (it.productCat != null &&
                     it.country == country &&
@@ -190,7 +189,7 @@ class SautiRepositoryImpl(
             val gson = GsonBuilder().create()
             val typeToken = object: TypeToken<MutableList<MarketPriceData>>() {}.type
             val marketPrices = gson.fromJson<MutableList<MarketPriceData>>(responseStr, typeToken)
-            val productSet = hashSetOf<String>()
+            val productSet = sortedSetOf<String>()
             marketPrices.forEach {
                 if (it.product != null &&
                     it.country == country &&
