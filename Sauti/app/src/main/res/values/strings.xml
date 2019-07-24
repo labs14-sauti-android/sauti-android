@@ -25,5 +25,6 @@
         <font fgcolor='#e84c3d'>.</font>
     </string>
     <string name="your_recent_tax_calculations">Your recent tax calculations</string>
+    <string name="push_to_view">Push To View</string>
 
 </resources>

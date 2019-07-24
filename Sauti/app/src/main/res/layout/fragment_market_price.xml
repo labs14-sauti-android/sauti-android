@@ -112,6 +112,13 @@
 
                     </ViewSwitcher>
 
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/push_to_view"
+                            android:gravity="center"
+                            android:textColor="@color/market_price_details_text_color"/>
+
                 </LinearLayout>
 
             </LinearLayout>

@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/fl_fragment_container"
-        android:background="@color/market_price_background"
+        android:background="@color/tax_calculator_background"
         tools:context=".fragment.TaxCalculatorFragment"
         tools:showIn="@layout/tool_app_bar_tax_calculator">
 
@@ -31,7 +31,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         tools:text="Taxes for Millet"
-                        android:textColor="@color/market_price_details_text_color"
+                        android:textColor="@color/tax_calculator_details_text_color"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_marginBottom="9dp"/>
@@ -40,7 +40,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         tools:text="Wholesale: 90 KES/1Kg"
-                        android:textColor="@color/market_price_details_text_color"
+                        android:textColor="@color/tax_calculator_details_text_color"
                         android:textSize="16sp"
                         android:textStyle="bold"/>
                 <TextView
@@ -48,7 +48,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         tools:text="Retail: 120 KES/1Kg"
-                        android:textColor="@color/market_price_details_text_color"
+                        android:textColor="@color/tax_calculator_details_text_color"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:layout_marginBottom="9dp"/>
@@ -57,14 +57,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         tools:text="Updated: 2019-06-24"
-                        android:textColor="@color/market_price_details_text_color"
+                        android:textColor="@color/tax_calculator_details_text_color"
                         android:textSize="14sp"/>
                 <TextView
                         android:id="@+id/t_details_source"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         tools:text="Source: EAGC-RATIN"
-                        android:textColor="@color/market_price_details_text_color"
+                        android:textColor="@color/tax_calculator_details_text_color"
                         android:textSize="14sp"/>
 
             </LinearLayout>
@@ -92,6 +92,13 @@
                     <include layout="@layout/item_tax_calculation"/>
 
                 </LinearLayout>
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/push_to_view"
+                        android:gravity="center"
+                        android:textColor="@color/tax_calculator_details_text_color"/>
 
             </LinearLayout>
 
