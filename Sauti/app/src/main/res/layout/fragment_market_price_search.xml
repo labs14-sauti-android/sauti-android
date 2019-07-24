@@ -184,17 +184,28 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"/>
 
-        <!--TODO replace button with progress bar when searching-->
-
-        <Button
-                android:id="@+id/b_search"
+        <ViewSwitcher
+                android:id="@+id/vs_search_loading"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Search"
-                android:textStyle="bold"
-                android:textSize="24sp"
-                android:backgroundTint="@color/button_primary_color"
-                android:textColor="@color/button_text_primary_color"/>
+                android:layout_height="wrap_content">
+
+            <Button
+                    android:id="@+id/b_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Search"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:backgroundTint="@color/button_primary_color"
+                    android:textColor="@color/button_text_primary_color"/>
+
+            <ProgressBar
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+        </ViewSwitcher>
+
+
 
     </LinearLayout>
 

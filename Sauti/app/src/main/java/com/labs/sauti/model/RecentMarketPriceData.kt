@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
+// TODO remove RecentMarketPrice
 @Entity(tableName = "recent_market_prices")
 data class RecentMarketPriceData(
     @PrimaryKey(autoGenerate = true)

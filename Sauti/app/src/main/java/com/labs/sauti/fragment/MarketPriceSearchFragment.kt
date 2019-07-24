@@ -141,6 +141,8 @@ class MarketPriceSearchFragment : Fragment() {
         })
 
         marketPricesViewModel.getSearchMarketPriceLiveData().observe(this, Observer {
+            vs_search_loading.displayedChild = 0
+
             onMarketPriceSearchCompletedListener?.onMarketPriceSearchCompleted(it)
 
             onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
@@ -152,6 +154,8 @@ class MarketPriceSearchFragment : Fragment() {
                 s_markets.selectedItem is String &&
                 s_categories.selectedItem is String &&
                 s_commodities.selectedItem is String) {
+                vs_search_loading.displayedChild = 1
+
                 marketPricesViewModel.searchMarketPrice(
                     s_countries.selectedItem as String,
                     s_markets.selectedItem as String,

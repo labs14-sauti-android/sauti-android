@@ -6,6 +6,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
+// TODO remove RecentMarketPrice
 class RecentMarketPriceRoomCache(
     private val sautiRoomDatabase: SautiRoomDatabase
 ) : RecentMarketPriceCache {

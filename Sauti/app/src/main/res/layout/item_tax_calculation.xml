@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp"
+        android:layout_weight="0.5"
+        app:cardBackgroundColor="@color/item_tax_calculator_background_color"
+        tools:layout_width="match_parent">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/t_tax_calculation_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Taxes for Maize"
+                android:textStyle="bold"
+                android:textSize="15.5sp"
+                android:gravity="center"
+                android:textColor="@color/item_tax_calculator_text_color"
+                android:layout_marginBottom="11dp"/>
+
+        <TextView
+                android:id="@+id/t_tax_calculation_tax_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Withholding Tax(6%): 98 UGX Infrastructure Levy(2%): 25 UGX"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/item_tax_calculator_text_color"
+                android:textSize="13.5sp"
+                android:layout_marginBottom="15dp"/>
+
+        <TextView
+                android:id="@+id/t_tax_calculation_tax"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Total: 123 UGX"
+                android:gravity="center"
+                android:textColor="@color/item_tax_calculator_text_color"
+                android:textSize="12sp"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

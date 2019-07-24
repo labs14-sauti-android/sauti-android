@@ -15,7 +15,7 @@
     <string name="menu_log_in">Log In</string>
     <string name="menu_log_out">Log Out</string>
     <string name="not_logged_in">Not Logged In</string>
-    <string name="your_recent_market_prices">Your Recent Market Prices</string>
+    <string name="your_recent_searches">Your Recent Searches</string>
     <string name="menu_marketplace">Marketplace</string>
     <string name="menu_dashboard">Dashboard</string>
 
@@ -24,5 +24,6 @@
     <string name="language_activity_text">Sauti
         <font fgcolor='#e84c3d'>.</font>
     </string>
+    <string name="your_recent_tax_calculations">Your recent tax calculations</string>
 
 </resources>

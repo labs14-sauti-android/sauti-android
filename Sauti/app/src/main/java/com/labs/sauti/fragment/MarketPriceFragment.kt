@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -33,6 +34,8 @@ OnFragmentFullScreenStateChangedListener {
     private lateinit var marketPriceViewModel: MarketPriceViewModel
     private lateinit var binding: FragmentMarketPriceBinding
 
+    private val recentMarketPriceRootViews = mutableListOf<View>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -58,19 +61,56 @@ OnFragmentFullScreenStateChangedListener {
 
         ll_details.visibility = View.GONE
 
-        ll_recent_market_prices.removeAllViews()
-        marketPriceViewModel.getRecentMarketPricesLiveData().observe(this, Observer {
-            ll_recent_market_prices.removeAllViews()
+        // TODO remove RecentMarketPrice
+//        ll_recent_market_prices.removeAllViews()
+//        marketPriceViewModel.getRecentMarketPricesLiveData().observe(this, Observer {
+//            ll_recent_market_prices.removeAllViews()
+//
+//            handleRecentMarketPrices(it)
+//        })
+//        marketPriceViewModel.getRecentMarketPrices()
 
-            handleRecentMarketPrices(it)
+        ll_recent_market_prices.children.iterator().forEach {
+            recentMarketPriceRootViews.add(it)
+        }
+
+        marketPriceViewModel.getSearchRecentMarketPricesLiveData().observe(this, Observer {
+
+            vs_recent_market_prices_loading.displayedChild = 0
+
+            recentMarketPriceRootViews.forEachIndexed { index, view ->
+                if (index < it.size) {
+                    val recentMarketPrice = it[index]
+                    view.t_recent_product_at_market.text = "${recentMarketPrice.product} at ${recentMarketPrice.market}"
+                    view.t_recent_wholesale.text = "Wholesale: ${recentMarketPrice.wholesale} ${recentMarketPrice.currency}/1Kg"
+                    view.t_recent_retail.text = "Retail: ${recentMarketPrice.retail} ${recentMarketPrice.currency}/1Kg"
+                    view.t_recent_updated.text = recentMarketPrice.date
+                    view.t_recent_source.text = "Where does source come from?"
+
+                    view.setOnClickListener {
+                        ll_details.visibility = View.VISIBLE
+                        setMarketPriceDetails(recentMarketPrice)
+                    }
+                } else {
+                    view.t_recent_product_at_market.text = ""
+                    view.t_recent_wholesale.text = ""
+                    view.t_recent_retail.text = ""
+                    view.t_recent_updated.text = ""
+                    view.t_recent_source.text = ""
+
+                    view.setOnClickListener(null)
+                }
+            }
         })
-        marketPriceViewModel.getRecentMarketPrices()
+        vs_recent_market_prices_loading.displayedChild = 1
+        marketPriceViewModel.searchRecentMarketPrices()
 
         b_search.setOnClickListener {
             openMarketPriceSearchFragment()
         }
     }
 
+    // TODO remove RecentMarketPrice
     private fun handleRecentMarketPrices(recentMarketPrices: MutableList<RecentMarketPriceData>) {
         for ((index, recentMarketPrice) in recentMarketPrices.withIndex()) {
             if (index == MAX_MARKET_RECENT_PRICE_SHOWN) break
@@ -106,14 +146,19 @@ OnFragmentFullScreenStateChangedListener {
         onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(true)
     }
 
-    override fun onMarketPriceSearchCompleted(marketPrice: MarketPriceData) {ll_details.visibility = View.VISIBLE
+    private fun setMarketPriceDetails(marketPrice: MarketPriceData) {
         t_details_product_at_market.text = "${marketPrice.product} at ${marketPrice.market}"
         t_details_wholesale.text = "Wholesale: ${marketPrice.wholesale} ${marketPrice.currency}/1Kg"
         t_details_retail.text = "Retail: ${marketPrice.retail} ${marketPrice.currency}/1Kg"
         t_details_updated.text = marketPrice.date
         t_details_source.text = "Where does source come from?"
+    }
 
-        marketPriceViewModel.getRecentMarketPrices()
+    override fun onMarketPriceSearchCompleted(marketPrice: MarketPriceData) {
+        ll_details.visibility = View.VISIBLE
+        setMarketPriceDetails(marketPrice)
+
+        marketPriceViewModel.searchRecentMarketPriceInCache()
     }
 
     override fun onAttach(context: Context?) {
