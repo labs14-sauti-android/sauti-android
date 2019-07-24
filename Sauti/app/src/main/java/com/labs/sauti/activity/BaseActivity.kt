@@ -55,7 +55,7 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
         toggle.syncState()
 
         // initial base fragment
-        toolbar.title = "Dashboard" // TODO this is not working
+        supportActionBar!!.title = "Dashboard"
         baseFragment = DashboardFragment.newInstance()
         supportFragmentManager.beginTransaction()
             .replace(R.id.primary_fragment_container, baseFragment)
