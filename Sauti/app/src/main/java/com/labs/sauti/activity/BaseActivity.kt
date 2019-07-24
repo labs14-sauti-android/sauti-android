@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 
@@ -20,10 +21,14 @@ import com.labs.sauti.SautiApp
 import com.labs.sauti.fragment.*
 import com.labs.sauti.model.User
 import com.labs.sauti.view_model.AuthenticationViewModel
+import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.app_bar_base.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import java.lang.RuntimeException
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
@@ -33,8 +38,8 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
     lateinit var authenticationViewModelFactory: AuthenticationViewModel.Factory
 
     private lateinit var authenticationViewModel: AuthenticationViewModel
-
     private lateinit var baseFragment: Fragment
+    private var appCloseDoubleClickTimerDisposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +87,12 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
         })
         authenticationViewModel.getCurrentUser()
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        appCloseDoubleClickTimerDisposable?.dispose()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -170,8 +181,6 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
         return true
     }
 
-    // TODO implement double backpress to close the app
-    // TODO close the login pop up instead of the nav drawer first
     override fun onBackPressed() {
         if (supportFragmentManager.fragments.size > 1) {
             supportFragmentManager.popBackStack()
@@ -182,7 +191,18 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
             if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
                 drawer_layout.closeDrawer(GravityCompat.START)
             } else {
-                super.onBackPressed()
+                if (appCloseDoubleClickTimerDisposable != null) {
+                    super.onBackPressed()
+                    return
+                }
+
+                appCloseDoubleClickTimerDisposable = Completable.timer(2000, TimeUnit.MILLISECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        appCloseDoubleClickTimerDisposable = null
+                    }
+
+                Toast.makeText(this, "Press back again to exit the app", Toast.LENGTH_SHORT).show()
             }
         }
     }
