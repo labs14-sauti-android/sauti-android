@@ -60,7 +60,7 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
         supportFragmentManager.beginTransaction()
             .replace(R.id.primary_fragment_container, baseFragment)
             .commit()
-
+        nav_view.menu.findItem(R.id.nav_dashboard).isChecked = true
     }
 
     override fun onResume() {
@@ -153,14 +153,19 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
                 if (replaceFragment(ReportFragment::class.java)) {
                     drawer_layout.closeDrawer(GravityCompat.START)
                 }
+
+                return true
             }
             R.id.nav_help -> {
                 if (replaceFragment(HelpFragment::class.java)) {
                     drawer_layout.closeDrawer(GravityCompat.START)
                 }
+
+                return true
             }
 
         }
+
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
@@ -168,6 +173,11 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
     // TODO implement double backpress to close the app
     // TODO close the login pop up instead of the nav drawer first
     override fun onBackPressed() {
+        if (supportFragmentManager.fragments.size > 1) {
+            supportFragmentManager.popBackStack()
+            return
+        }
+
         if (!recursivePopBackStack(baseFragment.childFragmentManager)) {
             if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
                 drawer_layout.closeDrawer(GravityCompat.START)

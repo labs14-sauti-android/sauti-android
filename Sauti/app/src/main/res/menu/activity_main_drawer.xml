@@ -4,8 +4,8 @@
       tools:showIn="navigation_view">
 
     <group
-            android:id="@+id/menu_0"
-            android:checkableBehavior="single">
+            android:id="@+id/menu_group_0"
+            android:checkableBehavior="none">
 
         <item
                 android:id="@+id/nav_sign_in_out"
@@ -14,7 +14,7 @@
     </group>
 
     <group
-            android:id="@+id/menu_1"
+            android:id="@+id/menu_group_1"
             android:checkableBehavior="single">
 
         <item
@@ -24,7 +24,7 @@
     </group>
 
     <group
-            android:id="@+id/menu_2"
+            android:id="@+id/menu_group_2"
             android:checkableBehavior="single">
         <item
                 android:id="@+id/nav_market_prices"
@@ -46,8 +46,8 @@
     </group>
 
     <group
-            android:id="@+id/menu_3"
-            android:checkableBehavior="none">
+            android:id="@+id/menu_group_3"
+            android:checkableBehavior="single">
 
         <item
                 android:id="@+id/nav_marketplace"
