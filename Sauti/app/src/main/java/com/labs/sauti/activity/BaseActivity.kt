@@ -68,10 +68,10 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
 
         authenticationViewModel.getIsSignedInLiveData().observe(this, Observer<Boolean> {
             if (it) {
-                nav_view.menu.findItem(R.id.nav_log_in_out).title = getString(R.string.menu_log_out)
+                nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_out)
             } else {
                 setUserNavInfoAsLoggedOut()
-                nav_view.menu.findItem(R.id.nav_log_in_out).title = getString(R.string.menu_log_in)
+                nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_in)
             }
         })
         authenticationViewModel.isSignedIn()
@@ -129,11 +129,11 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
 
                 return true
             }
-            R.id.nav_log_in_out -> {
-                if (item.title == getString(R.string.menu_log_out)) {
+            R.id.nav_sign_in_out -> {
+                if (item.title == getString(R.string.menu_sign_out)) {
                     authenticationViewModel.signOut()
 
-                    item.title = getString(R.string.menu_log_in)
+                    item.title = getString(R.string.menu_sign_in)
                     setUserNavInfoAsLoggedOut()
 
                     drawer_layout.closeDrawer(GravityCompat.START)
@@ -149,6 +149,17 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
 
                 return true
             }
+            R.id.nav_report -> {
+                if (replaceFragment(ReportFragment::class.java)) {
+                    drawer_layout.closeDrawer(GravityCompat.START)
+                }
+            }
+            R.id.nav_help -> {
+                if (replaceFragment(HelpFragment::class.java)) {
+                    drawer_layout.closeDrawer(GravityCompat.START)
+                }
+            }
+
         }
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
@@ -194,7 +205,7 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
         })
         authenticationViewModel.getCurrentUser()
 
-        nav_view.menu.findItem(R.id.nav_log_in_out).title = getString(R.string.menu_log_out)
+        nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_out)
     }
 
     override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
@@ -271,6 +282,20 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
                     shouldReplace = true
                     baseFragment = MarketplaceFragment.newInstance()
                     toolbar.title = "Marketplace"
+                }
+            }
+            c.isAssignableFrom(ReportFragment::class.java) -> {
+                if (baseFragment !is ReportFragment) {
+                    shouldReplace = true
+                    baseFragment = ReportFragment.newInstance()
+                    toolbar.title = "Report"
+                }
+            }
+            c.isAssignableFrom(HelpFragment::class.java) -> {
+                if (baseFragment !is HelpFragment) {
+                    shouldReplace = true
+                    baseFragment = HelpFragment.newInstance()
+                    toolbar.title = "Help"
                 }
             }
             else -> throw RuntimeException("Invalid Fragment")
