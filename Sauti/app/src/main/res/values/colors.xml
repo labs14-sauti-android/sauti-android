@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#474747</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimaryDark">#2E2E2E</color>
+    <color name="colorAccent">#E84C3D</color>
+    <color name="colorText">#FFFFFF</color>
+    <!-- TODO consider deleting these colors-->
     <color name="market_price_background">#2e2e2e</color>
     <color name="market_price_details_text_color">#ffffff</color>
     <color name="item_recent_market_price_text_color">#000000</color>
