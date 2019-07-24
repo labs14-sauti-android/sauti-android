@@ -6,8 +6,9 @@
              tools:context=".fragment.MarketPriceSearchFragment"
              android:clickable="true"
              android:focusable="true"
-            android:background="@color/market_price_search_background"
-            tools:showIn="@layout/tool_app_bar_market_price_search">
+            android:background="@color/market_price_search_background">
+
+    <!--TODO warning when offline-->
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -20,8 +21,10 @@
                 android:layout_height="wrap_content"
                 android:text="Start Search"
                 android:textSize="24sp"
-                android:layout_marginBottom="40dp"
+                android:layout_marginBottom="20dp"
                 android:textColor="@color/market_price_search_text_color"/>
+
+        <!--TODO replace with view switcher-->
 
         <LinearLayout
                 android:id="@+id/ll_countries"
@@ -42,7 +45,6 @@
                     android:layout_height="wrap_content">
 
                 <ImageView
-                        android:id="@+id/i_spinner"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:src="@drawable/search_spinner_background"/>
@@ -184,17 +186,28 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"/>
 
-        <!--TODO replace button with progress bar when searching-->
-
-        <Button
-                android:id="@+id/b_search"
+        <ViewSwitcher
+                android:id="@+id/vs_search_loading"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Search"
-                android:textStyle="bold"
-                android:textSize="24sp"
-                android:backgroundTint="@color/button_primary_color"
-                android:textColor="@color/button_text_primary_color"/>
+                android:layout_height="wrap_content">
+
+            <Button
+                    android:id="@+id/b_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Search"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:backgroundTint="@color/button_primary_color"
+                    android:textColor="@color/button_text_primary_color"/>
+
+            <ProgressBar
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+        </ViewSwitcher>
+
+
 
     </LinearLayout>
 

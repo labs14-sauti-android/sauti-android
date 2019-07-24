@@ -4,7 +4,7 @@ import com.labs.sauti.model.RecentMarketPriceData
 import io.reactivex.Completable
 import io.reactivex.Single
 
-// TODO use entity because this is in the domain layer
+// TODO remove RecentMarketPrice
 interface RecentMarketPriceCache {
 
     fun save(recentMarketPriceData: RecentMarketPriceData): Completable

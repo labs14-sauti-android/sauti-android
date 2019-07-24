@@ -6,6 +6,7 @@ import com.labs.sauti.model.RecentMarketPriceData
 import io.reactivex.Completable
 import io.reactivex.Single
 
+// TODO remove RecentMarketPrice
 @Dao
 interface RecentMarketPriceDao: BaseDao<RecentMarketPriceData> {
 

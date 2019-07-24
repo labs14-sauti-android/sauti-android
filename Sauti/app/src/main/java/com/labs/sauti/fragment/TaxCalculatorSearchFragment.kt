@@ -1,7 +1,6 @@
 package com.labs.sauti.fragment
 
-import android.content.Context
-import android.net.Uri
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,7 +9,8 @@ import android.view.ViewGroup
 
 import com.labs.sauti.R
 
-class HelpFragment : Fragment() {
+class TaxCalculatorSearchFragment : Fragment() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -20,7 +20,7 @@ class HelpFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_help, container, false)
+        return inflater.inflate(R.layout.fragment_tax_calculator_search, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -30,6 +30,7 @@ class HelpFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() =
-            HelpFragment()
+            TaxCalculatorSearchFragment()
     }
+
 }
