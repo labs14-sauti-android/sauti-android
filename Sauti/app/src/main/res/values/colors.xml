@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#2E2E2E</color>
     <color name="colorAccent">#E84C3D</color>
     <color name="colorText">#FFFFFF</color>
+    <color name="colorInformation">#1a1e23</color>
+    <color name="colorTextInformation">#f8c8c4</color>
+    <color name="colorCardBackground">#d9d6d6</color>
     <!-- TODO consider deleting these colors-->
     <color name="market_price_background">#2e2e2e</color>
     <color name="market_price_details_text_color">#ffffff</color>

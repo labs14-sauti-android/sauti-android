@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".fragment.TradeInfoFragment">
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        tools:context=".fragment.TradeInfoFragment" android:id="@+id/cl_fragment_container">
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@color/colorInformation"
+            android:layout_width="0dp"
+            android:layout_height="325dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/cl_expanded_tradeinfo">
+        <TextView
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif"
+                tools:text="These commodities are banned and cannot legally cross the border:"
+                android:layout_width="276dp"
+                android:layout_height="wrap_content"
+                tools:layout_editor_absoluteY="42dp"
+                android:id="@+id/t_trade_header" app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/colorTextInformation" android:layout_marginStart="20dp"/>
+        <!-- TODO: textstyle, size, and font family will receive a style -->
 
-    <!-- TODO: Update blank fragment layout -->
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"/>
-
-</FrameLayout>
+            android:text="@string/your_recent_searches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:textColor="@color/colorText"
+            app:layout_constraintTop_toBottomOf="@+id/cl_expanded_tradeinfo" android:layout_marginStart="30dp"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="18dp" app:layout_constraintHorizontal_bias="0.0"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

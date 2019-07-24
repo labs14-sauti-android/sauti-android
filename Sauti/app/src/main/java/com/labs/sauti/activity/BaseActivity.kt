@@ -243,6 +243,7 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
                     shouldReplace = true
                     baseFragment = MarketPriceFragment.newInstance()
                     toolbar.title = "Market Price"
+
                 }
             }
             c.isAssignableFrom(TaxCalculatorFragment::class.java) -> {
