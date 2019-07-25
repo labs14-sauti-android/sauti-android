@@ -11,7 +11,7 @@
             android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
-                app:title="Market Prices"
+                app:title="Help"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorAccent"
@@ -19,6 +19,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/fragment_market_price"/>
+    <include layout="@layout/fragment_help"/>
 
 </LinearLayout>

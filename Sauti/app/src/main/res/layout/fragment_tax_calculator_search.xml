@@ -6,7 +6,7 @@
              tools:context=".fragment.TaxCalculatorSearchFragment"
              android:clickable="true"
              android:focusable="true"
-             android:background="@color/tax_calculator_search_background">
+             android:background="@color/colorPrimaryDark">
 
     <ScrollView android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -23,7 +23,7 @@
                     android:text="Start Search"
                     android:textSize="24sp"
                     android:layout_marginBottom="20dp"
-                    android:textColor="@color/tax_calculator_search_text_color"/>
+                    android:textColor="@color/colorText"/>
 
             <ViewSwitcher
                     android:id="@+id/vs_categories"
@@ -41,7 +41,7 @@
                             android:layout_height="wrap_content"
                             android:text="What category of commodities are you trading?"
                             android:textSize="18sp"
-                            android:textColor="@color/tax_calculator_search_text_color"/>
+                            android:textColor="@color/colorText"/>
 
                     <RelativeLayout
                             android:layout_width="match_parent"
@@ -85,7 +85,7 @@
                             android:layout_height="wrap_content"
                             android:text="What commodity are you trading?"
                             android:textSize="18sp"
-                            android:textColor="@color/tax_calculator_search_text_color"/>
+                            android:textColor="@color/colorText"/>
 
                     <RelativeLayout
                             android:layout_width="match_parent"
@@ -129,7 +129,7 @@
                             android:layout_height="wrap_content"
                             android:text="Where are you selling your goods?"
                             android:textSize="18sp"
-                            android:textColor="@color/tax_calculator_search_text_color"/>
+                            android:textColor="@color/colorText"/>
 
                     <RelativeLayout
                             android:layout_width="match_parent"
@@ -173,7 +173,7 @@
                             android:layout_height="wrap_content"
                             android:text="Where was your product made/originate?"
                             android:textSize="18sp"
-                            android:textColor="@color/tax_calculator_search_text_color"/>
+                            android:textColor="@color/colorText"/>
 
                     <RelativeLayout
                             android:layout_width="match_parent"
@@ -213,7 +213,7 @@
                         android:layout_height="wrap_content"
                         android:text="What is the approximate value of your good in UGX?"
                         android:textSize="18sp"
-                        android:textColor="@color/tax_calculator_search_text_color"/>
+                        android:textColor="@color/colorText"/>
 
                 <RelativeLayout
                         android:layout_width="match_parent"
@@ -248,8 +248,8 @@
                         android:text="Search"
                         android:textStyle="bold"
                         android:textSize="24sp"
-                        android:backgroundTint="@color/button_primary_color"
-                        android:textColor="@color/button_text_primary_color"/>
+                        android:backgroundTint="@color/colorAccent"
+                        android:textColor="@color/colorText"/>
 
                 <ProgressBar
                         android:layout_width="match_parent"

@@ -269,6 +269,7 @@ class SautiRepositoryImpl(
         return recentMarketPriceSearchRoomCache.getAll()
     }
 
+    // TODO make this not a list
     /** Search all stored recent market price search data in the network or cache*/
     override fun searchRecentMarketPrices(): Single<MutableList<MarketPriceData>> {
         return recentMarketPriceSearchRoomCache.getAll()
@@ -277,7 +278,6 @@ class SautiRepositoryImpl(
                     val recentMarketPrices = mutableListOf<MarketPriceData>()
                     it.forEach {
                         try {
-                            // TODO experiment with flowable
                             val marketPrice = searchMarketPrice(it.country, it.market, it.category, it.product).blockingGet()
                             recentMarketPrices.add(marketPrice)
                         } catch (e: Exception) {}

@@ -3,7 +3,8 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context=".fragment.ReportFragment">
+             tools:context=".fragment.ReportFragment"
+            tools:showIn="@layout/tool_app_bar_report">
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -14,40 +15,56 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="20dp"
+                android:background="@color/colorInformation">
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Contact Sauti"/>
+                    android:text="Contact Sauti"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorText"/>
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Call/SMS/Whatsapp Sauti:\nKenya +254 708 807 824\nUganda +256 756 547 937"/>
+                    android:text="Call/SMS/Whatsapp Sauti:\nKenya +254 708 807 824\nUganda +256 756 547 937"
+                    android:textColor="@color/colorText"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
 
         </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="20dp"
+                android:background="@color/colorPrimaryDark">
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Report Form"/>
+                    android:text="Report Form"
+                    android:textColor="@color/colorText"
+                    android:textSize="24sp"
+                    android:textStyle="bold"/>
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="We will now ask some questions about your border experience."/>
+                    android:text="We will now ask some questions about your border experience."
+                    android:textColor="@color/colorText"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Which border did you cross?"/>
+                    android:text="Which border did you cross?"
+                    android:textColor="@color/colorText"
+                    android:textSize="18sp"/>
 
             <Spinner
                     android:id="@+id/s_borders"
@@ -59,23 +76,32 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Did you have a good experience?"/>
+                    android:text="Did you have a good experience?"
+                    android:textColor="@color/colorText"
+                    android:textSize="18sp"/>
 
             <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="40dp">
 
                 <Button
                         android:id="@+id/b_yes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Yes"/>
+                        android:text="Yes"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorButtonResponseText"
+                        android:backgroundTint="@color/colorButtonResponse"/>
 
                 <Button
                         android:id="@+id/b_no"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="No"/>
+                        android:text="No"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorButtonResponseText"
+                        android:backgroundTint="@color/colorButtonResponse"/>
 
             </LinearLayout>
 
@@ -83,7 +109,10 @@
                     android:id="@+id/b_submit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Submit"/>
+                    android:text="Submit"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorText"
+                    android:backgroundTint="@color/colorAccent"/>
 
         </LinearLayout>
 
