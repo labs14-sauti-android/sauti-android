@@ -5,6 +5,9 @@ import androidx.room.Query
 import com.labs.sauti.model.ProductData
 import io.reactivex.Completable
 
+//TODO: Something like this will be implemented if we get to markeptplace
+
+
 @Dao
 interface ProductDao : BaseDao<ProductData> {
 

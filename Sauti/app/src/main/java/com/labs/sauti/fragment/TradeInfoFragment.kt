@@ -5,13 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 
 import com.labs.sauti.R
 import com.labs.sauti.model.TradeInfoData
+import com.labs.sauti.views.TradeInfoViewRecentSearches
 import kotlinx.android.synthetic.main.fragment_trade_info.*
 
 //TODO Troy mentioned adding a lightweight animation.
+//TODO: Add a clicklistener to the items in required documents in class Lance wants that clickable
+
 class TradeInfoFragment : Fragment() {
 
     //TODO: Remove Dummy Data
@@ -41,8 +45,9 @@ class TradeInfoFragment : Fragment() {
                 "-Tobacco",
                 "-Used clothing",
                 "-Wheat")
-            )
+        )
 
+        //TODO: Remove dummy data creation
         testTIdocuments = TradeInfoData(1,
             "Required Documents:",
             "Required Documents...expanded",
@@ -51,6 +56,8 @@ class TradeInfoFragment : Fragment() {
                 "3:Simplified Certificate Of Origin (SCOO)",
                 "4:National ID",
                 "5:Yellow Fever Card"))
+
+
     }
 
     override fun onCreateView(
@@ -65,10 +72,13 @@ class TradeInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //TODO Hide the constraint layout unless clicked. Handled via clicklistener.
         cl_expanded_tradeinfo.visibility = View.GONE
-
         tiv_recent_first.setOnClickListener{
             cl_expanded_tradeinfo.visibility = View.VISIBLE
         }
+
+
+        tiv_recent_first.initView(testTIbanned)
+
     }
 
     companion object {

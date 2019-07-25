@@ -26,6 +26,7 @@
                       app:layout_constraintTop_toBottomOf="@+id/t_trade_info_header"
                       app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="10dp"
                       app:layout_constraintEnd_toEndOf="parent"
-                      app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="3dp"></LinearLayout>
+                      app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="3dp"
+                      android:id="@+id/ll_trade_list" android:orientation="horizontal"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.labs.sauti.views.TradeInfoViewRecentSearches>
