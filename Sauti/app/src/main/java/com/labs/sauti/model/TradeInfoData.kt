@@ -22,5 +22,9 @@ data class TradeInfoData (
     @Expose
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "tradeinfo_id")
-    val tradeinfoID: Long = 0
+    val tradeinfoID: Long = 0,
+
+    val tradeinfoTopic : String,
+    val tradeinfoList : MutableList<String> = mutableListOf()
 )
+//TODO Markup with room annotations. Ideal way I would like data to be delivered. 
