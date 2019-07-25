@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 
@@ -20,10 +21,14 @@ import com.labs.sauti.SautiApp
 import com.labs.sauti.fragment.*
 import com.labs.sauti.model.User
 import com.labs.sauti.view_model.AuthenticationViewModel
+import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.app_bar_base.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import java.lang.RuntimeException
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
@@ -33,8 +38,8 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
     lateinit var authenticationViewModelFactory: AuthenticationViewModel.Factory
 
     private lateinit var authenticationViewModel: AuthenticationViewModel
-
     private lateinit var baseFragment: Fragment
+    private var appCloseDoubleClickTimerDisposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +65,7 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
         supportFragmentManager.beginTransaction()
             .replace(R.id.primary_fragment_container, baseFragment)
             .commit()
-
+        nav_view.menu.findItem(R.id.nav_dashboard).isChecked = true
     }
 
     override fun onResume() {
@@ -68,10 +73,10 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
 
         authenticationViewModel.getIsSignedInLiveData().observe(this, Observer<Boolean> {
             if (it) {
-                nav_view.menu.findItem(R.id.nav_log_in_out).title = getString(R.string.menu_log_out)
+                nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_out)
             } else {
                 setUserNavInfoAsLoggedOut()
-                nav_view.menu.findItem(R.id.nav_log_in_out).title = getString(R.string.menu_log_in)
+                nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_in)
             }
         })
         authenticationViewModel.isSignedIn()
@@ -82,6 +87,12 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
         })
         authenticationViewModel.getCurrentUser()
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        appCloseDoubleClickTimerDisposable?.dispose()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -129,11 +140,11 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
 
                 return true
             }
-            R.id.nav_log_in_out -> {
-                if (item.title == getString(R.string.menu_log_out)) {
+            R.id.nav_sign_in_out -> {
+                if (item.title == getString(R.string.menu_sign_out)) {
                     authenticationViewModel.signOut()
 
-                    item.title = getString(R.string.menu_log_in)
+                    item.title = getString(R.string.menu_sign_in)
                     setUserNavInfoAsLoggedOut()
 
                     drawer_layout.closeDrawer(GravityCompat.START)
@@ -149,19 +160,49 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
 
                 return true
             }
+            R.id.nav_report -> {
+                if (replaceFragment(ReportFragment::class.java)) {
+                    drawer_layout.closeDrawer(GravityCompat.START)
+                }
+
+                return true
+            }
+            R.id.nav_help -> {
+                if (replaceFragment(HelpFragment::class.java)) {
+                    drawer_layout.closeDrawer(GravityCompat.START)
+                }
+
+                return true
+            }
+
         }
+
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
 
-    // TODO implement double backpress to close the app
-    // TODO close the login pop up instead of the nav drawer first
     override fun onBackPressed() {
+        if (supportFragmentManager.fragments.size > 1) {
+            supportFragmentManager.popBackStack()
+            return
+        }
+
         if (!recursivePopBackStack(baseFragment.childFragmentManager)) {
             if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
                 drawer_layout.closeDrawer(GravityCompat.START)
             } else {
-                super.onBackPressed()
+                if (appCloseDoubleClickTimerDisposable != null) {
+                    super.onBackPressed()
+                    return
+                }
+
+                appCloseDoubleClickTimerDisposable = Completable.timer(2000, TimeUnit.MILLISECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        appCloseDoubleClickTimerDisposable = null
+                    }
+
+                Toast.makeText(this, "Press back again to exit the app", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -194,7 +235,7 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
         })
         authenticationViewModel.getCurrentUser()
 
-        nav_view.menu.findItem(R.id.nav_log_in_out).title = getString(R.string.menu_log_out)
+        nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_out)
     }
 
     override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
@@ -272,6 +313,20 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
                     shouldReplace = true
                     baseFragment = MarketplaceFragment.newInstance()
                     toolbar.title = "Marketplace"
+                }
+            }
+            c.isAssignableFrom(ReportFragment::class.java) -> {
+                if (baseFragment !is ReportFragment) {
+                    shouldReplace = true
+                    baseFragment = ReportFragment.newInstance()
+                    toolbar.title = "Report"
+                }
+            }
+            c.isAssignableFrom(HelpFragment::class.java) -> {
+                if (baseFragment !is HelpFragment) {
+                    shouldReplace = true
+                    baseFragment = HelpFragment.newInstance()
+                    toolbar.title = "Help"
                 }
             }
             else -> throw RuntimeException("Invalid Fragment")
