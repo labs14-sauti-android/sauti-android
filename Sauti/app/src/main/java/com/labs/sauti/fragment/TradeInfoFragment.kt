@@ -28,6 +28,10 @@ class TradeInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //TODO Hide the constraint layout unless clicked. Handled via clicklistener.
         cl_expanded_tradeinfo.visibility = View.GONE
+
+        tiv_recent_first.setOnClickListener{
+            cl_expanded_tradeinfo.visibility = View.VISIBLE
+        }
     }
 
     companion object {
