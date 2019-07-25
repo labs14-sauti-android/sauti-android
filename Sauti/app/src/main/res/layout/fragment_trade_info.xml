@@ -36,4 +36,31 @@
             app:layout_constraintTop_toBottomOf="@+id/cl_expanded_tradeinfo" android:layout_marginStart="30dp"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="18dp" app:layout_constraintHorizontal_bias="0.0"/>
+    <com.labs.sauti.views.TradeInfoView
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:id="@+id/tiv_recent_first"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            android:layout_marginTop="6dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+    ></com.labs.sauti.views.TradeInfoView>
+    <com.labs.sauti.views.TradeInfoView
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:id="@+id/tiv_recent_second"
+            app:layout_constraintTop_toBottomOf="@+id/textView" android:layout_marginTop="4dp"
+            app:layout_constraintStart_toEndOf="@+id/tiv_recent_first" android:layout_marginStart="15dp">
+    </com.labs.sauti.views.TradeInfoView>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/b_search2"
+            android:layout_margin="20dp"
+            android:layout_gravity="bottom|end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/button_primary_color"
+            android:src="@drawable/ic_search_24dp"
+            android:layout_marginBottom="@dimen/fab_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="@dimen/fab_margin"
+            app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

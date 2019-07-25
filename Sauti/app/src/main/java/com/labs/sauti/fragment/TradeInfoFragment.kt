@@ -26,7 +26,7 @@ class TradeInfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //TODO Hide the constraint layout unless clicked. Handled via clicklistener. 
+        //TODO Hide the constraint layout unless clicked. Handled via clicklistener.
         cl_expanded_tradeinfo.visibility = View.GONE
     }
 
