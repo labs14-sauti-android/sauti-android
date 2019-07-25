@@ -33,22 +33,22 @@ class TaxCalculatorSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vs_products.visibility = View.GONE
-        vs_where_to_list.visibility = View.GONE
-        vs_where_from_list.visibility = View.GONE
-        ll_value.visibility = View.GONE
-        b_search.isEnabled = false
-
-        vs_categories.displayedChild = 1
-
-        b_search.setOnClickListener {
-            if (s_categories.selectedItem != null &&
-                s_products.selectedItem != null &&
-                s_where_to_list.selectedItem != null &&
-                s_where_from_list.selectedItem != null) {
-
-            }
-        }
+//        vs_products.visibility = View.GONE
+//        vs_where_to_list.visibility = View.GONE
+//        vs_where_from_list.visibility = View.GONE
+//        ll_value.visibility = View.GONE
+//        b_search.isEnabled = false
+//
+//        vs_categories.displayedChild = 1
+//
+//        b_search.setOnClickListener {
+//            if (s_categories.selectedItem != null &&
+//                s_products.selectedItem != null &&
+//                s_where_to_list.selectedItem != null &&
+//                s_where_from_list.selectedItem != null) {
+//
+//            }
+//        }
     }
 
     fun categorySelected() {
@@ -113,6 +113,7 @@ class TaxCalculatorSearchFragment : Fragment() {
 
         if (parentFragment is OnFragmentFullScreenStateChangedListener) {
             onFragmentFullScreenStateChangedListener = parentFragment as OnFragmentFullScreenStateChangedListener
+            onFragmentFullScreenStateChangedListener!!.onFragmetFullScreenStateChanged(true)
         } else {
             throw RuntimeException("parentFragment must implement OnFragmentFullScreenStateChangedListener")
         }

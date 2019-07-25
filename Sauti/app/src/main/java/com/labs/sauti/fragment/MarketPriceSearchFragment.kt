@@ -21,6 +21,7 @@ import javax.inject.Inject
 
 // TODO button color when disabled. or just hide the button?
 // TODO use ViewSwitcher instead of VISIBLE/GONE when loading
+// TODO show warning when offline
 class MarketPriceSearchFragment : Fragment() {
     private var onMarketPriceSearchCompletedListener: OnMarketPriceSearchCompletedListener? = null
     private var onFragmentFullScreenStateChangedListener: OnFragmentFullScreenStateChangedListener? = null
@@ -227,6 +228,7 @@ class MarketPriceSearchFragment : Fragment() {
 
         if (parentFragment is OnFragmentFullScreenStateChangedListener) {
             onFragmentFullScreenStateChangedListener = parentFragment as OnFragmentFullScreenStateChangedListener
+            onFragmentFullScreenStateChangedListener!!.onFragmetFullScreenStateChanged(true)
         } else {
             throw RuntimeException("parentFragment must implement OnFragmentFullScreenStateChangedListener")
         }

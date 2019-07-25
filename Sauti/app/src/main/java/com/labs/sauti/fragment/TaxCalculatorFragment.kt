@@ -11,7 +11,8 @@ import com.labs.sauti.R
 import com.labs.sauti.model.TaxCalculationData
 import kotlinx.android.synthetic.main.fragment_tax_calculator.*
 
-class TaxCalculatorFragment : Fragment(), TaxCalculatorSearchFragment.OnTaxCalculatorSearchCompletedListener {
+class TaxCalculatorFragment : Fragment(), TaxCalculatorSearchFragment.OnTaxCalculatorSearchCompletedListener,
+OnFragmentFullScreenStateChangedListener {
 
     private var onFragmentFullScreenStateChangedListener: OnFragmentFullScreenStateChangedListener? = null
 
@@ -31,8 +32,10 @@ class TaxCalculatorFragment : Fragment(), TaxCalculatorSearchFragment.OnTaxCalcu
         super.onViewCreated(view, savedInstanceState)
 
         b_search.setOnClickListener {
+            val taxCalculatorSearchFragment = TaxCalculatorSearchFragment.newInstance()
             childFragmentManager.beginTransaction()
-                .replace(R.id.fl_fragment_container, TaxCalculatorSearchFragment.newInstance())
+                .replace(R.id.fl_fragment_container, taxCalculatorSearchFragment)
+                .addToBackStack(null)
                 .commit()
         }
     }
@@ -55,6 +58,10 @@ class TaxCalculatorFragment : Fragment(), TaxCalculatorSearchFragment.OnTaxCalcu
 
     override fun onTaxCalculatorSearchCompleted(taxCalculationData: TaxCalculationData) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
+        onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(isFullScreen)
     }
 
     companion object {

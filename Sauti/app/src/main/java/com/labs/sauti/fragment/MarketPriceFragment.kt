@@ -143,8 +143,6 @@ OnFragmentFullScreenStateChangedListener {
             .add(R.id.fl_fragment_container, marketPriceSearchFragment)
             .addToBackStack(null)
             .commit()
-
-        onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(true)
     }
 
     private fun setMarketPriceDetails(marketPrice: MarketPriceData) {
