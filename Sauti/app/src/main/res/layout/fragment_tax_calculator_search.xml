@@ -26,7 +26,7 @@
                     android:textColor="@color/tax_calculator_search_text_color"/>
 
             <ViewSwitcher
-                    android:id="@+id/vs_categories_loading"
+                    android:id="@+id/vs_categories"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="40dp">
@@ -70,7 +70,7 @@
             </ViewSwitcher>
 
             <ViewSwitcher
-                    android:id="@+id/vs_products_loading"
+                    android:id="@+id/vs_products"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="40dp">
@@ -114,7 +114,7 @@
             </ViewSwitcher>
 
             <ViewSwitcher
-                    android:id="@+id/vs_where_to_list_loading"
+                    android:id="@+id/vs_where_to_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="40dp">
@@ -158,7 +158,7 @@
             </ViewSwitcher>
 
             <ViewSwitcher
-                    android:id="@+id/vs_where_from_list_loading"
+                    android:id="@+id/vs_where_from_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="40dp">
@@ -202,6 +202,7 @@
             </ViewSwitcher>
 
             <LinearLayout
+                    android:id="@+id/ll_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -224,7 +225,7 @@
                             android:src="@drawable/search_spinner_background"/>
 
                     <EditText
-                            android:id="@+id/et_approximate_value"
+                            android:id="@+id/et_value"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"/>
 

@@ -277,6 +277,7 @@ class SautiRepositoryImpl(
                     val recentMarketPrices = mutableListOf<MarketPriceData>()
                     it.forEach {
                         try {
+                            // TODO experiment with flowable
                             val marketPrice = searchMarketPrice(it.country, it.market, it.category, it.product).blockingGet()
                             recentMarketPrices.add(marketPrice)
                         } catch (e: Exception) {}

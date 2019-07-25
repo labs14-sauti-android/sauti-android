@@ -1,5 +1,6 @@
 package com.labs.sauti.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,8 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.labs.sauti.R
+import com.labs.sauti.model.TaxCalculationData
+import kotlinx.android.synthetic.main.fragment_tax_calculator.*
 
-class TaxCalculatorFragment : Fragment() {
+class TaxCalculatorFragment : Fragment(), TaxCalculatorSearchFragment.OnTaxCalculatorSearchCompletedListener {
+
+    private var onFragmentFullScreenStateChangedListener: OnFragmentFullScreenStateChangedListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +30,31 @@ class TaxCalculatorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        b_search.setOnClickListener {
+            childFragmentManager.beginTransaction()
+                .replace(R.id.fl_fragment_container, TaxCalculatorSearchFragment.newInstance())
+                .commit()
+        }
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        if (context is OnFragmentFullScreenStateChangedListener) {
+            onFragmentFullScreenStateChangedListener = context
+        } else {
+            throw RuntimeException("Context must implement OnFragmentFullScreenStateChangedListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+
+        onFragmentFullScreenStateChangedListener = null
+    }
+
+    override fun onTaxCalculatorSearchCompleted(taxCalculationData: TaxCalculationData) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     companion object {
