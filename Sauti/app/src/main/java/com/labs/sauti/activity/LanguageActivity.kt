@@ -42,7 +42,8 @@ class LanguageActivity : AppCompatActivity() {
 
         val intent = Intent(this@LanguageActivity, BaseActivity::class.java)
 
-        compositeDisposable.add(Completable.timer(3000, TimeUnit.MILLISECONDS)
+        compositeDisposable.add(Completable.timer(1500, TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 startActivity(intent)
                 finish()
