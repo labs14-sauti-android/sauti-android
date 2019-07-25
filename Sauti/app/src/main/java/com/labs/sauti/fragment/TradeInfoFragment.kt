@@ -8,12 +8,49 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 
 import com.labs.sauti.R
+import com.labs.sauti.model.TradeInfoData
 import kotlinx.android.synthetic.main.fragment_trade_info.*
 
+//TODO Troy mentioned adding a lightweight animation.
 class TradeInfoFragment : Fragment() {
+
+    //TODO: Remove Dummy Data
+    lateinit var testTIbanned: TradeInfoData
+    lateinit var testTIdocuments: TradeInfoData
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //TODO: Remove dummy data creation
+        testTIbanned = TradeInfoData(0,
+            "These commodities are banned:",
+            "These commodities are banned and cannot legally cross the border:",
+            listOf("-Air Zinc",
+                "-Batteries",
+                "-Batteries",
+                "-Khanga, kikoi, kitenge",
+                "-Lithium",
+                "-Maize",
+                "-Manganese Dioxide",
+                "-Matches",
+                "-Mercuric Oxide",
+                "-Rice",
+                "-Silver Oxide",
+                "-Sugar",
+                "-Tobacco",
+                "-Used clothing",
+                "-Wheat")
+            )
+
+        testTIdocuments = TradeInfoData(1,
+            "Required Documents:",
+            "Required Documents...expanded",
+            listOf("1. Import ",
+                "2. Valid Invoice",
+                "3:Simplified Certificate Of Origin (SCOO)",
+                "4:National ID",
+                "5:Yellow Fever Card"))
     }
 
     override fun onCreateView(
