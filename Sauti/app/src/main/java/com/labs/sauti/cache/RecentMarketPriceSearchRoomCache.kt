@@ -6,6 +6,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
+// TODO observeon instead of subscribeon
 class RecentMarketPriceSearchRoomCache(private val sautiRoomDatabase: SautiRoomDatabase) : RecentMarketPriceSearchCache {
 
     companion object {

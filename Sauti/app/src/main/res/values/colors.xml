@@ -8,19 +8,6 @@
     <color name="colorTextInformation">#f8c8c4</color>
     <color name="colorCardBackground">#d9d6d6</color>
     <color name="colorCardText">#050505</color>
-    <!-- TODO consider deleting these colors-->
-    <color name="market_price_background">#2e2e2e</color>
-    <color name="market_price_details_text_color">#ffffff</color>
-    <color name="item_recent_market_price_text_color">#000000</color>
-    <color name="item_recent_market_price_background_color">#d9d6d6</color>
-    <color name="market_price_search_background">#2e2e2e</color>
-    <color name="market_price_search_text_color">#ffffff</color>
-    <color name="button_primary_color">#e84c3d</color>
-    <color name="button_text_primary_color">#ffffff</color>
-    <color name="item_tax_calculator_text_color">#000000</color>
-    <color name="item_tax_calculator_background_color">#d9d6d6</color>
-    <color name="tax_calculator_background">#2e2e2e</color>
-    <color name="tax_calculator_details_text_color">#ffffff</color>
-    <color name="tax_calculator_search_background">#2e2e2e</color>
-    <color name="tax_calculator_search_text_color">#ffffff</color>
+    <color name="colorButtonResponse">#f8c8c4</color>
+    <color name="colorButtonResponseText">#000000</color>
 </resources>
