@@ -269,6 +269,7 @@ class SautiRepositoryImpl(
         return recentMarketPriceSearchRoomCache.getAll()
     }
 
+    // TODO make this not a list
     /** Search all stored recent market price search data in the network or cache*/
     override fun searchRecentMarketPrices(): Single<MutableList<MarketPriceData>> {
         return recentMarketPriceSearchRoomCache.getAll()

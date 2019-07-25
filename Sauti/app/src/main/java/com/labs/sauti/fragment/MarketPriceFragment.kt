@@ -27,7 +27,6 @@ import javax.inject.Inject
 class MarketPriceFragment : Fragment(), MarketPriceSearchFragment.OnMarketPriceSearchCompletedListener,
 OnFragmentFullScreenStateChangedListener {
 
-    // TODO shouldn't listeners be nonnull because they are checked at onAttach anyway?
     private var onFragmentFullScreenStateChangedListener: OnFragmentFullScreenStateChangedListener? = null
 
     @Inject
@@ -144,8 +143,6 @@ OnFragmentFullScreenStateChangedListener {
             .add(R.id.fl_fragment_container, marketPriceSearchFragment)
             .addToBackStack(null)
             .commit()
-
-        onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(true)
     }
 
     private fun setMarketPriceDetails(marketPrice: MarketPriceData) {
