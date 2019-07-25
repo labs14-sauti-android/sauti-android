@@ -13,7 +13,7 @@ class TradeInfoView @JvmOverloads constructor(
 ) : CardView(context, attrs, defStyleAttr) {
 
     fun initView(tradeInfoData: TradeInfoData) {
-
+        t_trade_info_header.text = tradeInfoData.tradeinfoTopic
 
     }
 }

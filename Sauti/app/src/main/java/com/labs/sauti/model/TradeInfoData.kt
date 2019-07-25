@@ -25,6 +25,7 @@ data class TradeInfoData (
     val tradeinfoID: Long = 0,
 
     val tradeinfoTopic : String,
-    val tradeinfoList : MutableList<String> = mutableListOf()
+    //val tradeinfoList : MutableList<String> = mutableListOf()
+    val tradeinfoList : String
 )
-//TODO Markup with room annotations. Ideal way I would like data to be delivered. 
+//TODO Markup with room annotations. Ideal way I would like data to be delivered in a list.
