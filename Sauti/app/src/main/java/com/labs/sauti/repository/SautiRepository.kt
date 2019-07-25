@@ -7,7 +7,7 @@ import io.reactivex.Single
 interface SautiRepository {
 
     fun login(username: String, password: String): Single<LoginResponse>
-    fun signOut(): Single<Unit>
+    fun signOut(): Single<Unit> // TODO make this Completable
     fun isAccessTokenValid(): Single<Boolean>
     fun getCurrentUser(): Single<User>
 
