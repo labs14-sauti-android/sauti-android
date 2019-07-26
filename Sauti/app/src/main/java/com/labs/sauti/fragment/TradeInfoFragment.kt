@@ -12,15 +12,19 @@ import com.labs.sauti.R
 import com.labs.sauti.model.TradeInfoData
 import com.labs.sauti.views.TradeInfoViewRecentSearches
 import kotlinx.android.synthetic.main.fragment_trade_info.*
+import kotlinx.android.synthetic.main.item_recent_trade_info.view.*
 
 //TODO Troy mentioned adding a lightweight animation.
 //TODO: Add a clicklistener to the items in required documents in class Lance wants that clickable
 
 class TradeInfoFragment : Fragment() {
 
-    //TODO: Remove Dummy Data
+    //TODO: Remove Dummy Data, using MVVM later
     lateinit var testTIbanned: TradeInfoData
     lateinit var testTIdocuments: TradeInfoData
+
+    lateinit var first : TradeInfoViewRecentSearches
+    lateinit var second : TradeInfoViewRecentSearches
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,8 +80,9 @@ class TradeInfoFragment : Fragment() {
             cl_expanded_tradeinfo.visibility = View.VISIBLE
         }
 
+        tiv_recent_first.consumeTIData(testTIbanned)
+        tiv_recent_second.consumeTIData(testTIdocuments)
 
-        tiv_recent_first.initView(testTIbanned)
 
     }
 
