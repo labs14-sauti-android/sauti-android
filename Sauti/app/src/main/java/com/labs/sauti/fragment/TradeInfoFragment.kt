@@ -130,7 +130,7 @@ class TradeInfoFragment : Fragment() {
 
             when {
                 i < half -> l_tradeinfo_left_list.addView(textView)
-                i == half -> l_tradeinfo_left_list.addView(textView)
+ //               i == half -> l_tradeinfo_left_list.addView(textView)
                 else -> l_tradeinfo_right_list.addView(textView)
             }
         }
