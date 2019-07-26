@@ -58,9 +58,9 @@ class TradeInfoFragment : Fragment() {
             "Required Documents...expanded",
             listOf("1. Import ",
                 "2. Valid Invoice",
-                "3:Simplified Certificate Of Origin (SCOO)",
-                "4:National ID",
-                "5:Yellow Fever Card"))
+                "3. Simplified Certificate Of Origin (SCOO)",
+                "4. National ID",
+                "5. Something"))
 
 
     }
@@ -116,10 +116,10 @@ class TradeInfoFragment : Fragment() {
     fun addTIDetailsLL(tradeInfoData: TradeInfoData) {
         l_tradeinfo_left_list.removeAllViews()
         l_tradeinfo_right_list.removeAllViews()
-        var half = tradeInfoData.tradeinfoList.size / 2
+        var half = (tradeInfoData.tradeinfoList.size) / 2
 
 
-        for (i in 0 until tradeInfoData.tradeinfoList.size) {
+        for (i in 0 until (tradeInfoData.tradeinfoList.size)) {
             //TODO: Change language so left LL will have one more if odd number of elements.
             val textView = TextView(context)
             TextViewCompat.setTextAppearance(textView, R.style.TradeInfoDetailsListTextStyling)
@@ -129,9 +129,9 @@ class TradeInfoFragment : Fragment() {
             })
 
             when {
-                i < half -> l_tradeinfo_left_list.addView(textView)
- //               i == half -> l_tradeinfo_left_list.addView(textView)
-                else -> l_tradeinfo_right_list.addView(textView)
+                i > half -> l_tradeinfo_right_list.addView(textView)
+                i == half -> l_tradeinfo_left_list.addView(textView)
+                else -> l_tradeinfo_left_list.addView(textView)
             }
         }
     }
