@@ -2,11 +2,14 @@ package com.labs.sauti.fragment
 
 
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import com.labs.sauti.R
 import com.labs.sauti.model.TradeInfoData
@@ -109,23 +112,28 @@ class TradeInfoFragment : Fragment() {
 
     }
 
+
     fun addTIDetailsLL(tradeInfoData: TradeInfoData) {
         l_tradeinfo_left_list.removeAllViews()
         l_tradeinfo_right_list.removeAllViews()
-        val half = tradeInfoData.tradeinfoList.size / 2
+        var half = tradeInfoData.tradeinfoList.size / 2
+
 
         for (i in 0 until tradeInfoData.tradeinfoList.size) {
-            //TODO: WHY IS THIS NOT TAKING MY COLOR?!
-            val textView = TextView(context, null, R.style.TradeInfoDetailsListTextStyling)
+            //TODO: Change language so left LL will have one more if odd number of elements.
+            val textView = TextView(context)
+            TextViewCompat.setTextAppearance(textView, R.style.TradeInfoDetailsListTextStyling)
             textView.text = tradeInfoData.tradeinfoList[i]
+            textView.setOnClickListener({
+                //TODO: Add a child fragment explaining what that doc is when clicked. 
+            })
 
             when {
                 i < half -> l_tradeinfo_left_list.addView(textView)
-                i == half -> l_tradeinfo_left_list.addView(textView)
+//                i == half -> l_tradeinfo_left_list.addView(textView)
                 else -> l_tradeinfo_right_list.addView(textView)
             }
         }
-
     }
 
 
