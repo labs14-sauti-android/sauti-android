@@ -20,4 +20,19 @@
         <item name="android:popupBackground">@color/colorPrimaryDark</item>
         <item name="actionMenuTextColor">@color/colorText</item>
     </style>
+    
+    <style name="CardViewDashboardNavStyling">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorButtonResponseText</item>
+    </style>
+
+    <style name="DashboardBottomNavStyling">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingStart">20dp</item>
+    </style>
 </resources>
