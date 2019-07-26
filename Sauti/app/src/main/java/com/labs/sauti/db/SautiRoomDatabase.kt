@@ -50,6 +50,7 @@ abstract class SautiRoomDatabase : RoomDatabase() {
         //Use Rxjava to create run this function
         private fun createDatabase(context: Context): SautiRoomDatabase {
             return Room.databaseBuilder(context, SautiRoomDatabase::class.java, DB_NAME)
+                //TODO: To be removed once models are finalized and ready for final delivery.
                 .fallbackToDestructiveMigration()
                 .build()
         }

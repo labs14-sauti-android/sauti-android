@@ -4,6 +4,7 @@ import com.labs.sauti.model.ProductData
 
 //CAN BE REMOVED AND CONNECT DIRECTLY TO DAO
 //or Will check locally then remotely with Rxjava call.
+//TODO: Something like this will be implemented if we get to markeptplace
 
 class ProductRepository(private val productDao: ProductDao) {
 

@@ -1,14 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".fragment.TradeInfoFragment">
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        tools:context=".fragment.TradeInfoFragment" android:id="@+id/cl_fragment_container">
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@color/colorInformation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/cl_expanded_tradeinfo"
+    >
+        <TextView
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif"
+                tools:text="These commodities are banned and cannot legally cross the border:"
+                android:layout_width="276dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/t_trade_header" app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/colorTextInformation" android:layout_marginStart="20dp"
+                android:layout_marginTop="22dp" app:layout_constraintTop_toTopOf="parent"/>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/l_tradeinfo_left_list"
+                app:layout_constraintStart_toStartOf="@+id/t_trade_header"
+                app:layout_constraintTop_toBottomOf="@+id/t_trade_header" app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintEnd_toStartOf="@+id/l_tradeinfo_right_list" android:layout_marginTop="18dp"
+                android:layout_marginBottom="25dp" app:layout_constraintBottom_toBottomOf="parent">
+        </LinearLayout>
+        <LinearLayout
+                app:layout_constraintStart_toEndOf="@+id/l_tradeinfo_left_list"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/l_tradeinfo_right_list"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="4dp"
+                app:layout_constraintTop_toBottomOf="@+id/t_trade_header" app:layout_constraintHorizontal_bias="0.5"
+                android:layout_marginTop="18dp" android:layout_marginEnd="20dp" android:layout_marginBottom="25dp"
+                app:layout_constraintBottom_toBottomOf="parent">
+        </LinearLayout>
+        <!-- TODO: textstyle, size, and font family will receive a style -->
 
-    <!-- TODO: Update blank fragment layout -->
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"/>
-
-</FrameLayout>
+            android:text="@string/your_recent_searches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:textColor="@color/colorText"
+            app:layout_constraintTop_toBottomOf="@+id/cl_expanded_tradeinfo" android:layout_marginStart="30dp"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="18dp" app:layout_constraintHorizontal_bias="0.0"/>
+    <com.labs.sauti.views.TradeInfoViewRecentSearches
+            android:layout_width="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+            android:layout_height="0dp"
+            android:id="@+id/tiv_recent_first"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            android:layout_marginTop="6dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintEnd_toStartOf="@+id/tiv_recent_second"
+    />
+    <com.labs.sauti.views.TradeInfoViewRecentSearches
+            android:layout_width="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+            android:layout_height="0dp"
+            android:id="@+id/tiv_recent_second"
+            app:layout_constraintTop_toBottomOf="@+id/textView" android:layout_marginTop="6dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="35dp"
+            app:layout_constraintStart_toEndOf="@+id/tiv_recent_first"
+            android:layout_marginStart="15dp"
+    >
+    </com.labs.sauti.views.TradeInfoViewRecentSearches>
+    <TextView
+            android:text="@string/push_to_view"
+            android:layout_width="wrap_content"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif"
+            android:textStyle="normal"
+            android:textColor="#ffffff"
+            android:layout_height="wrap_content"
+            android:id="@+id/t_push_to_view" android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@+id/tiv_recent_first" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+    />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/b_search2"
+            android:layout_margin="20dp"
+            android:layout_gravity="bottom|end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
+            android:src="@drawable/ic_search_24dp"
+            android:layout_marginBottom="@dimen/fab_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="@dimen/fab_margin"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    <!-- TODO: t_push_to_view could use styling but not seen anywhere -->
+</androidx.constraintlayout.widget.ConstraintLayout>
