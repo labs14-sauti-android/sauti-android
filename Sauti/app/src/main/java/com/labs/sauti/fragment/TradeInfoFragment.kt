@@ -1,18 +1,18 @@
 package com.labs.sauti.fragment
 
 
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-
 import com.labs.sauti.R
 import com.labs.sauti.model.TradeInfoData
-import com.labs.sauti.views.TradeInfoViewRecentSearches
 import kotlinx.android.synthetic.main.fragment_trade_info.*
-import kotlinx.android.synthetic.main.item_recent_trade_info.view.*
+import androidx.transition.TransitionManager
+
 
 //TODO Troy mentioned adding a lightweight animation.
 //TODO: Add a clicklistener to the items in required documents in class Lance wants that clickable
@@ -22,9 +22,7 @@ class TradeInfoFragment : Fragment() {
     //TODO: Remove Dummy Data, using MVVM later
     lateinit var testTIbanned: TradeInfoData
     lateinit var testTIdocuments: TradeInfoData
-
-    lateinit var first : TradeInfoViewRecentSearches
-    lateinit var second : TradeInfoViewRecentSearches
+    var tiDetailsIsVisible = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,24 +70,84 @@ class TradeInfoFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_trade_info, container, false)
     }
 
+    //TODO Whole section will be decoupled for MVVM
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         //TODO Hide the constraint layout unless clicked. Handled via clicklistener.
         cl_expanded_tradeinfo.visibility = View.GONE
-        tiv_recent_first.setOnClickListener{
-            cl_expanded_tradeinfo.visibility = View.VISIBLE
-        }
+
+
+        //TODO: Alter logic so views aren't prematurely removed
+        tiv_recent_first.setOnClickListener(object : View.OnClickListener {
+            var visible: Boolean = tiDetailsIsVisible
+
+            override fun onClick(v: View) {
+                t_trade_header.text = testTIbanned.tradeinfoTopicExpanded
+                addTIDetailsLL(testTIbanned)
+                TransitionManager.beginDelayedTransition(cl_fragment_container)
+                visible = !visible
+
+                cl_expanded_tradeinfo.visibility = if (visible) View.VISIBLE else View.GONE
+            }
+        })
+
+        tiv_recent_second.setOnClickListener(object : View.OnClickListener {
+            var visible: Boolean = tiDetailsIsVisible
+
+            override fun onClick(v: View) {
+                t_trade_header.text = testTIdocuments.tradeinfoTopicExpanded
+                addTIDetailsLL(testTIdocuments)
+                TransitionManager.beginDelayedTransition(cl_fragment_container)
+                visible = !visible
+                cl_expanded_tradeinfo.visibility = if (visible) View.VISIBLE else View.GONE
+            }
+        })
 
         tiv_recent_first.consumeTIData(testTIbanned)
         tiv_recent_second.consumeTIData(testTIdocuments)
 
+    }
+
+    fun addTIDetailsLL(tradeInfoData: TradeInfoData) {
+        l_tradeinfo_left_list.removeAllViews()
+        l_tradeinfo_right_list.removeAllViews()
+        val half = tradeInfoData.tradeinfoList.size / 2
+
+        for (i in 0 until tradeInfoData.tradeinfoList.size) {
+            //TODO: WHY IS THIS NOT TAKING MY COLOR?!
+            val textView = TextView(context, null, R.style.TradeInfoDetailsListTextStyling)
+            textView.text = tradeInfoData.tradeinfoList[i]
+
+            when {
+                i < half -> l_tradeinfo_left_list.addView(textView)
+                i == half -> l_tradeinfo_left_list.addView(textView)
+                else -> l_tradeinfo_right_list.addView(textView)
+            }
+        }
 
     }
+
 
     companion object {
         @JvmStatic
         fun newInstance() =
             TradeInfoFragment()
     }
-
 }
+
+
+//tiv_recent_first.setOnClickListener{
+//
+//    tiv_recent_first.animate()
+//        .translationY(tomove)
+//        .setListener(object : AnimatorListenerAdapter() {
+//
+//            override fun onAnimationEnd(animation: Animator) {
+//                super.onAnimationEnd(animation)
+//                cl_expanded_tradeinfo.visibility = View.VISIBLE
+//                cl_expanded_tradeinfo.alpha = 1.0f
+//            }
+//        })
+//}
+

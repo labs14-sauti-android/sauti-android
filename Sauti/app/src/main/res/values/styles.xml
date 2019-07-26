@@ -33,7 +33,14 @@
         <item name="android:gravity">left</item>
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">@color/colorCardText</item>
         <item name="android:textSize">@dimen/cardViewHeaderTextSize</item>
+        <item name="android:textColor">@color/colorCardText</item>
+    </style>
+    <style name="TradeInfoDetailsListTextStyling">
+        <item name="android:gravity">left</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">@dimen/cardViewHeaderTextSize</item>
+        <item name="android:textColor">@color/colorText</item>
     </style>
 </resources>

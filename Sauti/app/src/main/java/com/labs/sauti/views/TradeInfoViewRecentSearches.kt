@@ -3,12 +3,11 @@ package com.labs.sauti.views
 import android.content.Context
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.view.View
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import com.labs.sauti.R
 import com.labs.sauti.model.TradeInfoData
 import kotlinx.android.synthetic.main.item_recent_trade_info.view.*
-import com.labs.sauti.R
 
 
 class TradeInfoViewRecentSearches @JvmOverloads constructor(
@@ -36,6 +35,8 @@ class TradeInfoViewRecentSearches @JvmOverloads constructor(
         //Determine maxlines for header
         //Determine maxlines for listed items
         //Handles the list format
+
+
     }
 
 
