@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.firebase.analytics.FirebaseAnalytics
 
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
@@ -26,6 +27,8 @@ class MarketPriceSearchFragment : Fragment() {
     private var onMarketPriceSearchCompletedListener: OnMarketPriceSearchCompletedListener? = null
     private var onFragmentFullScreenStateChangedListener: OnFragmentFullScreenStateChangedListener? = null
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     @Inject
     lateinit var marketPricesViewModelFactory: MarketPriceViewModel.Factory
 
@@ -37,6 +40,7 @@ class MarketPriceSearchFragment : Fragment() {
         (context!!.applicationContext as SautiApp).getMarketPriceComponent().inject(this)
         marketPricesViewModel = ViewModelProviders.of(this, marketPricesViewModelFactory).get(MarketPriceViewModel::class.java)
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
     }
 
     override fun onCreateView(
@@ -164,6 +168,14 @@ class MarketPriceSearchFragment : Fragment() {
                     s_categories.selectedItem as String,
                     s_commodities.selectedItem as String
                 )
+
+                // TODO user
+                val searchParams = Bundle()
+                searchParams.putString("country", s_countries.selectedItem as String)
+                searchParams.putString("market", s_markets.selectedItem as String)
+                searchParams.putString("category", s_categories.selectedItem as String)
+                searchParams.putString("product", s_commodities.selectedItem as String)
+                firebaseAnalytics.logEvent("search_market_price", searchParams)
             }
         }
     }
