@@ -15,7 +15,6 @@ class SautiApp : Application() {
 
         mainComponent = DaggerMainComponent.builder()
             .appModule(AppModule(applicationContext))
-            .networkModule(NetworkModule(getString(R.string.sauti_api_base_url)))
             .dataModule(DataModule(getString(R.string.sauti_login_authorization)))
             .build()
     }

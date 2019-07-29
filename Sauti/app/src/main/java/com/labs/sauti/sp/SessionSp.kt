@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.gson.GsonBuilder
 import com.labs.sauti.model.User
 
+// TODO rxjava
 class SessionSp(private val context: Context) {
 
     companion object {
