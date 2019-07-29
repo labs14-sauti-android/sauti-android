@@ -1,7 +1,8 @@
 package com.labs.sauti.di.module
 
+import android.content.Context
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import com.labs.sauti.R
 import com.labs.sauti.api.SautiApiService
 import dagger.Module
 import dagger.Provides
@@ -13,7 +14,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
-class NetworkModule(private val baseUrl: String) {
+class NetworkModule {
 
     companion object {
         private const val READ_TIMEOUT = 30000L
@@ -22,23 +23,19 @@ class NetworkModule(private val baseUrl: String) {
 
     @Provides
     @Singleton
-    fun provideRetrofit(gson: Gson) : Retrofit {
+    fun provideSautiApiService(context: Context, gson: Gson) : SautiApiService {
         val okHttpClient = OkHttpClient.Builder()
             .readTimeout(READ_TIMEOUT, TimeUnit.MILLISECONDS)
             .connectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS)
             .build()
 
-        return Retrofit.Builder()
-            .baseUrl(baseUrl)
+        val retrofit = Retrofit.Builder()
+            .baseUrl(context.getString(R.string.sauti_api_base_url))
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync()) // createAsync. observer call async by default
             .client(okHttpClient)
             .build()
-    }
 
-    @Provides
-    @Singleton
-    fun provideSautiApiService(retrofit: Retrofit) : SautiApiService {
         return retrofit.create(SautiApiService::class.java)
     }
 }

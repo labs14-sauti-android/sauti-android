@@ -32,7 +32,8 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListener{
+SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListener,
+SignInFragment.OpenSignUpListener, SignUpFragment.OpenSignInListener{
 
     @Inject
     lateinit var authenticationViewModelFactory: AuthenticationViewModel.Factory
@@ -236,6 +237,24 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
         authenticationViewModel.getCurrentUser()
 
         nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_out)
+    }
+
+    override fun openSignUp() {
+        val signUpFragment = SignUpFragment.newInstance()
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, signUpFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun openSignIn() {
+        val signInFragment = SignInFragment.newInstance()
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, signInFragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {

@@ -20,7 +20,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="language_activity_text">Sauti
+        <font fgcolor='#e84c3d'>.</font>
+    </string>
     <string name="your_recent_tax_calculations">Your recent tax calculations</string>
     <string name="push_to_view">Push To View</string>
     <string name="menu_about">About</string>
@@ -29,4 +31,15 @@
     <string name="menu_report">Report</string>
     <string name="trade_info_search_header">Trade Info Search</string>
     <string name="search_button_text">Search</string>
+    <string name="don_t_have_an_account_sign_up">
+        <font fgcolor='#6e83f3'>Don\'t have an account?</font> Sign up</string>
+    <string name="sauti_sign_in">
+        <b>Sauti
+            <font fgcolor='#e84c3d'>.</font>
+        </b>
+        Sign In
+    </string>
+    <string name="sauti_sign_up"><b>Sauti<font fgcolor='#e84c3d'>.</font></b> Sign Up</string>
+    <string name="already_have_an_account_sign_in"><font fgcolor='#6e83f3'>Already have an account?</font> Sign In</string>
+
 </resources>
