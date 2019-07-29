@@ -11,7 +11,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/c_search_custom_view">
 
-        <!--TODO: This information will not be hardcoded-->
+        <!--TODO: This information will not be hardcoded)-->
         <TextView
                 android:text="What information do you need?"
                 style="@style/SearchFragmentParamTextStyling"
@@ -20,7 +20,7 @@
                 app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"/>
         <ImageView
                 android:scaleType="fitXY"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="40dp" app:srcCompat="@drawable/search_spinner_background"
                 android:id="@+id/i_search_param"
                 android:layout_marginTop="5dp"
