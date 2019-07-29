@@ -21,7 +21,7 @@
         <item name="actionMenuTextColor">@color/colorText</item>
     </style>
     
-    <style name="CardViewDashboardNavStyling">
+    <style name="DashboardCardNavStyling">
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorButtonResponseText</item>
