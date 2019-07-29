@@ -10,6 +10,7 @@ import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.mapper.Mapper
 import com.labs.sauti.model.*
 import com.labs.sauti.sp.SessionSp
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
@@ -25,8 +26,13 @@ class SautiRepositoryImpl(
     private val recentMarketPriceSearchRoomCache: RecentMarketPriceSearchRoomCache,
     private val marketPriceDataRecentMarketPriceDataMapper: Mapper<MarketPriceData, RecentMarketPriceData>
 ) : SautiRepository {
-    override fun login(username: String, password: String): Single<LoginResponse> {
-        return sautiApiService.login(sautiAuthorization, "password", username, password)
+
+    override fun signUp(signUpRequest: SignUpRequest): Single<SignUpResponse> {
+        return sautiApiService.signUp(signUpRequest)
+    }
+
+    override fun signIn(username: String, password: String): Single<SignInResponse> {
+        return sautiApiService.signIn(sautiAuthorization, "password", username, password)
             .doOnSuccess {
                 sessionSp.setAccessToken(it.accessToken ?: "")
                 sessionSp.setExpiresIn(it.expiresIn ?: 0)
@@ -34,11 +40,15 @@ class SautiRepositoryImpl(
             }
     }
 
-    override fun signOut(): Single<Unit> {
-        // TODO call backend logout
-        return Single.fromCallable {
-            sessionSp.invalidateToken()
-            sessionSp.setUser(null)
+    override fun signOut(): Completable {
+        return if (sessionSp.isAccessTokenValid()) {
+            sautiApiService.signOut(sessionSp.getAccessToken())
+            Completable.fromCallable {
+                sessionSp.invalidateToken()
+                sessionSp.setUser(null)
+            }
+        } else {
+            Completable.complete()
         }
     }
 

@@ -4,74 +4,78 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.labs.sauti.model.LoginResponse
-import com.labs.sauti.model.SautiApiError
-import com.labs.sauti.model.User
+import com.labs.sauti.model.*
 import com.labs.sauti.repository.SautiRepository
 
 class AuthenticationViewModel(private val sautiRepository: SautiRepository) : BaseViewModel() {
 
-    private val signInResponseLiveData = MutableLiveData<LoginResponse>()
+    private val signUpResponseLiveData by lazy { MutableLiveData<SignUpResponse>() }
+    private val signInResponseLiveData = MutableLiveData<SignInResponse>()
+    private val signOutLiveData = MutableLiveData<Any?>()
     private val isSignedInLiveData = MutableLiveData<Boolean>()
     private val userLiveData = MutableLiveData<User>()
     private val errorLiveData = MutableLiveData<SautiApiError>()
 
-    fun getLoginResponseLiveData(): LiveData<LoginResponse> = signInResponseLiveData
+    fun getSignUpResponseLiveData(): LiveData<SignUpResponse> = signUpResponseLiveData
+    fun getSignInResponseLiveData(): LiveData<SignInResponse> = signInResponseLiveData
+    fun getSignOutLiveData(): LiveData<Any?> = signOutLiveData
     fun getIsSignedInLiveData(): LiveData<Boolean> = isSignedInLiveData
     fun getUserLiveData(): LiveData<User> = userLiveData
     fun getErrorLiveData(): LiveData<SautiApiError> = errorLiveData
 
+    fun signUp(signUpRequest: SignUpRequest) {
+        addDisposable(sautiRepository.signUp(signUpRequest).subscribe(
+            {
+                signUpResponseLiveData.postValue(it)
+            },
+            {
+                errorLiveData.postValue(SautiApiError.fromThrowable(it))
+            }
+        ))
+    }
+
     fun signIn(username: String, password: String) {
-        val disposable = sautiRepository.login(username, password).subscribe(
+        addDisposable(sautiRepository.signIn(username, password).subscribe(
             {
                 signInResponseLiveData.postValue(it)
             },
             {
-                // TODO return a more generic error
                 errorLiveData.postValue(SautiApiError.fromThrowable(it))
             }
-        )
-
-        addDisposable(disposable)
+        ))
     }
 
     fun signOut() {
-        val disposable = sautiRepository.signOut().subscribe(
+        addDisposable(sautiRepository.signOut().subscribe(
             {
-
+                signOutLiveData.postValue(null)
             },
             {
-
+                errorLiveData.postValue(SautiApiError.fromThrowable(it))
             }
-        )
-        addDisposable(disposable)
+        ))
     }
 
     fun isSignedIn() {
-        val disposable = sautiRepository.isAccessTokenValid().subscribe(
+        addDisposable(sautiRepository.isAccessTokenValid().subscribe(
             {
                 isSignedInLiveData.postValue(it)
             },
             {
-
+                errorLiveData.postValue(SautiApiError.fromThrowable(it))
             }
-        )
-
-        addDisposable(disposable)
+        ))
     }
 
     fun getCurrentUser() {
-        val disposable = sautiRepository.getCurrentUser().subscribe(
+        addDisposable(sautiRepository.getCurrentUser().subscribe(
             {
                 userLiveData.postValue(it)
             },
             {
-                // TODO return a more generic error
                 errorLiveData.postValue(SautiApiError.fromThrowable(it))
             }
-        )
-
-        addDisposable(disposable)
+        ))
     }
 
     class Factory(private val sautiRepository: SautiRepository) : ViewModelProvider.Factory {
