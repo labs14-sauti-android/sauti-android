@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.labs.sauti.model.*
 
 
-const val DATABASE_SCHEMA_VERSION = 2
+const val DATABASE_SCHEMA_VERSION = 3
 const val DB_NAME = "local-db"
 
 
