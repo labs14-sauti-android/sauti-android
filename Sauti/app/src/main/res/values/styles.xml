@@ -52,6 +52,12 @@
         <item name="android:textColor">@color/colorText</item>
         <!--TODO Finalize Styling -->
     </style>
+    <style name="SearchFragmentParamTextStyling">
+        <item name="android:textSize">@dimen/searchParamTextSize</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
 
     <!-- TODO: Navigation Drawer Styling. -->
 
