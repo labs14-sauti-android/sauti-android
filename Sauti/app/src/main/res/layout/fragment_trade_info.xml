@@ -93,7 +93,7 @@
             app:layout_constraintStart_toStartOf="parent"
     />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/b_search2"
+            android:id="@+id/b_trade_info_search"
             android:layout_margin="20dp"
             android:layout_gravity="bottom|end"
             android:layout_width="wrap_content"

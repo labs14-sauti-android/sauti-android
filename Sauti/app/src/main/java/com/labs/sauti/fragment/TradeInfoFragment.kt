@@ -110,6 +110,10 @@ class TradeInfoFragment : Fragment() {
         tiv_recent_first.consumeTIData(testTIbanned)
         tiv_recent_second.consumeTIData(testTIdocuments)
 
+        b_trade_info_search.setOnClickListener{
+            openTradeInfoSearchFragment()
+        }
+
     }
 
 
@@ -124,9 +128,9 @@ class TradeInfoFragment : Fragment() {
             val textView = TextView(context)
             TextViewCompat.setTextAppearance(textView, R.style.TradeInfoDetailsListTextStyling)
             textView.text = tradeInfoData.tradeinfoList[i]
-            textView.setOnClickListener({
-                //TODO: Add a child fragment explaining what that doc is when clicked. 
-            })
+            textView.setOnClickListener {
+                //TODO: Add a child fragment explaining what that doc is when clicked.
+            }
 
             when {
                 i > half -> l_tradeinfo_right_list.addView(textView)
@@ -142,6 +146,13 @@ class TradeInfoFragment : Fragment() {
         fun newInstance() =
             TradeInfoFragment()
     }
+
+    private fun openTradeInfoSearchFragment() {
+        val tradeInfoSearchFragment = TradeInfoSearchFragment.newInstance()
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.add(R.id.primary_fragment_container, tradeInfoSearchFragment)?.addToBackStack(null)?.commit()
+    }
+    //TODO: Must remove - Testing to see layout. 
 }
 
 
