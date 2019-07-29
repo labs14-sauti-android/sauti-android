@@ -17,7 +17,7 @@
             android:scaleType="centerCrop"
             app:layout_constraintTop_toBottomOf="@+id/select_language_spinner_constraint"/>
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="411dp"
+            android:layout_width="0dp"
             android:layout_height="259dp"
             android:background="#2e2e2e"
             android:id="@+id/select_language_spinner_constraint"
@@ -30,13 +30,14 @@
                 android:id="@+id/sauti_language_tv"
                 android:text="@string/language_activity_text"
                 android:textSize="96sp"
-                android:fontFamily="sans-serif"
+                android:fontFamily="@font/roboto_bold"
                 android:textStyle="bold"
                 android:textColor="#ffffff"
                 android:letterSpacing="-0.01"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+        />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

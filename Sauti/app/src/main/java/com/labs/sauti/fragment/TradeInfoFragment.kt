@@ -2,13 +2,11 @@ package com.labs.sauti.fragment
 
 
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import com.labs.sauti.R
@@ -21,6 +19,8 @@ import androidx.transition.TransitionManager
 //TODO: Add a clicklistener to the items in required documents in class Lance wants that clickable
 
 class TradeInfoFragment : Fragment() {
+
+
 
     //TODO: Remove Dummy Data, using MVVM later
     lateinit var testTIbanned: TradeInfoData
@@ -88,7 +88,7 @@ class TradeInfoFragment : Fragment() {
             override fun onClick(v: View) {
                 t_trade_header.text = testTIbanned.tradeinfoTopicExpanded
                 addTIDetailsLL(testTIbanned)
-                TransitionManager.beginDelayedTransition(cl_fragment_container)
+                TransitionManager.beginDelayedTransition(cl_fragment_container_trade_info)
                 visible = !visible
 
                 cl_expanded_tradeinfo.visibility = if (visible) View.VISIBLE else View.GONE
@@ -101,7 +101,7 @@ class TradeInfoFragment : Fragment() {
             override fun onClick(v: View) {
                 t_trade_header.text = testTIdocuments.tradeinfoTopicExpanded
                 addTIDetailsLL(testTIdocuments)
-                TransitionManager.beginDelayedTransition(cl_fragment_container)
+                TransitionManager.beginDelayedTransition(cl_fragment_container_trade_info)
                 visible = !visible
                 cl_expanded_tradeinfo.visibility = if (visible) View.VISIBLE else View.GONE
             }
@@ -109,6 +109,10 @@ class TradeInfoFragment : Fragment() {
 
         tiv_recent_first.consumeTIData(testTIbanned)
         tiv_recent_second.consumeTIData(testTIdocuments)
+
+        b_trade_info_search.setOnClickListener{
+            openTradeInfoSearchFragment()
+        }
 
     }
 
@@ -124,9 +128,9 @@ class TradeInfoFragment : Fragment() {
             val textView = TextView(context)
             TextViewCompat.setTextAppearance(textView, R.style.TradeInfoDetailsListTextStyling)
             textView.text = tradeInfoData.tradeinfoList[i]
-            textView.setOnClickListener({
-                //TODO: Add a child fragment explaining what that doc is when clicked. 
-            })
+            textView.setOnClickListener {
+                //TODO: Add a child fragment explaining what that doc is when clicked.
+            }
 
             when {
                 i > half -> l_tradeinfo_right_list.addView(textView)
@@ -142,6 +146,13 @@ class TradeInfoFragment : Fragment() {
         fun newInstance() =
             TradeInfoFragment()
     }
+
+    private fun openTradeInfoSearchFragment() {
+        val tradeInfoSearchFragment = TradeInfoSearchFragment.newInstance()
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.add(R.id.primary_fragment_container, tradeInfoSearchFragment)?.addToBackStack(null)?.commit()
+    }
+    //TODO: Must remove - Testing to see layout. 
 }
 
 
