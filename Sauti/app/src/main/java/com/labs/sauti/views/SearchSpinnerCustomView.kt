@@ -15,4 +15,6 @@ class SearchSpinnerCustomView @JvmOverloads constructor(
     init {
         View.inflate(getContext(), R.layout.item_search_spinner, this)
     }
+
+    //TODO: Add logic for visibility and adding spinner choices. 
 }
