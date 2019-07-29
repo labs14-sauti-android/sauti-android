@@ -6,7 +6,7 @@
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_subtitle">Sign Up Now to Save Favorites</string>
 
     <string name="menu_market_prices">Market Prices</string>
     <string name="menu_tax_calculator">Tax Calculator</string>
@@ -21,8 +21,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="language_activity_text">Sauti
-        <font fgcolor='#e84c3d'>.</font>
+    <string name="language_activity_text">Sauti<font fgcolor='#e84c3d'>.</font>
     </string>
     <string name="your_recent_tax_calculations">Your recent tax calculations</string>
     <string name="push_to_view">Push To View</string>
