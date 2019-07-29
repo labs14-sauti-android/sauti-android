@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="fontFamily">@font/roboto</item>
     </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -20,13 +22,11 @@
         <item name="android:popupBackground">@color/colorPrimaryDark</item>
         <item name="actionMenuTextColor">@color/colorText</item>
     </style>
-    
     <style name="DashboardCardNavStyling">
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorButtonResponseText</item>
     </style>
-
     <style name="DashboardBottomNavStyling">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
@@ -34,5 +34,25 @@
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
         <item name="android:paddingStart">20dp</item>
+    <style name="CardViewTradeInfoContentTextStyling">
+        <item name="android:gravity">left</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/colorCardText</item>
+        <item name="android:textSize">@dimen/cardViewContentTextSize</item>
+    </style>
+    <style name="CardViewTradeInfoHeaderTextStyling">
+        <item name="android:gravity">left</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">@dimen/cardViewHeaderTextSize</item>
+        <item name="android:textColor">@color/colorCardText</item>
+    </style>
+    <style name="TradeInfoDetailsListTextStyling">
+        <item name="android:gravity">left</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">@dimen/cardViewHeaderTextSize</item>
+        <item name="android:textColor">@color/colorText</item>
     </style>
 </resources>

@@ -7,4 +7,7 @@
     <dimen name="fab_margin">20dp</dimen>
     <dimen name="dimenCardElevationDashboardNav">5dp</dimen>
     <dimen name="dimenCardRadiusDashboardNav">5dp</dimen>
+    <dimen name="cardViewContentTextSize">12sp</dimen>
+    <dimen name="cardViewHeaderTextSize">16sp</dimen>
+
 </resources>
