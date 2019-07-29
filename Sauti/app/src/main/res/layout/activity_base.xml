@@ -28,6 +28,7 @@
                 app:itemIconTint="#c4c4c4"
                 app:headerLayout="@layout/nav_header_main"
                 app:menu="@menu/activity_main_drawer"/>
+        <!-- TODO: Add styling to navigation view-->
 
     </androidx.drawerlayout.widget.DrawerLayout>
 
