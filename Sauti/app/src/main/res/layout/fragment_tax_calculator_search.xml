@@ -219,10 +219,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                    <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:src="@drawable/search_spinner_background"/>
+                    <!--<ImageView-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="40dp"-->
+                            <!--android:src="@drawable/search_spinner_background"/>-->
 
                     <EditText
                             android:id="@+id/et_value"
@@ -230,7 +230,10 @@
                             android:layout_height="40dp"
                             android:digits="0123456789"
                             android:inputType="number"
-                            android:maxLines="1"/>
+                            android:maxLines="1"
+                            android:hint="Enter Amount"
+                            android:background="#d9d6d6"
+                            android:padding="10dp"/>
 
                 </RelativeLayout>
 
