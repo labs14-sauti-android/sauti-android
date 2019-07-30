@@ -17,4 +17,5 @@ class SearchSpinnerCustomView @JvmOverloads constructor(
     }
 
     //TODO: Add logic for visibility and adding spinner choices.
+
 }
