@@ -13,8 +13,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:id="@+id/cl_expanded_tradeinfo"
-    >
+            android:id="@+id/cl_expanded_tradeinfo">
         <TextView
                 android:textStyle="bold"
                 android:textSize="18sp"
