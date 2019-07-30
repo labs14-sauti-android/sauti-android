@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.labs.sauti.R
+import com.labs.sauti.views.SearchSpinnerCustomView
 import kotlinx.android.synthetic.main.fragment_trade_info_search.*
 
 
@@ -28,11 +29,24 @@ class TradeInfoSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        sscv_trade_info.progressBarSVisibility()
+        sscv_trade_info.addSearchHeader("What are you looking for?")
+        sscv_trade_info.addSpinnerContents(listOf(" ",
+            "Border Procedures",
+            "Required Documents",
+            "Border Agencies",
+            "Tax Calculator",
+            "Regulated Goods")
+        )
     }
 
     companion object {
         @JvmStatic
         fun newInstance() = TradeInfoSearchFragment()
+    }
+
+    fun loadNextSpinner(next: SearchSpinnerCustomView) {
+        //TODO:
     }
 }
 

@@ -26,7 +26,7 @@ class TradeInfoViewRecentSearches @JvmOverloads constructor(
 
 
         //TODO: Hardcoded value for now. Change later.
-        for (i in 0..4) {
+        for (i in 0..3) {
             val textView = TextView(context, null, R.style.CardViewTradeInfoContentTextStyling)
             textView.text = tradeInfoData.tradeinfoList[i]
             ll_trade_list.addView(textView)

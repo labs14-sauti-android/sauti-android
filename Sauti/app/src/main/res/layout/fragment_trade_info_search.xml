@@ -33,35 +33,36 @@
             app:layout_constraintHorizontal_bias="0.5"
             android:layout_marginEnd="20dp" android:layout_marginTop="4dp" android:layout_marginBottom="4dp"/>
     <com.labs.sauti.views.SearchSpinnerCustomView
-            app:searchparam="@string/search_button_text"
-            tools:searchparam="Testing teeting"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="26dp"
             android:id="@+id/sscv_trade_info" app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintTop_toBottomOf="@+id/t_trade_info_search_header"
-            app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_2"/>
+            android:layout_marginTop="24dp"/>
     <com.labs.sauti.views.SearchSpinnerCustomView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="26dp"
             android:id="@+id/sscv_trade_info_q_2"
             app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info" app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_3"/>
+            app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_3" tools:visibility="visible"/>
     <com.labs.sauti.views.SearchSpinnerCustomView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="20dp" android:layout_marginEnd="26dp"
             app:layout_constraintHorizontal_bias="0.5"
             android:id="@+id/sscv_trade_info_q_3"
             app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_2"
-            app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_4"/>
+            app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_4" tools:visibility="visible"/>
     <com.labs.sauti.views.SearchSpinnerCustomView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:visibility="visible"
             android:id="@+id/sscv_trade_info_q_4"
             app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_3"
             app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_5"
@@ -82,7 +83,7 @@
             app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_5"
             app:layout_constraintBottom_toTopOf="@+id/b_trade_info_search" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginEnd="26dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="20dp"/>
+            android:layout_marginStart="20dp" android:layout_marginBottom="8dp"/>
     <Button
             android:text="@string/search_button_text"
             android:textAllCaps="false"
@@ -94,10 +95,9 @@
             android:backgroundTint="@color/colorAccent"
             android:textColor="@color/colorText"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="20dp"
-            android:layout_marginEnd="26dp" android:layout_marginTop="8dp" android:layout_marginBottom="8dp"/>
+            android:layout_marginEnd="26dp" android:layout_marginBottom="8dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
