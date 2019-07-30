@@ -31,6 +31,8 @@ OnFragmentFullScreenStateChangedListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        ll_details.visibility = View.GONE
+
         b_search.setOnClickListener {
             val taxCalculatorSearchFragment = TaxCalculatorSearchFragment.newInstance()
             childFragmentManager.beginTransaction()
