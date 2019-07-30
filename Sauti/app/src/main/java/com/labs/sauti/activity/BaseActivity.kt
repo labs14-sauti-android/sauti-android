@@ -62,7 +62,7 @@ DashboardFragment.OnReplaceFragmentListener{
         toggle.syncState()
 
         // initial base fragment
-        supportActionBar!!.title = "Dashboard"
+        supportActionBar!!.title = "Sauti"
         baseFragment = DashboardFragment.newInstance()
         supportFragmentManager.beginTransaction()
             .replace(R.id.primary_fragment_container, baseFragment)
@@ -300,7 +300,7 @@ DashboardFragment.OnReplaceFragmentListener{
                 if (baseFragment !is DashboardFragment) {
                     shouldReplace = true
                     baseFragment = DashboardFragment.newInstance()
-                    toolbar.title = "Dashboard"
+                    toolbar.title = "Sauti"
                     nav_view.menu.findItem(R.id.nav_dashboard).isChecked = true
                 }
             }
