@@ -13,96 +13,102 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <LinearLayout
+        <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
             <LinearLayout
-                    android:id="@+id/ll_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="20dp"
-                    android:orientation="vertical"
-                    android:background="@color/colorInformation">
-
-                <TextView
-                        android:id="@+id/t_details_product"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:text="Taxes for Millet"
-                        android:textColor="@color/colorText"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="9dp"/>
-                <TextView
-                        android:id="@+id/t_details_wholesale"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:text="Wholesale: 90 KES/1Kg"
-                        android:textColor="@color/colorText"
-                        android:textSize="16sp"
-                        android:textStyle="bold"/>
-                <TextView
-                        android:id="@+id/t_details_retail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:text="Retail: 120 KES/1Kg"
-                        android:textColor="@color/colorText"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="9dp"/>
-                <TextView
-                        android:id="@+id/t_details_updated"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:text="Updated: 2019-06-24"
-                        android:textColor="@color/colorText"
-                        android:textSize="14sp"/>
-                <TextView
-                        android:id="@+id/t_details_source"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:text="Source: EAGC-RATIN"
-                        android:textColor="@color/colorText"
-                        android:textSize="14sp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="30dp">
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:text="@string/your_recent_searches"
-                        android:textColor="#f8c8c4"/>
+                    android:orientation="vertical">
 
                 <LinearLayout
-                        android:id="@+id/ll_recent_tax_calculations"
+                        android:id="@+id/ll_details"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:padding="20dp"
+                        android:orientation="vertical"
+                        android:background="@color/colorInformation">
 
-                    <include layout="@layout/item_tax_calculation"/>
-                    <include layout="@layout/item_tax_calculation"/>
+                    <TextView
+                            android:id="@+id/t_details_product"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:text="Taxes for Millet"
+                            android:textColor="@color/colorText"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="9dp"/>
+                    <TextView
+                            android:id="@+id/t_details_wholesale"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:text="Wholesale: 90 KES/1Kg"
+                            android:textColor="@color/colorText"
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
+                    <TextView
+                            android:id="@+id/t_details_retail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:text="Retail: 120 KES/1Kg"
+                            android:textColor="@color/colorText"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="9dp"/>
+                    <TextView
+                            android:id="@+id/t_details_updated"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:text="Updated: 2019-06-24"
+                            android:textColor="@color/colorText"
+                            android:textSize="14sp"/>
+                    <TextView
+                            android:id="@+id/t_details_source"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:text="Source: EAGC-RATIN"
+                            android:textColor="@color/colorText"
+                            android:textSize="14sp"/>
 
                 </LinearLayout>
 
-                <TextView
+                <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/push_to_view"
-                        android:gravity="center"
-                        android:textColor="@color/colorText"/>
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="30dp">
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="@string/your_recent_searches"
+                            android:textColor="#f8c8c4"/>
+
+                    <LinearLayout
+                            android:id="@+id/ll_recent_tax_calculations"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                        <include layout="@layout/item_tax_calculation"/>
+                        <include layout="@layout/item_tax_calculation"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/push_to_view"
+                            android:gravity="center"
+                            android:textColor="@color/colorText"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </ScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/b_search"
