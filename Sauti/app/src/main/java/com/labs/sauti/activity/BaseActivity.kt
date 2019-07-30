@@ -33,7 +33,8 @@ import javax.inject.Inject
 
 class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
 SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListener,
-SignInFragment.OpenSignUpListener, SignUpFragment.OpenSignInListener{
+SignInFragment.OpenSignUpListener, SignUpFragment.OpenSignInListener,
+DashboardFragment.OnReplaceFragmentListener{
 
     @Inject
     lateinit var authenticationViewModelFactory: AuthenticationViewModel.Factory
@@ -61,7 +62,7 @@ SignInFragment.OpenSignUpListener, SignUpFragment.OpenSignInListener{
         toggle.syncState()
 
         // initial base fragment
-        supportActionBar!!.title = "Dashboard"
+        supportActionBar!!.title = "Sauti"
         baseFragment = DashboardFragment.newInstance()
         supportFragmentManager.beginTransaction()
             .replace(R.id.primary_fragment_container, baseFragment)
@@ -287,6 +288,10 @@ SignInFragment.OpenSignUpListener, SignUpFragment.OpenSignInListener{
         return false
     }
 
+    override fun <T : Fragment> onReplaceFragment(c: Class<T>) {
+        replaceFragment(c)
+    }
+
     private fun <T : Fragment> replaceFragment(c: Class<T>): Boolean {
         var shouldReplace = false
         when {
@@ -295,7 +300,8 @@ SignInFragment.OpenSignUpListener, SignUpFragment.OpenSignInListener{
                 if (baseFragment !is DashboardFragment) {
                     shouldReplace = true
                     baseFragment = DashboardFragment.newInstance()
-                    toolbar.title = "Dashboard"
+                    toolbar.title = "Sauti"
+                    nav_view.menu.findItem(R.id.nav_dashboard).isChecked = true
                 }
             }
             c.isAssignableFrom(MarketPriceFragment::class.java) -> {
@@ -303,7 +309,7 @@ SignInFragment.OpenSignUpListener, SignUpFragment.OpenSignInListener{
                     shouldReplace = true
                     baseFragment = MarketPriceFragment.newInstance()
                     toolbar.title = "Market Price"
-
+                    nav_view.menu.findItem(R.id.nav_market_prices).isChecked = true
                 }
             }
             c.isAssignableFrom(TaxCalculatorFragment::class.java) -> {
@@ -311,6 +317,7 @@ SignInFragment.OpenSignUpListener, SignUpFragment.OpenSignInListener{
                     shouldReplace = true
                     baseFragment = TaxCalculatorFragment.newInstance()
                     toolbar.title = "Tax Calculator"
+                    nav_view.menu.findItem(R.id.nav_tax_calculator).isChecked = true
                 }
             }
             c.isAssignableFrom(TradeInfoFragment::class.java) -> {
@@ -318,6 +325,7 @@ SignInFragment.OpenSignUpListener, SignUpFragment.OpenSignInListener{
                     shouldReplace = true
                     baseFragment = TradeInfoFragment.newInstance()
                     toolbar.title = "Trade Info"
+                    nav_view.menu.findItem(R.id.nav_trade_info).isChecked = true
                 }
             }
             c.isAssignableFrom(ExchangeRatesFragment::class.java) -> {
@@ -325,6 +333,7 @@ SignInFragment.OpenSignUpListener, SignUpFragment.OpenSignInListener{
                     shouldReplace = true
                     baseFragment = ExchangeRatesFragment.newInstance()
                     toolbar.title = "Exchange Rates"
+                    nav_view.menu.findItem(R.id.nav_exchange_rates).isChecked = true
                 }
             }
             c.isAssignableFrom(MarketplaceFragment::class.java) -> {
@@ -332,6 +341,7 @@ SignInFragment.OpenSignUpListener, SignUpFragment.OpenSignInListener{
                     shouldReplace = true
                     baseFragment = MarketplaceFragment.newInstance()
                     toolbar.title = "Marketplace"
+                    nav_view.menu.findItem(R.id.nav_marketplace).isChecked = true
                 }
             }
             c.isAssignableFrom(ReportFragment::class.java) -> {
@@ -339,6 +349,7 @@ SignInFragment.OpenSignUpListener, SignUpFragment.OpenSignInListener{
                     shouldReplace = true
                     baseFragment = ReportFragment.newInstance()
                     toolbar.title = "Report"
+                    nav_view.menu.findItem(R.id.nav_report).isChecked = true
                 }
             }
             c.isAssignableFrom(HelpFragment::class.java) -> {
@@ -346,6 +357,7 @@ SignInFragment.OpenSignUpListener, SignUpFragment.OpenSignInListener{
                     shouldReplace = true
                     baseFragment = HelpFragment.newInstance()
                     toolbar.title = "Help"
+                    nav_view.menu.findItem(R.id.nav_help).isChecked = true
                 }
             }
             else -> throw RuntimeException("Invalid Fragment")
