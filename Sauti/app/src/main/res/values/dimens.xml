@@ -9,5 +9,5 @@
     <dimen name="dimenCardRadiusDashboardNav">5dp</dimen>
     <dimen name="cardViewContentTextSize">12sp</dimen>
     <dimen name="cardViewHeaderTextSize">16sp</dimen>
-    <dimen name="searchParamTextSize">18sp</dimen>
+    <dimen name="searchParamTextSize">14sp</dimen>
 </resources>
