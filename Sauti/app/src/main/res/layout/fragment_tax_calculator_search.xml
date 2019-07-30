@@ -13,7 +13,7 @@
 
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="23dp">
 
@@ -29,7 +29,7 @@
                     android:id="@+id/vs_categories"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="40dp">
+                    android:layout_marginBottom="30dp">
 
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="What category of commodities are you trading?"
-                            android:textSize="18sp"
+                            android:textSize="14sp"
                             android:textColor="@color/colorText"/>
 
                     <RelativeLayout
@@ -73,7 +73,7 @@
                     android:id="@+id/vs_products"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="40dp">
+                    android:layout_marginBottom="30dp">
 
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -84,7 +84,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="What commodity are you trading?"
-                            android:textSize="18sp"
+                            android:textSize="14sp"
                             android:textColor="@color/colorText"/>
 
                     <RelativeLayout
@@ -117,7 +117,7 @@
                     android:id="@+id/vs_where_to_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="40dp">
+                    android:layout_marginBottom="30dp">
 
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -128,7 +128,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Where are you selling your goods?"
-                            android:textSize="18sp"
+                            android:textSize="14sp"
                             android:textColor="@color/colorText"/>
 
                     <RelativeLayout
@@ -161,7 +161,7 @@
                     android:id="@+id/vs_where_from_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="40dp">
+                    android:layout_marginBottom="30dp">
 
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -172,7 +172,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Where was your product made/originate?"
-                            android:textSize="18sp"
+                            android:textSize="14sp"
                             android:textColor="@color/colorText"/>
 
                     <RelativeLayout
@@ -206,13 +206,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginBottom="40dp">
+                    android:layout_marginBottom="30dp">
 
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="What is the approximate value of your good in UGX?"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         android:textColor="@color/colorText"/>
 
                 <RelativeLayout
@@ -257,12 +257,8 @@
 
             </ViewSwitcher>
 
-
-
         </LinearLayout>
 
     </ScrollView>
-
-
 
 </FrameLayout>
