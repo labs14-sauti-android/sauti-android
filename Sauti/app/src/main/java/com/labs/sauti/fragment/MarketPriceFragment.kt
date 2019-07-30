@@ -86,7 +86,7 @@ OnFragmentFullScreenStateChangedListener {
                     view.t_recent_wholesale.text = "Wholesale: ${recentMarketPrice.wholesale} ${recentMarketPrice.currency}/1Kg"
                     view.t_recent_retail.text = "Retail: ${recentMarketPrice.retail} ${recentMarketPrice.currency}/1Kg"
                     view.t_recent_updated.text = "Updated: ${recentMarketPrice.date?.substring(0, 10)}"
-                    view.t_recent_source.text = "Where does source come from?" // TODO
+                    view.t_recent_source.text = "Source: EAGC-RATIN" // TODO
 
                     view.setOnClickListener {
                         ll_details.visibility = View.VISIBLE
@@ -121,16 +121,16 @@ OnFragmentFullScreenStateChangedListener {
             recentMarketPriceView.t_recent_product_at_market.text = "${recentMarketPrice.product} at ${recentMarketPrice.market}"
             recentMarketPriceView.t_recent_wholesale.text = "Wholesale: ${recentMarketPrice.wholesale} ${recentMarketPrice.currency}/1Kg"
             recentMarketPriceView.t_recent_retail.text = "Retail: ${recentMarketPrice.retail} ${recentMarketPrice.currency}/1Kg"
-            recentMarketPriceView.t_recent_updated.text = recentMarketPrice.date
-            recentMarketPriceView.t_recent_source.text = "Where does source come from?"
+            recentMarketPriceView.t_recent_updated.text = "Updated: ${recentMarketPrice.date?.substring(0, 10)}"
+            recentMarketPriceView.t_recent_source.text = "Source: EAGC-RATIN" // TODO
 
             recentMarketPriceView.setOnClickListener {
                 ll_details.visibility = View.VISIBLE
                 t_details_product_at_market.text = "${recentMarketPrice.product} at ${recentMarketPrice.market}"
                 t_details_wholesale.text = "Wholesale: ${recentMarketPrice.wholesale} ${recentMarketPrice.currency}/1Kg"
                 t_details_retail.text = "Retail: ${recentMarketPrice.retail} ${recentMarketPrice.currency}/1Kg"
-                t_details_updated.text = recentMarketPrice.date
-                t_details_source.text = "Where does source come from?"
+                t_details_updated.text = "Updated: ${recentMarketPrice.date?.substring(0, 10)}"
+                t_details_source.text = "Source: EAGC-RATIN" // TODO
             }
 
             ll_recent_market_prices.addView(recentMarketPriceView)
@@ -152,7 +152,7 @@ OnFragmentFullScreenStateChangedListener {
         t_details_wholesale.text = "Wholesale: ${marketPrice.wholesale} ${marketPrice.currency}/1Kg"
         t_details_retail.text = "Retail: ${marketPrice.retail} ${marketPrice.currency}/1Kg"
         t_details_updated.text = "Updated: ${marketPrice.date?.substring(0, 10)}"
-        t_details_source.text = "Where does source come from?"
+        t_details_source.text = "Source: EAGC-RATIN" // TODO
     }
 
     override fun onMarketPriceSearchCompleted(marketPrice: MarketPriceData) {
