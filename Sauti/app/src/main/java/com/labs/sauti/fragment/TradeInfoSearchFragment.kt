@@ -5,12 +5,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.labs.sauti.R
+import com.labs.sauti.model.TradeInfoData
+import com.labs.sauti.view_model.TradeInfoViewModel
 import com.labs.sauti.views.SearchSpinnerCustomView
 import kotlinx.android.synthetic.main.fragment_trade_info_search.*
+import javax.inject.Inject
 
 
 class TradeInfoSearchFragment : Fragment() {
+
+    private var onTradeSearchCompletedListener : onTradeInfoSearchCompletedListener? = null
+    private var onFragmentFullScreenStateChangedListener : OnFragmentFullScreenStateChangedListener? = null
+
+    @Inject
+    lateinit var tradeInfoViewModelFactory: TradeInfoViewModel.Factory
+
+    private lateinit var tradeInfoViewModel: TradeInfoViewModel
+
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,15 +43,13 @@ class TradeInfoSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sscv_trade_info.progressBarSVisibility()
-        sscv_trade_info.addSearchHeader("What are you looking for?")
-        sscv_trade_info.addSpinnerContents(listOf(" ",
-            "Border Procedures",
-            "Required Documents",
-            "Border Agencies",
-            "Tax Calculator",
-            "Regulated Goods")
-        )
+        //TODO: Testing SpinnerCustomView logic
+        loadNextSpinner(sscv_trade_info)
+
+    }
+
+    interface onTradeInfoSearchCompletedListener {
+        fun onTradeInfoSearchCompleted(tradeInfo: TradeInfoData)
     }
 
     companion object {
@@ -46,7 +58,15 @@ class TradeInfoSearchFragment : Fragment() {
     }
 
     fun loadNextSpinner(next: SearchSpinnerCustomView) {
-        //TODO:
+        next.progressBarSVisibility()
+        next.addSearchHeader("What are you looking for?")
+        next.addSpinnerContents(listOf(" ",
+            "Border Procedures",
+            "Required Documents",
+            "Border Agencies",
+            "Tax Calculator",
+            "Regulated Goods")
+        )
     }
 }
 
