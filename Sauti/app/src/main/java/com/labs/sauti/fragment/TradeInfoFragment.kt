@@ -81,29 +81,44 @@ class TradeInfoFragment : Fragment() {
         cl_expanded_tradeinfo.visibility = View.GONE
 
 
-        //TODO: Alter logic so views aren't prematurely removed
+        //TODO: Logic cleanup. Needs Animations!
         tiv_recent_first.setOnClickListener(object : View.OnClickListener {
             var visible: Boolean = tiDetailsIsVisible
 
             override fun onClick(v: View) {
+
+
                 t_trade_header.text = testTIbanned.tradeinfoTopicExpanded
                 addTIDetailsLL(testTIbanned)
-                TransitionManager.beginDelayedTransition(cl_fragment_container_trade_info)
-                visible = !visible
 
-                cl_expanded_tradeinfo.visibility = if (visible) View.VISIBLE else View.GONE
+                if(!tiDetailsIsVisible) {
+                    TransitionManager.beginDelayedTransition(cl_fragment_container_trade_info)
+                    visible = !visible
+
+                    cl_expanded_tradeinfo.visibility = if (visible) View.VISIBLE else View.GONE
+                    tiDetailsIsVisible = true
+                }
+
+
+
             }
         })
 
+        //TODO: Logic cleanup. Needs Animations!
         tiv_recent_second.setOnClickListener(object : View.OnClickListener {
             var visible: Boolean = tiDetailsIsVisible
 
             override fun onClick(v: View) {
                 t_trade_header.text = testTIdocuments.tradeinfoTopicExpanded
                 addTIDetailsLL(testTIdocuments)
-                TransitionManager.beginDelayedTransition(cl_fragment_container_trade_info)
-                visible = !visible
-                cl_expanded_tradeinfo.visibility = if (visible) View.VISIBLE else View.GONE
+
+                if(!tiDetailsIsVisible) {
+                    TransitionManager.beginDelayedTransition(cl_fragment_container_trade_info)
+                    visible = !visible
+                    cl_expanded_tradeinfo.visibility = if (visible) View.VISIBLE else View.GONE
+                    tiDetailsIsVisible = true
+                }
+
             }
         })
 

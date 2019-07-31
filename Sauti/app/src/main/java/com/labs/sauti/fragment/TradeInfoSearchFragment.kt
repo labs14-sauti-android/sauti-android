@@ -35,7 +35,7 @@ class TradeInfoSearchFragment : Fragment() {
             firebaseAnalytics = FirebaseAnalytics.getInstance(it)
             (it.applicationContext as SautiApp).getTradeInfoComponent().inject(this)
         }
-        
+
         tradeInfoViewModel = ViewModelProviders.of(this, tradeInfoViewModelFactory)
             .get(TradeInfoViewModel::class.java)
     }
@@ -44,7 +44,6 @@ class TradeInfoSearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_trade_info_search, container, false)
     }
 
