@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.labs.sauti.repository.SautiRepository
 
 
-class TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseViewModel() {
+class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseViewModel() {
 
     class Factory(private val sautiRepository: SautiRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {

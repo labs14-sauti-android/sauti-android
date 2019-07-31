@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.labs.sauti.R
+import com.labs.sauti.SautiApp
 import com.labs.sauti.model.TradeInfoData
 import com.labs.sauti.view_model.TradeInfoViewModel
 import com.labs.sauti.views.SearchSpinnerCustomView
@@ -21,7 +22,6 @@ class TradeInfoSearchFragment : Fragment() {
 
     @Inject
     lateinit var tradeInfoViewModelFactory: TradeInfoViewModel.Factory
-
     private lateinit var tradeInfoViewModel: TradeInfoViewModel
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
@@ -30,6 +30,10 @@ class TradeInfoSearchFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        context?.let {
+            firebaseAnalytics = FirebaseAnalytics.getInstance(it)
+            (it.applicationContext as SautiApp)//getTradeInfoComponent().inject(this)
+        }
     }
 
     override fun onCreateView(
