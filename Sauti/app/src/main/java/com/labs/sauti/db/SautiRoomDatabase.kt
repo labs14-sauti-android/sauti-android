@@ -24,7 +24,6 @@ const val DB_NAME = "local-db"
     version = DATABASE_SCHEMA_VERSION,
     exportSchema = false
 )
-
 abstract class SautiRoomDatabase : RoomDatabase() {
 
     abstract fun productDao() : ProductDao
@@ -51,6 +50,7 @@ abstract class SautiRoomDatabase : RoomDatabase() {
         private fun createDatabase(context: Context): SautiRoomDatabase {
             return Room.databaseBuilder(context, SautiRoomDatabase::class.java, DB_NAME)
                 //TODO: To be removed once models are finalized and ready for final delivery.
+                //NOTE: Not good practice since it destroys all the data previously.
                 .fallbackToDestructiveMigration()
                 .build()
         }

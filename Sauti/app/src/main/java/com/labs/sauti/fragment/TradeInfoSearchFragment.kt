@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
@@ -32,8 +33,11 @@ class TradeInfoSearchFragment : Fragment() {
 
         context?.let {
             firebaseAnalytics = FirebaseAnalytics.getInstance(it)
-            (it.applicationContext as SautiApp)//getTradeInfoComponent().inject(this)
+            (it.applicationContext as SautiApp).getTradeInfoComponent().inject(this)
         }
+        
+        tradeInfoViewModel = ViewModelProviders.of(this, tradeInfoViewModelFactory)
+            .get(TradeInfoViewModel::class.java)
     }
 
     override fun onCreateView(
