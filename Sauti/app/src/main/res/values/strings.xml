@@ -6,7 +6,12 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="nav_header_subtitle">Sign Up Now to Save Favorites</string>
 
-    <string name="language_activity_text"><b>Sauti</b><font fgcolor='#e84c3d'><b>.</b></font></string>
+    <string name="language_activity_text">
+        <b>Sauti</b>
+        <font fgcolor='#e84c3d'>
+            <b>.</b>
+        </font>
+    </string>
     <string name="menu_market_prices">Market Prices</string>
     <string name="menu_tax_calculator">Tax Calculator</string>
     <string name="menu_trade_info">Trade Info</string>
@@ -28,14 +33,34 @@
     <string name="trade_info_search_header">Trade Info Search</string>
     <string name="search_button_text">Search</string>
     <string name="don_t_have_an_account_sign_up">
-        <font fgcolor='#6e83f3'>Don\'t have an account?</font> Sign up</string>
+        <font fgcolor='#6e83f3'>Don\'t have an account?</font>
+        Sign up
+    </string>
     <string name="sauti_sign_in">
         <b>Sauti
             <font fgcolor='#e84c3d'>.</font>
         </b>
         Sign In
     </string>
-    <string name="sauti_sign_up"><b>Sauti<font fgcolor='#e84c3d'>.</font></b> Sign Up</string>
-    <string name="already_have_an_account_sign_in"><font fgcolor='#6e83f3'>Already have an account?</font> Sign In</string>
+    <string name="sauti_sign_up">
+        <b>Sauti
+            <font fgcolor='#e84c3d'>.</font>
+        </b>
+        Sign Up
+    </string>
+    <string name="already_have_an_account_sign_in">
+        <font fgcolor='#6e83f3'>Already have an account?</font>
+        Sign In
+    </string>
+    <string name="about_sauti">Sauti<font fgcolor='#e84c3d'>.</font></string>
+    <string name="about_text_header_1">Anonymous Reporting for Border Crossings</string>
+    <string name="about_text_1">Through our anonymous reporting mechanism we crowd-source data to map incidents of harassment and corruption at border crossings across East Africa.</string>
+    <string name="about_text_header_2">Driving Advocacy and Partnerships</string>
+    <string name="about_text_2">Traders can use our number to find out what documentation, taxes and tariffs are applicable to their products, and receive regular updates on changes to border procedures.</string>
+    <string name="about_text_header_3">Empowering Africa\'s Cross-Border Traders with the Right Information</string>
+    <string name="about_text_3">We work with civil society organisations to use data collected through our platform for evidence-based advocacy at community, national and regional levels.</string>
+    <string name="about_text_header_4">Triggering Change</string>
+    <string name="about_text_4">Sauti means voice in Swahili and our mission is to empower cross-border traders to exercise their rights as citizens of the East African Community – able to trade freely and safely across borders and stand up for their rights with a loud and clear voice.</string>
+    <string name="about_attribution_fontawesome">Icons created with <font fgcolor='#6e83f3'>fontawesome</font>.</string>
 
 </resources>
