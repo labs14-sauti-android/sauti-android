@@ -42,14 +42,13 @@
         <item name="android:textColor">@color/colorCardText</item>
         <item name="android:textSize">@dimen/cardViewContentTextSize</item>
     </style>
-    <style name="CardViewTradeInfoHeaderTextStyling">
-        <item name="android:gravity">left</item>
+    <style name="CardViewRecentHeaderTextStyling">
+        <item name="android:gravity">center</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">@dimen/cardViewHeaderTextSize</item>
         <item name="android:textColor">@color/colorCardText</item>
     </style>
-    <style name="TradeInfoDetailsListTextStyling">
+    <style name="CardViewRecentDetailsListTextStyling">
         <item name="android:gravity">left</item>
         <item name="android:textStyle">normal</item>
         <item name="android:fontFamily">sans-serif</item>

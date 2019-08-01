@@ -140,7 +140,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                            android:id="@+id/c_trade_info"
+                            android:id="@+id/c_card_info"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:cardUseCompatPadding="true"

@@ -48,7 +48,7 @@
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="26dp"
             android:id="@+id/sscv_trade_info_q_2"
             app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info" app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_3" tools:visibility="visible"/>
+            app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_3" tools:visibility="gone"/>
     <com.labs.sauti.views.SearchSpinnerCustomView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -58,11 +58,12 @@
             app:layout_constraintHorizontal_bias="0.5"
             android:id="@+id/sscv_trade_info_q_3"
             app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_2"
-            app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_4" tools:visibility="visible"/>
+            app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_4" tools:visibility="gone"/>
     <com.labs.sauti.views.SearchSpinnerCustomView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
+            tools:visibility="gone"
             android:id="@+id/sscv_trade_info_q_4"
             app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_3"
             app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_5"
@@ -72,6 +73,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/sscv_trade_info_q_5"
+            android:visibility="gone"
+            tools:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_4"
             app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_6"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
@@ -80,6 +83,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/sscv_trade_info_q_6"
+            android:visibility="gone"
+            tools:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_5"
             app:layout_constraintBottom_toTopOf="@+id/b_trade_info_search" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginEnd="26dp" app:layout_constraintEnd_toEndOf="parent"

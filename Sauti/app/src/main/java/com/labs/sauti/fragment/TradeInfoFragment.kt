@@ -31,6 +31,7 @@ class TradeInfoFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         //TODO: Remove dummy data creation
         testTIbanned = TradeInfoData(0,
             "These commodities are banned:",
@@ -78,7 +79,7 @@ class TradeInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //TODO Hide the constraint layout unless clicked. Handled via clicklistener.
-        cl_expanded_tradeinfo.visibility = View.GONE
+        cl_expanded_trade_info.visibility = View.GONE
 
 
         //TODO: Logic cleanup. Needs Animations!
@@ -86,21 +87,18 @@ class TradeInfoFragment : Fragment() {
             var visible: Boolean = tiDetailsIsVisible
 
             override fun onClick(v: View) {
-
-
-                t_trade_header.text = testTIbanned.tradeinfoTopicExpanded
+                t_trade_info_header.text = testTIbanned.tradeinfoTopicExpanded
                 addTIDetailsLL(testTIbanned)
 
+                //1. Check if the view is visible
+                //2. If not visibile make visible
                 if(!tiDetailsIsVisible) {
                     TransitionManager.beginDelayedTransition(cl_fragment_container_trade_info)
                     visible = !visible
 
-                    cl_expanded_tradeinfo.visibility = if (visible) View.VISIBLE else View.GONE
+                    cl_expanded_trade_info.visibility = if (visible) View.VISIBLE else View.GONE
                     tiDetailsIsVisible = true
                 }
-
-
-
             }
         })
 
@@ -109,13 +107,13 @@ class TradeInfoFragment : Fragment() {
             var visible: Boolean = tiDetailsIsVisible
 
             override fun onClick(v: View) {
-                t_trade_header.text = testTIdocuments.tradeinfoTopicExpanded
+                t_trade_info_header.text = testTIdocuments.tradeinfoTopicExpanded
                 addTIDetailsLL(testTIdocuments)
 
                 if(!tiDetailsIsVisible) {
                     TransitionManager.beginDelayedTransition(cl_fragment_container_trade_info)
                     visible = !visible
-                    cl_expanded_tradeinfo.visibility = if (visible) View.VISIBLE else View.GONE
+                    cl_expanded_trade_info.visibility = if (visible) View.VISIBLE else View.GONE
                     tiDetailsIsVisible = true
                 }
 
@@ -141,7 +139,7 @@ class TradeInfoFragment : Fragment() {
         for (i in 0 until (tradeInfoData.tradeinfoList.size)) {
             //TODO: Change language so left LL will have one more if odd number of elements.
             val textView = TextView(context)
-            TextViewCompat.setTextAppearance(textView, R.style.TradeInfoDetailsListTextStyling)
+            TextViewCompat.setTextAppearance(textView, R.style.CardViewRecentDetailsListTextStyling)
             textView.text = tradeInfoData.tradeinfoList[i]
             textView.setOnClickListener {
                 //TODO: Add a child fragment explaining what that doc is when clicked.

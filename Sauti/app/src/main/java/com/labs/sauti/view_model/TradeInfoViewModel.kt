@@ -10,7 +10,7 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
     class Factory(private val sautiRepository: SautiRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return AuthenticationViewModel(sautiRepository) as T
+            return TradeInfoViewModel(sautiRepository) as T
         }
     }
 }
