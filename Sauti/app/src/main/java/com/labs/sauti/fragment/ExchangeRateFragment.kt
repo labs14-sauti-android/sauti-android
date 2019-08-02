@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 
 import com.labs.sauti.R
 
-class ExchangeRatesFragment : Fragment() {
+class ExchangeRateFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,12 +19,12 @@ class ExchangeRatesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_exchange_rates, container, false)
+        return inflater.inflate(R.layout.fragment_exchange_rate, container, false)
     }
 
     companion object {
         @JvmStatic
         fun newInstance() =
-            ExchangeRatesFragment()
+            ExchangeRateFragment()
     }
 }
