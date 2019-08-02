@@ -12,6 +12,7 @@ import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.transition.TransitionManager
 
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
@@ -25,7 +26,7 @@ import javax.inject.Inject
 
 // TODO 5 weeks old max market price
 class MarketPriceFragment : Fragment(), MarketPriceSearchFragment.OnMarketPriceSearchCompletedListener,
-OnFragmentFullScreenStateChangedListener {
+    OnFragmentFullScreenStateChangedListener {
 
     private var onFragmentFullScreenStateChangedListener: OnFragmentFullScreenStateChangedListener? = null
 
@@ -36,6 +37,7 @@ OnFragmentFullScreenStateChangedListener {
     private lateinit var binding: FragmentMarketPriceBinding
 
     private val recentMarketPriceRootViews = mutableListOf<View>()
+    private var selectedRecentMarketPriceRootView: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,8 +91,30 @@ OnFragmentFullScreenStateChangedListener {
                     view.t_recent_source.text = "Source: EAGC-RATIN" // TODO
 
                     view.setOnClickListener {
-                        ll_details.visibility = View.VISIBLE
-                        setMarketPriceDetails(recentMarketPrice)
+                        if (selectedRecentMarketPriceRootView == null) {
+                            setMarketPriceDetails(recentMarketPrice)
+                            TransitionManager.beginDelayedTransition(fl_fragment_container)
+                            ll_details.visibility = View.VISIBLE
+                            selectedRecentMarketPriceRootView = it
+                            return@setOnClickListener
+                        }
+
+                        if (it == selectedRecentMarketPriceRootView) {
+                            TransitionManager.beginDelayedTransition(fl_fragment_container)
+                            if (ll_details.visibility == View.VISIBLE) {
+                                ll_details.visibility = View.GONE
+                            } else {
+                                ll_details.visibility = View.VISIBLE
+                            }
+                        } else {
+                            setMarketPriceDetails(recentMarketPrice)
+                            if (ll_details.visibility == View.GONE) {
+                                TransitionManager.beginDelayedTransition(fl_fragment_container)
+                                ll_details.visibility = View.VISIBLE
+                            }
+                        }
+
+                        selectedRecentMarketPriceRootView = it
                     }
                 } else {
                     view.t_recent_product_at_market.text = ""
@@ -190,3 +214,4 @@ OnFragmentFullScreenStateChangedListener {
             MarketPriceFragment()
     }
 }
+

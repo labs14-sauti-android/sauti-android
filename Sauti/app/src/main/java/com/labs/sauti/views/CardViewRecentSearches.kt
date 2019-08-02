@@ -35,11 +35,11 @@ class CardViewRecentSearches @JvmOverloads constructor(
         //Determine maxlines for header
         //Determine maxlines for listed items
         //Handles the list format
-
-
     }
 
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
-
+    }
 }
 

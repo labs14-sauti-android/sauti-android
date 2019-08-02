@@ -2,6 +2,7 @@ package com.labs.sauti.fragment
 
 
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,17 +10,30 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.labs.sauti.R
 import com.labs.sauti.model.TradeInfoData
 import kotlinx.android.synthetic.main.fragment_trade_info.*
 import androidx.transition.TransitionManager
+import com.labs.sauti.SautiApp
+import com.labs.sauti.view_model.TradeInfoViewModel
+import javax.inject.Inject
 
 
-//TODO Troy mentioned adding a lightweight animation.
 //TODO: Add a clicklistener to the items in required documents in class Lance wants that clickable
 
-class TradeInfoFragment : Fragment() {
+class TradeInfoFragment : Fragment(), TradeInfoSearchFragment.onTradeInfoSearchCompletedListener,
+OnFragmentFullScreenStateChangedListener{
 
+
+    private var onFragmentFullScreenStateChangedListener: OnFragmentFullScreenStateChangedListener? = null
+
+    @Inject
+    lateinit var tradeInfoViewModelFactory: TradeInfoViewModel.Factory
+
+    private lateinit var tradeInfoViewModel: TradeInfoViewModel
+
+    //TODO: Add bindings
 
 
     //TODO: Remove Dummy Data, using MVVM later
@@ -31,6 +45,10 @@ class TradeInfoFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        context?.let {
+            (it.applicationContext as SautiApp).getTradeInfoComponent().inject(this)
+            tradeInfoViewModel= ViewModelProviders.of(this, tradeInfoViewModelFactory).get(TradeInfoViewModel::class.java)
+        }
 
         //TODO: Remove dummy data creation
         testTIbanned = TradeInfoData(0,
@@ -78,11 +96,6 @@ class TradeInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //TODO Hide the constraint layout unless clicked. Handled via clicklistener.
-        cl_expanded_trade_info.visibility = View.GONE
-
-
-        //TODO: Logic cleanup. Needs Animations!
         tiv_recent_first.setOnClickListener(object : View.OnClickListener {
             var visible: Boolean = tiDetailsIsVisible
 
@@ -162,6 +175,29 @@ class TradeInfoFragment : Fragment() {
         @JvmStatic
         fun newInstance() =
             TradeInfoFragment()
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        if (context is OnFragmentFullScreenStateChangedListener) {
+            onFragmentFullScreenStateChangedListener = context
+        } else {
+            throw RuntimeException("Context must implement OnFragmentFullScreenStateChangedListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        onFragmentFullScreenStateChangedListener = null
+    }
+
+    override fun onTradeInfoSearchCompleted(tradeInfo: TradeInfoData) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
+        onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(isFullScreen)
     }
 
     private fun openTradeInfoSearchFragment() {
