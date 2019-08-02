@@ -98,6 +98,8 @@ class TradeInfoFragment : Fragment() {
 
                     cl_expanded_trade_info.visibility = if (visible) View.VISIBLE else View.GONE
                     tiDetailsIsVisible = true
+                } else {
+                    TransitionManager.beginDelayedTransition(cl_fragment_container_trade_info)
                 }
             }
         })
@@ -115,6 +117,8 @@ class TradeInfoFragment : Fragment() {
                     visible = !visible
                     cl_expanded_trade_info.visibility = if (visible) View.VISIBLE else View.GONE
                     tiDetailsIsVisible = true
+                } else {
+                    TransitionManager.beginDelayedTransition(cl_fragment_container_trade_info)
                 }
 
             }
