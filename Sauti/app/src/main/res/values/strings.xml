@@ -53,17 +53,31 @@
         Sign In
     </string>
 
-    <string name="about_sauti">Sauti<font fgcolor='#e84c3d'>.</font></string>
+    <string name="about_sauti">Sauti
+        <font fgcolor='#e84c3d'>.</font>
+    </string>
     <string name="about_text_header_1">Anonymous Reporting for Border Crossings</string>
-    <string name="about_text_1">Through our anonymous reporting mechanism we crowd-source data to map incidents of harassment and corruption at border crossings across East Africa.</string>
+    <string name="about_text_1">Through our anonymous reporting mechanism we crowd-source data to map incidents of
+        harassment and corruption at border crossings across East Africa.
+    </string>
     <string name="about_text_header_2">Driving Advocacy and Partnerships</string>
-    <string name="about_text_2">Traders can use our number to find out what documentation, taxes and tariffs are applicable to their products, and receive regular updates on changes to border procedures.</string>
+    <string name="about_text_2">Traders can use our number to find out what documentation, taxes and tariffs are
+        applicable to their products, and receive regular updates on changes to border procedures.
+    </string>
     <string name="about_text_header_3">Empowering Africa\'s Cross-Border Traders with the Right Information</string>
-    <string name="about_text_3">We work with civil society organisations to use data collected through our platform for evidence-based advocacy at community, national and regional levels.</string>
+    <string name="about_text_3">We work with civil society organisations to use data collected through our platform for
+        evidence-based advocacy at community, national and regional levels.
+    </string>
     <string name="about_text_header_4">Triggering Change</string>
-    <string name="about_text_4">Sauti means voice in Swahili and our mission is to empower cross-border traders to exercise their rights as citizens of the East African Community – able to trade freely and safely across borders and stand up for their rights with a loud and clear voice.</string>
-    <string name="about_attribution_fontawesome">Icons created with <font fgcolor='#6e83f3'>fontawesome</font>.</string>
-    <string name="today_s_intl_exchange_rates_u"><u>Today\'s intl exchange rates:</u></string>
+    <string name="about_text_4">Sauti means voice in Swahili and our mission is to empower cross-border traders to
+        exercise their rights as citizens of the East African Community – able to trade freely and safely across borders
+        and stand up for their rights with a loud and clear voice.
+    </string>
+    <string name="about_attribution_fontawesome">Icons created with <font fgcolor='#6e83f3'>fontawesome</font>.
+    </string>
+    <string name="today_s_intl_exchange_rates_u">
+        <u>Today\'s intl exchange rates:</u>
+    </string>
     <string name="your_recent_conversions">Your Recent Conversions</string>
 
 </resources>
