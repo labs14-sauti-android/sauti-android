@@ -1,6 +1,6 @@
 package com.labs.sauti.cache
 
-import com.labs.sauti.model.MarketPriceData
+import com.labs.sauti.model.market_price.MarketPriceData
 import io.reactivex.Completable
 import io.reactivex.Single
 

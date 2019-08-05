@@ -7,6 +7,8 @@ import com.labs.sauti.cache.MarketPriceRoomCache
 import com.labs.sauti.cache.MarketPriceSearchRoomCache
 import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.model.*
+import com.labs.sauti.model.market_price.MarketPriceData
+import com.labs.sauti.model.market_price.MarketPriceSearchData
 import com.labs.sauti.sp.SessionSp
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -258,7 +260,8 @@ class SautiRepositoryImpl(
                         market = market,
                         category = category,
                         product = product
-                )).blockingAwait()
+                    )
+                ).blockingAwait()
             }
     }
 

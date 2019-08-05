@@ -1,4 +1,4 @@
-package com.labs.sauti.model
+package com.labs.sauti.model.market_price
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

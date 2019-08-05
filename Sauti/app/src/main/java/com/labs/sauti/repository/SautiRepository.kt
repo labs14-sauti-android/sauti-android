@@ -1,6 +1,8 @@
 package com.labs.sauti.repository
 
 import com.labs.sauti.model.*
+import com.labs.sauti.model.market_price.MarketPriceData
+import com.labs.sauti.model.market_price.MarketPriceSearchData
 import io.reactivex.Completable
 import io.reactivex.Single
 

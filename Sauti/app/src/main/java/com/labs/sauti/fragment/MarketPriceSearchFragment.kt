@@ -15,7 +15,8 @@ import com.google.firebase.analytics.FirebaseAnalytics
 
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
-import com.labs.sauti.model.MarketPriceData
+import com.labs.sauti.model.market_price.MarketPrice
+import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.view_model.MarketPriceViewModel
 import kotlinx.android.synthetic.main.fragment_market_price_search.*
 import javax.inject.Inject
@@ -252,7 +253,7 @@ class MarketPriceSearchFragment : Fragment() {
     }
 
     interface OnMarketPriceSearchCompletedListener {
-        fun onMarketPriceSearchCompleted(marketPrice: MarketPriceData)
+        fun onMarketPriceSearchCompleted(marketPrice: MarketPrice)
     }
 
     companion object {

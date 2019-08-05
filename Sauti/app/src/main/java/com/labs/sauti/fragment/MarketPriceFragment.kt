@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.databinding.FragmentMarketPriceBinding
-import com.labs.sauti.model.MarketPriceData
+import com.labs.sauti.model.market_price.MarketPrice
 import com.labs.sauti.view_model.MarketPriceViewModel
 import kotlinx.android.synthetic.main.fragment_market_price.*
 import kotlinx.android.synthetic.main.item_recent_market_price.view.*
@@ -68,58 +68,17 @@ OnFragmentFullScreenStateChangedListener {
             recentMarketPriceRootViews.add(it)
         }
 
-        marketPriceViewModel.getSearchRecentMarketPricesLiveData().observe(this, Observer {
-
-            vs_recent_market_prices_loading.displayedChild = 0
-
-            recentMarketPriceRootViews.forEachIndexed { index, view ->
-                if (index < it.size) {
-                    val recentMarketPrice = it[index]
-                    view.t_recent_product_at_market.text = "${recentMarketPrice.product} at ${recentMarketPrice.market}"
-                    view.t_recent_wholesale.text = "Wholesale: ${recentMarketPrice.wholesale} ${recentMarketPrice.currency}/1Kg"
-                    view.t_recent_retail.text = "Retail: ${recentMarketPrice.retail} ${recentMarketPrice.currency}/1Kg"
-                    view.t_recent_updated.text = "Updated: ${recentMarketPrice.date?.substring(0, 10)}"
-                    view.t_recent_source.text = "Source: EAGC-RATIN" // TODO
-
-                    view.setOnClickListener {
-                        if (selectedRecentMarketPriceRootView == null) {
-                            setMarketPriceDetails(recentMarketPrice)
-                            TransitionManager.beginDelayedTransition(fl_fragment_container)
-                            ll_details.visibility = View.VISIBLE
-                            selectedRecentMarketPriceRootView = it
-                            return@setOnClickListener
-                        }
-
-                        if (it == selectedRecentMarketPriceRootView) {
-                            TransitionManager.beginDelayedTransition(fl_fragment_container)
-                            if (ll_details.visibility == View.VISIBLE) {
-                                ll_details.visibility = View.GONE
-                            } else {
-                                ll_details.visibility = View.VISIBLE
-                            }
-                        } else {
-                            setMarketPriceDetails(recentMarketPrice)
-                            if (ll_details.visibility == View.GONE) {
-                                TransitionManager.beginDelayedTransition(fl_fragment_container)
-                                ll_details.visibility = View.VISIBLE
-                            }
-                        }
-
-                        selectedRecentMarketPriceRootView = it
-                    }
-                } else {
-                    view.t_recent_product_at_market.text = ""
-                    view.t_recent_wholesale.text = ""
-                    view.t_recent_retail.text = ""
-                    view.t_recent_updated.text = ""
-                    view.t_recent_source.text = ""
-
-                    view.setOnClickListener(null)
+        marketPriceViewModel.getRecentMarketPricesViewState().observe(this, Observer {
+            if (it.isLoading) {
+                vs_recent_market_prices_loading.displayedChild = 1
+            } else {
+                vs_recent_market_prices_loading.displayedChild = 0
+                it.recentMarketPrices?.let { recentMarketPrices ->
+                    handleRecentMarketPrices(recentMarketPrices)
                 }
             }
         })
-        vs_recent_market_prices_loading.displayedChild = 1
-        marketPriceViewModel.searchRecentMarketPrices()
+        marketPriceViewModel.getRecentMarketPrices()
 
         b_search.setOnClickListener {
             openMarketPriceSearchFragment()
@@ -134,7 +93,7 @@ OnFragmentFullScreenStateChangedListener {
             .commit()
     }
 
-    private fun setMarketPriceDetails(marketPrice: MarketPriceData) {
+    private fun setMarketPriceDetails(marketPrice: MarketPrice) {
         val productAtMarketSStr = SpannableString("${marketPrice.product} at ${marketPrice.market}")
         productAtMarketSStr.setSpan(UnderlineSpan(), 0, productAtMarketSStr.length, 0)
         t_details_product_at_market.text = productAtMarketSStr
@@ -144,11 +103,60 @@ OnFragmentFullScreenStateChangedListener {
         t_details_source.text = "Source: EAGC-RATIN" // TODO
     }
 
-    override fun onMarketPriceSearchCompleted(marketPrice: MarketPriceData) {
+    private fun handleRecentMarketPrices(recentMarketPrices: List<MarketPrice>) {
+        recentMarketPriceRootViews.forEachIndexed { index, view ->
+            if (index < recentMarketPrices.size) {
+                val recentMarketPrice = recentMarketPrices[index]
+                view.t_recent_product_at_market.text = "${recentMarketPrice.product} at ${recentMarketPrice.market}"
+                view.t_recent_wholesale.text = "Wholesale: ${recentMarketPrice.wholesale} ${recentMarketPrice.currency}/1Kg"
+                view.t_recent_retail.text = "Retail: ${recentMarketPrice.retail} ${recentMarketPrice.currency}/1Kg"
+                view.t_recent_updated.text = "Updated: ${recentMarketPrice.date?.substring(0, 10)}"
+                view.t_recent_source.text = "Source: EAGC-RATIN" // TODO
+
+                view.setOnClickListener {
+                    if (selectedRecentMarketPriceRootView == null) {
+                        setMarketPriceDetails(recentMarketPrice)
+                        TransitionManager.beginDelayedTransition(fl_fragment_container)
+                        ll_details.visibility = View.VISIBLE
+                        selectedRecentMarketPriceRootView = it
+                        return@setOnClickListener
+                    }
+
+                    if (it == selectedRecentMarketPriceRootView) {
+                        TransitionManager.beginDelayedTransition(fl_fragment_container)
+                        if (ll_details.visibility == View.VISIBLE) {
+                            ll_details.visibility = View.GONE
+                        } else {
+                            ll_details.visibility = View.VISIBLE
+                        }
+                    } else {
+                        setMarketPriceDetails(recentMarketPrice)
+                        if (ll_details.visibility == View.GONE) {
+                            TransitionManager.beginDelayedTransition(fl_fragment_container)
+                            ll_details.visibility = View.VISIBLE
+                        }
+                    }
+
+                    selectedRecentMarketPriceRootView = it
+                }
+            } else {
+                view.t_recent_product_at_market.text = ""
+                view.t_recent_wholesale.text = ""
+                view.t_recent_retail.text = ""
+                view.t_recent_updated.text = ""
+                view.t_recent_source.text = ""
+
+                view.setOnClickListener(null)
+            }
+        }
+    }
+
+    override fun onMarketPriceSearchCompleted(marketPrice: MarketPrice) {
         ll_details.visibility = View.VISIBLE
         setMarketPriceDetails(marketPrice)
 
-        marketPriceViewModel.searchRecentMarketPriceInCache()
+        marketPriceViewModel.getRecentMarketPricesInCache()
+        selectedRecentMarketPriceRootView = recentMarketPriceRootViews[0]
     }
 
     override fun onAttach(context: Context?) {

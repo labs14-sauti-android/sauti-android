@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.labs.sauti.model.*
+import com.labs.sauti.model.market_price.MarketPrice
 import com.labs.sauti.repository.SautiRepository
+import com.labs.sauti.view_state.market_price.RecentMarketPricesViewState
 
 class MarketPriceViewModel(private val sautiRepository: SautiRepository): BaseViewModel() {
 
@@ -14,17 +15,16 @@ class MarketPriceViewModel(private val sautiRepository: SautiRepository): BaseVi
     private val marketsLiveData = MutableLiveData<MutableList<String>>()
     private val categoriesLiveData = MutableLiveData<MutableList<String>>()
     private val productsLiveData = MutableLiveData<MutableList<String>>()
-    private val searchMarketPriceLiveData = MutableLiveData<MarketPriceData>()
-    private val searchRecentMarketPricesLiveData = MutableLiveData<MutableList<MarketPriceData>>()
-    // TODO error
+    private val searchMarketPriceLiveData = MutableLiveData<MarketPrice>()
+    private val recentMarketPricesViewState by lazy { MutableLiveData<RecentMarketPricesViewState>() }
     private val errorLiveData = MutableLiveData<Throwable>()
 
     fun getCountriesLiveData(): LiveData<MutableList<String>> = countriesLiveData
     fun getMarketsLiveData(): LiveData<MutableList<String>> = marketsLiveData
     fun getCategoriesLiveData(): LiveData<MutableList<String>> = categoriesLiveData
     fun getProductsLiveData(): LiveData<MutableList<String>> = productsLiveData
-    fun getSearchMarketPriceLiveData(): LiveData<MarketPriceData> = searchMarketPriceLiveData
-    fun getSearchRecentMarketPricesLiveData(): LiveData<MutableList<MarketPriceData>> = searchRecentMarketPricesLiveData
+    fun getSearchMarketPriceLiveData(): LiveData<MarketPrice> = searchMarketPriceLiveData
+    fun getRecentMarketPricesViewState(): LiveData<RecentMarketPricesViewState> = recentMarketPricesViewState
 
     fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
 
@@ -81,7 +81,21 @@ class MarketPriceViewModel(private val sautiRepository: SautiRepository): BaseVi
     }
 
     fun searchMarketPrice(country: String, market: String, category: String, product: String) {
-        val disposable = sautiRepository.searchMarketPrice(country, market, category, product).subscribe(
+        val disposable = sautiRepository.searchMarketPrice(country, market, category, product)
+            .map { marketPriceData ->
+                MarketPrice(
+                    marketPriceData.country,
+                    marketPriceData.market,
+                    marketPriceData.productAgg,
+                    marketPriceData.productCat,
+                    marketPriceData.product,
+                    marketPriceData.wholesale,
+                    marketPriceData.retail,
+                    marketPriceData.currency,
+                    marketPriceData.date
+                )
+            }
+            .subscribe(
             {
                 searchMarketPriceLiveData.postValue(it)
             },
@@ -92,10 +106,30 @@ class MarketPriceViewModel(private val sautiRepository: SautiRepository): BaseVi
         addDisposable(disposable)
     }
 
-    fun searchRecentMarketPrices() {
-        addDisposable(sautiRepository.searchRecentMarketPrices().subscribe(
+    fun getRecentMarketPrices() {
+        recentMarketPricesViewState.value = RecentMarketPricesViewState(true)
+        addDisposable(sautiRepository.searchRecentMarketPrices()
+            .map {
+                it.map { marketPriceData ->
+                    MarketPrice(
+                        marketPriceData.country,
+                        marketPriceData.market,
+                        marketPriceData.productAgg,
+                        marketPriceData.productCat,
+                        marketPriceData.product,
+                        marketPriceData.wholesale,
+                        marketPriceData.retail,
+                        marketPriceData.currency,
+                        marketPriceData.date
+                    )
+                }
+            }
+            .subscribe(
             {
-                searchRecentMarketPricesLiveData.postValue(it)
+                recentMarketPricesViewState.postValue(RecentMarketPricesViewState(
+                    false,
+                    it
+                ))
             },
             {
                 errorLiveData.postValue(it)
@@ -103,10 +137,30 @@ class MarketPriceViewModel(private val sautiRepository: SautiRepository): BaseVi
         ))
     }
 
-    fun searchRecentMarketPriceInCache() {
-        addDisposable(sautiRepository.searchRecentMarketPriceInCache().subscribe(
+    fun getRecentMarketPricesInCache() {
+        recentMarketPricesViewState.value = RecentMarketPricesViewState(true)
+        addDisposable(sautiRepository.searchRecentMarketPriceInCache()
+            .map {
+                it.map { marketPriceData ->
+                    MarketPrice(
+                        marketPriceData.country,
+                        marketPriceData.market,
+                        marketPriceData.productAgg,
+                        marketPriceData.productCat,
+                        marketPriceData.product,
+                        marketPriceData.wholesale,
+                        marketPriceData.retail,
+                        marketPriceData.currency,
+                        marketPriceData.date
+                    )
+                }
+            }
+            .subscribe(
             {
-                searchRecentMarketPricesLiveData.postValue(it)
+                recentMarketPricesViewState.postValue(RecentMarketPricesViewState(
+                    false,
+                    it
+                ))
             },
             {
                 errorLiveData.postValue(it)
