@@ -5,8 +5,9 @@ import com.google.gson.reflect.TypeToken
 import com.labs.sauti.api.SautiApiService
 import com.labs.sauti.cache.*
 import com.labs.sauti.helper.NetworkHelper
-import com.labs.sauti.mapper.Mapper
 import com.labs.sauti.model.*
+import com.labs.sauti.model.market_price.MarketPriceData
+import com.labs.sauti.model.market_price.MarketPriceSearchData
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionData
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResultData
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
@@ -23,10 +24,8 @@ class SautiRepositoryImpl(
     private val sautiApiService: SautiApiService,
     private val sautiAuthorization: String,
     private val sessionSp: SessionSp,
-    private val marketPriceRoomCache: MarketPriceRoomCache, // TODO replace type with MarketPriceCache
-    private val recentMarketPriceRoomCache: RecentMarketPriceRoomCache, // TODO remove RecentMarketPrice
-    private val recentMarketPriceSearchRoomCache: RecentMarketPriceSearchRoomCache, // TODO replace type with RecentMarketPriceSearchCache
-    private val marketPriceDataRecentMarketPriceDataMapper: Mapper<MarketPriceData, RecentMarketPriceData>,
+    private val marketPriceRoomCache: MarketPriceRoomCache,
+    private val marketPriceSearchRoomCache: MarketPriceSearchRoomCache,
     private val exchangeRateRoomCache: ExchangeRateCache,
     private val exchangeRateConversionRoomCache: ExchangeRateConversionCache
 ) : SautiRepository {
@@ -260,33 +259,24 @@ class SautiRepositoryImpl(
                 marketPriceRoomCache.search(country, market, category, product)
             }
             .doOnSuccess {
-                recentMarketPriceRoomCache.save(marketPriceDataRecentMarketPriceDataMapper.mapFrom(it).apply {
-                    timeCreated = System.currentTimeMillis()
-                }).blockingAwait()
-
-                recentMarketPriceSearchRoomCache.save(
-                    RecentMarketPriceSearchData(
+                marketPriceSearchRoomCache.save(
+                    MarketPriceSearchData(
                         country = country,
                         market = market,
                         category = category,
                         product = product
-                )).blockingAwait()
+                    )
+                ).blockingAwait()
             }
     }
 
-    // TODO remove RecentMarketPrice
-    override fun getRecentMarketPrices(): Single<MutableList<RecentMarketPriceData>> {
-        return recentMarketPriceRoomCache.getAll()
+    override fun getRecentMarketPriceSearches(): Single<MutableList<MarketPriceSearchData>> {
+        return marketPriceSearchRoomCache.getAll()
     }
 
-    override fun getRecentMarketPriceSearches(): Single<MutableList<RecentMarketPriceSearchData>> {
-        return recentMarketPriceSearchRoomCache.getAll()
-    }
-
-    // TODO make this not a list
     /** Search all stored recent market price search data in the network or cache*/
     override fun searchRecentMarketPrices(): Single<MutableList<MarketPriceData>> {
-        return recentMarketPriceSearchRoomCache.getAll()
+        return marketPriceSearchRoomCache.getAll()
             .flatMap {
                 Single.fromCallable {
                     val recentMarketPrices = mutableListOf<MarketPriceData>()
@@ -303,7 +293,7 @@ class SautiRepositoryImpl(
 
     /** Search all stored recent market price search data only in the cache*/
     override fun searchRecentMarketPriceInCache(): Single<MutableList<MarketPriceData>> {
-        return recentMarketPriceSearchRoomCache.getAll()
+        return marketPriceSearchRoomCache.getAll()
             .flatMap {
                 Single.fromCallable {
                     val recentMarketPriceInCache = mutableListOf<MarketPriceData>()

@@ -15,13 +15,12 @@ import com.google.firebase.analytics.FirebaseAnalytics
 
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
-import com.labs.sauti.model.MarketPriceData
+import com.labs.sauti.model.market_price.MarketPrice
 import com.labs.sauti.view_model.MarketPriceViewModel
 import kotlinx.android.synthetic.main.fragment_market_price_search.*
 import javax.inject.Inject
 
 // TODO button color when disabled. or just hide the button?
-// TODO use ViewSwitcher instead of VISIBLE/GONE when loading
 // TODO show warning when offline
 class MarketPriceSearchFragment : Fragment() {
     private var onMarketPriceSearchCompletedListener: OnMarketPriceSearchCompletedListener? = null
@@ -54,90 +53,57 @@ class MarketPriceSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ll_countries.visibility = View.GONE
-        ll_markets.visibility = View.GONE
-        ll_categories.visibility = View.GONE
-        ll_commodities.visibility = View.GONE
+        vs_markets.visibility = View.GONE
+        vs_categories.visibility = View.GONE
+        vs_products.visibility = View.GONE
         b_search.isEnabled = false
 
         // countries
-        marketPricesViewModel.getCountriesLiveData().observe(this, Observer {
-            pb_countries.visibility = View.GONE
-            ll_countries.visibility = View.VISIBLE
-
-            val adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item)
-            it.add(0, "")
-            adapter.addAll(it)
-
-            s_countries.adapter = adapter
-            s_countries.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    countrySelected()
+        marketPricesViewModel.getCountriesViewState().observe(this, Observer {
+            if (it.isLoading) {
+                vs_countries.displayedChild = 1
+            } else {
+                vs_countries.displayedChild = 0
+                it.countries?.let { countries ->
+                    handleCountries(countries)
                 }
             }
         })
-        pb_countries.visibility = View.VISIBLE
+
         marketPricesViewModel.getCountries()
 
         // markets
-        marketPricesViewModel.getMarketsLiveData().observe(this, Observer {
-            pb_markets.visibility = View.GONE
-            ll_markets.visibility = View.VISIBLE
-
-            val adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item)
-            it.add(0, "")
-            adapter.addAll(it)
-
-            s_markets.adapter = adapter
-            s_markets.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    marketSelected()
+        marketPricesViewModel.getMarketsViewState().observe(this, Observer {
+            if (it.isLoading) {
+                vs_markets.displayedChild = 1
+            } else {
+                vs_markets.displayedChild = 0
+                it.markets?.let { markets ->
+                    handleMarkets(markets)
                 }
             }
         })
 
         // categories
-        marketPricesViewModel.getCategoriesLiveData().observe(this, Observer {
-            pb_categories.visibility = View.GONE
-            ll_categories.visibility = View.VISIBLE
-
-            val adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item)
-            it.add(0, "")
-            adapter.addAll(it)
-
-            s_categories.adapter = adapter
-            s_categories.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    categorySelected()
+        marketPricesViewModel.getCategoriesViewState().observe(this, Observer {
+            if (it.isLoading) {
+                vs_categories.displayedChild = 1
+            } else {
+                vs_categories.displayedChild = 0
+                it.categories?.let { categories ->
+                    handleCategories(categories)
                 }
             }
         })
 
-        // commodities
-        marketPricesViewModel.getProductsLiveData().observe(this, Observer {
-            pb_commodities.visibility = View.GONE
-            ll_commodities.visibility = View.VISIBLE
-
-            val adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item)
-            it.add(0, "")
-            adapter.addAll(it)
-
-            s_commodities.adapter = adapter
-            s_commodities.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    commoditySelected()
+        // products
+        marketPricesViewModel.getProductsViewState().observe(this, Observer {
+            if (it.isLoading) {
+                vs_products.displayedChild = 1
+            } else {
+                vs_products.displayedChild = 0
+                it.products?.let {products ->
+                    handleProducts(products)
                 }
             }
         })
@@ -159,14 +125,14 @@ class MarketPriceSearchFragment : Fragment() {
             if (s_countries.selectedItem is String &&
                 s_markets.selectedItem is String &&
                 s_categories.selectedItem is String &&
-                s_commodities.selectedItem is String) {
+                s_products.selectedItem is String) {
                 vs_search_loading.displayedChild = 1
 
                 marketPricesViewModel.searchMarketPrice(
                     s_countries.selectedItem as String,
                     s_markets.selectedItem as String,
                     s_categories.selectedItem as String,
-                    s_commodities.selectedItem as String
+                    s_products.selectedItem as String
                 )
 
                 // TODO user
@@ -174,42 +140,106 @@ class MarketPriceSearchFragment : Fragment() {
                 searchParams.putString("country", s_countries.selectedItem as String)
                 searchParams.putString("market", s_markets.selectedItem as String)
                 searchParams.putString("category", s_categories.selectedItem as String)
-                searchParams.putString("product", s_commodities.selectedItem as String)
+                searchParams.putString("product", s_products.selectedItem as String)
                 firebaseAnalytics.logEvent("search_market_price", searchParams)
             }
         }
     }
 
+    private fun handleCountries(countries: List<String>) {
+        val adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item)
+        adapter.add("")
+        adapter.addAll(countries)
+
+        s_countries.adapter = adapter
+        s_countries.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                countrySelected()
+            }
+        }
+    }
+
+    private fun handleMarkets(markets: List<String>) {
+        val adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item)
+        adapter.add("")
+        adapter.addAll(markets)
+
+        s_markets.adapter = adapter
+        s_markets.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                marketSelected()
+            }
+        }
+    }
+
+    private fun handleCategories(categories: List<String>) {
+        val adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item)
+        adapter.add("")
+        adapter.addAll(categories)
+
+        s_categories.adapter = adapter
+        s_categories.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                categorySelected()
+            }
+        }
+    }
+
+    private fun handleProducts(products: List<String>) {
+        val adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item)
+        adapter.add("")
+        adapter.addAll(products)
+
+        s_products.adapter = adapter
+        s_products.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                productSelected()
+            }
+        }
+    }
+
     private fun countrySelected() {
-        ll_markets.visibility = View.GONE
-        ll_categories.visibility = View.GONE
-        ll_commodities.visibility = View.GONE
+        vs_markets.visibility = View.GONE
+        vs_categories.visibility = View.GONE
+        vs_products.visibility = View.GONE
         b_search.isEnabled = false
 
         if (s_countries.selectedItem is String && s_countries.selectedItem != "") {
             val country = s_countries.selectedItem as String
 
-            pb_markets.visibility = View.VISIBLE
+            vs_markets.visibility = View.VISIBLE
             marketPricesViewModel.getMarkets(country)
         }
     }
 
     private fun marketSelected() {
-        ll_categories.visibility = View.GONE
-        ll_commodities.visibility = View.GONE
+        vs_categories.visibility = View.GONE
+        vs_products.visibility = View.GONE
         b_search.isEnabled = false
 
         if (s_markets.selectedItem is String && s_markets.selectedItem != "") {
             val country = s_countries.selectedItem as String
             val market = s_markets.selectedItem as String
 
-            pb_categories.visibility = View.VISIBLE
+            vs_categories.visibility = View.VISIBLE
             marketPricesViewModel.getCategories(country, market)
         }
     }
 
     private fun categorySelected() {
-        ll_commodities.visibility = View.GONE
+        vs_products.visibility = View.GONE
         b_search.isEnabled = false
 
         if (s_categories.selectedItem is String && s_categories.selectedItem != "") {
@@ -217,15 +247,15 @@ class MarketPriceSearchFragment : Fragment() {
             val market = s_markets.selectedItem as String
             val category = s_categories.selectedItem as String
 
-            pb_commodities.visibility = View.VISIBLE
+            vs_products.visibility = View.VISIBLE
             marketPricesViewModel.getProducts(country, market, category)
         }
     }
 
-    private fun commoditySelected() {
+    private fun productSelected() {
         b_search.isEnabled = false
 
-        if (s_commodities.selectedItem is String && s_commodities.selectedItem != "") {
+        if (s_products.selectedItem is String && s_products.selectedItem != "") {
             b_search.isEnabled = true
         }
     }
@@ -255,7 +285,7 @@ class MarketPriceSearchFragment : Fragment() {
     }
 
     interface OnMarketPriceSearchCompletedListener {
-        fun onMarketPriceSearchCompleted(marketPrice: MarketPriceData)
+        fun onMarketPriceSearchCompleted(marketPrice: MarketPrice)
     }
 
     companion object {

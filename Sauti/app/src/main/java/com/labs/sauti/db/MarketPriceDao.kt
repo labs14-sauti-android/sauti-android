@@ -2,7 +2,7 @@ package com.labs.sauti.db
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.labs.sauti.model.MarketPriceData
+import com.labs.sauti.model.market_price.MarketPriceData
 import io.reactivex.Completable
 import io.reactivex.Single
 
