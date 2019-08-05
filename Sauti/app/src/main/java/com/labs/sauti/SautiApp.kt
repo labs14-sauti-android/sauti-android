@@ -9,7 +9,7 @@ class SautiApp : Application() {
     private lateinit var mainComponent: MainComponent
     private var authenticationComponent: AuthenticationComponent? = null
     private var marketPriceComponent: MarketPriceComponent? = null
-    private var tradeInfoComponent: TradeInfoComponent? = null
+    private var exchangeRateComponent: ExchangeRateComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -38,10 +38,11 @@ class SautiApp : Application() {
         return marketPriceComponent!!
     }
 
-    fun getTradeInfoComponent(): TradeInfoComponent {
-        tradeInfoComponent = mainComponent.plus(TradeInfoModule())
-        return  tradeInfoComponent!!
+    fun getExchangeRateComponent(): ExchangeRateComponent {
+        if (exchangeRateComponent == null) {
+            exchangeRateComponent = mainComponent.plus(ExchangeRateModule())
+        }
+
+        return exchangeRateComponent!!
     }
-
-
 }

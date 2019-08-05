@@ -18,177 +18,199 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="23dp">
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="25dp"
+                android:paddingBottom="25dp">
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Market Price Search"
                     android:textSize="24sp"
+                    android:textStyle="bold"
                     android:layout_marginBottom="20dp"
                     android:textColor="@color/colorText"/>
 
-            <!--TODO replace with view switcher-->
-
-            <LinearLayout
-                    android:id="@+id/ll_countries"
+            <ViewSwitcher
+                    android:id="@+id/vs_countries"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_marginBottom="30dp">
 
-                <TextView
+                <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Select Country For Markets"
-                        android:textSize="14sp"
-                        android:textColor="@color/colorText"/>
+                        android:orientation="vertical">
 
-                <RelativeLayout
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Select Country For Markets"
+                            android:textSize="14sp"
+                            android:textColor="@color/colorText"
+                            android:layout_marginBottom="5dp"/>
+
+                    <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:src="@drawable/search_spinner_background"/>
+
+                        <Spinner
+                                android:id="@+id/s_countries"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:backgroundTint="#2e2e2e">
+                        </Spinner>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <ProgressBar
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"/>
 
-                    <ImageView
+            </ViewSwitcher>
+
+            <ViewSwitcher
+                android:id="@+id/vs_markets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:src="@drawable/search_spinner_background"/>
+                            android:layout_height="wrap_content"
+                            android:text="Select Market"
+                            android:textSize="14sp"
+                            android:textColor="@color/colorText"
+                            android:layout_marginBottom="5dp"/>
 
-                    <Spinner
-                            android:id="@+id/s_countries"
+                    <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:backgroundTint="#2e2e2e">
-                    </Spinner>
+                            android:layout_height="wrap_content">
 
-                </RelativeLayout>
+                        <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:src="@drawable/search_spinner_background"/>
 
-            </LinearLayout>
+                        <Spinner
+                                android:id="@+id/s_markets"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:backgroundTint="#2e2e2e">
+                        </Spinner>
 
-            <ProgressBar
-                    android:id="@+id/pb_countries"
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <ProgressBar
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+            </ViewSwitcher>
+
+            <ViewSwitcher
+                    android:id="@+id/vs_categories"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"/>
-
-            <LinearLayout
-                    android:id="@+id/ll_markets"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_marginBottom="30dp">
 
-                <TextView
+                <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Select Market"
-                        android:textSize="14sp"
-                        android:textColor="@color/colorText"/>
+                        android:orientation="vertical">
 
-                <RelativeLayout
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Select Category For Commodity"
+                            android:textSize="14sp"
+                            android:textColor="@color/colorText"
+                            android:layout_marginBottom="5dp"/>
+
+                    <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:src="@drawable/search_spinner_background"/>
+
+                        <Spinner
+                                android:id="@+id/s_categories"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:backgroundTint="#2e2e2e">
+                        </Spinner>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <ProgressBar
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"/>
 
-                    <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:src="@drawable/search_spinner_background"/>
+            </ViewSwitcher>
 
-                    <Spinner
-                            android:id="@+id/s_markets"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:backgroundTint="#2e2e2e">
-                    </Spinner>
-
-                </RelativeLayout>
-
-            </LinearLayout>
-
-            <ProgressBar
-                    android:id="@+id/pb_markets"
+            <ViewSwitcher
+                    android:id="@+id/vs_products"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"/>
-
-            <LinearLayout
-                    android:id="@+id/ll_categories"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_marginBottom="30dp">
 
-                <TextView
+                <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Select Category For Commodity"
-                        android:textSize="14sp"
-                        android:textColor="@color/colorText"/>
+                        android:orientation="vertical">
 
-                <RelativeLayout
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Select Category For Commodity"
+                            android:textSize="14sp"
+                            android:textColor="@color/colorText"
+                            android:layout_marginBottom="5dp"/>
+
+                    <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:src="@drawable/search_spinner_background"/>
+
+                        <Spinner
+                                android:id="@+id/s_products"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:backgroundTint="#2e2e2e">
+                        </Spinner>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <ProgressBar
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"/>
 
-                    <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:src="@drawable/search_spinner_background"/>
-
-                    <Spinner
-                            android:id="@+id/s_categories"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:backgroundTint="#2e2e2e">
-                    </Spinner>
-
-                </RelativeLayout>
-
-            </LinearLayout>
-
-            <ProgressBar
-                    android:id="@+id/pb_categories"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"/>
-
-            <LinearLayout
-                    android:id="@+id/ll_commodities"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="30dp">
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Select Category For Commodity"
-                        android:textSize="14sp"
-                        android:textColor="@color/colorText"/>
-
-                <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                    <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:src="@drawable/search_spinner_background"/>
-
-                    <Spinner
-                            android:id="@+id/s_commodities"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:backgroundTint="#2e2e2e">
-                    </Spinner>
-
-                </RelativeLayout>
-
-            </LinearLayout>
-
-            <ProgressBar
-                    android:id="@+id/pb_commodities"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"/>
+            </ViewSwitcher>
 
             <ViewSwitcher
                     android:id="@+id/vs_search_loading"

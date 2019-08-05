@@ -4,141 +4,162 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.labs.sauti.model.*
+import com.labs.sauti.model.market_price.MarketPrice
 import com.labs.sauti.repository.SautiRepository
+import com.labs.sauti.view_state.market_price.*
 
 class MarketPriceViewModel(private val sautiRepository: SautiRepository): BaseViewModel() {
 
-    // TODO make these lazy
-    private val countriesLiveData = MutableLiveData<MutableList<String>>()
-    private val marketsLiveData = MutableLiveData<MutableList<String>>()
-    private val categoriesLiveData = MutableLiveData<MutableList<String>>()
-    private val productsLiveData = MutableLiveData<MutableList<String>>()
-    private val searchMarketPriceLiveData = MutableLiveData<MarketPriceData>()
-    private val recentMarketPricesLiveData = MutableLiveData<MutableList<RecentMarketPriceData>>()
-    private val recentMarketPriceSearchesLiveData = MutableLiveData<MutableList<RecentMarketPriceSearchData>>()
-    private val searchRecentMarketPricesLiveData = MutableLiveData<MutableList<MarketPriceData>>()
-    // TODO error
-    private val errorLiveData = MutableLiveData<Throwable>()
+    private val countriesViewState by lazy { MutableLiveData<CountriesViewState>() }
+    private val marketsViewState by lazy { MutableLiveData<MarketsViewState>() }
+    private val categoriesViewState by lazy { MutableLiveData<CategoriesViewState>() }
+    private val productsViewState by lazy { MutableLiveData<ProductsViewState>() }
+    private val searchMarketPriceLiveData by lazy { MutableLiveData<MarketPrice>() }
+    private val recentMarketPricesViewState by lazy { MutableLiveData<RecentMarketPricesViewState>() }
+    private val errorLiveData by lazy { MutableLiveData<Throwable>() }
 
-    fun getCountriesLiveData(): LiveData<MutableList<String>> = countriesLiveData
-    fun getMarketsLiveData(): LiveData<MutableList<String>> = marketsLiveData
-    fun getCategoriesLiveData(): LiveData<MutableList<String>> = categoriesLiveData
-    fun getProductsLiveData(): LiveData<MutableList<String>> = productsLiveData
-    fun getSearchMarketPriceLiveData(): LiveData<MarketPriceData> = searchMarketPriceLiveData
-    fun getRecentMarketPricesLiveData(): LiveData<MutableList<RecentMarketPriceData>> = recentMarketPricesLiveData
-    fun getRecentMarketPriceSearchesLiveData(): LiveData<MutableList<RecentMarketPriceSearchData>> = recentMarketPriceSearchesLiveData
-    fun getSearchRecentMarketPricesLiveData(): LiveData<MutableList<MarketPriceData>> = searchRecentMarketPricesLiveData
+    fun getCountriesViewState(): LiveData<CountriesViewState> = countriesViewState
+    fun getMarketsViewState(): LiveData<MarketsViewState> = marketsViewState
+    fun getCategoriesViewState(): LiveData<CategoriesViewState> = categoriesViewState
+    fun getProductsViewState(): LiveData<ProductsViewState> = productsViewState
+    fun getSearchMarketPriceLiveData(): LiveData<MarketPrice> = searchMarketPriceLiveData
+    fun getRecentMarketPricesViewState(): LiveData<RecentMarketPricesViewState> = recentMarketPricesViewState
 
     fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
 
     fun getCountries() {
-        val disposable = sautiRepository.getMarketPriceCountries()
-            .subscribe(
-                {
-                    countriesLiveData.postValue(it)
-                },
-                {
-                    errorLiveData.postValue(it)
-                }
-            )
-        addDisposable(disposable)
+        countriesViewState.value = CountriesViewState(true)
+        addDisposable(sautiRepository.getMarketPriceCountries().subscribe(
+            {
+                countriesViewState.postValue(CountriesViewState(false, it))
+            },
+            {
+                errorLiveData.postValue(it)
+            }
+        ))
     }
 
     fun getMarkets(country: String) {
-        val disposable = sautiRepository.getMarketPriceMarkets(country)
-            .subscribe(
-                {
-                    marketsLiveData.postValue(it)
-                },
-                {
-                    errorLiveData.postValue(it)
-                }
-            )
-        addDisposable(disposable)
+        marketsViewState.value = MarketsViewState(true)
+        addDisposable(sautiRepository.getMarketPriceMarkets(country).subscribe(
+            {
+                marketsViewState.postValue(MarketsViewState(false, it))
+            },
+            {
+                errorLiveData.postValue(it)
+            }
+        ))
     }
 
     fun getCategories(country: String, market: String) {
-        val disposable = sautiRepository.getMarketPriceCategories(country, market)
-            .subscribe(
-                {
-                    categoriesLiveData.postValue(it)
-                },
-                {
-                    errorLiveData.postValue(it)
-                }
-            )
-        addDisposable(disposable)
+        categoriesViewState.value = CategoriesViewState(true)
+        addDisposable(sautiRepository.getMarketPriceCategories(country, market).subscribe(
+            {
+                categoriesViewState.postValue(CategoriesViewState(false, it))
+            },
+            {
+                errorLiveData.postValue(it)
+            }
+        ))
     }
 
     fun getProducts(country: String, market: String, category: String) {
-        val disposable = sautiRepository.getMarketPriceProducts(country, market, category)
+        productsViewState.value = ProductsViewState(true)
+        addDisposable(sautiRepository.getMarketPriceProducts(country, market, category).subscribe(
+            {
+                    productsViewState.postValue(ProductsViewState(false, it))
+            },
+            {
+                errorLiveData.postValue(it)
+            }
+        ))
+    }
+
+    fun searchMarketPrice(country: String, market: String, category: String, product: String) {
+        addDisposable(sautiRepository.searchMarketPrice(country, market, category, product)
+            .map { marketPriceData ->
+                MarketPrice(
+                    marketPriceData.country,
+                    marketPriceData.market,
+                    marketPriceData.productAgg,
+                    marketPriceData.productCat,
+                    marketPriceData.product,
+                    marketPriceData.wholesale,
+                    marketPriceData.retail,
+                    marketPriceData.currency,
+                    marketPriceData.date
+                )
+            }
             .subscribe(
                 {
-                    productsLiveData.postValue(it)
+                    searchMarketPriceLiveData.postValue(it)
                 },
                 {
                     errorLiveData.postValue(it)
                 }
-            )
-        addDisposable(disposable)
-    }
-
-    fun searchMarketPrice(country: String, market: String, category: String, product: String) {
-        val disposable = sautiRepository.searchMarketPrice(country, market, category, product).subscribe(
-            {
-                searchMarketPriceLiveData.postValue(it)
-            },
-            {
-                errorLiveData.postValue(it)
-            }
-        )
-        addDisposable(disposable)
+            ))
     }
 
     fun getRecentMarketPrices() {
-        val disposable = sautiRepository.getRecentMarketPrices().subscribe(
-            {
-                recentMarketPricesLiveData.postValue(it)
-            },
-            {
-                errorLiveData.postValue(it)
+        recentMarketPricesViewState.value = RecentMarketPricesViewState(true)
+        addDisposable(sautiRepository.searchRecentMarketPrices()
+            .map {
+                it.map { marketPriceData ->
+                    MarketPrice(
+                        marketPriceData.country,
+                        marketPriceData.market,
+                        marketPriceData.productAgg,
+                        marketPriceData.productCat,
+                        marketPriceData.product,
+                        marketPriceData.wholesale,
+                        marketPriceData.retail,
+                        marketPriceData.currency,
+                        marketPriceData.date
+                    )
+                }
             }
-        )
-        addDisposable(disposable)
+            .subscribe(
+                {
+                    recentMarketPricesViewState.postValue(RecentMarketPricesViewState(
+                        false,
+                        it
+                    ))
+                },
+                {
+                    errorLiveData.postValue(it)
+                }
+            ))
     }
 
-    fun getRecentMarketPriceSearches() {
-        addDisposable(sautiRepository.getRecentMarketPriceSearches().subscribe(
-            {
-                recentMarketPriceSearchesLiveData.postValue(it)
-            },
-            {
-                errorLiveData.postValue(it)
+    fun getRecentMarketPricesInCache() {
+        recentMarketPricesViewState.value = RecentMarketPricesViewState(true)
+        addDisposable(sautiRepository.searchRecentMarketPriceInCache()
+            .map {
+                it.map { marketPriceData ->
+                    MarketPrice(
+                        marketPriceData.country,
+                        marketPriceData.market,
+                        marketPriceData.productAgg,
+                        marketPriceData.productCat,
+                        marketPriceData.product,
+                        marketPriceData.wholesale,
+                        marketPriceData.retail,
+                        marketPriceData.currency,
+                        marketPriceData.date
+                    )
+                }
             }
-        ))
-    }
-
-    fun searchRecentMarketPrices() {
-        addDisposable(sautiRepository.searchRecentMarketPrices().subscribe(
-            {
-                searchRecentMarketPricesLiveData.postValue(it)
-            },
-            {
-                errorLiveData.postValue(it)
-            }
-        ))
-    }
-
-    fun searchRecentMarketPriceInCache() {
-        addDisposable(sautiRepository.searchRecentMarketPriceInCache().subscribe(
-            {
-                searchRecentMarketPricesLiveData.postValue(it)
-            },
-            {
-                errorLiveData.postValue(it)
-            }
-        ))
+            .subscribe(
+                {
+                    recentMarketPricesViewState.postValue(RecentMarketPricesViewState(
+                        false,
+                        it
+                    ))
+                },
+                {
+                    errorLiveData.postValue(it)
+                }
+            ))
     }
 
     class Factory(private val sautiRepository: SautiRepository): ViewModelProvider.Factory {
