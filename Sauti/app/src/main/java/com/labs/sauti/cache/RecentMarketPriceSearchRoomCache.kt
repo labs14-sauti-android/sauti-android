@@ -30,7 +30,7 @@ class RecentMarketPriceSearchRoomCache(private val sautiRoomDatabase: SautiRoomD
                 recentMarketPriceSearchData.product
             ).doOnSuccess {
                 recentMarketPriceSearchData.id = it.id
-                sautiRoomDatabase.recentMarketPriceSearchDao().update(recentMarketPriceSearchData).blockingAwait()
+                sautiRoomDatabase.recentMarketPriceSearchDao().update(recentMarketPriceSearchData).blockingAwait() // TODO why update?
             }.onErrorResumeNext {
                 sautiRoomDatabase.recentMarketPriceSearchDao().insert(recentMarketPriceSearchData).blockingGet()
                 val count = sautiRoomDatabase.recentMarketPriceSearchDao().getCount().blockingGet()

@@ -5,9 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.labs.sauti.model.*
+import com.labs.sauti.model.exchange_rate.ExchangeRateConversionData
+import com.labs.sauti.model.exchange_rate.ExchangeRateData
 
 
-const val DATABASE_SCHEMA_VERSION = 3
+const val DATABASE_SCHEMA_VERSION = 4
 const val DB_NAME = "local-db"
 
 
@@ -20,7 +22,9 @@ const val DB_NAME = "local-db"
         TradeInfoData::class,
         MarketPriceData::class,
         RecentMarketPriceData::class, // TODO remove
-        RecentMarketPriceSearchData::class],
+        RecentMarketPriceSearchData::class,
+        ExchangeRateData::class,
+        ExchangeRateConversionData::class],
     version = DATABASE_SCHEMA_VERSION,
     exportSchema = false
 )
@@ -35,6 +39,9 @@ abstract class SautiRoomDatabase : RoomDatabase() {
     abstract fun marketPriceDao(): MarketPriceDao
     abstract fun recentMarketPriceDao(): RecentMarketPriceDao
     abstract fun recentMarketPriceSearchDao(): RecentMarketPriceSearchDao
+
+    abstract fun exchangeRateDao(): ExchangeRateDao
+    abstract fun exchangeRateConversionDao(): ExchangeRateConversionDao
 
     companion object {
         @Volatile

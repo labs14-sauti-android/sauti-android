@@ -9,4 +9,5 @@ import javax.inject.Singleton
 interface MainComponent {
     fun plus(authenticationModule: AuthenticationModule): AuthenticationComponent
     fun plus(marketPriceModule: MarketPriceModule): MarketPriceComponent
+    fun plus(exchangeRateModule: ExchangeRateModule): ExchangeRateComponent
 }

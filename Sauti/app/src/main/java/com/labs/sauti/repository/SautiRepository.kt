@@ -1,6 +1,8 @@
 package com.labs.sauti.repository
 
 import com.labs.sauti.model.*
+import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResultData
+import com.labs.sauti.model.exchange_rate.ExchangeRateData
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -23,5 +25,10 @@ interface SautiRepository {
     fun getRecentMarketPriceSearches(): Single<MutableList<RecentMarketPriceSearchData>>
     fun searchRecentMarketPrices(): Single<MutableList<MarketPriceData>>
     fun searchRecentMarketPriceInCache(): Single<MutableList<MarketPriceData>>
+
+    fun getExchangeRates(): Single<MutableList<ExchangeRateData>>
+    fun convertCurrency(fromCurrency: String, toCurrency: String, amount: Double): Single<ExchangeRateConversionResultData>
+    fun getRecentConversionResults(): Single<MutableList<ExchangeRateConversionResultData>>
+    fun getRecentConversionResultsInCache(): Single<MutableList<ExchangeRateConversionResultData>>
 
 }

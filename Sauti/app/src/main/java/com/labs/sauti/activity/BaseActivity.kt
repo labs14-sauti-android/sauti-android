@@ -129,7 +129,7 @@ DashboardFragment.OnReplaceFragmentListener{
                 return true
             }
             R.id.nav_exchange_rates -> {
-                if (replaceFragment(ExchangeRatesFragment::class.java)) {
+                if (replaceFragment(ExchangeRateFragment::class.java)) {
                     drawer_layout.closeDrawer(GravityCompat.START)
                 }
 
@@ -328,10 +328,10 @@ DashboardFragment.OnReplaceFragmentListener{
                     nav_view.menu.findItem(R.id.nav_trade_info).isChecked = true
                 }
             }
-            c.isAssignableFrom(ExchangeRatesFragment::class.java) -> {
-                if (baseFragment !is ExchangeRatesFragment) {
+            c.isAssignableFrom(ExchangeRateFragment::class.java) -> {
+                if (baseFragment !is ExchangeRateFragment) {
                     shouldReplace = true
-                    baseFragment = ExchangeRatesFragment.newInstance()
+                    baseFragment = ExchangeRateFragment.newInstance()
                     toolbar.title = "Exchange Rates"
                     nav_view.menu.findItem(R.id.nav_exchange_rates).isChecked = true
                 }

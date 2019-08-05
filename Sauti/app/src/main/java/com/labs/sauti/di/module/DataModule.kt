@@ -2,9 +2,8 @@ package com.labs.sauti.di.module
 
 import android.content.Context
 import com.labs.sauti.api.SautiApiService
-import com.labs.sauti.cache.MarketPriceRoomCache
-import com.labs.sauti.cache.RecentMarketPriceRoomCache
-import com.labs.sauti.cache.RecentMarketPriceSearchRoomCache
+import com.labs.sauti.cache.*
+import com.labs.sauti.db.ExchangeRateConversionDao
 import com.labs.sauti.db.SautiRoomDatabase
 import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.mapper.MarketPriceDataRecentMarketPriceDataMapper
@@ -51,6 +50,18 @@ class DataModule(private val sautiAuthorization: String) {
 
     @Provides
     @Singleton
+    fun provideExchangeRateRoomCache(sautiRoomDatabase: SautiRoomDatabase): ExchangeRateRoomCache {
+        return ExchangeRateRoomCache(sautiRoomDatabase)
+    }
+
+    @Provides
+    @Singleton
+    fun provideExchangeRateConversionRoomCache(sautiRoomDatabase: SautiRoomDatabase): ExchangeRateConversionRoomCache {
+        return ExchangeRateConversionRoomCache(sautiRoomDatabase)
+    }
+
+    @Provides
+    @Singleton
     fun provideSautiRepository(
         networkHelper: NetworkHelper,
         sautiApiService: SautiApiService,
@@ -58,7 +69,9 @@ class DataModule(private val sautiAuthorization: String) {
         marketPriceRoomCache: MarketPriceRoomCache,
         recentMarketPriceRoomCache: RecentMarketPriceRoomCache, // TODO remove
         recentMarketPriceSearchRoomCache: RecentMarketPriceSearchRoomCache,
-        marketPriceDataRecentMarketPriceDataMapper: MarketPriceDataRecentMarketPriceDataMapper
+        marketPriceDataRecentMarketPriceDataMapper: MarketPriceDataRecentMarketPriceDataMapper,
+        exchangeRateRoomCache: ExchangeRateRoomCache,
+        exchangeRateConversionRoomCache: ExchangeRateConversionRoomCache
     ): SautiRepository {
         return SautiRepositoryImpl(
             networkHelper,
@@ -68,7 +81,9 @@ class DataModule(private val sautiAuthorization: String) {
             marketPriceRoomCache,
             recentMarketPriceRoomCache, // TODO remove
             recentMarketPriceSearchRoomCache,
-            marketPriceDataRecentMarketPriceDataMapper
+            marketPriceDataRecentMarketPriceDataMapper,
+            exchangeRateRoomCache,
+            exchangeRateConversionRoomCache
         )
     }
 
