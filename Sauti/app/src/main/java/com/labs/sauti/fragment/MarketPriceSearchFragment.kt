@@ -16,7 +16,6 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.model.market_price.MarketPrice
-import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.view_model.MarketPriceViewModel
 import kotlinx.android.synthetic.main.fragment_market_price_search.*
 import javax.inject.Inject
@@ -60,79 +59,51 @@ class MarketPriceSearchFragment : Fragment() {
         b_search.isEnabled = false
 
         // countries
-        marketPricesViewModel.getCountriesLiveData().observe(this, Observer {
-            vs_countries.displayedChild = 0
-
-            val adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item)
-            it.add(0, "")
-            adapter.addAll(it)
-
-            s_countries.adapter = adapter
-            s_countries.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    countrySelected()
+        marketPricesViewModel.getCountriesViewState().observe(this, Observer {
+            if (it.isLoading) {
+                vs_countries.displayedChild = 1
+            } else {
+                vs_countries.displayedChild = 0
+                it.countries?.let { countries ->
+                    handleCountries(countries)
                 }
             }
         })
-        vs_countries.displayedChild = 1
+
         marketPricesViewModel.getCountries()
 
         // markets
-        marketPricesViewModel.getMarketsLiveData().observe(this, Observer {
-            vs_markets.displayedChild = 0
-
-            val adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item)
-            it.add(0, "")
-            adapter.addAll(it)
-
-            s_markets.adapter = adapter
-            s_markets.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    marketSelected()
+        marketPricesViewModel.getMarketsViewState().observe(this, Observer {
+            if (it.isLoading) {
+                vs_markets.displayedChild = 1
+            } else {
+                vs_markets.displayedChild = 0
+                it.markets?.let { markets ->
+                    handleMarkets(markets)
                 }
             }
         })
 
         // categories
-        marketPricesViewModel.getCategoriesLiveData().observe(this, Observer {
-            vs_categories.displayedChild = 0
-
-            val adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item)
-            it.add(0, "")
-            adapter.addAll(it)
-
-            s_categories.adapter = adapter
-            s_categories.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    categorySelected()
+        marketPricesViewModel.getCategoriesViewState().observe(this, Observer {
+            if (it.isLoading) {
+                vs_categories.displayedChild = 1
+            } else {
+                vs_categories.displayedChild = 0
+                it.categories?.let { categories ->
+                    handleCategories(categories)
                 }
             }
         })
 
         // products
-        marketPricesViewModel.getProductsLiveData().observe(this, Observer {
-            vs_products.displayedChild = 0
-
-            val adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item)
-            it.add(0, "")
-            adapter.addAll(it)
-
-            s_products.adapter = adapter
-            s_products.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    commoditySelected()
+        marketPricesViewModel.getProductsViewState().observe(this, Observer {
+            if (it.isLoading) {
+                vs_products.displayedChild = 1
+            } else {
+                vs_products.displayedChild = 0
+                it.products?.let {products ->
+                    handleProducts(products)
                 }
             }
         })
@@ -175,6 +146,70 @@ class MarketPriceSearchFragment : Fragment() {
         }
     }
 
+    private fun handleCountries(countries: List<String>) {
+        val adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item)
+        adapter.add("")
+        adapter.addAll(countries)
+
+        s_countries.adapter = adapter
+        s_countries.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                countrySelected()
+            }
+        }
+    }
+
+    private fun handleMarkets(markets: List<String>) {
+        val adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item)
+        adapter.add("")
+        adapter.addAll(markets)
+
+        s_markets.adapter = adapter
+        s_markets.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                marketSelected()
+            }
+        }
+    }
+
+    private fun handleCategories(categories: List<String>) {
+        val adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item)
+        adapter.add("")
+        adapter.addAll(categories)
+
+        s_categories.adapter = adapter
+        s_categories.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                categorySelected()
+            }
+        }
+    }
+
+    private fun handleProducts(products: List<String>) {
+        val adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item)
+        adapter.add("")
+        adapter.addAll(products)
+
+        s_products.adapter = adapter
+        s_products.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                productSelected()
+            }
+        }
+    }
+
     private fun countrySelected() {
         vs_markets.visibility = View.GONE
         vs_categories.visibility = View.GONE
@@ -185,7 +220,6 @@ class MarketPriceSearchFragment : Fragment() {
             val country = s_countries.selectedItem as String
 
             vs_markets.visibility = View.VISIBLE
-            vs_markets.displayedChild = 1
             marketPricesViewModel.getMarkets(country)
         }
     }
@@ -200,7 +234,6 @@ class MarketPriceSearchFragment : Fragment() {
             val market = s_markets.selectedItem as String
 
             vs_categories.visibility = View.VISIBLE
-            vs_categories.displayedChild = 1
             marketPricesViewModel.getCategories(country, market)
         }
     }
@@ -215,12 +248,11 @@ class MarketPriceSearchFragment : Fragment() {
             val category = s_categories.selectedItem as String
 
             vs_products.visibility = View.VISIBLE
-            vs_products.displayedChild = 1
             marketPricesViewModel.getProducts(country, market, category)
         }
     }
 
-    private fun commoditySelected() {
+    private fun productSelected() {
         b_search.isEnabled = false
 
         if (s_products.selectedItem is String && s_products.selectedItem != "") {
