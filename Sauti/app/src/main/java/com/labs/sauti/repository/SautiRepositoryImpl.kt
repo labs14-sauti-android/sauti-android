@@ -4,10 +4,8 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.labs.sauti.api.SautiApiService
 import com.labs.sauti.cache.MarketPriceRoomCache
-import com.labs.sauti.cache.RecentMarketPriceRoomCache
 import com.labs.sauti.cache.RecentMarketPriceSearchRoomCache
 import com.labs.sauti.helper.NetworkHelper
-import com.labs.sauti.mapper.Mapper
 import com.labs.sauti.model.*
 import com.labs.sauti.sp.SessionSp
 import io.reactivex.Completable
@@ -22,9 +20,7 @@ class SautiRepositoryImpl(
     private val sautiAuthorization: String,
     private val sessionSp: SessionSp,
     private val marketPriceRoomCache: MarketPriceRoomCache,
-    private val recentMarketPriceRoomCache: RecentMarketPriceRoomCache, // TODO remove RecentMarketPrice
-    private val recentMarketPriceSearchRoomCache: RecentMarketPriceSearchRoomCache,
-    private val marketPriceDataRecentMarketPriceDataMapper: Mapper<MarketPriceData, RecentMarketPriceData>
+    private val recentMarketPriceSearchRoomCache: RecentMarketPriceSearchRoomCache
 ) : SautiRepository {
 
     override fun signUp(signUpRequest: SignUpRequest): Single<SignUpResponse> {
@@ -256,10 +252,6 @@ class SautiRepositoryImpl(
                 marketPriceRoomCache.search(country, market, category, product)
             }
             .doOnSuccess {
-                recentMarketPriceRoomCache.save(marketPriceDataRecentMarketPriceDataMapper.mapFrom(it).apply {
-                    timeCreated = System.currentTimeMillis()
-                }).blockingAwait()
-
                 recentMarketPriceSearchRoomCache.save(
                     RecentMarketPriceSearchData(
                         country = country,
@@ -268,11 +260,6 @@ class SautiRepositoryImpl(
                         product = product
                 )).blockingAwait()
             }
-    }
-
-    // TODO remove RecentMarketPrice
-    override fun getRecentMarketPrices(): Single<MutableList<RecentMarketPriceData>> {
-        return recentMarketPriceRoomCache.getAll()
     }
 
     override fun getRecentMarketPriceSearches(): Single<MutableList<RecentMarketPriceSearchData>> {

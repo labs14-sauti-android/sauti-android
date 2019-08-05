@@ -15,8 +15,6 @@ class MarketPriceViewModel(private val sautiRepository: SautiRepository): BaseVi
     private val categoriesLiveData = MutableLiveData<MutableList<String>>()
     private val productsLiveData = MutableLiveData<MutableList<String>>()
     private val searchMarketPriceLiveData = MutableLiveData<MarketPriceData>()
-    private val recentMarketPricesLiveData = MutableLiveData<MutableList<RecentMarketPriceData>>()
-    private val recentMarketPriceSearchesLiveData = MutableLiveData<MutableList<RecentMarketPriceSearchData>>()
     private val searchRecentMarketPricesLiveData = MutableLiveData<MutableList<MarketPriceData>>()
     // TODO error
     private val errorLiveData = MutableLiveData<Throwable>()
@@ -26,8 +24,6 @@ class MarketPriceViewModel(private val sautiRepository: SautiRepository): BaseVi
     fun getCategoriesLiveData(): LiveData<MutableList<String>> = categoriesLiveData
     fun getProductsLiveData(): LiveData<MutableList<String>> = productsLiveData
     fun getSearchMarketPriceLiveData(): LiveData<MarketPriceData> = searchMarketPriceLiveData
-    fun getRecentMarketPricesLiveData(): LiveData<MutableList<RecentMarketPriceData>> = recentMarketPricesLiveData
-    fun getRecentMarketPriceSearchesLiveData(): LiveData<MutableList<RecentMarketPriceSearchData>> = recentMarketPriceSearchesLiveData
     fun getSearchRecentMarketPricesLiveData(): LiveData<MutableList<MarketPriceData>> = searchRecentMarketPricesLiveData
 
     fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
@@ -94,29 +90,6 @@ class MarketPriceViewModel(private val sautiRepository: SautiRepository): BaseVi
             }
         )
         addDisposable(disposable)
-    }
-
-    fun getRecentMarketPrices() {
-        val disposable = sautiRepository.getRecentMarketPrices().subscribe(
-            {
-                recentMarketPricesLiveData.postValue(it)
-            },
-            {
-                errorLiveData.postValue(it)
-            }
-        )
-        addDisposable(disposable)
-    }
-
-    fun getRecentMarketPriceSearches() {
-        addDisposable(sautiRepository.getRecentMarketPriceSearches().subscribe(
-            {
-                recentMarketPriceSearchesLiveData.postValue(it)
-            },
-            {
-                errorLiveData.postValue(it)
-            }
-        ))
     }
 
     fun searchRecentMarketPrices() {

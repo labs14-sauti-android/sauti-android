@@ -18,8 +18,6 @@ interface SautiRepository {
     fun getMarketPriceProducts(country: String, market: String, category: String): Single<MutableList<String>>
     fun searchMarketPrice(country: String, market: String, category: String, product: String): Single<MarketPriceData>
 
-    fun getRecentMarketPrices(): Single<MutableList<RecentMarketPriceData>>
-
     fun getRecentMarketPriceSearches(): Single<MutableList<RecentMarketPriceSearchData>>
     fun searchRecentMarketPrices(): Single<MutableList<MarketPriceData>>
     fun searchRecentMarketPriceInCache(): Single<MutableList<MarketPriceData>>

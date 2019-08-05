@@ -18,7 +18,6 @@ import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.databinding.FragmentMarketPriceBinding
 import com.labs.sauti.model.MarketPriceData
-import com.labs.sauti.model.RecentMarketPriceData
 import com.labs.sauti.view_model.MarketPriceViewModel
 import kotlinx.android.synthetic.main.fragment_market_price.*
 import kotlinx.android.synthetic.main.item_recent_market_price.view.*
@@ -63,15 +62,6 @@ OnFragmentFullScreenStateChangedListener {
         super.onViewCreated(view, savedInstanceState)
 
         ll_details.visibility = View.GONE
-
-        // TODO remove RecentMarketPrice
-//        ll_recent_market_prices.removeAllViews()
-//        marketPriceViewModel.getRecentMarketPricesLiveData().observe(this, Observer {
-//            ll_recent_market_prices.removeAllViews()
-//
-//            handleRecentMarketPrices(it)
-//        })
-//        marketPriceViewModel.getRecentMarketPrices()
 
         ll_recent_market_prices.children.iterator().forEach {
             recentMarketPriceRootViews.add(it)
@@ -135,32 +125,6 @@ OnFragmentFullScreenStateChangedListener {
         }
     }
 
-    // TODO remove RecentMarketPrice
-    private fun handleRecentMarketPrices(recentMarketPrices: MutableList<RecentMarketPriceData>) {
-        for ((index, recentMarketPrice) in recentMarketPrices.withIndex()) {
-            if (index == MAX_MARKET_RECENT_PRICE_SHOWN) break
-
-            val recentMarketPriceView = LayoutInflater.from(context).inflate(R.layout.item_recent_market_price, ll_recent_market_prices, false)
-
-            recentMarketPriceView.t_recent_product_at_market.text = "${recentMarketPrice.product} at ${recentMarketPrice.market}"
-            recentMarketPriceView.t_recent_wholesale.text = "Wholesale: ${recentMarketPrice.wholesale} ${recentMarketPrice.currency}/1Kg"
-            recentMarketPriceView.t_recent_retail.text = "Retail: ${recentMarketPrice.retail} ${recentMarketPrice.currency}/1Kg"
-            recentMarketPriceView.t_recent_updated.text = "Updated: ${recentMarketPrice.date?.substring(0, 10)}"
-            recentMarketPriceView.t_recent_source.text = "Source: EAGC-RATIN" // TODO
-
-            recentMarketPriceView.setOnClickListener {
-                ll_details.visibility = View.VISIBLE
-                t_details_product_at_market.text = "${recentMarketPrice.product} at ${recentMarketPrice.market}"
-                t_details_wholesale.text = "Wholesale: ${recentMarketPrice.wholesale} ${recentMarketPrice.currency}/1Kg"
-                t_details_retail.text = "Retail: ${recentMarketPrice.retail} ${recentMarketPrice.currency}/1Kg"
-                t_details_updated.text = "Updated: ${recentMarketPrice.date?.substring(0, 10)}"
-                t_details_source.text = "Source: EAGC-RATIN" // TODO
-            }
-
-            ll_recent_market_prices.addView(recentMarketPriceView)
-        }
-    }
-
     private fun openMarketPriceSearchFragment() {
         val marketPriceSearchFragment = MarketPriceSearchFragment.newInstance()
         childFragmentManager.beginTransaction()
@@ -207,7 +171,6 @@ OnFragmentFullScreenStateChangedListener {
     }
 
     companion object {
-        private const val MAX_MARKET_RECENT_PRICE_SHOWN = 2
 
         @JvmStatic
         fun newInstance() =

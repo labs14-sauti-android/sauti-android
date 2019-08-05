@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.fragment_market_price_search.*
 import javax.inject.Inject
 
 // TODO button color when disabled. or just hide the button?
-// TODO use ViewSwitcher instead of VISIBLE/GONE when loading
 // TODO show warning when offline
 class MarketPriceSearchFragment : Fragment() {
     private var onMarketPriceSearchCompletedListener: OnMarketPriceSearchCompletedListener? = null
