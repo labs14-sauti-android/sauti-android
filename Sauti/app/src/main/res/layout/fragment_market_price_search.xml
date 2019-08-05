@@ -18,13 +18,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="23dp">
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="25dp"
+                android:paddingBottom="25dp">
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Market Price Search"
                     android:textSize="24sp"
+                    android:textStyle="bold"
                     android:layout_marginBottom="20dp"
                     android:textColor="@color/colorText"/>
 
@@ -42,7 +46,8 @@
                         android:layout_height="wrap_content"
                         android:text="Select Country For Markets"
                         android:textSize="14sp"
-                        android:textColor="@color/colorText"/>
+                        android:textColor="@color/colorText"
+                        android:layout_marginBottom="5dp"/>
 
                 <RelativeLayout
                         android:layout_width="match_parent"
@@ -82,7 +87,8 @@
                         android:layout_height="wrap_content"
                         android:text="Select Market"
                         android:textSize="14sp"
-                        android:textColor="@color/colorText"/>
+                        android:textColor="@color/colorText"
+                        android:layout_marginBottom="5dp"/>
 
                 <RelativeLayout
                         android:layout_width="match_parent"
@@ -122,7 +128,8 @@
                         android:layout_height="wrap_content"
                         android:text="Select Category For Commodity"
                         android:textSize="14sp"
-                        android:textColor="@color/colorText"/>
+                        android:textColor="@color/colorText"
+                        android:layout_marginBottom="5dp"/>
 
                 <RelativeLayout
                         android:layout_width="match_parent"
@@ -162,7 +169,8 @@
                         android:layout_height="wrap_content"
                         android:text="Select Category For Commodity"
                         android:textSize="14sp"
-                        android:textColor="@color/colorText"/>
+                        android:textColor="@color/colorText"
+                        android:layout_marginBottom="5dp"/>
 
                 <RelativeLayout
                         android:layout_width="match_parent"
