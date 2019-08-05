@@ -2,7 +2,7 @@ package com.labs.sauti.db
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.labs.sauti.model.ExchangeRateConversionData
+import com.labs.sauti.model.exchange_rate.ExchangeRateConversionData
 import io.reactivex.Completable
 import io.reactivex.Single
 

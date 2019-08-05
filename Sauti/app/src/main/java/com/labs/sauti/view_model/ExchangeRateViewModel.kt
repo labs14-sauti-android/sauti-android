@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.labs.sauti.model.ExchangeRateConversionResult
+import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResult
 import com.labs.sauti.repository.SautiRepository
 import com.labs.sauti.view_state.exchange_rate.ConversionViewState
 import com.labs.sauti.view_state.exchange_rate.CurrenciesViewState

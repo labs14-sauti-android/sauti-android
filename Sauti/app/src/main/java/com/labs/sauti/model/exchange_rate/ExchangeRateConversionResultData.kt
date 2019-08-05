@@ -1,4 +1,4 @@
-package com.labs.sauti.model
+package com.labs.sauti.model.exchange_rate
 
 class ExchangeRateConversionResultData(
     var fromCurrency: String,

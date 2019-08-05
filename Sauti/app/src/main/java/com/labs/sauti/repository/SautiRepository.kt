@@ -1,6 +1,8 @@
 package com.labs.sauti.repository
 
 import com.labs.sauti.model.*
+import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResultData
+import com.labs.sauti.model.exchange_rate.ExchangeRateData
 import io.reactivex.Completable
 import io.reactivex.Single
 

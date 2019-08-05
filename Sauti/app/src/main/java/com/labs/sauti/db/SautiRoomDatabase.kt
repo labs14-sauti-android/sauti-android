@@ -5,6 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.labs.sauti.model.*
+import com.labs.sauti.model.exchange_rate.ExchangeRateConversionData
+import com.labs.sauti.model.exchange_rate.ExchangeRateData
 
 
 const val DATABASE_SCHEMA_VERSION = 4

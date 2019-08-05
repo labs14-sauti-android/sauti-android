@@ -1,4 +1,4 @@
-package com.labs.sauti.model
+package com.labs.sauti.model.exchange_rate
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

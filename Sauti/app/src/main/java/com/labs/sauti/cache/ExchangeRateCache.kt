@@ -1,6 +1,6 @@
 package com.labs.sauti.cache
 
-import com.labs.sauti.model.ExchangeRateData
+import com.labs.sauti.model.exchange_rate.ExchangeRateData
 import io.reactivex.Completable
 import io.reactivex.Single
 

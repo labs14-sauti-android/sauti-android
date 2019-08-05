@@ -7,6 +7,10 @@ import com.labs.sauti.cache.*
 import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.mapper.Mapper
 import com.labs.sauti.model.*
+import com.labs.sauti.model.exchange_rate.ExchangeRateConversionData
+import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResultData
+import com.labs.sauti.model.exchange_rate.ExchangeRateData
+import com.labs.sauti.model.exchange_rate.ExchangeRateRateData
 import com.labs.sauti.sp.SessionSp
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -338,7 +342,12 @@ class SautiRepositoryImpl(
 
             val exchangeRates = mutableListOf<ExchangeRateData>()
             exchangeRateMap.forEach {
-                exchangeRates.add(ExchangeRateData(currency = it.key, rate = it.value.rate ?: 0.0))
+                exchangeRates.add(
+                    ExchangeRateData(
+                        currency = it.key,
+                        rate = it.value.rate ?: 0.0
+                    )
+                )
             }
             exchangeRates
         }
@@ -377,7 +386,8 @@ class SautiRepositoryImpl(
                         fromCurrency = fromCurrency,
                         toCurrency = toCurrency,
                         amount = amount
-                    )).blockingAwait()
+                    )
+                ).blockingAwait()
             }
     }
 
@@ -393,13 +403,15 @@ class SautiRepositoryImpl(
                             val toExchangeRate = exchangeRateRoomCache.get(it.toCurrency).blockingGet()
                             val toPerFrom = toExchangeRate.rate / fromExchangeRate.rate
 
-                            conversionResults.add(ExchangeRateConversionResultData(
-                                it.fromCurrency,
-                                it.toCurrency,
-                                toPerFrom,
-                                it.amount,
-                                toPerFrom * it.amount
-                            ))
+                            conversionResults.add(
+                                ExchangeRateConversionResultData(
+                                    it.fromCurrency,
+                                    it.toCurrency,
+                                    toPerFrom,
+                                    it.amount,
+                                    toPerFrom * it.amount
+                                )
+                            )
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
@@ -420,13 +432,15 @@ class SautiRepositoryImpl(
                     val toExchangeRate = exchangeRateRoomCache.get(it.toCurrency).blockingGet()
                     val toPerFrom = toExchangeRate.rate / fromExchangeRate.rate
 
-                    conversionResults.add(ExchangeRateConversionResultData(
-                        it.fromCurrency,
-                        it.toCurrency,
-                        toPerFrom,
-                        it.amount,
-                        toPerFrom * it.amount
-                    ))
+                    conversionResults.add(
+                        ExchangeRateConversionResultData(
+                            it.fromCurrency,
+                            it.toCurrency,
+                            toPerFrom,
+                            it.amount,
+                            toPerFrom * it.amount
+                        )
+                    )
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
