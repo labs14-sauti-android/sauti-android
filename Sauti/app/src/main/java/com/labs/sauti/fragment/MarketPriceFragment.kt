@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.item_recent_market_price.view.*
 import javax.inject.Inject
 
 // TODO 5 weeks old max market price
+// TODO do not show 0 retail price
 class MarketPriceFragment : Fragment(), MarketPriceSearchFragment.OnMarketPriceSearchCompletedListener,
 OnFragmentFullScreenStateChangedListener {
 

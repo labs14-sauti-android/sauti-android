@@ -3,7 +3,7 @@ package com.labs.sauti.di.module
 import android.content.Context
 import com.labs.sauti.api.SautiApiService
 import com.labs.sauti.cache.MarketPriceRoomCache
-import com.labs.sauti.cache.RecentMarketPriceSearchRoomCache
+import com.labs.sauti.cache.MarketPriceSearchRoomCache
 import com.labs.sauti.db.SautiRoomDatabase
 import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.repository.SautiRepository
@@ -36,8 +36,8 @@ class DataModule(private val sautiAuthorization: String) {
 
     @Provides
     @Singleton
-    fun provideRecentMarketPriceSearchRoomCache(sautiRoomDatabase: SautiRoomDatabase): RecentMarketPriceSearchRoomCache {
-        return RecentMarketPriceSearchRoomCache(sautiRoomDatabase)
+    fun provideMarketPriceSearchRoomCache(sautiRoomDatabase: SautiRoomDatabase): MarketPriceSearchRoomCache {
+        return MarketPriceSearchRoomCache(sautiRoomDatabase)
     }
 
     @Provides
@@ -47,7 +47,7 @@ class DataModule(private val sautiAuthorization: String) {
         sautiApiService: SautiApiService,
         sessionSp: SessionSp,
         marketPriceRoomCache: MarketPriceRoomCache,
-        recentMarketPriceSearchRoomCache: RecentMarketPriceSearchRoomCache
+        marketPriceSearchRoomCache: MarketPriceSearchRoomCache
     ): SautiRepository {
         return SautiRepositoryImpl(
             networkHelper,
@@ -55,7 +55,7 @@ class DataModule(private val sautiAuthorization: String) {
             sautiAuthorization,
             sessionSp,
             marketPriceRoomCache,
-            recentMarketPriceSearchRoomCache
+            marketPriceSearchRoomCache
         )
     }
 

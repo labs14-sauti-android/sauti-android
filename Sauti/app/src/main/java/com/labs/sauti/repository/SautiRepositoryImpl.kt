@@ -4,7 +4,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.labs.sauti.api.SautiApiService
 import com.labs.sauti.cache.MarketPriceRoomCache
-import com.labs.sauti.cache.RecentMarketPriceSearchRoomCache
+import com.labs.sauti.cache.MarketPriceSearchRoomCache
 import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.model.*
 import com.labs.sauti.sp.SessionSp
@@ -20,7 +20,7 @@ class SautiRepositoryImpl(
     private val sautiAuthorization: String,
     private val sessionSp: SessionSp,
     private val marketPriceRoomCache: MarketPriceRoomCache,
-    private val recentMarketPriceSearchRoomCache: RecentMarketPriceSearchRoomCache
+    private val marketPriceSearchRoomCache: MarketPriceSearchRoomCache
 ) : SautiRepository {
 
     override fun signUp(signUpRequest: SignUpRequest): Single<SignUpResponse> {
@@ -252,8 +252,8 @@ class SautiRepositoryImpl(
                 marketPriceRoomCache.search(country, market, category, product)
             }
             .doOnSuccess {
-                recentMarketPriceSearchRoomCache.save(
-                    RecentMarketPriceSearchData(
+                marketPriceSearchRoomCache.save(
+                    MarketPriceSearchData(
                         country = country,
                         market = market,
                         category = category,
@@ -262,14 +262,13 @@ class SautiRepositoryImpl(
             }
     }
 
-    override fun getRecentMarketPriceSearches(): Single<MutableList<RecentMarketPriceSearchData>> {
-        return recentMarketPriceSearchRoomCache.getAll()
+    override fun getRecentMarketPriceSearches(): Single<MutableList<MarketPriceSearchData>> {
+        return marketPriceSearchRoomCache.getAll()
     }
 
-    // TODO make this not a list
     /** Search all stored recent market price search data in the network or cache*/
     override fun searchRecentMarketPrices(): Single<MutableList<MarketPriceData>> {
-        return recentMarketPriceSearchRoomCache.getAll()
+        return marketPriceSearchRoomCache.getAll()
             .flatMap {
                 Single.fromCallable {
                     val recentMarketPrices = mutableListOf<MarketPriceData>()
@@ -286,7 +285,7 @@ class SautiRepositoryImpl(
 
     /** Search all stored recent market price search data only in the cache*/
     override fun searchRecentMarketPriceInCache(): Single<MutableList<MarketPriceData>> {
-        return recentMarketPriceSearchRoomCache.getAll()
+        return marketPriceSearchRoomCache.getAll()
             .flatMap {
                 Single.fromCallable {
                     val recentMarketPriceInCache = mutableListOf<MarketPriceData>()
