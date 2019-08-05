@@ -24,4 +24,9 @@ interface SautiRepository {
     fun searchRecentMarketPrices(): Single<MutableList<MarketPriceData>>
     fun searchRecentMarketPriceInCache(): Single<MutableList<MarketPriceData>>
 
+    fun getExchangeRates(): Single<MutableList<ExchangeRateData>>
+    fun convertCurrency(fromCurrency: String, toCurrency: String, amount: Double): Single<ExchangeRateConversionResultData>
+    fun getRecentConversionResults(): Single<MutableList<ExchangeRateConversionResultData>>
+    fun getRecentConversionResultsInCache(): Single<MutableList<ExchangeRateConversionResultData>>
+
 }

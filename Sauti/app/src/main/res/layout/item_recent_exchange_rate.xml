@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp"
+        android:layout_weight="0.5"
+        app:cardBackgroundColor="@color/colorCardBackground"
+        tools:layout_width="match_parent"
+        android:minHeight="140dp">
+
+    <!--TODO lock height-->
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:orientation="vertical">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Today's intl exchange rates:"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:textColor="@color/colorCardText"
+                android:layout_marginBottom="15dp"/>
+
+        <TextView
+                android:id="@+id/t_recent_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="50 KES is 1809 UGX"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/colorCardText"
+                android:textSize="14sp"
+                android:layout_marginBottom="29dp"/>
+
+        <TextView
+                android:id="@+id/t_recent_to_per_from"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="(1KES = 36.1804 UGX)"
+                android:gravity="center"
+                android:textColor="@color/colorCardText"
+                android:textSize="12sp"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

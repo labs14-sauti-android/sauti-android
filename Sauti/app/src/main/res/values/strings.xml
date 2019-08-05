@@ -6,7 +6,12 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="nav_header_subtitle">Sign Up Now to Save Favorites</string>
 
-    <string name="language_activity_text"><b>Sauti</b><font fgcolor='#e84c3d'><b>.</b></font></string>
+    <string name="language_activity_text">
+        <b>Sauti</b>
+        <font fgcolor='#e84c3d'>
+            <b>.</b>
+        </font>
+    </string>
     <string name="menu_market_prices">Market Prices</string>
     <string name="menu_tax_calculator">Tax Calculator</string>
     <string name="menu_trade_info">Trade Info</string>
@@ -28,14 +33,26 @@
     <string name="trade_info_search_header">Trade Info Search</string>
     <string name="search_button_text">Search</string>
     <string name="don_t_have_an_account_sign_up">
-        <font fgcolor='#6e83f3'>Don\'t have an account?</font> Sign up</string>
+        <font fgcolor='#6e83f3'>Don\'t have an account?</font>
+        Sign up
+    </string>
     <string name="sauti_sign_in">
         <b>Sauti
             <font fgcolor='#e84c3d'>.</font>
         </b>
         Sign In
     </string>
-    <string name="sauti_sign_up"><b>Sauti<font fgcolor='#e84c3d'>.</font></b> Sign Up</string>
-    <string name="already_have_an_account_sign_in"><font fgcolor='#6e83f3'>Already have an account?</font> Sign In</string>
+    <string name="sauti_sign_up">
+        <b>Sauti
+            <font fgcolor='#e84c3d'>.</font>
+        </b>
+        Sign Up
+    </string>
+    <string name="already_have_an_account_sign_in">
+        <font fgcolor='#6e83f3'>Already have an account?</font>
+        Sign In
+    </string>
+    <string name="today_s_intl_exchange_rates_u"><u>Today\'s intl exchange rates:</u></string>
+    <string name="your_recent_conversions">Your Recent Conversions</string>
 
 </resources>
