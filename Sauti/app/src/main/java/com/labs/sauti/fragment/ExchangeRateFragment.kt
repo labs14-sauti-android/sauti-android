@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_exchange_rate.*
 import kotlinx.android.synthetic.main.item_recent_exchange_rate.view.*
 import javax.inject.Inject
 
-class ExchangeRateFragment : Fragment(), ExchangeRateSearchFragment.OnConversionCompletedListener {
+class ExchangeRateFragment : Fragment(), ExchangeRateConvertFragment.OnConversionCompletedListener {
 
     @Inject
     lateinit var exchangeRateViewModelFactory: ExchangeRateViewModel.Factory
@@ -124,9 +124,9 @@ class ExchangeRateFragment : Fragment(), ExchangeRateSearchFragment.OnConversion
     }
 
     private fun openExchangeRateConvertFragment() {
-        val exchangeRateSearchFragment = ExchangeRateSearchFragment.newInstance()
+        val exchangeRateConvertFragment = ExchangeRateConvertFragment.newInstance()
         childFragmentManager.beginTransaction()
-            .add(R.id.fl_fragment_container, exchangeRateSearchFragment)
+            .add(R.id.fl_fragment_container, exchangeRateConvertFragment)
             .addToBackStack(null)
             .commit()
     }

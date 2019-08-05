@@ -16,10 +16,10 @@ import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResult
 import com.labs.sauti.view_model.ExchangeRateViewModel
-import kotlinx.android.synthetic.main.fragment_exchange_rate_search.*
+import kotlinx.android.synthetic.main.fragment_exchange_rate_convert.*
 import javax.inject.Inject
 
-class ExchangeRateSearchFragment : Fragment() {
+class ExchangeRateConvertFragment : Fragment() {
 
     // TODO fullscreen
 
@@ -42,7 +42,7 @@ class ExchangeRateSearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_exchange_rate_search, container, false)
+        return inflater.inflate(R.layout.fragment_exchange_rate_convert, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -120,7 +120,7 @@ class ExchangeRateSearchFragment : Fragment() {
 
     companion object {
         fun newInstance() =
-            ExchangeRateSearchFragment()
+            ExchangeRateConvertFragment()
     }
 
     interface OnConversionCompletedListener {
