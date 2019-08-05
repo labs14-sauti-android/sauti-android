@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".fragment.ExchangeRateConvertFragment"
+            android:background="@color/colorPrimaryDark"
+            android:clickable="true"
+            android:focusable="true">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="25dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="25dp">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Exchange Rate Convert"
+                android:textColor="@color/colorText"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="24dp"/>
+
+        <ViewSwitcher
+                android:id="@+id/vs_from_currencies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="From which currency do you want to convert?"
+                        android:textSize="14sp"
+                        android:textColor="@color/colorText"
+                        android:layout_marginBottom="5dp"/>
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:src="@drawable/search_spinner_background"/>
+
+                    <Spinner
+                            android:id="@+id/s_from_currencies"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:backgroundTint="#2e2e2e">
+                    </Spinner>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <ProgressBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+        </ViewSwitcher>
+
+        <ViewSwitcher
+                android:id="@+id/vs_to_currencies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="To which currency do you want to convert?"
+                        android:textSize="14sp"
+                        android:textColor="@color/colorText"
+                        android:layout_marginBottom="5dp"/>
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:src="@drawable/search_spinner_background"/>
+
+                    <Spinner
+                            android:id="@+id/s_to_currencies"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:backgroundTint="#2e2e2e">
+                    </Spinner>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <ProgressBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+        </ViewSwitcher>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="30dp">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="How much do you want to exchange?"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorText"
+                    android:layout_marginBottom="5dp"/>
+
+            <EditText
+                    android:id="@+id/et_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:digits="0123456789"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:hint="Enter Amount"
+                    android:background="#d9d6d6"
+                    android:padding="10dp"/>
+
+        </LinearLayout>
+
+        <ViewSwitcher
+                android:id="@+id/vs_convert_loading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <Button
+                    android:id="@+id/b_convert"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Convert"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:backgroundTint="@color/colorAccent"
+                    android:textColor="@color/colorText"/>
+
+            <ProgressBar
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+        </ViewSwitcher>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -182,7 +182,7 @@ OnFragmentFullScreenStateChangedListener {
     override fun onMarketPriceSearchCompleted(marketPrice: MarketPriceData) {
         ll_details.visibility = View.VISIBLE
         setMarketPriceDetails(marketPrice)
-
+        // TODO select the first card
         marketPriceViewModel.searchRecentMarketPriceInCache()
     }
 
