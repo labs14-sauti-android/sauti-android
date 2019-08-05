@@ -4,6 +4,7 @@ import android.content.Context
 import com.labs.sauti.api.SautiApiService
 import com.labs.sauti.cache.MarketPriceRoomCache
 import com.labs.sauti.cache.MarketPriceSearchRoomCache
+import com.labs.sauti.cache.*
 import com.labs.sauti.db.SautiRoomDatabase
 import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.repository.SautiRepository
@@ -42,12 +43,26 @@ class DataModule(private val sautiAuthorization: String) {
 
     @Provides
     @Singleton
+    fun provideExchangeRateRoomCache(sautiRoomDatabase: SautiRoomDatabase): ExchangeRateRoomCache {
+        return ExchangeRateRoomCache(sautiRoomDatabase)
+    }
+
+    @Provides
+    @Singleton
+    fun provideExchangeRateConversionRoomCache(sautiRoomDatabase: SautiRoomDatabase): ExchangeRateConversionRoomCache {
+        return ExchangeRateConversionRoomCache(sautiRoomDatabase)
+    }
+
+    @Provides
+    @Singleton
     fun provideSautiRepository(
         networkHelper: NetworkHelper,
         sautiApiService: SautiApiService,
         sessionSp: SessionSp,
         marketPriceRoomCache: MarketPriceRoomCache,
-        marketPriceSearchRoomCache: MarketPriceSearchRoomCache
+        marketPriceSearchRoomCache: MarketPriceSearchRoomCache,
+        exchangeRateRoomCache: ExchangeRateRoomCache,
+        exchangeRateConversionRoomCache: ExchangeRateConversionRoomCache
     ): SautiRepository {
         return SautiRepositoryImpl(
             networkHelper,
@@ -55,7 +70,9 @@ class DataModule(private val sautiAuthorization: String) {
             sautiAuthorization,
             sessionSp,
             marketPriceRoomCache,
-            marketPriceSearchRoomCache
+            marketPriceSearchRoomCache,
+            exchangeRateRoomCache,
+            exchangeRateConversionRoomCache
         )
     }
 

@@ -3,12 +3,15 @@ package com.labs.sauti.repository
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.labs.sauti.api.SautiApiService
-import com.labs.sauti.cache.MarketPriceRoomCache
-import com.labs.sauti.cache.MarketPriceSearchRoomCache
+import com.labs.sauti.cache.*
 import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.model.*
 import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.model.market_price.MarketPriceSearchData
+import com.labs.sauti.model.exchange_rate.ExchangeRateConversionData
+import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResultData
+import com.labs.sauti.model.exchange_rate.ExchangeRateData
+import com.labs.sauti.model.exchange_rate.ExchangeRateRateData
 import com.labs.sauti.sp.SessionSp
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -22,7 +25,9 @@ class SautiRepositoryImpl(
     private val sautiAuthorization: String,
     private val sessionSp: SessionSp,
     private val marketPriceRoomCache: MarketPriceRoomCache,
-    private val marketPriceSearchRoomCache: MarketPriceSearchRoomCache
+    private val marketPriceSearchRoomCache: MarketPriceSearchRoomCache,
+    private val exchangeRateRoomCache: ExchangeRateCache,
+    private val exchangeRateConversionRoomCache: ExchangeRateConversionCache
 ) : SautiRepository {
 
     override fun signUp(signUpRequest: SignUpRequest): Single<SignUpResponse> {
@@ -301,5 +306,137 @@ class SautiRepositoryImpl(
                     recentMarketPriceInCache
                 }
             }
+    }
+
+    override fun getExchangeRates(): Single<MutableList<ExchangeRateData>> {
+        // TODO test only
+        return Single.fromCallable {
+            if (!networkHelper.hasNetworkConnection()) throw Exception("No network connection")
+
+            val request = Request.Builder()
+                .url("http://sautiafrica.org/endpoints/api.php?url=v1/exchangeRates/&type=json")
+                .build()
+            val responseBody = OkHttpClient.Builder().build()
+                .newCall(request)
+                .execute()
+                .body()
+
+            responseBody ?: throw Exception("No response")
+
+            val responseStr = responseBody.string()
+
+            val gson = GsonBuilder().create()
+            val typeToken = object: TypeToken<HashMap<String, ExchangeRateRateData>>() {}.type
+            val exchangeRateMap =
+                gson.fromJson<HashMap<String, ExchangeRateRateData>>(responseStr, typeToken)
+
+            val exchangeRates = mutableListOf<ExchangeRateData>()
+            exchangeRateMap.forEach {
+                exchangeRates.add(
+                    ExchangeRateData(
+                        currency = it.key,
+                        rate = it.value.rate ?: 0.0
+                    )
+                )
+            }
+            exchangeRates
+        }
+            .subscribeOn(Schedulers.io())
+            .doOnSuccess {
+                exchangeRateRoomCache.replaceAll(it).blockingAwait()
+            }
+            .onErrorResumeNext {
+                exchangeRateRoomCache.getAll()
+            }
+    }
+
+    override fun convertCurrency(
+        fromCurrency: String,
+        toCurrency: String,
+        amount: Double
+    ): Single<ExchangeRateConversionResultData> {
+        return Single.fromCallable {
+            val fromExchangeRate = exchangeRateRoomCache.get(fromCurrency).blockingGet()
+            val toExchangeRate = exchangeRateRoomCache.get(toCurrency).blockingGet()
+
+            val toPerFrom = toExchangeRate.rate / fromExchangeRate.rate
+
+            ExchangeRateConversionResultData(
+                fromCurrency,
+                toCurrency,
+                toPerFrom,
+                amount,
+                toPerFrom * amount
+            )
+        }
+            .subscribeOn(Schedulers.io())
+            .doOnSuccess {
+                exchangeRateConversionRoomCache.save(
+                    ExchangeRateConversionData(
+                        fromCurrency = fromCurrency,
+                        toCurrency = toCurrency,
+                        amount = amount
+                    )
+                ).blockingAwait()
+            }
+    }
+
+    override fun getRecentConversionResults(): Single<MutableList<ExchangeRateConversionResultData>> {
+        return getExchangeRates() // update the local exchange rates if possible
+            .flatMap {
+                Single.fromCallable {
+                    val conversions = exchangeRateConversionRoomCache.getAll().blockingGet()
+                    val conversionResults = mutableListOf<ExchangeRateConversionResultData>()
+                    conversions.forEach {
+                        try {
+                            val fromExchangeRate = exchangeRateRoomCache.get(it.fromCurrency).blockingGet()
+                            val toExchangeRate = exchangeRateRoomCache.get(it.toCurrency).blockingGet()
+                            val toPerFrom = toExchangeRate.rate / fromExchangeRate.rate
+
+                            conversionResults.add(
+                                ExchangeRateConversionResultData(
+                                    it.fromCurrency,
+                                    it.toCurrency,
+                                    toPerFrom,
+                                    it.amount,
+                                    toPerFrom * it.amount
+                                )
+                            )
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                    conversionResults
+                }
+                    .subscribeOn(Schedulers.io())
+            }
+    }
+
+    override fun getRecentConversionResultsInCache(): Single<MutableList<ExchangeRateConversionResultData>> {
+        return Single.fromCallable {
+            val conversions = exchangeRateConversionRoomCache.getAll().blockingGet()
+            val conversionResults = mutableListOf<ExchangeRateConversionResultData>()
+            conversions.forEach {
+                try {
+                    val fromExchangeRate = exchangeRateRoomCache.get(it.fromCurrency).blockingGet()
+                    val toExchangeRate = exchangeRateRoomCache.get(it.toCurrency).blockingGet()
+                    val toPerFrom = toExchangeRate.rate / fromExchangeRate.rate
+
+                    conversionResults.add(
+                        ExchangeRateConversionResultData(
+                            it.fromCurrency,
+                            it.toCurrency,
+                            toPerFrom,
+                            it.amount,
+                            toPerFrom * it.amount
+                        )
+                    )
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            conversionResults
+        }
+            .subscribeOn(Schedulers.io())
     }
 }
