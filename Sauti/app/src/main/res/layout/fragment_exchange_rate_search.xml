@@ -11,13 +11,20 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="25dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="25dp">
 
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Exchange Rate Search"
-                android:textColor="@color/colorText"/>
+                android:text="Exchange Rate Convert"
+                android:textColor="@color/colorText"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="24dp"/>
 
         <ViewSwitcher
                 android:id="@+id/vs_from_currencies"
@@ -35,7 +42,8 @@
                         android:layout_height="wrap_content"
                         android:text="From which currency do you want to convert?"
                         android:textSize="14sp"
-                        android:textColor="@color/colorText"/>
+                        android:textColor="@color/colorText"
+                        android:layout_marginBottom="5dp"/>
 
                 <RelativeLayout
                         android:layout_width="match_parent"
@@ -79,7 +87,8 @@
                         android:layout_height="wrap_content"
                         android:text="To which currency do you want to convert?"
                         android:textSize="14sp"
-                        android:textColor="@color/colorText"/>
+                        android:textColor="@color/colorText"
+                        android:layout_marginBottom="5dp"/>
 
                 <RelativeLayout
                         android:layout_width="match_parent"
@@ -116,9 +125,10 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="What is the approximate value of your good in UGX?"
+                    android:text="How much do you want to exchange?"
                     android:textSize="14sp"
-                    android:textColor="@color/colorText"/>
+                    android:textColor="@color/colorText"
+                    android:layout_marginBottom="5dp"/>
 
             <EditText
                     android:id="@+id/et_amount"
