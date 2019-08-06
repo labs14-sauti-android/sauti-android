@@ -10,4 +10,5 @@ interface MainComponent {
     fun plus(authenticationModule: AuthenticationModule): AuthenticationComponent
     fun plus(marketPriceModule: MarketPriceModule): MarketPriceComponent
     fun plus(exchangeRateModule: ExchangeRateModule): ExchangeRateComponent
+    fun plus(settingsModule: SettingsModule): SettingsComponent
 }
