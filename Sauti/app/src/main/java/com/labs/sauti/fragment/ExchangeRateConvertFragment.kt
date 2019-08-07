@@ -1,7 +1,10 @@
 package com.labs.sauti.fragment
 
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,9 +18,11 @@ import androidx.lifecycle.ViewModelProviders
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.helper.LocaleHelper
+import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResult
 import com.labs.sauti.view_model.ExchangeRateViewModel
 import kotlinx.android.synthetic.main.fragment_exchange_rate_convert.*
+import kotlinx.android.synthetic.main.fragment_exchange_rate_convert.t_warning_no_network_connection
 import javax.inject.Inject
 
 class ExchangeRateConvertFragment : Fragment() {
@@ -30,6 +35,16 @@ class ExchangeRateConvertFragment : Fragment() {
     lateinit var exchangeRateViewModelFactory: ExchangeRateViewModel.Factory
 
     private lateinit var exchangeRateViewModel: ExchangeRateViewModel
+
+    private val networkChangedReceiver = object: BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (NetworkHelper.hasNetworkConnection(context!!)) {
+                t_warning_no_network_connection.visibility = View.GONE
+            } else {
+                t_warning_no_network_connection.visibility = View.VISIBLE
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +63,10 @@ class ExchangeRateConvertFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        context!!.registerReceiver(networkChangedReceiver, IntentFilter().also {
+            it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
+        })
 
         setTranslatableTexts()
 
@@ -142,6 +161,12 @@ class ExchangeRateConvertFragment : Fragment() {
         super.onDetach()
 
         onConversionCompletedListener = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        context!!.unregisterReceiver(networkChangedReceiver)
     }
 
     companion object {
