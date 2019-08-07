@@ -52,33 +52,40 @@
                     android:textStyle="bold"/>
 
             <TextView
+                    android:id="@+id/t_we_will_now_ask_some_questions_about_your_border_experience"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="We will now ask some questions about your border experience."
+                    android:text="@string/we_will_now_ask_some_questions_about_your_border_experience"
                     android:textColor="@color/colorText"
                     android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:layout_marginBottom="40dp"/>
 
             <TextView
+                    android:id="@+id/t_which_border_did_you_cross"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Which border did you cross?"
+                    android:text="@string/which_border_did_you_cross"
                     android:textColor="@color/colorText"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp"
+                    android:layout_marginBottom="16dp"/>
 
             <Spinner
                     android:id="@+id/s_borders"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="40dp">
 
             </Spinner>
 
             <TextView
+                    android:id="@+id/t_did_you_have_a_good_experience"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Did you have a good experience?"
+                    android:text="@string/did_you_have_a_good_experience"
                     android:textColor="@color/colorText"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp"
+                    android:layout_marginBottom="12dp"/>
 
             <LinearLayout
                     android:layout_width="match_parent"
@@ -89,7 +96,7 @@
                         android:id="@+id/b_yes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Yes"
+                        android:text="@string/yes"
                         android:textStyle="bold"
                         android:textColor="@color/colorButtonResponseText"
                         android:backgroundTint="@color/colorButtonResponse"/>
@@ -98,7 +105,7 @@
                         android:id="@+id/b_no"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="No"
+                        android:text="@string/no"
                         android:textStyle="bold"
                         android:textColor="@color/colorButtonResponseText"
                         android:backgroundTint="@color/colorButtonResponse"/>

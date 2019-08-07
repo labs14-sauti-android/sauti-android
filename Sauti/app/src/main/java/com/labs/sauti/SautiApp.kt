@@ -10,6 +10,7 @@ class SautiApp : Application() {
     private var authenticationComponent: AuthenticationComponent? = null
     private var marketPriceComponent: MarketPriceComponent? = null
     private var exchangeRateComponent: ExchangeRateComponent? = null
+    private var settingsComponent: SettingsComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -44,5 +45,13 @@ class SautiApp : Application() {
         }
 
         return exchangeRateComponent!!
+    }
+
+    fun getSettingsComponent(): SettingsComponent {
+        if (settingsComponent == null) {
+            settingsComponent = mainComponent.plus(SettingsModule())
+        }
+
+        return settingsComponent!!
     }
 }

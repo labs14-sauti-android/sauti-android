@@ -40,7 +40,7 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="From which currency do you want to convert?"
+                        android:text="@string/from_which_currency_do_you_want_to_convert"
                         android:textSize="14sp"
                         android:textColor="@color/colorText"
                         android:layout_marginBottom="5dp"/>
@@ -85,7 +85,7 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="To which currency do you want to convert?"
+                        android:text="@string/to_which_currency_do_you_want_to_convert"
                         android:textSize="14sp"
                         android:textColor="@color/colorText"
                         android:layout_marginBottom="5dp"/>
@@ -123,9 +123,10 @@
                 android:layout_marginBottom="30dp">
 
             <TextView
+                    android:id="@+id/t_how_much_do_you_want_to_exchange"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="How much do you want to exchange?"
+                    android:text="@string/how_much_do_you_want_to_exchange"
                     android:textSize="14sp"
                     android:textColor="@color/colorText"
                     android:layout_marginBottom="5dp"/>
