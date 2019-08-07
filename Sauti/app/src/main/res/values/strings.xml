@@ -57,4 +57,16 @@
     <string name="to_which_currency_do_you_want_to_convert">To which currency do you want to convert?</string>
     <string name="how_much_do_you_want_to_exchange">How much do you want to exchange?</string>
 
+    <!--Report-->
+    <string name="we_will_now_ask_some_questions_about_your_border_experience">We will now ask some questions about your border experience.</string>
+    <string name="which_border_did_you_cross">Which border did you cross?</string>
+    <string name="did_you_have_a_good_experience">Did you have a good experience?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <!--Help-->
+    <string name="report_incorrect_info">Report Incorrect Info</string>
+    <string name="did_you_notice_incorrect_information_on_the_sauti_app">Did you notice incorrect information on the Sauti app?</string>
+    <string name="enter_incorrect_information">Enter Incorrect Information</string>
+
 </resources>

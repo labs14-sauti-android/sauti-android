@@ -93,7 +93,7 @@ class ExchangeRateConvertFragment : Fragment() {
     }
 
     private fun setTranslatableTexts() {
-        val ctx = LocaleHelper.createResourcesContext(context!!)
+        val ctx = LocaleHelper.createContext(context!!)
 
         t_how_much_do_you_want_to_exchange.text = ctx.getString(R.string.how_much_do_you_want_to_exchange)
     }

@@ -6,7 +6,7 @@ class LocaleHelper {
 
     companion object {
 
-        fun createResourcesContext(context: Context): Context {
+        fun createContext(context: Context): Context {
             // TODO version
 
             return context.createConfigurationContext(context.resources.configuration)

@@ -77,7 +77,7 @@ class ExchangeRateFragment : Fragment(), ExchangeRateConvertFragment.OnConversio
     }
 
     private fun setTranslatableTexts() {
-        val ctx = LocaleHelper.createResourcesContext(context!!)
+        val ctx = LocaleHelper.createContext(context!!)
 
         val todaysIntlExchangeRatesSR = SpannableString(ctx.getString(R.string.today_s_intl_exchange_rates))
         todaysIntlExchangeRatesSR.setSpan(UnderlineSpan(), 0, todaysIntlExchangeRatesSR.length, 0)

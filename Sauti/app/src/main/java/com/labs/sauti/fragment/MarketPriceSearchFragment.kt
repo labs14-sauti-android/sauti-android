@@ -19,7 +19,6 @@ import com.labs.sauti.helper.LocaleHelper
 import com.labs.sauti.model.market_price.MarketPrice
 import com.labs.sauti.view_model.MarketPriceViewModel
 import kotlinx.android.synthetic.main.fragment_market_price_search.*
-import java.util.*
 import javax.inject.Inject
 
 // TODO button color when disabled. or just hide the button?
@@ -151,7 +150,7 @@ class MarketPriceSearchFragment : Fragment() {
     }
 
     private fun setTranslatedTexts() {
-        val ctx = LocaleHelper.createResourcesContext(context!!)
+        val ctx = LocaleHelper.createContext(context!!)
 
         t_select_country_for_markets.text = ctx.resources.getString(R.string.select_category_for_commodity)
         t_select_market.text = ctx.resources.getString(R.string.select_market)
