@@ -109,7 +109,11 @@ OnFragmentFullScreenStateChangedListener {
         productAtMarketSStr.setSpan(UnderlineSpan(), 0, productAtMarketSStr.length, 0)
         t_details_product_at_market.text = productAtMarketSStr
         t_details_wholesale.text = "Wholesale: ${marketPrice.wholesale} ${marketPrice.currency}/1Kg"
-        t_details_retail.text = "Retail: ${marketPrice.retail} ${marketPrice.currency}/1Kg"
+        marketPrice.retail.let {
+            if (it != 0L) {
+                t_details_retail.text = "Retail: ${marketPrice.retail} ${marketPrice.currency}/1Kg"
+            }
+        }
         t_details_updated.text = "Updated: ${marketPrice.date?.substring(0, 10)}"
         t_details_source.text = "Source: EAGC-RATIN" // TODO
     }
@@ -127,7 +131,11 @@ OnFragmentFullScreenStateChangedListener {
 
             itemView.t_recent_product_at_market.text = "${recentMarketPrice.product} at ${recentMarketPrice.market}"
             itemView.t_recent_wholesale.text = "Wholesale: ${recentMarketPrice.wholesale} ${recentMarketPrice.currency}/1Kg"
-            itemView.t_recent_retail.text = "Retail: ${recentMarketPrice.retail} ${recentMarketPrice.currency}/1Kg"
+            recentMarketPrice.retail.let {
+                if (it != 0L) {
+                    t_details_retail.text = "Retail: ${recentMarketPrice.retail} ${recentMarketPrice.currency}/1Kg"
+                }
+            }
             itemView.t_recent_updated.text = "Updated: ${recentMarketPrice.date?.substring(0, 10)}"
             itemView.t_recent_source.text = "Source: EAGC-RATIN" // TODO
 
