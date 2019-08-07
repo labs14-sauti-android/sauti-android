@@ -3,16 +3,12 @@ package com.labs.sauti.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import com.labs.sauti.R
+import com.labs.sauti.sp.SettingsSp
 import io.reactivex.Completable
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.activity_language.*
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class LanguageActivity : AppCompatActivity() {
@@ -40,6 +36,13 @@ class LanguageActivity : AppCompatActivity() {
             finish()
         }*/
 
+        val settingsSp = SettingsSp(this)
+        val locale = Locale(settingsSp.getSelectedLanguage())
+        Locale.setDefault(locale)
+        val config = resources.configuration
+        config.setLocale(locale)
+        config.setLayoutDirection(locale)
+
         val intent = Intent(this@LanguageActivity, BaseActivity::class.java)
 
         compositeDisposable.add(Completable.timer(1500, TimeUnit.MILLISECONDS)
@@ -49,9 +52,7 @@ class LanguageActivity : AppCompatActivity() {
                 finish()
             }
         )
-
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
+import com.labs.sauti.helper.LocaleHelper
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResult
 import com.labs.sauti.view_model.ExchangeRateViewModel
 import kotlinx.android.synthetic.main.fragment_exchange_rate_convert.*
@@ -89,6 +90,12 @@ class ExchangeRateConvertFragment : Fragment() {
         b_convert.setOnClickListener {
             convert()
         }
+    }
+
+    private fun setTranslatableTexts() {
+        val ctx = LocaleHelper.createResourcesContext(context!!)
+
+        t_how_much_do_you_want_to_exchange.text = ctx.getString(R.string.how_much_do_you_want_to_exchange)
     }
 
     private fun convert() {

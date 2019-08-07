@@ -25,6 +25,18 @@ class SettingsViewModel(private val sautiRepository: SautiRepository): BaseViewM
         ))
     }
 
+    fun setSelectedLanguage(language: String) {
+        addDisposable(sautiRepository.setSelectedLanguage(language)
+            .subscribe(
+            {
+                selectedLanguageLiveData.postValue(sautiRepository.getSelectedLanguage().blockingGet())
+            },
+            {
+                errorLiveData.postValue(it)
+            }
+        ))
+    }
+
     class Factory(private val sautiRepository: SautiRepository): ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")

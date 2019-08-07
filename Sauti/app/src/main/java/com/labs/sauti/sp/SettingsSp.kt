@@ -12,7 +12,7 @@ class SettingsSp(private val context: Context) {
     private val sp = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE)
 
     fun getSelectedLanguage(): String {
-        return sp.getString(KEY_SELECTED_LANGUAGE, "English")!!
+        return sp.getString(KEY_SELECTED_LANGUAGE, "en")!!
     }
 
     fun setSelectedLanguage(language: String) {

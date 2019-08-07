@@ -1,6 +1,9 @@
 package com.labs.sauti.fragment
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
+import com.labs.sauti.helper.LocaleHelper
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResult
 import com.labs.sauti.view_model.ExchangeRateViewModel
 import kotlinx.android.synthetic.main.fragment_exchange_rate.*
@@ -46,6 +50,8 @@ class ExchangeRateFragment : Fragment(), ExchangeRateConvertFragment.OnConversio
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setTranslatableTexts()
+
         ll_details.visibility = View.GONE
 
         ll_recent_exchange_rates.children.iterator().forEach {
@@ -67,6 +73,20 @@ class ExchangeRateFragment : Fragment(), ExchangeRateConvertFragment.OnConversio
 
         b_convert.setOnClickListener {
             openExchangeRateConvertFragment()
+        }
+    }
+
+    private fun setTranslatableTexts() {
+        val ctx = LocaleHelper.createResourcesContext(context!!)
+
+        val todaysIntlExchangeRatesSR = SpannableString(ctx.getString(R.string.today_s_intl_exchange_rates))
+        todaysIntlExchangeRatesSR.setSpan(UnderlineSpan(), 0, todaysIntlExchangeRatesSR.length, 0)
+        t_details_todays_intl_exchange_rates.text = todaysIntlExchangeRatesSR
+        t_details_todays_intl_exchange_rates.typeface = Typeface.DEFAULT_BOLD
+
+        ll_recent_exchange_rates.children.iterator().forEach {
+            it.t_recent_todays_intl_exchange_rates.text = ctx.getString(R.string.today_s_intl_exchange_rates)
+            it.t_recent_todays_intl_exchange_rates.typeface = Typeface.DEFAULT_BOLD
         }
     }
 
