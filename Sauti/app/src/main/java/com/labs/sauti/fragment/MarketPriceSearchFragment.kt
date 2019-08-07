@@ -1,6 +1,9 @@
 package com.labs.sauti.fragment
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +18,8 @@ import com.google.firebase.analytics.FirebaseAnalytics
 
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
+import com.labs.sauti.helper.NetworkHelper
+import com.labs.sauti.helper.LocaleHelper
 import com.labs.sauti.model.market_price.MarketPrice
 import com.labs.sauti.view_model.MarketPriceViewModel
 import kotlinx.android.synthetic.main.fragment_market_price_search.*
@@ -32,6 +37,16 @@ class MarketPriceSearchFragment : Fragment() {
     lateinit var marketPricesViewModelFactory: MarketPriceViewModel.Factory
 
     private lateinit var marketPricesViewModel: MarketPriceViewModel
+
+    private val networkChangedReceiver = object: BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (NetworkHelper.hasNetworkConnection(context!!)) {
+                t_warning_no_network_connection.visibility = View.GONE
+            } else {
+                t_warning_no_network_connection.visibility = View.VISIBLE
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +67,11 @@ class MarketPriceSearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        context!!.registerReceiver(networkChangedReceiver, IntentFilter().also {
+            it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
+        })
+        setTranslatedTexts()
 
         vs_markets.visibility = View.GONE
         vs_categories.visibility = View.GONE
@@ -144,6 +164,15 @@ class MarketPriceSearchFragment : Fragment() {
                 firebaseAnalytics.logEvent("search_market_price", searchParams)
             }
         }
+    }
+
+    private fun setTranslatedTexts() {
+        val ctx = LocaleHelper.createContext(context!!)
+
+        t_select_country_for_markets.text = ctx.resources.getString(R.string.select_category_for_commodity)
+        t_select_market.text = ctx.resources.getString(R.string.select_market)
+        t_select_category_for_commodity.text = ctx.resources.getString(R.string.select_category_for_commodity)
+        t_select_commodity.text = ctx.resources.getString(R.string.select_commodity)
     }
 
     private fun handleCountries(countries: List<String>) {
@@ -282,6 +311,12 @@ class MarketPriceSearchFragment : Fragment() {
 
         onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
         onFragmentFullScreenStateChangedListener = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        context!!.unregisterReceiver(networkChangedReceiver)
     }
 
     interface OnMarketPriceSearchCompletedListener {

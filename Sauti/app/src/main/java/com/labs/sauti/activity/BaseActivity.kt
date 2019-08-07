@@ -34,7 +34,7 @@ import javax.inject.Inject
 class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
 SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListener,
 SignInFragment.OpenSignUpListener, SignUpFragment.OpenSignInListener,
-DashboardFragment.OnReplaceFragmentListener{
+DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedListener{
 
     @Inject
     lateinit var authenticationViewModelFactory: AuthenticationViewModel.Factory
@@ -184,7 +184,7 @@ DashboardFragment.OnReplaceFragmentListener{
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.fragments.size > 1) {
+        if (supportFragmentManager.fragments.size > 1) { // pop signin/signout, about, or settings
             supportFragmentManager.popBackStack()
             return
         }
@@ -221,7 +221,24 @@ DashboardFragment.OnReplaceFragmentListener{
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_about -> {
+                val aboutFragment = AboutFragment.newInstance()
+
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, aboutFragment)
+                    .addToBackStack(null)
+                    .commit()
+                true
+            }
+            R.id.action_settings -> {
+                val settingsFragment = SettingsFragment.newInstance()
+
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, settingsFragment)
+                    .addToBackStack(null)
+                    .commit()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -371,5 +388,10 @@ DashboardFragment.OnReplaceFragmentListener{
         }
 
         return shouldReplace
+    }
+
+    override fun onLanguageChanged() {
+        finish()
+        startActivity(intent)
     }
 }

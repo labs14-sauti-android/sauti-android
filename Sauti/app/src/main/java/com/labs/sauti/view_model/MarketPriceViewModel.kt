@@ -10,22 +10,21 @@ import com.labs.sauti.view_state.market_price.*
 
 class MarketPriceViewModel(private val sautiRepository: SautiRepository): BaseViewModel() {
 
+    private val errorLiveData by lazy { MutableLiveData<Throwable>() }
     private val countriesViewState by lazy { MutableLiveData<CountriesViewState>() }
     private val marketsViewState by lazy { MutableLiveData<MarketsViewState>() }
     private val categoriesViewState by lazy { MutableLiveData<CategoriesViewState>() }
     private val productsViewState by lazy { MutableLiveData<ProductsViewState>() }
     private val searchMarketPriceLiveData by lazy { MutableLiveData<MarketPrice>() }
     private val recentMarketPricesViewState by lazy { MutableLiveData<RecentMarketPricesViewState>() }
-    private val errorLiveData by lazy { MutableLiveData<Throwable>() }
 
+    fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
     fun getCountriesViewState(): LiveData<CountriesViewState> = countriesViewState
     fun getMarketsViewState(): LiveData<MarketsViewState> = marketsViewState
     fun getCategoriesViewState(): LiveData<CategoriesViewState> = categoriesViewState
     fun getProductsViewState(): LiveData<ProductsViewState> = productsViewState
     fun getSearchMarketPriceLiveData(): LiveData<MarketPrice> = searchMarketPriceLiveData
     fun getRecentMarketPricesViewState(): LiveData<RecentMarketPricesViewState> = recentMarketPricesViewState
-
-    fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
 
     fun getCountries() {
         countriesViewState.value = CountriesViewState(true)
