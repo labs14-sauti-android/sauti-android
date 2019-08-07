@@ -26,10 +26,8 @@ import kotlinx.android.synthetic.main.fragment_exchange_rate_convert.t_warning_n
 import javax.inject.Inject
 
 class ExchangeRateConvertFragment : Fragment() {
-
-    // TODO fullscreen
-
     private var onConversionCompletedListener: OnConversionCompletedListener? = null
+    private var onFragmentFullScreenStateChangedListener: OnFragmentFullScreenStateChangedListener? = null
 
     @Inject
     lateinit var exchangeRateViewModelFactory: ExchangeRateViewModel.Factory
@@ -103,6 +101,7 @@ class ExchangeRateConvertFragment : Fragment() {
                 vs_convert_loading.displayedChild = 0
 
                 onConversionCompletedListener?.onConversionCompleted(it.conversionResult!!)
+                onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
 
                 fragmentManager!!.popBackStack()
             }
@@ -155,12 +154,21 @@ class ExchangeRateConvertFragment : Fragment() {
         } else {
             throw RuntimeException("parentFragment must implement OnConversionCompletedListener")
         }
+
+        if (parentFragment is OnFragmentFullScreenStateChangedListener) {
+            onFragmentFullScreenStateChangedListener = parentFragment as OnFragmentFullScreenStateChangedListener
+            onFragmentFullScreenStateChangedListener!!.onFragmetFullScreenStateChanged(true)
+        } else {
+            throw RuntimeException("parentFragment must implement OnFragmentFullScreenStateChangedListener")
+        }
     }
 
     override fun onDetach() {
         super.onDetach()
 
         onConversionCompletedListener = null
+        onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
+        onFragmentFullScreenStateChangedListener = null
     }
 
     override fun onDestroy() {

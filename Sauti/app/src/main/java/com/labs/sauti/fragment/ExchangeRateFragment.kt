@@ -1,5 +1,6 @@
 package com.labs.sauti.fragment
 
+import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.SpannableString
@@ -22,7 +23,10 @@ import kotlinx.android.synthetic.main.fragment_exchange_rate.*
 import kotlinx.android.synthetic.main.item_recent_exchange_rate.view.*
 import javax.inject.Inject
 
-class ExchangeRateFragment : Fragment(), ExchangeRateConvertFragment.OnConversionCompletedListener {
+class ExchangeRateFragment : Fragment(), ExchangeRateConvertFragment.OnConversionCompletedListener,
+OnFragmentFullScreenStateChangedListener{
+
+    private var onFragmentFullScreenStateChangedListener: OnFragmentFullScreenStateChangedListener? = null
 
     @Inject
     lateinit var exchangeRateViewModelFactory: ExchangeRateViewModel.Factory
@@ -89,11 +93,6 @@ class ExchangeRateFragment : Fragment(), ExchangeRateConvertFragment.OnConversio
         todaysIntlExchangeRatesSR.setSpan(UnderlineSpan(), 0, todaysIntlExchangeRatesSR.length, 0)
         t_details_todays_intl_exchange_rates.text = todaysIntlExchangeRatesSR
         t_details_todays_intl_exchange_rates.typeface = Typeface.DEFAULT_BOLD
-
-        ll_recent_exchange_rates.children.iterator().forEach {
-            it.t_recent_todays_intl_exchange_rates.text = ctx.getString(R.string.today_s_intl_exchange_rates)
-            it.t_recent_todays_intl_exchange_rates.typeface = Typeface.DEFAULT_BOLD
-        }
     }
 
     private fun setConversionResultDetails(exchangeRateConversionResult: ExchangeRateConversionResult) {
@@ -114,6 +113,10 @@ class ExchangeRateFragment : Fragment(), ExchangeRateConvertFragment.OnConversio
             ll_recent_exchange_rates.addView(itemView)
 
             if (index == 0 && shouldSelectMostRecentExchangeRateView) selectedConversionResultRootView = itemView
+
+            val localeCtx = LocaleHelper.createContext(context!!)
+            itemView.t_recent_todays_intl_exchange_rates.text = localeCtx.getString(R.string.today_s_intl_exchange_rates)
+            itemView.t_recent_todays_intl_exchange_rates.typeface = Typeface.DEFAULT_BOLD
 
             val amountStr = String.format("%.2f", conversionResult.amount)
             val resultStr = String.format("%.2f", conversionResult.result)
@@ -164,6 +167,25 @@ class ExchangeRateFragment : Fragment(), ExchangeRateConvertFragment.OnConversio
         // update recents from cache only
         exchangeRateViewModel.getRecentConversionResultsInCache()
         shouldSelectMostRecentExchangeRateView = true
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        if (context is OnFragmentFullScreenStateChangedListener) {
+            onFragmentFullScreenStateChangedListener = context
+        } else {
+            throw RuntimeException("Context must implement OnFragmentFullScreenStateChangedListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        onFragmentFullScreenStateChangedListener = null
+    }
+
+    override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
+        onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(isFullScreen)
     }
 
     companion object {
