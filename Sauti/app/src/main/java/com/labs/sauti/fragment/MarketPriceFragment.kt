@@ -36,8 +36,8 @@ OnFragmentFullScreenStateChangedListener {
     private lateinit var marketPriceViewModel: MarketPriceViewModel
     private lateinit var binding: FragmentMarketPriceBinding
 
-    private val recentMarketPriceRootViews = mutableListOf<View>()
-    private var selectedRecentMarketPriceRootView: View? = null
+    private var shouldSelectMostRecentMarketPriceView = false
+    private var selectedRecentMarketPriceView: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,17 +64,28 @@ OnFragmentFullScreenStateChangedListener {
 
         ll_details.visibility = View.GONE
 
-        ll_recent_market_prices.children.iterator().forEach {
-            recentMarketPriceRootViews.add(it)
-        }
-
         marketPriceViewModel.getRecentMarketPricesViewState().observe(this, Observer {
             if (it.isLoading) {
                 vs_recent_market_prices_loading.displayedChild = 1
             } else {
                 vs_recent_market_prices_loading.displayedChild = 0
-                it.recentMarketPrices?.let { recentMarketPrices ->
-                    handleRecentMarketPrices(recentMarketPrices)
+
+                ll_recent_market_prices.removeAllViews()
+
+                if (it.recentMarketPrices == null) {
+                    vs_recent_market_prices_empty.displayedChild = 1
+                } else {
+                    it.recentMarketPrices?.let { recentMarketPrices ->
+
+                        if (recentMarketPrices.isEmpty()) {
+                            vs_recent_market_prices_empty.displayedChild = 1
+                        } else {
+                            vs_recent_market_prices_empty.displayedChild = 0
+                            handleRecentMarketPrices(recentMarketPrices)
+                        }
+
+                        shouldSelectMostRecentMarketPriceView = false
+                    }
                 }
             }
         })
@@ -98,55 +109,61 @@ OnFragmentFullScreenStateChangedListener {
         productAtMarketSStr.setSpan(UnderlineSpan(), 0, productAtMarketSStr.length, 0)
         t_details_product_at_market.text = productAtMarketSStr
         t_details_wholesale.text = "Wholesale: ${marketPrice.wholesale} ${marketPrice.currency}/1Kg"
-        t_details_retail.text = "Retail: ${marketPrice.retail} ${marketPrice.currency}/1Kg"
+        marketPrice.retail.let {
+            if (it != 0L) {
+                t_details_retail.text = "Retail: ${marketPrice.retail} ${marketPrice.currency}/1Kg"
+            }
+        }
         t_details_updated.text = "Updated: ${marketPrice.date?.substring(0, 10)}"
         t_details_source.text = "Source: EAGC-RATIN" // TODO
     }
 
     private fun handleRecentMarketPrices(recentMarketPrices: List<MarketPrice>) {
-        recentMarketPriceRootViews.forEachIndexed { index, view ->
-            if (index < recentMarketPrices.size) {
-                val recentMarketPrice = recentMarketPrices[index]
-                view.t_recent_product_at_market.text = "${recentMarketPrice.product} at ${recentMarketPrice.market}"
-                view.t_recent_wholesale.text = "Wholesale: ${recentMarketPrice.wholesale} ${recentMarketPrice.currency}/1Kg"
-                view.t_recent_retail.text = "Retail: ${recentMarketPrice.retail} ${recentMarketPrice.currency}/1Kg"
-                view.t_recent_updated.text = "Updated: ${recentMarketPrice.date?.substring(0, 10)}"
-                view.t_recent_source.text = "Source: EAGC-RATIN" // TODO
+        recentMarketPrices.forEachIndexed recentMarketPricesBreak@{ index, recentMarketPrice ->
+            if (index > MAX_RECENT_ITEMS) {
+                return@recentMarketPricesBreak
+            }
 
-                view.setOnClickListener {
-                    if (selectedRecentMarketPriceRootView == null) {
-                        setMarketPriceDetails(recentMarketPrice)
+            val itemView = LayoutInflater.from(context!!).inflate(R.layout.item_recent_market_price, ll_recent_market_prices, false)
+            ll_recent_market_prices.addView(itemView)
+
+            if (index == 0 && shouldSelectMostRecentMarketPriceView) selectedRecentMarketPriceView = itemView
+
+            itemView.t_recent_product_at_market.text = "${recentMarketPrice.product} at ${recentMarketPrice.market}"
+            itemView.t_recent_wholesale.text = "Wholesale: ${recentMarketPrice.wholesale} ${recentMarketPrice.currency}/1Kg"
+            recentMarketPrice.retail.let {
+                if (it != 0L) {
+                    t_details_retail.text = "Retail: ${recentMarketPrice.retail} ${recentMarketPrice.currency}/1Kg"
+                }
+            }
+            itemView.t_recent_updated.text = "Updated: ${recentMarketPrice.date?.substring(0, 10)}"
+            itemView.t_recent_source.text = "Source: EAGC-RATIN" // TODO
+
+            itemView.setOnClickListener {
+                if (selectedRecentMarketPriceView == null) {
+                    setMarketPriceDetails(recentMarketPrice)
+                    TransitionManager.beginDelayedTransition(fl_fragment_container)
+                    ll_details.visibility = View.VISIBLE
+                    selectedRecentMarketPriceView = it
+                    return@setOnClickListener
+                }
+
+                if (it == selectedRecentMarketPriceView) {
+                    TransitionManager.beginDelayedTransition(fl_fragment_container)
+                    if (ll_details.visibility == View.VISIBLE) {
+                        ll_details.visibility = View.GONE
+                    } else {
+                        ll_details.visibility = View.VISIBLE
+                    }
+                } else {
+                    setMarketPriceDetails(recentMarketPrice)
+                    if (ll_details.visibility == View.GONE) {
                         TransitionManager.beginDelayedTransition(fl_fragment_container)
                         ll_details.visibility = View.VISIBLE
-                        selectedRecentMarketPriceRootView = it
-                        return@setOnClickListener
                     }
-
-                    if (it == selectedRecentMarketPriceRootView) {
-                        TransitionManager.beginDelayedTransition(fl_fragment_container)
-                        if (ll_details.visibility == View.VISIBLE) {
-                            ll_details.visibility = View.GONE
-                        } else {
-                            ll_details.visibility = View.VISIBLE
-                        }
-                    } else {
-                        setMarketPriceDetails(recentMarketPrice)
-                        if (ll_details.visibility == View.GONE) {
-                            TransitionManager.beginDelayedTransition(fl_fragment_container)
-                            ll_details.visibility = View.VISIBLE
-                        }
-                    }
-
-                    selectedRecentMarketPriceRootView = it
                 }
-            } else {
-                view.t_recent_product_at_market.text = ""
-                view.t_recent_wholesale.text = ""
-                view.t_recent_retail.text = ""
-                view.t_recent_updated.text = ""
-                view.t_recent_source.text = ""
 
-                view.setOnClickListener(null)
+                selectedRecentMarketPriceView = it
             }
         }
     }
@@ -156,7 +173,7 @@ OnFragmentFullScreenStateChangedListener {
         setMarketPriceDetails(marketPrice)
 
         marketPriceViewModel.getRecentMarketPricesInCache()
-        selectedRecentMarketPriceRootView = recentMarketPriceRootViews[0]
+        shouldSelectMostRecentMarketPriceView = true
     }
 
     override fun onAttach(context: Context?) {
@@ -180,6 +197,8 @@ OnFragmentFullScreenStateChangedListener {
     }
 
     companion object {
+
+        private const val MAX_RECENT_ITEMS = 2
 
         @JvmStatic
         fun newInstance() =
