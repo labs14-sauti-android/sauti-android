@@ -31,4 +31,7 @@ interface SautiRepository {
     fun getRecentConversionResults(): Single<MutableList<ExchangeRateConversionResultData>>
     fun getRecentConversionResultsInCache(): Single<MutableList<ExchangeRateConversionResultData>>
 
+    fun getSelectedLanguage(): Single<String>
+    fun setSelectedLanguage(language: String): Completable
+
 }

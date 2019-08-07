@@ -13,6 +13,7 @@ import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResultData
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
 import com.labs.sauti.model.exchange_rate.ExchangeRateRateData
 import com.labs.sauti.sp.SessionSp
+import com.labs.sauti.sp.SettingsSp
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -24,6 +25,7 @@ class SautiRepositoryImpl(
     private val sautiApiService: SautiApiService,
     private val sautiAuthorization: String,
     private val sessionSp: SessionSp,
+    private val settingsSp: SettingsSp,
     private val marketPriceRoomCache: MarketPriceRoomCache,
     private val marketPriceSearchRoomCache: MarketPriceSearchRoomCache,
     private val exchangeRateRoomCache: ExchangeRateCache,
@@ -438,5 +440,16 @@ class SautiRepositoryImpl(
             conversionResults
         }
             .subscribeOn(Schedulers.io())
+    }
+
+    override fun getSelectedLanguage(): Single<String> {
+        return Single.just(settingsSp.getSelectedLanguage())
+            .subscribeOn(Schedulers.io())
+    }
+
+    override fun setSelectedLanguage(language: String): Completable {
+        return Completable.fromCallable {
+            settingsSp.setSelectedLanguage(language)
+        }
     }
 }

@@ -10,6 +10,7 @@ import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.repository.SautiRepository
 import com.labs.sauti.repository.SautiRepositoryImpl
 import com.labs.sauti.sp.SessionSp
+import com.labs.sauti.sp.SettingsSp
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -21,6 +22,12 @@ class DataModule(private val sautiAuthorization: String) {
     @Singleton
     fun provideSessionSp(context: Context): SessionSp {
         return SessionSp(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSettingsSp(context: Context): SettingsSp {
+        return SettingsSp(context)
     }
 
     @Provides
@@ -59,6 +66,7 @@ class DataModule(private val sautiAuthorization: String) {
         networkHelper: NetworkHelper,
         sautiApiService: SautiApiService,
         sessionSp: SessionSp,
+        settingsSp: SettingsSp,
         marketPriceRoomCache: MarketPriceRoomCache,
         marketPriceSearchRoomCache: MarketPriceSearchRoomCache,
         exchangeRateRoomCache: ExchangeRateRoomCache,
@@ -69,6 +77,7 @@ class DataModule(private val sautiAuthorization: String) {
             sautiApiService,
             sautiAuthorization,
             sessionSp,
+            settingsSp,
             marketPriceRoomCache,
             marketPriceSearchRoomCache,
             exchangeRateRoomCache,

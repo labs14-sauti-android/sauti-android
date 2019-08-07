@@ -54,7 +54,7 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="View Uganda Contacts"
+                        android:text="View Kenyan Contacts"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@color/colorText"/>
@@ -69,18 +69,20 @@
                     android:background="@color/colorPrimaryDark">
 
                 <TextView
+                        android:id="@+id/t_report_incorrect_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Report Incorrect Info"
+                        android:text="@string/report_incorrect_info"
                         android:textColor="@color/colorText"
                         android:textStyle="bold"
                         android:textSize="24sp"
                         android:layout_marginBottom="5dp"/>
 
                 <TextView
+                        android:id="@+id/t_did_you_notice_incorrect_information_on_the_sauti_app"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Did you notice incorrect information on the Sauti app?"
+                        android:text="@string/did_you_notice_incorrect_information_on_the_sauti_app"
                         android:textColor="@color/colorText"
                         android:textSize="14sp"
                         android:textStyle="bold"
@@ -90,7 +92,7 @@
                         android:id="@+id/et_incorrect_information"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Enter Incorrect Information"
+                        android:hint="@string/enter_incorrect_information"
                         android:padding="10dp"
                         android:gravity="start"
                         android:minLines="4"
@@ -104,6 +106,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:text="Submit"
+                        android:textStyle="bold"
                         android:backgroundTint="@color/colorAccent"
                         android:textColor="@color/colorText"/>
 

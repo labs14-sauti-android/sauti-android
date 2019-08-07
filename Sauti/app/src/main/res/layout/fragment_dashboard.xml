@@ -104,42 +104,6 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                            android:id="@+id/c_exchange_rates"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:cardUseCompatPadding="true"
-                            app:cardElevation="@dimen/dimenCardElevationDashboardNav"
-                            app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
-                            app:cardBackgroundColor="@color/colorAccent"
-                            android:layout_weight="1"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp">
-
-                        <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:minWidth="60dp">
-
-                            <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:src="@drawable/half_star"
-                                    android:background="@color/colorButtonResponse"/>
-
-                            <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    style="@style/DashboardCardNavStyling"
-                                    android:text="Exchange\nRates"
-                                    android:gravity="center"/>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
                             android:id="@+id/c_trade_info"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -169,6 +133,42 @@
                                     android:layout_height="wrap_content"
                                     style="@style/DashboardCardNavStyling"
                                     android:text="Trade\nInfo"
+                                    android:gravity="center"/>
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                            android:id="@+id/c_exchange_rates"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:cardUseCompatPadding="true"
+                            app:cardElevation="@dimen/dimenCardElevationDashboardNav"
+                            app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
+                            app:cardBackgroundColor="@color/colorAccent"
+                            android:layout_weight="1"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp">
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:minWidth="60dp">
+
+                            <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/half_star"
+                                    android:background="@color/colorButtonResponse"/>
+
+                            <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    style="@style/DashboardCardNavStyling"
+                                    android:text="Exchange\nRates"
                                     android:gravity="center"/>
 
                         </LinearLayout>

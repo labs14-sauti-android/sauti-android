@@ -1,0 +1,27 @@
+<resources>
+
+    <!--Market Price-->
+    <string name="select_country_for_markets">Chagua nchi ili kuona masoko</string>
+    <string name="select_market">Chagua Soko</string>
+    <string name="select_category_for_commodity">Chagua kikundi cha bidhaa</string>
+    <string name="select_commodity">Chagua Bidhaa</string>
+
+    <!--Exchange Rate-->
+    <string name="today_s_intl_exchange_rates">Viwango vya kimataifa vya ubadilinishaji hii leo:</string>
+    <string name="from_which_currency_do_you_want_to_convert">From which currency do you want to convert?</string>
+    <string name="to_which_currency_do_you_want_to_convert">To which currency do you want to convert?</string>
+    <string name="how_much_do_you_want_to_exchange">Ni pesa ngapi ungependa kubadilisha kwa?</string>
+
+    <!--Report-->
+    <string name="we_will_now_ask_some_questions_about_your_border_experience">Tutakuuliza maswali mengine kuhusu hali uliokumbana nayo mpakani.</string>
+    <string name="which_border_did_you_cross">Ulipitia mpaka gani?</string>
+    <string name="did_you_have_a_good_experience">Ulipitia hali nzuri?</string>
+    <string name="yes">Ndio</string>
+    <string name="no">La</string>
+
+    <!--Help-->
+    <string name="report_incorrect_info">Ripoti habari isiyosahihi</string>
+    <string name="did_you_notice_incorrect_information_on_the_sauti_app">Je, umeshuhudia habari isiyo sahihi kwa Sauti?</string>
+    <string name="enter_incorrect_information">Andika habari hiyo</string>
+
+</resources>

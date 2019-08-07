@@ -1,0 +1,27 @@
+<resources>
+
+    <!--Market Price-->
+    <string name="select_country_for_markets">Londa ensi awali akatale k\'ebintu byo</string>
+    <string name="select_market">Londako akatale</string>
+    <string name="select_category_for_commodity">Londa ekika ky\'ebyamaguzi</string>
+    <string name="select_commodity">Londako ebyamaguzi</string>
+
+    <!--Exchange Rate-->
+    <string name="today_s_intl_exchange_rates">Okukyusa ensimbi kuli bwekuti:</string>
+    <string name="from_which_currency_do_you_want_to_convert">From which currency do you want to convert?</string>
+    <string name="to_which_currency_do_you_want_to_convert">To which currency do you want to convert?</string>
+    <string name="how_much_do_you_want_to_exchange">Ssente meka oyagala kuzikyusa otya UGX?</string>
+
+    <!--Report-->
+    <string name="we_will_now_ask_some_questions_about_your_border_experience">Tugenda kukubuuzaayo ebitonotono ku ngeri gyosanzeemu emirimu ku nsalo.</string>
+    <string name="which_border_did_you_cross">Nsalo ki gyewakozesezza? </string>
+    <string name="did_you_have_a_good_experience">Byagenze bulungi?</string>
+    <string name="yes">Yee</string>
+    <string name="no">Nedda</string>
+
+    <!--Help-->
+    <string name="report_incorrect_info">Tubuulire oba waliwo ekitali kituufu</string>
+    <string name="did_you_notice_incorrect_information_on_the_sauti_app">Did you notice incorrect information on the Sauti app?</string>
+    <string name="enter_incorrect_information">Enter Incorrect Information</string>
+
+</resources>

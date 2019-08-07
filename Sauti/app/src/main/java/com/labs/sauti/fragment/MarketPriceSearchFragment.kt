@@ -19,6 +19,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.helper.NetworkHelper
+import com.labs.sauti.helper.LocaleHelper
 import com.labs.sauti.model.market_price.MarketPrice
 import com.labs.sauti.view_model.MarketPriceViewModel
 import kotlinx.android.synthetic.main.fragment_market_price_search.*
@@ -70,6 +71,7 @@ class MarketPriceSearchFragment : Fragment() {
         context!!.registerReceiver(networkChangedReceiver, IntentFilter().also {
             it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
         })
+        setTranslatedTexts()
 
         vs_markets.visibility = View.GONE
         vs_categories.visibility = View.GONE
@@ -162,6 +164,15 @@ class MarketPriceSearchFragment : Fragment() {
                 firebaseAnalytics.logEvent("search_market_price", searchParams)
             }
         }
+    }
+
+    private fun setTranslatedTexts() {
+        val ctx = LocaleHelper.createContext(context!!)
+
+        t_select_country_for_markets.text = ctx.resources.getString(R.string.select_category_for_commodity)
+        t_select_market.text = ctx.resources.getString(R.string.select_market)
+        t_select_category_for_commodity.text = ctx.resources.getString(R.string.select_category_for_commodity)
+        t_select_commodity.text = ctx.resources.getString(R.string.select_commodity)
     }
 
     private fun handleCountries(countries: List<String>) {
