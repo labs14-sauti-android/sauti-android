@@ -237,4 +237,19 @@
 
     </ScrollView>
 
+    <TextView
+            android:id="@+id/t_warning_no_network_connection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="No connection. Your searches may not be updated."
+            android:background="@color/colorWarningBackground"
+            android:paddingStart="22dp"
+            android:paddingEnd="22dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textColor="@color/colorWarningText"
+            android:textSize="12sp"
+            android:visibility="gone"/>
+
 </FrameLayout>
