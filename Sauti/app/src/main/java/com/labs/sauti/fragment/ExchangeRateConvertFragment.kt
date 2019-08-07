@@ -92,12 +92,29 @@ class ExchangeRateConvertFragment : Fragment() {
     }
 
     private fun convert() {
+        val fromCurrency = s_from_currencies.selectedItem as String
+        if (fromCurrency.isEmpty()) {
+            Toast.makeText(context!!, "Please select a currency to convert from", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        val toCurrency = s_to_currencies.selectedItem as String
+        if (toCurrency.isEmpty()) {
+            Toast.makeText(context!!, "Please select a currency to convert to", Toast.LENGTH_LONG).show()
+            return
+        }
+
         val amountStr = et_amount.text.toString()
         val amount = if (amountStr.isEmpty()) 0.0 else amountStr.toDouble()
 
+        if (amount <= 0.0) {
+            Toast.makeText(context!!, "Please input an amount greater than 0", Toast.LENGTH_LONG).show()
+            return
+        }
+
         exchangeRateViewModel.convert(
-            s_from_currencies.selectedItem as String,
-            s_to_currencies.selectedItem as String,
+            fromCurrency,
+            toCurrency,
             amount
         )
     }
