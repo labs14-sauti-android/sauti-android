@@ -49,6 +49,8 @@ class ExchangeRateConvertFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setTranslatableTexts()
+
         exchangeRateViewModel.getErrorLiveData().observe(this, Observer {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
 
