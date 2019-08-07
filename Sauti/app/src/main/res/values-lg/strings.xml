@@ -7,9 +7,9 @@
     <string name="select_commodity">Londako ebyamaguzi</string>
 
     <!--Exchange Rate-->
-    <string name="today_s_intl_exchange_rates">Today\'s intl exchange rates:</string>
+    <string name="today_s_intl_exchange_rates">Okukyusa ensimbi kuli bwekuti:</string>
     <string name="from_which_currency_do_you_want_to_convert">From which currency do you want to convert?</string>
     <string name="to_which_currency_do_you_want_to_convert">To which currency do you want to convert?</string>
-    <string name="how_much_do_you_want_to_exchange">How much do you want to exchange?</string>
+    <string name="how_much_do_you_want_to_exchange">Ssente meka oyagala kuzikyusa otya UGX?</string>
 
 </resources>

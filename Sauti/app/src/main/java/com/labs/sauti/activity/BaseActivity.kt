@@ -28,14 +28,13 @@ import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.app_bar_base.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import java.lang.RuntimeException
-import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
 SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListener,
 SignInFragment.OpenSignUpListener, SignUpFragment.OpenSignInListener,
-DashboardFragment.OnReplaceFragmentListener{
+DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedListener{
 
     @Inject
     lateinit var authenticationViewModelFactory: AuthenticationViewModel.Factory
@@ -389,5 +388,10 @@ DashboardFragment.OnReplaceFragmentListener{
         }
 
         return shouldReplace
+    }
+
+    override fun onLanguageChanged() {
+        finish()
+        startActivity(intent)
     }
 }

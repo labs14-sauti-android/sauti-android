@@ -4,20 +4,34 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.labs.sauti.R
+import com.labs.sauti.SautiApp
 import com.labs.sauti.sp.SettingsSp
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class LanguageActivity : AppCompatActivity() {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
+    @Inject
+    lateinit var settingsSp: SettingsSp
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_language)
+
+        (applicationContext as SautiApp).getMainComponent().inject(this)
+
+        // set locale based on user selected locale
+        val locale = Locale(settingsSp.getSelectedLanguage())
+        Locale.setDefault(locale)
+        val config = resources.configuration
+        config.setLocale(locale)
+        config.setLayoutDirection(locale)
 
 
 /*        ArrayAdapter.createFromResource(this,
@@ -35,13 +49,6 @@ class LanguageActivity : AppCompatActivity() {
 
             finish()
         }*/
-
-        val settingsSp = SettingsSp(this)
-        val locale = Locale(settingsSp.getSelectedLanguage())
-        Locale.setDefault(locale)
-        val config = resources.configuration
-        config.setLocale(locale)
-        config.setLayoutDirection(locale)
 
         val intent = Intent(this@LanguageActivity, BaseActivity::class.java)
 

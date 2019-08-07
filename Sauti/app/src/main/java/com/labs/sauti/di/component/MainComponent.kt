@@ -1,5 +1,6 @@
 package com.labs.sauti.di.component
 
+import com.labs.sauti.activity.LanguageActivity
 import com.labs.sauti.di.module.*
 import dagger.Component
 import javax.inject.Singleton
@@ -11,4 +12,5 @@ interface MainComponent {
     fun plus(marketPriceModule: MarketPriceModule): MarketPriceComponent
     fun plus(exchangeRateModule: ExchangeRateModule): ExchangeRateComponent
     fun plus(settingsModule: SettingsModule): SettingsComponent
+    fun inject(languageActivity: LanguageActivity)
 }

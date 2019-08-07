@@ -1,6 +1,7 @@
 package com.labs.sauti.fragment
 
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -21,10 +22,14 @@ import javax.inject.Inject
 
 class SettingsFragment : Fragment() {
 
+    private var onLanguageChangedListener: OnLanguageChangedListener? = null
+
     @Inject
     lateinit var settingsViewModelFactory: SettingsViewModel.Factory
 
     private lateinit var settingsViewModel: SettingsViewModel
+
+    private var shouldRestartActivity = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +50,7 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         settingsViewModel.getSelectedLanguageLiveData().observe(this, Observer {
-            unselectLanguages()
+            unSelectLanguages()
             val locale = Locale(it)
             Locale.setDefault(locale)
             val config = context!!.resources.configuration
@@ -68,33 +73,58 @@ class SettingsFragment : Fragment() {
                     t_language_luganda.setTextColor(ContextCompat.getColor(context!!, R.color.colorText))
                 }
             }
+
+            if (shouldRestartActivity) onLanguageChangedListener?.onLanguageChanged()
         })
 
         settingsViewModel.getSelectedLanguage()
 
         fl_language_english.setOnClickListener {
+            shouldRestartActivity = true
             settingsViewModel.setSelectedLanguage("en")
         }
 
         fl_language_swahili.setOnClickListener {
+            shouldRestartActivity = true
             settingsViewModel.setSelectedLanguage("sw")
         }
 
         fl_language_luganda.setOnClickListener {
+            shouldRestartActivity = true
             settingsViewModel.setSelectedLanguage("lg")
         }
     }
 
-    private fun unselectLanguages() {
+    private fun unSelectLanguages() {
         ll_languages.children.iterator().forEach {
             it.background.setTint(ContextCompat.getColor(context!!, R.color.colorPrimary))
             ((it as ViewGroup).children.iterator().next() as TextView).setTextColor(ContextCompat.getColor(context!!, R.color.colorTextDim))
         }
     }
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        if (context is OnLanguageChangedListener) {
+            onLanguageChangedListener = context
+        } else {
+            throw RuntimeException("Context must implement OnLanguageChangedListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+
+        onLanguageChangedListener = null
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() =
             SettingsFragment()
+    }
+
+    interface OnLanguageChangedListener {
+        fun onLanguageChanged()
     }
 }
