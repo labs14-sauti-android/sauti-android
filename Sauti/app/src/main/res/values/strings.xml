@@ -4,7 +4,6 @@
     <string name="navigation_drawer_open" translatable="false">Open</string>
     <string name="navigation_drawer_close" translatable="false">Close</string>
     <string name="nav_header_desc" translatable="false">Navigation header</string>
-    <string name="nav_header_subtitle" translatable="false">Sign Up Now to Save Favorites</string>
 
     <string name="language_activity_text" translatable="false"><b>Sauti</b><font fgcolor='#e84c3d'><b>.</b></font></string>
     <string name="menu_market_prices" translatable="false">Market Prices</string>

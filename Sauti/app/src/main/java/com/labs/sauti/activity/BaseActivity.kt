@@ -73,14 +73,14 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
     override fun onResume() {
         super.onResume()
 
-        authenticationViewModel.getIsSignedInLiveData().observe(this, Observer<Boolean> {
-            if (it) {
-                nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_out)
-            } else {
-                setUserNavInfoAsLoggedOut()
-                nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_in)
-            }
-        })
+//        authenticationViewModel.getIsSignedInLiveData().observe(this, Observer<Boolean> {
+//            if (it) {
+//                nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_out)
+//            } else {
+//                setUserNavInfoAsLoggedOut()
+//                nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_in)
+//            }
+//        })
         authenticationViewModel.isSignedIn()
 
         // user data
@@ -142,26 +142,26 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
 
                 return true
             }
-            R.id.nav_sign_in_out -> {
-                if (item.title == getString(R.string.menu_sign_out)) {
-                    authenticationViewModel.signOut()
-
-                    item.title = getString(R.string.menu_sign_in)
-                    setUserNavInfoAsLoggedOut()
-
-                    drawer_layout.closeDrawer(GravityCompat.START)
-
-                } else {
-                    val signInFragment = SignInFragment.newInstance()
-
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, signInFragment)
-                        .addToBackStack(null)
-                        .commit()
-                }
-
-                return true
-            }
+//            R.id.nav_sign_in_out -> {
+//                if (item.title == getString(R.string.menu_sign_out)) {
+//                    authenticationViewModel.signOut()
+//
+//                    item.title = getString(R.string.menu_sign_in)
+//                    setUserNavInfoAsLoggedOut()
+//
+//                    drawer_layout.closeDrawer(GravityCompat.START)
+//
+//                } else {
+//                    val signInFragment = SignInFragment.newInstance()
+//
+//                    supportFragmentManager.beginTransaction()
+//                        .replace(R.id.fragment_container, signInFragment)
+//                        .addToBackStack(null)
+//                        .commit()
+//                }
+//
+//                return true
+//            }
             R.id.nav_report -> {
                 if (replaceFragment(ReportFragment::class.java)) {
                     drawer_layout.closeDrawer(GravityCompat.START)
@@ -254,7 +254,7 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
         })
         authenticationViewModel.getCurrentUser()
 
-        nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_out)
+        //nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_out)
     }
 
     override fun openSignUp() {
