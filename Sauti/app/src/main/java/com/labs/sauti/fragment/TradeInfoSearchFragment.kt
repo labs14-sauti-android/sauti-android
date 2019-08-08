@@ -31,10 +31,10 @@ class TradeInfoSearchFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        context?.let {
-//            firebaseAnalytics = FirebaseAnalytics.getInstance(it)
-//            (it.applicationContext as SautiApp).getTradeInfoComponent().inject(this)
-//        }
+        context?.let {
+            firebaseAnalytics = FirebaseAnalytics.getInstance(it)
+            (it.applicationContext as SautiApp).getTradeInfoComponent().inject(this)
+        }
 
         tradeInfoViewModel = ViewModelProviders.of(this, tradeInfoViewModelFactory)
             .get(TradeInfoViewModel::class.java)
@@ -51,7 +51,7 @@ class TradeInfoSearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //TODO: Testing SpinnerCustomView logic
-        loadNextSpinner(sscv_trade_info_commodity)
+        loadNextSpinner(sscv_trade_info_q_1)
 
     }
 

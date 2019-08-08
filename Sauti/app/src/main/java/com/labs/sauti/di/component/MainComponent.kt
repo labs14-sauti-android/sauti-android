@@ -12,5 +12,6 @@ interface MainComponent {
     fun plus(marketPriceModule: MarketPriceModule): MarketPriceComponent
     fun plus(exchangeRateModule: ExchangeRateModule): ExchangeRateComponent
     fun plus(settingsModule: SettingsModule): SettingsComponent
+    fun plus(tradeInfoModule: TradeInfoModule) : TradeInfoComponent
     fun inject(languageActivity: LanguageActivity)
 }

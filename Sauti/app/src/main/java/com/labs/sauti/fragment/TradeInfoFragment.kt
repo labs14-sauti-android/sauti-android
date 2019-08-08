@@ -45,10 +45,10 @@ OnFragmentFullScreenStateChangedListener{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        context?.let {
-//            (it.applicationContext as SautiApp).getTradeInfoComponent().inject(this)
-//            tradeInfoViewModel= ViewModelProviders.of(this, tradeInfoViewModelFactory).get(TradeInfoViewModel::class.java)
-//        }
+        context?.let {
+            (it.applicationContext as SautiApp).getTradeInfoComponent().inject(this)
+            tradeInfoViewModel= ViewModelProviders.of(this, tradeInfoViewModelFactory).get(TradeInfoViewModel::class.java)
+        }
 
         //TODO: Remove dummy data creation
         testTIbanned = TradeInfoData(0,
@@ -96,6 +96,11 @@ OnFragmentFullScreenStateChangedListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        tiv_recent_first.consumeTIData(testTIbanned)
+        tiv_recent_second.consumeTIData(testTIdocuments)
+
+
         tiv_recent_first.setOnClickListener(object : View.OnClickListener {
             var visible: Boolean = tiDetailsIsVisible
 
@@ -137,8 +142,7 @@ OnFragmentFullScreenStateChangedListener{
             }
         })
 
-        tiv_recent_first.consumeTIData(testTIbanned)
-        tiv_recent_second.consumeTIData(testTIdocuments)
+
 
         b_trade_info_search.setOnClickListener{
             openTradeInfoSearchFragment()
