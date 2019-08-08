@@ -4,6 +4,7 @@ import com.labs.sauti.model.SignInResponse
 import com.labs.sauti.model.SignUpRequest
 import com.labs.sauti.model.SignUpResponse
 import com.labs.sauti.model.User
+import com.labs.sauti.model.exchange_rate.ExchangeRateData
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.*
@@ -28,4 +29,6 @@ interface SautiApiService {
     @GET("users/getusername")
     fun getCurrentUser(@Header("Authorization") authorization: String): Single<User>
 
+    @GET("exchange-rate/all")
+    fun getExchangeRates(): Single<MutableList<ExchangeRateData>>
 }
