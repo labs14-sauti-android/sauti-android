@@ -13,7 +13,6 @@
 
         <!--TODO: This information will not be hardcoded)-->
         <TextView
-                android:text="What information do you need?"
                 style="@style/SearchFragmentParamTextStyling"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/t_search_param"
@@ -27,7 +26,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/t_search_param"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:ignore="ContentDescription"/>
         <Spinner
                 android:layout_width="0dp"
                 android:layout_height="40dp" android:id="@+id/s_search_param"

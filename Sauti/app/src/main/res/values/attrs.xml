@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="TradeInfoViewRecentSearches">
+    <declare-styleable name="CardViewRecentSearches">
         <attr name="headerText" format="string"/>
     </declare-styleable>
     <declare-styleable name="SearchSpinnerCustomView">
         <attr name="searchparam" format="string"/>
     </declare-styleable>
 </resources>
+<!--TODO: consider deleting.-->
