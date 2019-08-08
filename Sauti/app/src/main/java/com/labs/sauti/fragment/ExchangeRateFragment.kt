@@ -1,5 +1,6 @@
 package com.labs.sauti.fragment
 
+import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.SpannableString
@@ -22,14 +23,17 @@ import kotlinx.android.synthetic.main.fragment_exchange_rate.*
 import kotlinx.android.synthetic.main.item_recent_exchange_rate.view.*
 import javax.inject.Inject
 
-class ExchangeRateFragment : Fragment(), ExchangeRateConvertFragment.OnConversionCompletedListener {
+class ExchangeRateFragment : Fragment(), ExchangeRateConvertFragment.OnConversionCompletedListener,
+OnFragmentFullScreenStateChangedListener{
+
+    private var onFragmentFullScreenStateChangedListener: OnFragmentFullScreenStateChangedListener? = null
 
     @Inject
     lateinit var exchangeRateViewModelFactory: ExchangeRateViewModel.Factory
 
     private lateinit var exchangeRateViewModel: ExchangeRateViewModel
 
-    private val recentConversionResultRootViews = mutableListOf<View>()
+    private var shouldSelectMostRecentExchangeRateView = false
     private var selectedConversionResultRootView: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,17 +58,23 @@ class ExchangeRateFragment : Fragment(), ExchangeRateConvertFragment.OnConversio
 
         ll_details.visibility = View.GONE
 
-        ll_recent_exchange_rates.children.iterator().forEach {
-            recentConversionResultRootViews.add(it)
-        }
-
         exchangeRateViewModel.getRecentConversionResultsViewState().observe(this, Observer {
             if (it.isLoading) {
                 vs_recent_exchange_rates_loading.displayedChild = 1
             } else {
                 vs_recent_exchange_rates_loading.displayedChild = 0
+                if (it.recentConversionResults == null) {
+                    vs_recent_exchange_rates_empty.displayedChild = 1
+                }
                 it.recentConversionResults?.let { conversionResults ->
-                    handleRecentConversionResults(conversionResults)
+                    if (conversionResults.size == 0) {
+                        vs_recent_exchange_rates_empty.displayedChild = 1
+                    } else {
+                        vs_recent_exchange_rates_empty.displayedChild = 0
+                        handleRecentConversionResults(conversionResults)
+                    }
+
+                    shouldSelectMostRecentExchangeRateView = false
                 }
             }
         })
@@ -83,11 +93,6 @@ class ExchangeRateFragment : Fragment(), ExchangeRateConvertFragment.OnConversio
         todaysIntlExchangeRatesSR.setSpan(UnderlineSpan(), 0, todaysIntlExchangeRatesSR.length, 0)
         t_details_todays_intl_exchange_rates.text = todaysIntlExchangeRatesSR
         t_details_todays_intl_exchange_rates.typeface = Typeface.DEFAULT_BOLD
-
-        ll_recent_exchange_rates.children.iterator().forEach {
-            it.t_recent_todays_intl_exchange_rates.text = ctx.getString(R.string.today_s_intl_exchange_rates)
-            it.t_recent_todays_intl_exchange_rates.typeface = Typeface.DEFAULT_BOLD
-        }
     }
 
     private fun setConversionResultDetails(exchangeRateConversionResult: ExchangeRateConversionResult) {
@@ -99,46 +104,51 @@ class ExchangeRateFragment : Fragment(), ExchangeRateConvertFragment.OnConversio
     }
 
     private fun handleRecentConversionResults(conversionResults: MutableList<ExchangeRateConversionResult>) {
-        recentConversionResultRootViews.forEachIndexed { index, view ->
-            if (index < conversionResults.size) {
-                val conversionResult = conversionResults[index]
-                val amountStr = String.format("%.2f", conversionResult.amount)
-                val resultStr = String.format("%.2f", conversionResult.result)
-                view.t_recent_result.text = "$amountStr ${conversionResult.fromCurrency} is $resultStr ${conversionResult.toCurrency}"
-                val toPerFromStr = String.format("%.2f", conversionResult.toPerFrom)
-                view.t_recent_to_per_from.text = "(1${conversionResult.fromCurrency} = $toPerFromStr ${conversionResult.toCurrency})"
+        ll_recent_exchange_rates.removeAllViews()
 
-                view.setOnClickListener {
-                    if (selectedConversionResultRootView == null) {
-                        setConversionResultDetails(conversionResult)
+        conversionResults.forEachIndexed conversionResultsBreak@{ index, conversionResult ->
+            if (index > MAX_RECENT_ITEMS) return@conversionResultsBreak
+
+            val itemView = LayoutInflater.from(context!!).inflate(R.layout.item_recent_exchange_rate, ll_details, false)
+            ll_recent_exchange_rates.addView(itemView)
+
+            if (index == 0 && shouldSelectMostRecentExchangeRateView) selectedConversionResultRootView = itemView
+
+            val localeCtx = LocaleHelper.createContext(context!!)
+            itemView.t_recent_todays_intl_exchange_rates.text = localeCtx.getString(R.string.today_s_intl_exchange_rates)
+            itemView.t_recent_todays_intl_exchange_rates.typeface = Typeface.DEFAULT_BOLD
+
+            val amountStr = String.format("%.2f", conversionResult.amount)
+            val resultStr = String.format("%.2f", conversionResult.result)
+            itemView.t_recent_result.text = "$amountStr ${conversionResult.fromCurrency} is $resultStr ${conversionResult.toCurrency}"
+            val toPerFromStr = String.format("%.2f", conversionResult.toPerFrom)
+            itemView.t_recent_to_per_from.text = "(1${conversionResult.fromCurrency} = $toPerFromStr ${conversionResult.toCurrency})"
+
+            itemView.setOnClickListener {
+                if (selectedConversionResultRootView == null) {
+                    setConversionResultDetails(conversionResult)
+                    TransitionManager.beginDelayedTransition(fl_fragment_container)
+                    ll_details.visibility = View.VISIBLE
+                    selectedConversionResultRootView = it
+                    return@setOnClickListener
+                }
+
+                if (it == selectedConversionResultRootView) {
+                    TransitionManager.beginDelayedTransition(fl_fragment_container)
+                    if (ll_details.visibility == View.VISIBLE) {
+                        ll_details.visibility = View.GONE
+                    } else {
+                        ll_details.visibility = View.VISIBLE
+                    }
+                } else {
+                    setConversionResultDetails(conversionResult)
+                    if (ll_details.visibility == View.GONE) {
                         TransitionManager.beginDelayedTransition(fl_fragment_container)
                         ll_details.visibility = View.VISIBLE
-                        selectedConversionResultRootView = it
-                        return@setOnClickListener
                     }
-
-                    if (it == selectedConversionResultRootView) {
-                        TransitionManager.beginDelayedTransition(fl_fragment_container)
-                        if (ll_details.visibility == View.VISIBLE) {
-                            ll_details.visibility = View.GONE
-                        } else {
-                            ll_details.visibility = View.VISIBLE
-                        }
-                    } else {
-                        setConversionResultDetails(conversionResult)
-                        if (ll_details.visibility == View.GONE) {
-                            TransitionManager.beginDelayedTransition(fl_fragment_container)
-                            ll_details.visibility = View.VISIBLE
-                        }
-                    }
-
-                    selectedConversionResultRootView = it
                 }
-            } else {
-                view.t_recent_result.text = ""
-                view.t_recent_to_per_from.text = ""
 
-                view.setOnClickListener(null)
+                selectedConversionResultRootView = it
             }
         }
     }
@@ -156,10 +166,31 @@ class ExchangeRateFragment : Fragment(), ExchangeRateConvertFragment.OnConversio
 
         // update recents from cache only
         exchangeRateViewModel.getRecentConversionResultsInCache()
-        selectedConversionResultRootView = recentConversionResultRootViews[0]
+        shouldSelectMostRecentExchangeRateView = true
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        if (context is OnFragmentFullScreenStateChangedListener) {
+            onFragmentFullScreenStateChangedListener = context
+        } else {
+            throw RuntimeException("Context must implement OnFragmentFullScreenStateChangedListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        onFragmentFullScreenStateChangedListener = null
+    }
+
+    override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
+        onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(isFullScreen)
     }
 
     companion object {
+        private const val MAX_RECENT_ITEMS = 2
+
         @JvmStatic
         fun newInstance() =
             ExchangeRateFragment()
