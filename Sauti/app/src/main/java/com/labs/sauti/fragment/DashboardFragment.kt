@@ -37,7 +37,7 @@ class DashboardFragment : Fragment() {
             onReplaceFragmentListener?.onReplaceFragment(ExchangeRateFragment::class.java)
         }
 
-        c_card_info.setOnClickListener {
+        c_trade_info.setOnClickListener {
             onReplaceFragmentListener?.onReplaceFragment(TradeInfoFragment::class.java)
         }
 

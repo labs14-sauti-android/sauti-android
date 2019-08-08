@@ -45,10 +45,10 @@ OnFragmentFullScreenStateChangedListener{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        context?.let {
-            (it.applicationContext as SautiApp).getTradeInfoComponent().inject(this)
-            tradeInfoViewModel= ViewModelProviders.of(this, tradeInfoViewModelFactory).get(TradeInfoViewModel::class.java)
-        }
+//        context?.let {
+//            (it.applicationContext as SautiApp).getTradeInfoComponent().inject(this)
+//            tradeInfoViewModel= ViewModelProviders.of(this, tradeInfoViewModelFactory).get(TradeInfoViewModel::class.java)
+//        }
 
         //TODO: Remove dummy data creation
         testTIbanned = TradeInfoData(0,

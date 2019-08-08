@@ -31,10 +31,10 @@ class TradeInfoSearchFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        context?.let {
-            firebaseAnalytics = FirebaseAnalytics.getInstance(it)
-            (it.applicationContext as SautiApp).getTradeInfoComponent().inject(this)
-        }
+//        context?.let {
+//            firebaseAnalytics = FirebaseAnalytics.getInstance(it)
+//            (it.applicationContext as SautiApp).getTradeInfoComponent().inject(this)
+//        }
 
         tradeInfoViewModel = ViewModelProviders.of(this, tradeInfoViewModelFactory)
             .get(TradeInfoViewModel::class.java)
