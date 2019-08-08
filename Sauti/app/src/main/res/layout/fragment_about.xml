@@ -17,7 +17,9 @@
 
             <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="220dp"
+                    android:src="@drawable/i_about_header"
+                    android:scaleType="centerCrop"/>
 
             <TextView
                     android:layout_width="match_parent"
@@ -54,10 +56,12 @@
                     android:orientation="horizontal">
 
                 <ImageView
-                        android:layout_width="54dp"
-                        android:layout_height="55dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginEnd="18dp"
-                        android:layout_gravity="center"/>
+                        android:layout_gravity="center"
+                        android:src="@drawable/vd_about_1"
+                        android:tint="@color/colorAboutImage"/>
 
                 <LinearLayout
                         android:layout_width="wrap_content"
@@ -115,10 +119,12 @@
                 </LinearLayout>
 
                 <ImageView
-                        android:layout_width="54dp"
-                        android:layout_height="55dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="18dp"
-                        android:layout_gravity="center"/>
+                        android:layout_gravity="center"
+                        android:src="@drawable/vd_about_2"
+                        android:tint="@color/colorAboutImage"/>
 
             </LinearLayout>
 
@@ -131,10 +137,12 @@
                     android:orientation="horizontal">
 
                 <ImageView
-                        android:layout_width="54dp"
-                        android:layout_height="55dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginEnd="18dp"
-                        android:layout_gravity="center"/>
+                        android:layout_gravity="center"
+                        android:src="@drawable/vd_about_3"
+                        android:tint="@color/colorAboutImage"/>
 
                 <LinearLayout
                         android:layout_width="wrap_content"
@@ -192,10 +200,12 @@
                 </LinearLayout>
 
                 <ImageView
-                        android:layout_width="54dp"
-                        android:layout_height="55dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="18dp"
-                        android:layout_gravity="center"/>
+                        android:layout_gravity="center"
+                        android:src="@drawable/vd_about_4"
+                        android:tint="@color/colorAboutImage"/>
 
             </LinearLayout>
 
