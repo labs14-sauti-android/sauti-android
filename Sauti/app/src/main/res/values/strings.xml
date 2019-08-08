@@ -43,6 +43,7 @@
     <string name="about_attribution_fontawesome" translatable="false">Icons created with <font fgcolor='#6e83f3'>fontawesome</font>.</string>
 
     <string name="your_recent_conversions" translatable="false">Your Recent Conversions</string>
+    <string name="sauti_marketplace" translatable="false">Sauti<font fgcolor='#e84c3d'>.</font> Marketplace</string>
 
     <!--Market Price-->
     <string name="select_country_for_markets">Select Country For Markets</string>
