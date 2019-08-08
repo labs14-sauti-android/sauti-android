@@ -22,11 +22,11 @@ class CardViewRecentSearches @JvmOverloads constructor(
 
     fun consumeTIData(tradeInfoData: TradeInfoData) {
         t_card_view_header.text = tradeInfoData.tradeinfoTopic
-        t_card_view_header.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+
 
 
         //TODO: Hardcoded value for now. Change later.
-        for (i in 0..3) {
+        for (i in 0..2) {
             val textView = TextView(context, null, R.style.CardViewTradeInfoContentTextStyling)
             textView.text = tradeInfoData.tradeinfoList[i]
             ll_card_list.addView(textView)
@@ -36,6 +36,8 @@ class CardViewRecentSearches @JvmOverloads constructor(
         //Determine maxlines for listed items
         //Handles the list format
     }
+
+
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
