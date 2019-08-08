@@ -162,6 +162,7 @@ OnFragmentFullScreenStateChangedListener{
     }
 
     override fun onConversionCompleted(exchangeRateConversionResult: ExchangeRateConversionResult) {
+        ll_details.visibility = View.VISIBLE
         setConversionResultDetails(exchangeRateConversionResult)
 
         // update recents from cache only
