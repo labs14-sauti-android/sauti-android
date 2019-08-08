@@ -1,7 +1,10 @@
 package com.labs.sauti.fragment
 
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,21 +18,31 @@ import androidx.lifecycle.ViewModelProviders
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.helper.LocaleHelper
+import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResult
 import com.labs.sauti.view_model.ExchangeRateViewModel
 import kotlinx.android.synthetic.main.fragment_exchange_rate_convert.*
+import kotlinx.android.synthetic.main.fragment_exchange_rate_convert.t_warning_no_network_connection
 import javax.inject.Inject
 
 class ExchangeRateConvertFragment : Fragment() {
-
-    // TODO fullscreen
-
     private var onConversionCompletedListener: OnConversionCompletedListener? = null
+    private var onFragmentFullScreenStateChangedListener: OnFragmentFullScreenStateChangedListener? = null
 
     @Inject
     lateinit var exchangeRateViewModelFactory: ExchangeRateViewModel.Factory
 
     private lateinit var exchangeRateViewModel: ExchangeRateViewModel
+
+    private val networkChangedReceiver = object: BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (NetworkHelper.hasNetworkConnection(context!!)) {
+                t_warning_no_network_connection.visibility = View.GONE
+            } else {
+                t_warning_no_network_connection.visibility = View.VISIBLE
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +61,10 @@ class ExchangeRateConvertFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        context!!.registerReceiver(networkChangedReceiver, IntentFilter().also {
+            it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
+        })
 
         setTranslatableTexts()
 
@@ -84,6 +101,7 @@ class ExchangeRateConvertFragment : Fragment() {
                 vs_convert_loading.displayedChild = 0
 
                 onConversionCompletedListener?.onConversionCompleted(it.conversionResult!!)
+                onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
 
                 fragmentManager!!.popBackStack()
             }
@@ -101,12 +119,29 @@ class ExchangeRateConvertFragment : Fragment() {
     }
 
     private fun convert() {
+        val fromCurrency = s_from_currencies.selectedItem as String
+        if (fromCurrency.isEmpty()) {
+            Toast.makeText(context!!, "Please select a currency to convert from", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        val toCurrency = s_to_currencies.selectedItem as String
+        if (toCurrency.isEmpty()) {
+            Toast.makeText(context!!, "Please select a currency to convert to", Toast.LENGTH_LONG).show()
+            return
+        }
+
         val amountStr = et_amount.text.toString()
         val amount = if (amountStr.isEmpty()) 0.0 else amountStr.toDouble()
 
+        if (amount <= 0.0) {
+            Toast.makeText(context!!, "Please input an amount greater than 0", Toast.LENGTH_LONG).show()
+            return
+        }
+
         exchangeRateViewModel.convert(
-            s_from_currencies.selectedItem as String,
-            s_to_currencies.selectedItem as String,
+            fromCurrency,
+            toCurrency,
             amount
         )
     }
@@ -119,12 +154,27 @@ class ExchangeRateConvertFragment : Fragment() {
         } else {
             throw RuntimeException("parentFragment must implement OnConversionCompletedListener")
         }
+
+        if (parentFragment is OnFragmentFullScreenStateChangedListener) {
+            onFragmentFullScreenStateChangedListener = parentFragment as OnFragmentFullScreenStateChangedListener
+            onFragmentFullScreenStateChangedListener!!.onFragmetFullScreenStateChanged(true)
+        } else {
+            throw RuntimeException("parentFragment must implement OnFragmentFullScreenStateChangedListener")
+        }
     }
 
     override fun onDetach() {
         super.onDetach()
 
         onConversionCompletedListener = null
+        onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
+        onFragmentFullScreenStateChangedListener = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        context!!.unregisterReceiver(networkChangedReceiver)
     }
 
     companion object {

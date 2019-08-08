@@ -2,6 +2,11 @@ package com.labs.sauti.api
 
 import com.labs.sauti.model.*
 import com.labs.sauti.model.market_price.MarketPriceData
+import com.labs.sauti.model.SignInResponse
+import com.labs.sauti.model.SignUpRequest
+import com.labs.sauti.model.SignUpResponse
+import com.labs.sauti.model.User
+import com.labs.sauti.model.exchange_rate.ExchangeRateData
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.*
@@ -52,5 +57,8 @@ interface SautiApiService {
         @Query("category") category: String,
         @Query("product") product: String
     ): Single<MarketPriceData>
+
+    @GET("exchange-rate/all")
+    fun getExchangeRates(): Single<MutableList<ExchangeRateData>>
 
 }
