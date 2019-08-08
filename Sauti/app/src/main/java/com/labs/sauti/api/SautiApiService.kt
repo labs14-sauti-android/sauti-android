@@ -32,23 +32,23 @@ interface SautiApiService {
     fun getCurrentUser(@Header("Authorization") authorization: String): Single<User>
 
     @GET("/market-price/countries")
-    fun getMarketPriceCountries(): Single<StringArray>
+    fun getMarketPriceCountries(): Single<MutableList<String>>
 
     @GET("/market-price/markets")
-    fun getMarketPriceMarkets(@Query("country") country: String): Single<StringArray>
+    fun getMarketPriceMarkets(@Query("country") country: String): Single<MutableList<String>>
 
     @GET("/market-price/categories")
     fun getMarketPriceCategories(
         @Query("country") country: String,
         @Query("market") market: String
-    ): Single<StringArray>
+    ): Single<MutableList<String>>
 
     @GET("/market-price/products")
     fun getMarketPriceProducts(
         @Query("country") country: String,
         @Query("market") market: String,
         @Query("category") category: String
-    ): Single<StringArray>
+    ): Single<MutableList<String>>
 
     @GET("/market-price/search")
     fun searchMarketPrice(

@@ -77,9 +77,6 @@ class SautiRepositoryImpl(
 
     override fun getMarketPriceCountries(): Single<MutableList<String>> {
         return sautiApiService.getMarketPriceCountries()
-            .map {
-                it.data ?: mutableListOf()
-            }
             .onErrorResumeNext {
             marketPriceRoomCache.getCountries()
             }
@@ -91,9 +88,6 @@ class SautiRepositoryImpl(
 
     override fun getMarketPriceMarkets(country: String): Single<MutableList<String>> {
         return sautiApiService.getMarketPriceMarkets(country)
-            .map {
-                it.data ?: mutableListOf()
-            }
             .onErrorResumeNext {
                 marketPriceRoomCache.getMarkets(country)
             }
@@ -105,9 +99,6 @@ class SautiRepositoryImpl(
 
     override fun getMarketPriceCategories(country: String, market: String): Single<MutableList<String>> {
         return sautiApiService.getMarketPriceCategories(country, market)
-            .map {
-                it.data ?: mutableListOf()
-            }
             .onErrorResumeNext {
                 marketPriceRoomCache.getCategories(country, market)
             }
@@ -119,9 +110,6 @@ class SautiRepositoryImpl(
 
     override fun getMarketPriceProducts(country: String, market: String, category: String): Single<MutableList<String>> {
         return sautiApiService.getMarketPriceProducts(country, market, category)
-            .map {
-                it.data ?: mutableListOf()
-            }
             .onErrorResumeNext {
                 marketPriceRoomCache.getProducts(country, market, category)
             }
