@@ -1,9 +1,12 @@
 package com.labs.sauti.api
 
+import com.labs.sauti.model.*
+import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.model.SignInResponse
 import com.labs.sauti.model.SignUpRequest
 import com.labs.sauti.model.SignUpResponse
 import com.labs.sauti.model.User
+import com.labs.sauti.model.exchange_rate.ExchangeRateData
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.*
@@ -27,5 +30,35 @@ interface SautiApiService {
 
     @GET("users/getusername")
     fun getCurrentUser(@Header("Authorization") authorization: String): Single<User>
+
+    @GET("/market-price/countries")
+    fun getMarketPriceCountries(): Single<StringArray>
+
+    @GET("/market-price/markets")
+    fun getMarketPriceMarkets(@Query("country") country: String): Single<StringArray>
+
+    @GET("/market-price/categories")
+    fun getMarketPriceCategories(
+        @Query("country") country: String,
+        @Query("market") market: String
+    ): Single<StringArray>
+
+    @GET("/market-price/products")
+    fun getMarketPriceProducts(
+        @Query("country") country: String,
+        @Query("market") market: String,
+        @Query("category") category: String
+    ): Single<StringArray>
+
+    @GET("/market-price/search")
+    fun searchMarketPrice(
+        @Query("country") country: String,
+        @Query("market") market: String,
+        @Query("category") category: String,
+        @Query("product") product: String
+    ): Single<MarketPriceData>
+
+    @GET("exchange-rate/all")
+    fun getExchangeRates(): Single<MutableList<ExchangeRateData>>
 
 }

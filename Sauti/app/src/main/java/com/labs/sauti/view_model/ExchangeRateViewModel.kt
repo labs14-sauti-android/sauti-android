@@ -26,7 +26,7 @@ class ExchangeRateViewModel(private val sautiRepository: SautiRepository): BaseV
         currenciesViewState.value = CurrenciesViewState(true)
         addDisposable(sautiRepository.getExchangeRates()
             .map {
-                it.map { exchangeRate ->
+                it.mapNotNull { exchangeRate ->
                     exchangeRate.currency
                 }.toMutableList()
             }

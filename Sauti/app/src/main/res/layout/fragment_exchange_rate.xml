@@ -84,29 +84,49 @@
                             android:layout_height="wrap_content"
                             android:minWidth="150dp">
 
-                        <LinearLayout
-                                android:id="@+id/ll_recent_exchange_rates"
+                        <ViewSwitcher
+                                android:id="@+id/vs_recent_exchange_rates_empty"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
+                                android:layout_height="wrap_content">
 
-                            <include layout="@layout/item_recent_exchange_rate"/>
-                            <include layout="@layout/item_recent_exchange_rate"/>
+                            <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
 
-                        </LinearLayout>
+                                <LinearLayout
+                                        android:id="@+id/ll_recent_exchange_rates"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:layout_marginBottom="12dp">
+
+                                </LinearLayout>
+
+                                <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/push_to_view"
+                                        android:gravity="center"
+                                        android:textColor="@color/colorText"/>
+
+                            </LinearLayout>
+
+                            <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:text="You Have No Recent Conversions"
+                                    android:gravity="center"
+                                    android:textColor="@color/colorText"/>
+
+                        </ViewSwitcher>
 
                         <ProgressBar
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"/>
 
                     </ViewSwitcher>
-
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/push_to_view"
-                            android:gravity="center"
-                            android:textColor="@color/colorText"/>
 
                 </LinearLayout>
 

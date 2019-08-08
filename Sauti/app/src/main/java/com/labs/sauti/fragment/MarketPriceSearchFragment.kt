@@ -26,7 +26,6 @@ import kotlinx.android.synthetic.main.fragment_market_price_search.*
 import javax.inject.Inject
 
 // TODO button color when disabled. or just hide the button?
-// TODO show warning when offline
 class MarketPriceSearchFragment : Fragment() {
     private var onMarketPriceSearchCompletedListener: OnMarketPriceSearchCompletedListener? = null
     private var onFragmentFullScreenStateChangedListener: OnFragmentFullScreenStateChangedListener? = null
@@ -37,6 +36,7 @@ class MarketPriceSearchFragment : Fragment() {
     lateinit var marketPricesViewModelFactory: MarketPriceViewModel.Factory
 
     private lateinit var marketPricesViewModel: MarketPriceViewModel
+    private var selectedCountryCode: String? = null
 
     private val networkChangedReceiver = object: BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -142,14 +142,14 @@ class MarketPriceSearchFragment : Fragment() {
         })
 
         b_search.setOnClickListener {
-            if (s_countries.selectedItem is String &&
+            if (selectedCountryCode != null &&
                 s_markets.selectedItem is String &&
                 s_categories.selectedItem is String &&
                 s_products.selectedItem is String) {
                 vs_search_loading.displayedChild = 1
 
                 marketPricesViewModel.searchMarketPrice(
-                    s_countries.selectedItem as String,
+                    selectedCountryCode!!,
                     s_markets.selectedItem as String,
                     s_categories.selectedItem as String,
                     s_products.selectedItem as String
@@ -157,7 +157,7 @@ class MarketPriceSearchFragment : Fragment() {
 
                 // TODO user
                 val searchParams = Bundle()
-                searchParams.putString("country", s_countries.selectedItem as String)
+                searchParams.putString("country", selectedCountryCode!!)
                 searchParams.putString("market", s_markets.selectedItem as String)
                 searchParams.putString("category", s_categories.selectedItem as String)
                 searchParams.putString("product", s_products.selectedItem as String)
@@ -175,10 +175,20 @@ class MarketPriceSearchFragment : Fragment() {
         t_select_commodity.text = ctx.resources.getString(R.string.select_commodity)
     }
 
-    private fun handleCountries(countries: List<String>) {
+    private fun handleCountries(countryCodes: List<String>) {
         val adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item)
         adapter.add("")
-        adapter.addAll(countries)
+        val countryNames = mutableListOf<String>()
+        countryCodes.forEach {
+            val countryName = countryCodeNameMap[it]
+            if (countryName == null) {
+                countryNames.add(it)
+            } else {
+                countryNames.add(countryName)
+            }
+
+        }
+        adapter.addAll(countryNames)
 
         s_countries.adapter = adapter
         s_countries.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
@@ -245,11 +255,19 @@ class MarketPriceSearchFragment : Fragment() {
         vs_products.visibility = View.GONE
         b_search.isEnabled = false
 
+        selectedCountryCode = null
         if (s_countries.selectedItem is String && s_countries.selectedItem != "") {
             val country = s_countries.selectedItem as String
+            countryCodeNameMap.forEach countryCodeNameMapBreak@{
+                if (it.value == country) {
+                    selectedCountryCode = it.key
+                    return@countryCodeNameMapBreak
+                }
+            }
+            if (selectedCountryCode == null) selectedCountryCode = country
 
             vs_markets.visibility = View.VISIBLE
-            marketPricesViewModel.getMarkets(country)
+            marketPricesViewModel.getMarkets(selectedCountryCode!!)
         }
     }
 
@@ -259,11 +277,10 @@ class MarketPriceSearchFragment : Fragment() {
         b_search.isEnabled = false
 
         if (s_markets.selectedItem is String && s_markets.selectedItem != "") {
-            val country = s_countries.selectedItem as String
             val market = s_markets.selectedItem as String
 
             vs_categories.visibility = View.VISIBLE
-            marketPricesViewModel.getCategories(country, market)
+            marketPricesViewModel.getCategories(selectedCountryCode!!, market)
         }
     }
 
@@ -272,12 +289,11 @@ class MarketPriceSearchFragment : Fragment() {
         b_search.isEnabled = false
 
         if (s_categories.selectedItem is String && s_categories.selectedItem != "") {
-            val country = s_countries.selectedItem as String
             val market = s_markets.selectedItem as String
             val category = s_categories.selectedItem as String
 
             vs_products.visibility = View.VISIBLE
-            marketPricesViewModel.getProducts(country, market, category)
+            marketPricesViewModel.getProducts(selectedCountryCode!!, market, category)
         }
     }
 
@@ -324,6 +340,17 @@ class MarketPriceSearchFragment : Fragment() {
     }
 
     companion object {
+        private val countryCodeNameMap = hashMapOf<String, String>()
+        init {
+            countryCodeNameMap["BDI"] = "Burundi"
+            countryCodeNameMap["DRC"] = "Democratic Republic of the Congo"
+            countryCodeNameMap["KEN"] = "Kenya"
+            countryCodeNameMap["MWI"] = "Malawi"
+            countryCodeNameMap["RWA"] = "Rwanda"
+            countryCodeNameMap["TZA"] = "Tanzania"
+            countryCodeNameMap["UGA"] = "Uganda"
+        }
+
         @JvmStatic
         fun newInstance() = MarketPriceSearchFragment()
     }

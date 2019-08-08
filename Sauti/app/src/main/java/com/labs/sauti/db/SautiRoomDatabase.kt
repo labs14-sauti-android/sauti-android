@@ -11,7 +11,7 @@ import com.labs.sauti.model.exchange_rate.ExchangeRateConversionData
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
 
 
-const val DATABASE_SCHEMA_VERSION = 7
+const val DATABASE_SCHEMA_VERSION = 8
 const val DB_NAME = "local-db"
 
 
