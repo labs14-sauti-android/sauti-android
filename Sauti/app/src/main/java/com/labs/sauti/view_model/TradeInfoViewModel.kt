@@ -1,11 +1,17 @@
 package com.labs.sauti.view_model
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.labs.sauti.repository.SautiRepository
 
 
 class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseViewModel() {
+
+    private val errorLiveData by lazy { MutableLiveData<Throwable>() }
+
+    fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
 
     class Factory(private val sautiRepository: SautiRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {

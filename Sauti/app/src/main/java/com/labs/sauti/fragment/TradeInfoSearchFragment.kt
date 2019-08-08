@@ -51,7 +51,7 @@ class TradeInfoSearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //TODO: Testing SpinnerCustomView logic
-        loadNextSpinner(sscv_trade_info)
+        loadNextSpinner(sscv_trade_info_commodity)
 
     }
 
