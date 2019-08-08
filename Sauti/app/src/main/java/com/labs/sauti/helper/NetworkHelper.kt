@@ -10,12 +10,16 @@ class NetworkHelper(private val context: Context) {
     companion object {
         const val TYPE_WIFI = "WIFI"
         const val TYPE_MOBILE = "MOBILE"
+
+        fun hasNetworkConnection(context: Context): Boolean {
+            val cm = getSystemService(context, ConnectivityManager::class.java) ?: return false
+            val networkInfo = cm.activeNetworkInfo ?: return false
+            return networkInfo.isConnected
+        }
     }
 
     fun hasNetworkConnection(): Boolean {
-        val cm = getSystemService(context, ConnectivityManager::class.java) ?: return false
-        val networkInfo = cm.activeNetworkInfo ?: return false
-        return networkInfo.isConnected
+        return hasNetworkConnection(context)
     }
 
     fun getNetworkConnectionTypes(): List<String> {

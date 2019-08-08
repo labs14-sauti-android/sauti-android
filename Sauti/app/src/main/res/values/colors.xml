@@ -11,4 +11,8 @@
     <color name="colorButtonResponse">#f8c8c4</color>
     <color name="colorButtonResponseText">#000000</color>
     <color name="colorTextClickable">#6e83f3</color>
+    <color name="colorWarningBackground">#c4c4c4</color>
+    <color name="colorWarningText">#050505</color>
+    <color name="colorTextDim">#c4c4c4</color>
+    <color name="colorSelectedLanguage">#5b5b5b</color>
 </resources>
