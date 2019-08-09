@@ -9,11 +9,13 @@ import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.model.market_price.MarketPriceSearchData
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionData
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
+import com.labs.sauti.model.trade_info.RequiredDocumentData
+import com.labs.sauti.model.trade_info.TaxesData
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.model.trade_info.TradeInfoData
 
 
-const val DATABASE_SCHEMA_VERSION = 9
+const val DATABASE_SCHEMA_VERSION = 11
 const val DB_NAME = "local-db"
 
 
@@ -24,6 +26,9 @@ const val DB_NAME = "local-db"
     entities = [
         ProductData::class,
         TradeInfoData::class,
+        ExchangeRateData::class,
+        TaxesData::class,
+        RequiredDocumentData::class,
         MarketPriceData::class,
         MarketPriceSearchData::class,
         ExchangeRateData::class,
