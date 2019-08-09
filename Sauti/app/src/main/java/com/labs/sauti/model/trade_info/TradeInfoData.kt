@@ -33,14 +33,14 @@ data class TradeInfoData(
     @Expose
     val productCat: String,
 
-    @SerializedName("relevantAgencies")
+    @SerializedName("relevantAgencyData")
     @Expose
-    val relevantAgencies: List<RelevantAgency>,
+    val relevantAgencyData: List<RelevantAgencyData>,
 
-    @SerializedName("requiredDocuments")
+    @SerializedName("requiredDocumentData")
     @Expose
-    val requiredDocuments: List<RequiredDocument>,
-    val taxes: List<Taxes>,
+    val requiredDocumentData: List<RequiredDocumentData>,
+    val taxes: List<TaxesData>,
     val value: String
 )
 
