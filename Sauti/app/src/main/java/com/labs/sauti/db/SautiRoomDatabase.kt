@@ -9,6 +9,7 @@ import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.model.market_price.MarketPriceSearchData
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionData
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
+import com.labs.sauti.model.trade_info.TradeInfoData
 
 
 const val DATABASE_SCHEMA_VERSION = 8

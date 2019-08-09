@@ -1,5 +1,8 @@
 package com.labs.sauti.fragment
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +12,11 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
-import com.labs.sauti.model.TradeInfoData
+import com.labs.sauti.helper.NetworkHelper
+import com.labs.sauti.model.trade_info.TradeInfoData
 import com.labs.sauti.view_model.TradeInfoViewModel
 import com.labs.sauti.views.SearchSpinnerCustomView
+import kotlinx.android.synthetic.main.fragment_market_price_search.*
 import kotlinx.android.synthetic.main.fragment_trade_info_search.*
 import javax.inject.Inject
 
@@ -27,6 +32,27 @@ class TradeInfoSearchFragment : Fragment() {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
+    private val networkChangedReceiver = object: BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (NetworkHelper.hasNetworkConnection(context!!)) {
+                t_warning_no_network_connection.visibility = View.GONE
+            } else {
+                t_warning_no_network_connection.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    /*
+    private val networkChangedReceiver = object: BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (NetworkHelper.hasNetworkConnection(context!!)) {
+                t_warning_no_network_connection.visibility = View.GONE
+            } else {
+                t_warning_no_network_connection.visibility = View.VISIBLE
+            }
+        }
+    }
+    */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

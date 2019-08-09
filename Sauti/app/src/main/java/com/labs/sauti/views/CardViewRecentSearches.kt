@@ -1,12 +1,11 @@
 package com.labs.sauti.views
 
 import android.content.Context
-import android.graphics.Paint
 import android.util.AttributeSet
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import com.labs.sauti.R
-import com.labs.sauti.model.TradeInfoData
+import com.labs.sauti.model.trade_info.TradeInfoData
 import kotlinx.android.synthetic.main.item_recent_card_view.view.*
 
 

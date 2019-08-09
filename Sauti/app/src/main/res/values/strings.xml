@@ -68,5 +68,6 @@
     <string name="report_incorrect_info">Report Incorrect Info</string>
     <string name="did_you_notice_incorrect_information_on_the_sauti_app">Did you notice incorrect information on the Sauti app?</string>
     <string name="enter_incorrect_information">Enter Incorrect Information</string>
+    <string name="no_connection">No connection. Your searches may not be updated.</string>
 
 </resources>

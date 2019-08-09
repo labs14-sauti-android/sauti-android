@@ -61,4 +61,11 @@ interface SautiApiService {
     @GET("exchange-rate/all")
     fun getExchangeRates(): Single<MutableList<ExchangeRateData>>
 
+    @GET("/trade-info/categories")
+    fun getTradeInfoCountries(
+        @Query("language") language: String
+    ): Single<MutableList<String>>
+
+
+
 }

@@ -12,7 +12,7 @@ import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.labs.sauti.R
-import com.labs.sauti.model.TradeInfoData
+import com.labs.sauti.model.trade_info.TradeInfoData
 import kotlinx.android.synthetic.main.fragment_trade_info.*
 import androidx.transition.TransitionManager
 import com.labs.sauti.SautiApp
@@ -51,10 +51,12 @@ OnFragmentFullScreenStateChangedListener{
         }
 
         //TODO: Remove dummy data creation
-        testTIbanned = TradeInfoData(0,
+        testTIbanned = TradeInfoData(
+            0,
             "These commodities are banned:",
             "These commodities are banned and cannot legally cross the border:",
-            listOf("-Air Zinc",
+            listOf(
+                "-Air Zinc",
                 "-Batteries",
                 "-Batteries",
                 "-Khanga, kikoi, kitenge",
@@ -68,18 +70,23 @@ OnFragmentFullScreenStateChangedListener{
                 "-Sugar",
                 "-Tobacco",
                 "-Used clothing",
-                "-Wheat")
+                "-Wheat"
+            )
         )
 
         //TODO: Remove dummy data creation
-        testTIdocuments = TradeInfoData(1,
+        testTIdocuments = TradeInfoData(
+            1,
             "Required Documents:",
             "Required Documents...expanded",
-            listOf("1. Import ",
+            listOf(
+                "1. Import ",
                 "2. Valid Invoice",
                 "3. Simplified Certificate Of Origin (SCOO)",
                 "4. National ID",
-                "5. Something"))
+                "5. Something"
+            )
+        )
 
 
     }
