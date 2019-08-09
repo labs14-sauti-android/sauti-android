@@ -13,7 +13,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.helper.NetworkHelper
-import com.labs.sauti.model.trade_info.TradeInfoData
+import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.view_model.TradeInfoViewModel
 import com.labs.sauti.views.SearchSpinnerCustomView
 import kotlinx.android.synthetic.main.fragment_market_price_search.*
@@ -82,7 +82,7 @@ class TradeInfoSearchFragment : Fragment() {
     }
 
     interface onTradeInfoSearchCompletedListener {
-        fun onTradeInfoSearchCompleted(tradeInfo: TradeInfoData)
+        fun onTradeInfoSearchCompleted(tradeInfo: TradeInfo)
     }
 
     companion object {

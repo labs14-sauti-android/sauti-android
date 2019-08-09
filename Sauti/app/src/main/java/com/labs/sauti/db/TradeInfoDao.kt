@@ -2,6 +2,7 @@ package com.labs.sauti.db
 
 import androidx.room.Dao
 import androidx.room.Query
+import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.model.trade_info.TradeInfoData
 import io.reactivex.Completable
 

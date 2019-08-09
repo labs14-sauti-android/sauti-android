@@ -84,7 +84,7 @@
             <com.labs.sauti.views.SearchSpinnerCustomView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/sscv_trade_info_q_3"
                     tools:visibility="visible"
                     app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_2"
@@ -95,7 +95,7 @@
             <com.labs.sauti.views.SearchSpinnerCustomView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     tools:visibility="visible"
                     android:id="@+id/sscv_trade_info_q_4"
                     app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_3"
@@ -107,7 +107,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/sscv_trade_info_q_5"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     tools:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_4"
@@ -125,7 +125,7 @@
             <com.labs.sauti.views.SearchSpinnerCustomView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/sscv_trade_info_q_2"
                     tools:visibility="visible"
                     app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_1"

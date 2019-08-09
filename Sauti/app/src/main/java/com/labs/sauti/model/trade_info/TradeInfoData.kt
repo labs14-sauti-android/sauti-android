@@ -1,32 +1,50 @@
 package com.labs.sauti.model.trade_info
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-/*
-* Border Procedues
-* Req Documents
-* Border Agencies
-* Tax Calculator
-* Regulated goods
-* */
 
+//This will be the class that is stored into room
 
 @Entity(tableName = "trade_info")
-data class TradeInfoData (
-    @SerializedName("tradeinfoid")
-    @Expose
+data class TradeInfoData(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "tradeinfo_id")
-    var tradeinfoID: Long = 0,
-    var tradeinfoTopic : String? = null,
-    var tradeinfoTopicExpanded : String? = null,
-    @Ignore
-    var tradeinfoList : List<String> = listOf()
+    var id: Long? = null,
+
+    @SerializedName("dest")
+    @Expose
+    val dest: String,
+
+    @SerializedName("language")
+    @Expose
+    val language: String,
+
+    @SerializedName("origin")
+    @Expose
+    val origin: String,
+
+    @SerializedName("product")
+    @Expose
+    val product: String,
+
+    @SerializedName("productCat")
+    @Expose
+    val productCat: String,
+
+    @SerializedName("relevantAgencies")
+    @Expose
+    val relevantAgencies: List<RelevantAgency>,
+
+    @SerializedName("requiredDocuments")
+    @Expose
+    val requiredDocuments: List<RequiredDocument>,
+    val taxes: List<Taxes>,
+    val value: String
 )
-//TODO Markup with room annotations. Ideal way I would like data to be delivered in a list.
-//TODO: Ignore will be removed for conversion.
+
+
+
+
+
