@@ -33,12 +33,6 @@ OnFragmentFullScreenStateChangedListener{
 
     private lateinit var tradeInfoViewModel: TradeInfoViewModel
 
-    //TODO: Add bindings
-
-
-    //TODO: Remove Dummy Data, using MVVM later
-    lateinit var testTIbanned: TradeInfo
-    lateinit var testTIdocuments: TradeInfo
     var tiDetailsIsVisible = false
 
 
@@ -59,16 +53,94 @@ OnFragmentFullScreenStateChangedListener{
         return inflater.inflate(R.layout.fragment_trade_info, container, false)
     }
 
-    //TODO Whole section will be decoupled for MVVM
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
 
-        tiv_recent_first.consumeTIData(testTIbanned)
-        tiv_recent_second.consumeTIData(testTIdocuments)
+        observeTradeInfoViewModel()
 
 
-        tiv_recent_first.setOnClickListener(object : View.OnClickListener {
+
+
+
+
+        b_trade_info_search.setOnClickListener{
+            openTradeInfoSearchFragment()
+        }
+
+    }
+
+    fun observeTradeInfoViewModel() {
+
+    }
+
+
+    fun addTIDetailsLL(tradeInfo: TradeInfo) {
+        l_tradeinfo_left_list.removeAllViews()
+        l_tradeinfo_right_list.removeAllViews()
+        var half = (tradeInfo.tradeinfoList.size) / 2
+
+
+        for (i in 0 until (tradeInfo.tradeinfoList.size)) {
+            //TODO: Change language so left LL will have one more if odd number of elements.
+            val textView = TextView(context)
+            TextViewCompat.setTextAppearance(textView, R.style.CardViewRecentDetailsListTextStyling)
+            textView.text = tradeInfo.tradeinfoList[i]
+            textView.setOnClickListener {
+                //TODO: Add a child fragment explaining what that doc is when clicked.
+            }
+
+            when {
+                i > half -> l_tradeinfo_right_list.addView(textView)
+                i == half -> l_tradeinfo_left_list.addView(textView)
+                else -> l_tradeinfo_left_list.addView(textView)
+            }
+        }
+    }
+
+
+    companion object {
+
+        private const val MAX_RECENT_ITEMS = 2
+
+        @JvmStatic
+        fun newInstance() =
+            TradeInfoFragment()
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        if (context is OnFragmentFullScreenStateChangedListener) {
+            onFragmentFullScreenStateChangedListener = context
+        } else {
+            throw RuntimeException("Context must implement OnFragmentFullScreenStateChangedListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        onFragmentFullScreenStateChangedListener = null
+    }
+
+    override fun onTradeInfoSearchCompleted(tradeInfo: TradeInfo) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
+        onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(isFullScreen)
+    }
+
+    private fun openTradeInfoSearchFragment() {
+        val tradeInfoSearchFragment = TradeInfoSearchFragment.newInstance()
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.add(R.id.primary_fragment_container, tradeInfoSearchFragment)?.addToBackStack(null)?.commit()
+    }
+    //TODO: Must remove - Testing to see layout. 
+}
+
+/* //TODO Reimplement animated views.
+tiv_recent_first.setOnClickListener(object : View.OnClickListener {
             var visible: Boolean = tiDetailsIsVisible
 
             override fun onClick(v: View) {
@@ -108,76 +180,7 @@ OnFragmentFullScreenStateChangedListener{
 
             }
         })
-
-
-
-        b_trade_info_search.setOnClickListener{
-            openTradeInfoSearchFragment()
-        }
-
-    }
-
-
-    fun addTIDetailsLL(tradeInfo: TradeInfo) {
-        l_tradeinfo_left_list.removeAllViews()
-        l_tradeinfo_right_list.removeAllViews()
-        var half = (tradeInfo.tradeinfoList.size) / 2
-
-
-        for (i in 0 until (tradeInfo.tradeinfoList.size)) {
-            //TODO: Change language so left LL will have one more if odd number of elements.
-            val textView = TextView(context)
-            TextViewCompat.setTextAppearance(textView, R.style.CardViewRecentDetailsListTextStyling)
-            textView.text = tradeInfo.tradeinfoList[i]
-            textView.setOnClickListener {
-                //TODO: Add a child fragment explaining what that doc is when clicked.
-            }
-
-            when {
-                i > half -> l_tradeinfo_right_list.addView(textView)
-                i == half -> l_tradeinfo_left_list.addView(textView)
-                else -> l_tradeinfo_left_list.addView(textView)
-            }
-        }
-    }
-
-
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            TradeInfoFragment()
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-
-        if (context is OnFragmentFullScreenStateChangedListener) {
-            onFragmentFullScreenStateChangedListener = context
-        } else {
-            throw RuntimeException("Context must implement OnFragmentFullScreenStateChangedListener")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        onFragmentFullScreenStateChangedListener = null
-    }
-
-    override fun onTradeInfoSearchCompleted(tradeInfo: TradeInfo) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
-        onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(isFullScreen)
-    }
-
-    private fun openTradeInfoSearchFragment() {
-        val tradeInfoSearchFragment = TradeInfoSearchFragment.newInstance()
-        activity?.supportFragmentManager?.beginTransaction()
-            ?.add(R.id.primary_fragment_container, tradeInfoSearchFragment)?.addToBackStack(null)?.commit()
-    }
-    //TODO: Must remove - Testing to see layout. 
-}
+ */
 
 
 //tiv_recent_first.setOnClickListener{

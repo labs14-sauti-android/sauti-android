@@ -36,7 +36,7 @@ data class TradeInfoData(
     //TODO: Revisit models.
 /*    @SerializedName("relevantAgencyData")
     @Expose
-    val relevantAgencyData: List<RelevantAgencyData>,
+    val relevantAgencyData: List<BorderAgencyData>,
 
     @SerializedName("requiredDocumentData")
     @Expose

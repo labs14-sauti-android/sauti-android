@@ -11,7 +11,7 @@
                                                    android:id="@+id/cl_trade_info_fragment_container">
 
     <Button
-            android:text="Border \nProcedures"
+            android:text="Border Procedures"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/TradeInfoButtonStyling"
@@ -22,7 +22,7 @@
             app:layout_constraintEnd_toStartOf="@+id/b_trade_info_documents"
             app:layout_constraintHorizontal_bias="0.5"/>
     <Button
-            android:text="Required \nDocuments"
+            android:text="Required Documents"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/TradeInfoButtonStyling"
@@ -33,7 +33,7 @@
             app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toStartOf="@+id/b_trade_info_agencies"
             android:layout_marginEnd="32dp" android:layout_marginStart="32dp"/>
     <Button
-            android:text="Border \nAgencies"
+            android:text="Border Agencies"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/b_trade_info_agencies"
@@ -80,7 +80,27 @@
             android:layout_marginTop="15dp" android:layout_marginBottom="8dp">
         <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
                                                            android:layout_height="wrap_content"
-        >
+                                                           android:id="@+id/c_trade_info_spinner_container">
+            <com.labs.sauti.views.SearchSpinnerCustomView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sscv_trade_info_q_1"
+                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="20dp" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="20dp" app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_2" android:layout_marginBottom="30dp"
+                    app:layout_constraintVertical_bias="0.0"/>
+            <com.labs.sauti.views.SearchSpinnerCustomView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:id="@+id/sscv_trade_info_q_2"
+                    tools:visibility="visible"
+                    app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_1"
+                    app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_3"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="20dp"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
+                    android:layout_marginBottom="30dp"/>
             <com.labs.sauti.views.SearchSpinnerCustomView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -114,25 +134,6 @@
                     app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
                     app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="20dp"
             />
-            <com.labs.sauti.views.SearchSpinnerCustomView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/sscv_trade_info_q_1"
-                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="20dp" app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="20dp" app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_2" android:layout_marginBottom="39dp"/>
-            <com.labs.sauti.views.SearchSpinnerCustomView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:id="@+id/sscv_trade_info_q_2"
-                    tools:visibility="visible"
-                    app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_1"
-                    app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_3"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="20dp"
-                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
-                    android:layout_marginBottom="30dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
     <Button

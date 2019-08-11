@@ -3,10 +3,13 @@ package com.labs.sauti.fragment
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -32,27 +35,21 @@ class TradeInfoSearchFragment : Fragment() {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
-    private val networkChangedReceiver = object: BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            if (NetworkHelper.hasNetworkConnection(context!!)) {
-                t_warning_no_network_connection.visibility = View.GONE
-            } else {
-                t_warning_no_network_connection.visibility = View.VISIBLE
-            }
-        }
-    }
+    private lateinit var categoryListener : View.OnClickListener
 
-    /*
+    private lateinit var buttonList : List<Button>
+    private lateinit var searchSpinnerList : List<SearchSpinnerCustomView>
+
+
     private val networkChangedReceiver = object: BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (NetworkHelper.hasNetworkConnection(context!!)) {
-                t_warning_no_network_connection.visibility = View.GONE
+                t_trade_info_warning.visibility = View.GONE
             } else {
-                t_warning_no_network_connection.visibility = View.VISIBLE
+                t_trade_info_warning.visibility = View.VISIBLE
             }
         }
     }
-    */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +61,19 @@ class TradeInfoSearchFragment : Fragment() {
 
         tradeInfoViewModel = ViewModelProviders.of(this, tradeInfoViewModelFactory)
             .get(TradeInfoViewModel::class.java)
+
+        categoryListener = View.OnClickListener { v ->
+
+            val b = v as Button
+            b.background.setTint(ContextCompat.getColor(context!!, R.color.colorAccent))
+
+            buttonList.forEach {
+                if(it.id != b.id) {
+                    it.background.setTint(ContextCompat.getColor(context!!, R.color.colorButtonResponse))
+                }
+            }
+
+        }
     }
 
     override fun onCreateView(
@@ -76,9 +86,36 @@ class TradeInfoSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        context!!.registerReceiver(networkChangedReceiver, IntentFilter().also {
+            it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
+        })
+
+        //TODO: Change the text in each of the custom spinners
+        //setTranslatedTexts()
+
+        //Places all buttons in a list, setss clicklisteners and disable search button.
+        buttonSetup()
+
         //TODO: Testing SpinnerCustomView logic
         loadNextSpinner(sscv_trade_info_q_1)
 
+    }
+
+
+
+    private fun buttonSetup() {
+        buttonList = mutableListOf(b_trade_info_procedures, b_trade_info_documents, b_trade_info_agencies, b_trade_info_regulated)
+
+        b_trade_info_procedures.setOnClickListener(categoryListener)
+        b_trade_info_documents.setOnClickListener(categoryListener)
+        b_trade_info_agencies.setOnClickListener(categoryListener)
+        b_trade_info_regulated.setOnClickListener(categoryListener)
+
+        b_trade_info_search.isEnabled = false
+    }
+
+    private fun setTranslatedTexts() {
+        //TODO
     }
 
     interface onTradeInfoSearchCompletedListener {

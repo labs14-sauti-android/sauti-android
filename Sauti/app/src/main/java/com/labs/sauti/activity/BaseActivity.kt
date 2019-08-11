@@ -247,6 +247,7 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
         nav_view.getHeaderView(0).n_main_t_name.text = getString(R.string.not_logged_in)
     }
 
+
     override fun onSignInCompleted() {
         // user data
         authenticationViewModel.getUserLiveData().observe(this, Observer<User> {

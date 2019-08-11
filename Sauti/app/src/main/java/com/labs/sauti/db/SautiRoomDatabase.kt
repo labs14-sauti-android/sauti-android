@@ -26,7 +26,6 @@ const val DB_NAME = "local-db"
     entities = [
         ProductData::class,
         TradeInfoData::class,
-        ExchangeRateData::class,
         TaxesData::class,
         RequiredDocumentData::class,
         MarketPriceData::class,
