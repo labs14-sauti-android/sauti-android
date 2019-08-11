@@ -5,12 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResult
-import com.labs.sauti.repository.SautiRepository
+import com.labs.sauti.repository.ExchangeRateRepository
 import com.labs.sauti.view_state.exchange_rate.ConversionViewState
 import com.labs.sauti.view_state.exchange_rate.CurrenciesViewState
 import com.labs.sauti.view_state.exchange_rate.RecentConversionResultsViewState
 
-class ExchangeRateViewModel(private val sautiRepository: SautiRepository): BaseViewModel() {
+class ExchangeRateViewModel(private val exchangeRateRepository: ExchangeRateRepository): BaseViewModel() {
 
     private val errorLiveData by lazy { MutableLiveData<String>() }
     private val currenciesViewState by lazy { MutableLiveData<CurrenciesViewState>() }
@@ -24,7 +24,7 @@ class ExchangeRateViewModel(private val sautiRepository: SautiRepository): BaseV
 
     fun getCurrencies() {
         currenciesViewState.value = CurrenciesViewState(true)
-        addDisposable(sautiRepository.getExchangeRates()
+        addDisposable(exchangeRateRepository.getExchangeRates()
             .map {
                 it.mapNotNull { exchangeRate ->
                     exchangeRate.currency
@@ -42,7 +42,7 @@ class ExchangeRateViewModel(private val sautiRepository: SautiRepository): BaseV
 
     fun convert(fromCurrency: String, toCurrency: String, amount: Double) {
         conversionViewState.value = ConversionViewState(true)
-        addDisposable(sautiRepository.convertCurrency(fromCurrency, toCurrency, amount)
+        addDisposable(exchangeRateRepository.convertCurrency(fromCurrency, toCurrency, amount)
             .map {
                 ExchangeRateConversionResult(
                     it.fromCurrency,
@@ -69,7 +69,7 @@ class ExchangeRateViewModel(private val sautiRepository: SautiRepository): BaseV
 
     fun getRecentConversionResults() { // TODO combine with inCache with flag
         recentConversionResultsViewState.value = RecentConversionResultsViewState(true)
-        addDisposable(sautiRepository.getRecentConversionResults()
+        addDisposable(exchangeRateRepository.getRecentConversionResults()
             .map {
                 it.map { conversionResult ->
                     ExchangeRateConversionResult(
@@ -98,7 +98,7 @@ class ExchangeRateViewModel(private val sautiRepository: SautiRepository): BaseV
 
     fun getRecentConversionResultsInCache() {
         recentConversionResultsViewState.value = RecentConversionResultsViewState(true)
-        addDisposable(sautiRepository.getRecentConversionResultsInCache()
+        addDisposable(exchangeRateRepository.getRecentConversionResultsInCache()
             .map {
                 it.map { conversionResult ->
                     ExchangeRateConversionResult(
@@ -125,10 +125,10 @@ class ExchangeRateViewModel(private val sautiRepository: SautiRepository): BaseV
             ))
     }
 
-    class Factory(private val sautiRepository: SautiRepository) : ViewModelProvider.Factory {
+    class Factory(private val exchangeRateRepository: ExchangeRateRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return ExchangeRateViewModel(sautiRepository) as T
+            return ExchangeRateViewModel(exchangeRateRepository) as T
         }
     }
 }

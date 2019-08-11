@@ -1,8 +1,8 @@
 package com.labs.sauti.repository
 
 import com.labs.sauti.api.SautiApiService
-import com.labs.sauti.cache.MarketPriceRoomCache
-import com.labs.sauti.cache.MarketPriceSearchRoomCache
+import com.labs.sauti.cache.MarketPriceCache
+import com.labs.sauti.cache.MarketPriceSearchCache
 import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.model.market_price.MarketPriceSearchData
 import io.reactivex.Single
@@ -10,8 +10,8 @@ import io.reactivex.schedulers.Schedulers
 
 class MarketPriceRepositoryImpl(
     private val sautiApiService: SautiApiService,
-    private val marketPriceRoomCache: MarketPriceRoomCache,
-    private val marketPriceSearchRoomCache: MarketPriceSearchRoomCache
+    private val marketPriceRoomCache: MarketPriceCache,
+    private val marketPriceSearchRoomCache: MarketPriceSearchCache
 ) : MarketPriceRepository {
 
     override fun getMarketPriceCountries(): Single<MutableList<String>> {

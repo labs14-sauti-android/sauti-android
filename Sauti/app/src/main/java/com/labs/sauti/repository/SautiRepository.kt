@@ -8,6 +8,7 @@ import com.labs.sauti.model.exchange_rate.ExchangeRateData
 import io.reactivex.Completable
 import io.reactivex.Single
 
+// TODO delete this
 interface SautiRepository {
 
     fun signUp(signUpRequest: SignUpRequest): Single<SignUpResponse>

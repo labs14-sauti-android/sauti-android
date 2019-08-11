@@ -5,9 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.labs.sauti.model.*
-import com.labs.sauti.repository.SautiRepository
+import com.labs.sauti.repository.UserRepository
 
-class AuthenticationViewModel(private val sautiRepository: SautiRepository) : BaseViewModel() {
+class AuthenticationViewModel(private val userRepository: UserRepository) : BaseViewModel() {
+
+    // TODO lazy. view state
 
     private val signUpResponseLiveData by lazy { MutableLiveData<SignUpResponse>() }
     private val signInResponseLiveData = MutableLiveData<SignInResponse>()
@@ -24,7 +26,7 @@ class AuthenticationViewModel(private val sautiRepository: SautiRepository) : Ba
     fun getErrorLiveData(): LiveData<SautiApiError> = errorLiveData
 
     fun signUp(signUpRequest: SignUpRequest) {
-        addDisposable(sautiRepository.signUp(signUpRequest).subscribe(
+        addDisposable(userRepository.signUp(signUpRequest).subscribe(
             {
                 signUpResponseLiveData.postValue(it)
             },
@@ -35,7 +37,7 @@ class AuthenticationViewModel(private val sautiRepository: SautiRepository) : Ba
     }
 
     fun signIn(username: String, password: String) {
-        addDisposable(sautiRepository.signIn(username, password).subscribe(
+        addDisposable(userRepository.signIn(username, password).subscribe(
             {
                 signInResponseLiveData.postValue(it)
             },
@@ -46,7 +48,7 @@ class AuthenticationViewModel(private val sautiRepository: SautiRepository) : Ba
     }
 
     fun signOut() {
-        addDisposable(sautiRepository.signOut().subscribe(
+        addDisposable(userRepository.signOut().subscribe(
             {
                 signOutLiveData.postValue(null)
             },
@@ -57,7 +59,7 @@ class AuthenticationViewModel(private val sautiRepository: SautiRepository) : Ba
     }
 
     fun isSignedIn() {
-        addDisposable(sautiRepository.isAccessTokenValid().subscribe(
+        addDisposable(userRepository.isAccessTokenValid().subscribe(
             {
                 isSignedInLiveData.postValue(it)
             },
@@ -68,7 +70,7 @@ class AuthenticationViewModel(private val sautiRepository: SautiRepository) : Ba
     }
 
     fun getCurrentUser() {
-        addDisposable(sautiRepository.getCurrentUser().subscribe(
+        addDisposable(userRepository.getCurrentUser().subscribe(
             {
                 userLiveData.postValue(it)
             },
@@ -78,10 +80,10 @@ class AuthenticationViewModel(private val sautiRepository: SautiRepository) : Ba
         ))
     }
 
-    class Factory(private val sautiRepository: SautiRepository) : ViewModelProvider.Factory {
+    class Factory(private val userRepository: UserRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return AuthenticationViewModel(sautiRepository) as T
+            return AuthenticationViewModel(userRepository) as T
         }
     }
 }

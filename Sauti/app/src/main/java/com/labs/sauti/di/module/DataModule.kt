@@ -7,8 +7,7 @@ import com.labs.sauti.cache.MarketPriceSearchRoomCache
 import com.labs.sauti.cache.*
 import com.labs.sauti.db.SautiRoomDatabase
 import com.labs.sauti.helper.NetworkHelper
-import com.labs.sauti.repository.SautiRepository
-import com.labs.sauti.repository.SautiRepositoryImpl
+import com.labs.sauti.repository.*
 import com.labs.sauti.sp.SessionSp
 import com.labs.sauti.sp.SettingsSp
 import dagger.Module
@@ -83,6 +82,53 @@ class DataModule(private val sautiAuthorization: String) {
             exchangeRateRoomCache,
             exchangeRateConversionRoomCache
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideMarketPriceRepository(
+        sautiApiService: SautiApiService,
+        marketPriceRoomCache: MarketPriceRoomCache,
+        marketPriceSearchRoomCache: MarketPriceSearchRoomCache
+    ): MarketPriceRepository {
+        return MarketPriceRepositoryImpl(
+            sautiApiService,
+            marketPriceRoomCache,
+            marketPriceSearchRoomCache
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideExchangeRateRepository(
+        sautiApiService: SautiApiService,
+        exchangeRateRoomCache: ExchangeRateRoomCache,
+        exchangeRateConversionRoomCache: ExchangeRateConversionRoomCache
+    ): ExchangeRateRepository {
+        return ExchangeRateRepositoryImpl(
+            sautiApiService,
+            exchangeRateRoomCache,
+            exchangeRateConversionRoomCache
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(
+        sautiApiService: SautiApiService,
+        sessionSp: SessionSp
+    ): UserRepository {
+        return UserRepositoryImpl(
+            sautiApiService,
+            sessionSp,
+            sautiAuthorization
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideSettingsRepository(settingsSp: SettingsSp): SettingsRepository {
+        return SettingsRepositoryImpl(settingsSp)
     }
 
 }
