@@ -72,6 +72,10 @@ OnFragmentFullScreenStateChangedListener{
 
     fun observeTradeInfoViewModel() {
 
+        //Border Procedures
+        // Category -> Product -> Going Where -> Origin Made -> Value
+        //fun loadFirstSp
+
     }
 
 

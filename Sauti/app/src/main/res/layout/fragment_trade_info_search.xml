@@ -11,7 +11,7 @@
                                                    android:id="@+id/cl_trade_info_fragment_container">
 
     <Button
-            android:text="Border Procedures"
+            android:text="@string/b_trade_info_border_procedures_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/TradeInfoButtonStyling"
@@ -22,7 +22,7 @@
             app:layout_constraintEnd_toStartOf="@+id/b_trade_info_documents"
             app:layout_constraintHorizontal_bias="0.5"/>
     <Button
-            android:text="Required Documents"
+            android:text="@string/b_trade_info_required_documents_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/TradeInfoButtonStyling"
@@ -33,7 +33,7 @@
             app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toStartOf="@+id/b_trade_info_agencies"
             android:layout_marginEnd="32dp" android:layout_marginStart="32dp"/>
     <Button
-            android:text="Border Agencies"
+            android:text="@string/b_trade_info_border_agencies_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/b_trade_info_agencies"
@@ -44,7 +44,7 @@
             app:layout_constraintStart_toEndOf="@+id/b_trade_info_documents"
             app:layout_constraintHorizontal_bias="0.5"/>
     <Button
-            android:text="Regulated Goods"
+            android:text="@string/b_trade_info_regulated_goods_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/TradeInfoButtonStyling"

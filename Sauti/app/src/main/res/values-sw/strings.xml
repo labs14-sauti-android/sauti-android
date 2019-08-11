@@ -23,5 +23,9 @@
     <string name="report_incorrect_info">Ripoti habari isiyosahihi</string>
     <string name="did_you_notice_incorrect_information_on_the_sauti_app">Je, umeshuhudia habari isiyo sahihi kwa Sauti?</string>
     <string name="enter_incorrect_information">Andika habari hiyo</string>
+    <string name="b_trade_info_border_procedures_text">Border Procedures</string>
+    <string name="b_trade_info_regulated_goods_text">Regulated Goods</string>
+    <string name="b_trade_info_required_documents_text">Required Documents</string>
+    <string name="b_trade_info_border_agencies_text">Border Agencies</string>
 
 </resources>

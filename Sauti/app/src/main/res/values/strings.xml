@@ -69,5 +69,9 @@
     <string name="did_you_notice_incorrect_information_on_the_sauti_app">Did you notice incorrect information on the Sauti app?</string>
     <string name="enter_incorrect_information">Enter Incorrect Information</string>
     <string name="no_connection">No connection. Your searches may not be updated.</string>
+    <string name="b_trade_info_border_procedures_text">Border Procedures</string>
+    <string name="b_trade_info_regulated_goods_text">Regulated Goods</string>
+    <string name="b_trade_info_required_documents_text">Required Documents</string>
+    <string name="b_trade_info_border_agencies_text">Border Agencies</string>
 
 </resources>

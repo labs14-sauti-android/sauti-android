@@ -19,8 +19,8 @@ import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.view_model.TradeInfoViewModel
 import com.labs.sauti.views.SearchSpinnerCustomView
-import kotlinx.android.synthetic.main.fragment_market_price_search.*
 import kotlinx.android.synthetic.main.fragment_trade_info_search.*
+import java.util.*
 import javax.inject.Inject
 
 
@@ -57,23 +57,27 @@ class TradeInfoSearchFragment : Fragment() {
         context?.let {
             firebaseAnalytics = FirebaseAnalytics.getInstance(it)
             (it.applicationContext as SautiApp).getTradeInfoComponent().inject(this)
-        }
 
-        tradeInfoViewModel = ViewModelProviders.of(this, tradeInfoViewModelFactory)
-            .get(TradeInfoViewModel::class.java)
+            tradeInfoViewModel = ViewModelProviders.of(this, tradeInfoViewModelFactory)
+                .get(TradeInfoViewModel::class.java)
 
-        categoryListener = View.OnClickListener { v ->
+            categoryListener = View.OnClickListener { v ->
+                val b = v as Button
 
-            val b = v as Button
-            b.background.setTint(ContextCompat.getColor(context!!, R.color.colorAccent))
+                b.background.setTint(ContextCompat.getColor(it, R.color.colorAccent))
 
-            buttonList.forEach {
-                if(it.id != b.id) {
-                    it.background.setTint(ContextCompat.getColor(context!!, R.color.colorButtonResponse))
+                tradeInfoViewModel.setTradeInfoCategory(b.text.toString())
+
+                buttonList.forEach {button->
+                    if(button.id != b.id) {
+                        button.background.setTint(ContextCompat.getColor(it, R.color.colorButtonResponse))
+                    }
                 }
             }
-
         }
+
+
+
     }
 
     override fun onCreateView(
@@ -93,18 +97,37 @@ class TradeInfoSearchFragment : Fragment() {
         //TODO: Change the text in each of the custom spinners
         //setTranslatedTexts()
 
-        //Places all buttons in a list, setss clicklisteners and disable search button.
-        buttonSetup()
+        //Places all buttons in a list, sets clicklisteners and disable search button.
+        buttonSpinnerSetup()
+
+        tradeInfoViewModel
+
 
         //TODO: Testing SpinnerCustomView logic
         loadNextSpinner(sscv_trade_info_q_1)
 
     }
 
+    fun observeTradeInfoViewModel() {
+
+        //Border Procedures
+        // Category -> Product -> Going Where -> Origin Made -> Value
+        //fun loadFirstSp
+
+    }
 
 
-    private fun buttonSetup() {
-        buttonList = mutableListOf(b_trade_info_procedures, b_trade_info_documents, b_trade_info_agencies, b_trade_info_regulated)
+
+    private fun buttonSpinnerSetup() {
+        buttonList = listOf(b_trade_info_procedures,
+            b_trade_info_documents,
+            b_trade_info_agencies,
+            b_trade_info_regulated)
+        searchSpinnerList = listOf(sscv_trade_info_q_1,
+            sscv_trade_info_q_2,
+            sscv_trade_info_q_3,
+            sscv_trade_info_q_4,
+            sscv_trade_info_q_5)
 
         b_trade_info_procedures.setOnClickListener(categoryListener)
         b_trade_info_documents.setOnClickListener(categoryListener)

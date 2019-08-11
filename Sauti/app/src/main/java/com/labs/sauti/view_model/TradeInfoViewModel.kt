@@ -12,11 +12,13 @@ import com.labs.sauti.repository.SautiRepository
 class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseViewModel() {
 
     private val errorLiveData by lazy { MutableLiveData<Throwable>() }
+    private val tradeInfoLanguage by lazy { MutableLiveData<String>() }
     private val tradeInfoCategory by lazy {MutableLiveData<String>()}
 
 
 
     fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
+    fun getTradeInfoLangueLiveData() : LiveData<String> = tradeInfoLanguage
 
 
     class Factory(private val sautiRepository: SautiRepository) : ViewModelProvider.Factory {
@@ -25,6 +27,31 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
             return TradeInfoViewModel(sautiRepository) as T
         }
     }
+
+
+    //This sets the trade info and checks the language then places that in the
+    //viewmodel so it can be pulled later.
+    fun setTradeInfoCategory(cat: String) {
+        tradeInfoCategory.postValue(cat)
+        addDisposable(sautiRepository.getSelectedLanguage().subscribe(
+            {
+                tradeInfoLanguage.postValue(it.toUpperCase())
+            },
+            {
+                errorLiveData.postValue(it)
+            }
+        ))
+    }
+
+    //Check the tradeinfo
+    fun getFirstSpinnerContent() {
+        val lang = tradeInfoLanguage.value.toString()
+        val category = tradeInfoCategory.value.toString()
+        when(category) {
+
+        }
+    }
+
 
 
 
