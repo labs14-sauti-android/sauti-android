@@ -40,25 +40,6 @@
                         android:layout_marginBottom="40dp"
                         android:textColor="@color/colorText"/>
 
-                <!--TODO expand-->
-                <!--TODO dynamic contacts-->
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="View Uganda Contacts"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorText"/>
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="View Kenyan Contacts"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorText"/>
-
             </LinearLayout>
 
             <LinearLayout
@@ -96,19 +77,31 @@
                         android:padding="10dp"
                         android:gravity="start"
                         android:minLines="4"
-                        android:textColor="@color/colorText"
+                        android:textColor="@color/colorTextEditText"
                         android:background="#d9d6d6"
                         android:layout_marginBottom="12dp"/>
 
-                <Button
-                        android:id="@+id/b_submit"
+                <ViewSwitcher
+                        android:id="@+id/vs_submit_loading"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:text="Submit"
-                        android:textStyle="bold"
-                        android:backgroundTint="@color/colorAccent"
-                        android:textColor="@color/colorText"/>
+                        android:layout_gravity="end">
+
+                    <Button
+                            android:id="@+id/b_submit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Submit"
+                            android:textStyle="bold"
+                            android:backgroundTint="@color/colorAccent"
+                            android:textColor="@color/colorText"/>
+
+                    <ProgressBar
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"/>
+
+                </ViewSwitcher>
 
             </LinearLayout>
 

@@ -7,6 +7,8 @@ import com.labs.sauti.cache.MarketPriceSearchRoomCache
 import com.labs.sauti.cache.*
 import com.labs.sauti.db.SautiRoomDatabase
 import com.labs.sauti.helper.NetworkHelper
+import com.labs.sauti.repository.HelpRepository
+import com.labs.sauti.repository.HelpRepositoryImpl
 import com.labs.sauti.repository.SautiRepository
 import com.labs.sauti.repository.SautiRepositoryImpl
 import com.labs.sauti.sp.SessionSp
@@ -58,6 +60,12 @@ class DataModule(private val sautiAuthorization: String) {
     @Singleton
     fun provideExchangeRateConversionRoomCache(sautiRoomDatabase: SautiRoomDatabase): ExchangeRateConversionRoomCache {
         return ExchangeRateConversionRoomCache(sautiRoomDatabase)
+    }
+
+    @Provides
+    @Singleton
+    fun provideHelpRepository(sautiApiService: SautiApiService): HelpRepository {
+        return HelpRepositoryImpl(sautiApiService)
     }
 
     @Provides
