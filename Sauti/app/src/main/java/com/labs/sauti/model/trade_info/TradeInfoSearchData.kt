@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 data class TradeInfoSearchData(
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null
-
-
     )
+
+

@@ -19,10 +19,12 @@ import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.model.trade_info.TradeInfo
+import com.labs.sauti.sp.SettingsSp
 import com.labs.sauti.view_model.TradeInfoViewModel
 import com.labs.sauti.views.SearchSpinnerCustomView
 import kotlinx.android.synthetic.main.fragment_trade_info_search.*
 import javax.inject.Inject
+import kotlin.math.log
 
 
 class TradeInfoSearchFragment : Fragment() {
@@ -93,14 +95,18 @@ class TradeInfoSearchFragment : Fragment() {
         //Places all buttons in a list, sets clicklisteners and disable search button.
         buttonSpinnerSetup()
 
+        val lang = SettingsSp(context!!).getSelectedLanguage()
+        tradeInfoViewModel.setLanguage(lang)
+
         tradeInfoViewModel.setFirstSpinnerContent()
 
         tradeInfoViewModel.getTradeInfoFirstSpinnerContent().observe(this, Observer {
-                if(it.isNotEmpty()) {
-                    loadNextSpinner(sscv_trade_info_q_1, it, "Works")
-                } else {
-                    loadNextSpinner(sscv_trade_info_q_1, listOf("Nothing"), null)
-                }
+            val category = tradeInfoViewModel.getTradeInfoCategory().value as String
+            if(it.isNotEmpty()) {
+                loadNextSpinner(sscv_trade_info_q_1, it, category, category)
+            } else {
+                loadNextSpinner(sscv_trade_info_q_1, listOf("fat"), category, category )
+            }
         })
 
 
@@ -211,7 +217,7 @@ class TradeInfoSearchFragment : Fragment() {
         fun newInstance() = TradeInfoSearchFragment()
     }
 
-    fun loadNextSpinner(next: SearchSpinnerCustomView, spinnerList : List<String>, headerString : String?) {
+    fun loadNextSpinner(next: SearchSpinnerCustomView, spinnerList : List<String>, headerString : String?, spinCat: String) {
         next.visibility = View.VISIBLE
         next.addSpinnerContents(spinnerList)
         if (headerString != null) {

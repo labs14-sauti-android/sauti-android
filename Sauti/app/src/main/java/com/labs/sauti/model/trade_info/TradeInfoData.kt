@@ -25,6 +25,10 @@ data class TradeInfoData(
     @Expose
     val origin: String,
 
+//    @SerializedName("procedures")
+//    @Expose
+//    val procedures: List<ProcedureData>,
+
     @SerializedName("product")
     @Expose
     val product: String,
