@@ -5,6 +5,7 @@ import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.model.market_price.MarketPriceSearchData
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResultData
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
+import com.labs.sauti.model.trade_info.RegulatedGoodData
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -37,5 +38,6 @@ interface SautiRepository {
     fun getTradeInfoProductCategory(language: String): Single<MutableList<String>>
 
     fun getRegulatedGoodsCountries(language: String): Single<MutableList<String>>
+    fun searchRegulatedGoods(language: String, country: String) : Single<RegulatedGoodData>
 
 }

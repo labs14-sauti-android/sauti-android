@@ -101,7 +101,31 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
                     )
         }
 
-        fun getTradeInfoSecondSpinnerContent() {}
+    }
+
+    fun setSecondSpinnerContent(choice : String) {
+
+        val language = tradeInfoLanguage.value as String
+
+
+        when(tradeInfoCategory.value) {
+            "Border Procedures" -> {}
+            "Required Documents"->{}
+            "Border Agencies"->{}
+            "Regulated Goods"->(
+                    addDisposable(sautiRepository.searchRegulatedGoods(language, choice).subscribeOn(Schedulers.io()).subscribe(
+                        {
+                        },
+                        {
+                        }
+                    ))
+                    )
+        }
+    }
+}
+
+
+
 
 //        when(tradeInfoCategory.value) {
 //            "Border Procedures" -> (
@@ -124,9 +148,9 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
 //            "Regulated Goods"->{}
 //        }
 
-    }
 
-    //Check the tradeinfo
+
+//Check the tradeinfo
 //    fun loadFirstSpinnerContent() {
 //
 //        val lang = tradeInfoLanguage.value.toString()
@@ -142,10 +166,6 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
 //        }
 //    }
 
-    //fun getFirstSpinnerContent()
+//fun getFirstSpinnerContent()
 
 
-
-
-
-}

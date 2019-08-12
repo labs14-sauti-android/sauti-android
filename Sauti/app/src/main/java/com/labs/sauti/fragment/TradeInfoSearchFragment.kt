@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Button
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -24,7 +25,6 @@ import com.labs.sauti.view_model.TradeInfoViewModel
 import com.labs.sauti.views.SearchSpinnerCustomView
 import kotlinx.android.synthetic.main.fragment_trade_info_search.*
 import javax.inject.Inject
-import kotlin.math.log
 
 
 class TradeInfoSearchFragment : Fragment() {
@@ -39,10 +39,12 @@ class TradeInfoSearchFragment : Fragment() {
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private lateinit var categoryListener : View.OnClickListener
-    private lateinit var spinnerListener: AdapterView.OnItemSelectedListener
 
     private lateinit var buttonList : List<Button>
     private lateinit var searchSpinnerList : List<SearchSpinnerCustomView>
+
+    private lateinit var firstSpinnerSelected : String
+    private lateinit var language : String
 
 
     private val networkChangedReceiver = object: BroadcastReceiver() {
@@ -89,40 +91,34 @@ class TradeInfoSearchFragment : Fragment() {
         //Places all buttons in a list, sets clicklisteners and disable search button.
         buttonSpinnerSetup()
 
-        val lang = SettingsSp(context!!).getSelectedLanguage()
-        tradeInfoViewModel.setLanguage(lang)
+        language = SettingsSp(context!!).getSelectedLanguage()
+        tradeInfoViewModel.setLanguage(language)
 
         tradeInfoViewModel.setFirstSpinnerContent()
 
         tradeInfoViewModel.getTradeInfoFirstSpinnerContent().observe(this, Observer {
             val category = tradeInfoViewModel.getTradeInfoCategory().value as String
             if(category == "Regulated Goods") {
-                loadNextSpinner(sscv_trade_info_q_1, it, "Regulated Goods")
+                loadFirstSpinner(sscv_trade_info_q_1, it, "Regulated Goods")
             } else {
-                loadNextSpinner(sscv_trade_info_q_1, it, "What is your commodity?")
+                loadFirstSpinner(sscv_trade_info_q_1, it, "What is your commodity?")
             }
         })
 
 
+        tradeInfoViewModel.getTradeInfoSecondSpinnerContent().observe(this, Observer{
+            val category = tradeInfoViewModel.getTradeInfoCategory().value as String
+            if(category == "Regulated Goods"){
 
+            }
+        })
 
         b_trade_info_search.setOnClickListener {
 
         }
 
-        //TODO: Testing SpinnerCustomView logic
-        //loadNextSpinner(sscv_trade_info_q_1)
-
     }
 
-    fun observeTradeInfoViewModel() {
-
-        //Border Procedures
-        // Category -> Product -> Going Where -> Origin Made -> Value
-        //fun loadFirstSp
-
-
-    }
 
 
 
@@ -145,9 +141,9 @@ class TradeInfoSearchFragment : Fragment() {
             for (i in 1..3) {
                 searchSpinnerList[i].visibility = View.GONE
             }
+
+            b_trade_info_search.isEnabled = false
         }
-
-
 
         buttonList = listOf(b_trade_info_procedures,
             b_trade_info_documents,
@@ -164,7 +160,7 @@ class TradeInfoSearchFragment : Fragment() {
         b_trade_info_agencies.setOnClickListener(categoryListener)
         b_trade_info_regulated.setOnClickListener(categoryListener)
 
-        b_trade_info_search.isEnabled = false
+
     }
 
     override fun onAttach(context: Context?) {
@@ -196,11 +192,18 @@ class TradeInfoSearchFragment : Fragment() {
     }
 
     companion object {
+        val map = hashMapOf("BDI" to "Burundi",
+            "DRC" to "Democratic Republic of the Congo",
+            "KEN" to "Kenya",
+            "MWI" to "Malawi",
+            "RWA" to "Rwanda",
+            "TZA" to "Tanzania",
+            "UGA" to "Uganda")
         @JvmStatic
         fun newInstance() = TradeInfoSearchFragment()
     }
 
-    fun loadNextSpinner(next: SearchSpinnerCustomView, spinnerList : List<String>, headerString : String) {
+    fun loadFirstSpinner(next: SearchSpinnerCustomView, spinnerList : List<String>, headerString : String) {
         next.visibility = View.VISIBLE
 
         if(headerString == "Regulated Goods") {
@@ -212,28 +215,52 @@ class TradeInfoSearchFragment : Fragment() {
                 }
 
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    val country = next.getSpinnerSelected() as String
+
+                    if(!country.isNullOrEmpty()){
+                        map.forEach mapBreak@{
+                            if(it.value == country) {
+                                firstSpinnerSelected = it.key
+                                return@mapBreak
+                            }
+                        }
+
+                        //This will do the final search
+                        //Language and Country are all we need
+                        tradeInfoViewModel.setSecondSpinnerContent(firstSpinnerSelected)
+
+                    }
                 }
 
             }
 
+            next.setSpinnerListener(listener)
+
         } else {
             next.addSpinnerContents(spinnerList)
+
+            val listener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    val product = next.getSpinnerSelected() as String
+
+                    if(!product.isNullOrEmpty()){
+
+                    }
+                }
+            }
+
+            next.setSpinnerListener(listener)
         }
 
         next.addSearchHeader(headerString)
-
     }
 
     fun convertCountryNames(countryList : List<String>) : List<String> {
 
-        val map = hashMapOf("BDI" to "Burundi",
-            "DRC" to "Democratic Republic of the Congo",
-            "KEN" to "Kenya",
-            "MWI" to "Malawi",
-            "RWA" to "Rwanda",
-            "TZA" to "Tanzania",
-            "UGA" to "Uganda")
+
         val countryNames = mutableListOf<String>()
 
         countryList.forEach {

@@ -12,6 +12,7 @@ import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResultData
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
 import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.model.market_price.MarketPriceSearchData
+import com.labs.sauti.model.trade_info.RegulatedGoodData
 import com.labs.sauti.sp.SessionSp
 import com.labs.sauti.sp.SettingsSp
 import io.reactivex.Completable
@@ -324,5 +325,43 @@ class SautiRepositoryImpl(
             .onErrorResumeNext(
                 tradeInfoRoomCache.getRegulatedGoodsCountries(language)
             )
+    }
+
+    override fun searchRegulatedGoods(language: String, country: String): Single<RegulatedGoodData> {
+        return sautiApiService.searchRegulatedData(language, country)
+            .doOnSuccess{
+//                regulatedGoodRoomcache.save(it).blockingAwait()
+            }
+            //TODO: Must Implement this code
+
+/*          .onErrorResumeNext{
+                regulatedGoodRoomCache.search(language, country)
+            }
+            .doOnSucess {
+                regulatedGood
+            }
+*/
+            .subscribeOn(Schedulers.io())
+
+        /*
+                return sautiApiService.searchMarketPrice(country, market, category, product)
+            .doOnSuccess {
+                marketPriceRoomCache.save(it).blockingAwait()
+            }
+            .onErrorResumeNext {
+                marketPriceRoomCache.search(country, market, category, product)
+            }
+            .doOnSuccess {
+                marketPriceSearchRoomCache.save(
+                    MarketPriceSearchData(
+                        country = country,
+                        market = market,
+                        category = category,
+                        product = product
+                    )
+                ).blockingAwait()
+            }
+            .subscribeOn(Schedulers.io())
+        * */
     }
 }

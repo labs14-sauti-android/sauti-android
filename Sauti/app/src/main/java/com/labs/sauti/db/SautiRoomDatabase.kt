@@ -1,9 +1,10 @@
 package com.labs.sauti.db
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
+import com.labs.sauti.helper.ProhibitedConverter
+import com.labs.sauti.helper.RestrictedConverter
+import com.labs.sauti.helper.SensitiveConverter
 import com.labs.sauti.model.*
 import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.model.market_price.MarketPriceSearchData
@@ -34,6 +35,7 @@ const val DB_NAME = "local-db"
     version = DATABASE_SCHEMA_VERSION,
     exportSchema = false
 )
+@TypeConverters(ProhibitedConverter::class, RestrictedConverter::class, SensitiveConverter::class)
 abstract class SautiRoomDatabase : RoomDatabase() {
 
     abstract fun productDao() : ProductDao
