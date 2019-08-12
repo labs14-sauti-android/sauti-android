@@ -92,7 +92,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:src="@drawable/half_star"
-                                    android:background="@color/colorButtonResponse"/>
+                                    android:background="@color/colorButtonHasGoodExperienceNotSelected"/>
 
                             <TextView
                                     android:layout_width="match_parent"
@@ -128,7 +128,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:src="@drawable/half_star"
-                                    android:background="@color/colorButtonResponse"/>
+                                    android:background="@color/colorButtonHasGoodExperienceNotSelected"/>
 
                             <TextView
                                     android:layout_width="match_parent"
@@ -164,7 +164,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:src="@drawable/half_star"
-                                    android:background="@color/colorButtonResponse"/>
+                                    android:background="@color/colorButtonHasGoodExperienceNotSelected"/>
 
                             <TextView
                                     android:layout_width="match_parent"
@@ -199,7 +199,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:src="@drawable/half_star"
-                                    android:background="@color/colorButtonResponse"/>
+                                    android:background="@color/colorButtonHasGoodExperienceNotSelected"/>
 
                             <TextView
                                     android:layout_width="match_parent"

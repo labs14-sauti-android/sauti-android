@@ -13,6 +13,7 @@ class SautiApp : Application() {
     private var settingsComponent: SettingsComponent? = null
     private var tradeinfoComponent : TradeInfoComponent? = null
     private var helpComponent: HelpComponent? = null
+    private var reportComponent: ReportComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -69,5 +70,12 @@ class SautiApp : Application() {
             helpComponent = mainComponent.plus(HelpModule())
         }
         return helpComponent!!
+    }
+
+    fun getReportComponent(): ReportComponent {
+        if (reportComponent == null) {
+            reportComponent = mainComponent.plus(ReportModule())
+        }
+        return reportComponent!!
     }
 }

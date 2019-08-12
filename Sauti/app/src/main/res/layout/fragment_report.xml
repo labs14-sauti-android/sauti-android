@@ -61,65 +61,121 @@
                     android:textStyle="bold"
                     android:layout_marginBottom="40dp"/>
 
-            <TextView
-                    android:id="@+id/t_which_border_did_you_cross"
+            <ViewSwitcher
+                    android:id="@+id/vs_borders_loading"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/which_border_did_you_cross"
-                    android:textColor="@color/colorText"
-                    android:textSize="18sp"
-                    android:layout_marginBottom="16dp"/>
+                    android:layout_height="wrap_content">
 
-            <Spinner
-                    android:id="@+id/s_borders"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="40dp">
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="40dp">
 
-            </Spinner>
+                    <TextView
+                            android:id="@+id/t_which_border_did_you_cross"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/which_border_did_you_cross"
+                            android:textColor="@color/colorText"
+                            android:textSize="18sp"
+                            android:layout_marginBottom="16dp"/>
 
-            <TextView
-                    android:id="@+id/t_did_you_have_a_good_experience"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/did_you_have_a_good_experience"
-                    android:textColor="@color/colorText"
-                    android:textSize="18sp"
-                    android:layout_marginBottom="12dp"/>
+                    <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:src="@drawable/search_spinner_background"/>
+
+                        <Spinner
+                                android:id="@+id/s_borders"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:backgroundTint="#2e2e2e">
+                        </Spinner>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <ProgressBar
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+            </ViewSwitcher>
 
             <LinearLayout
+                    android:id="@+id/ll_experience"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="40dp">
+                    android:orientation="vertical">
 
-                <Button
-                        android:id="@+id/b_yes"
-                        android:layout_width="wrap_content"
+                <TextView
+                        android:id="@+id/t_did_you_have_a_good_experience"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/yes"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorButtonResponseText"
-                        android:backgroundTint="@color/colorButtonResponse"/>
+                        android:text="@string/did_you_have_a_good_experience"
+                        android:textColor="@color/colorText"
+                        android:textSize="18sp"
+                        android:layout_marginBottom="12dp"/>
 
-                <Button
-                        android:id="@+id/b_no"
-                        android:layout_width="wrap_content"
+                <FrameLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/no"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorButtonResponseText"
-                        android:backgroundTint="@color/colorButtonResponse"/>
+                        android:layout_marginBottom="40dp">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal">
+
+                        <Button
+                                android:id="@+id/b_yes"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/yes"
+                                android:textStyle="bold"
+                                android:textColor="@color/colorButtonResponseText"
+                                android:backgroundTint="@color/colorButtonHasGoodExperienceNotSelected"
+                                android:layout_marginEnd="50dp"/>
+
+                        <Button
+                                android:id="@+id/b_no"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/no"
+                                android:textStyle="bold"
+                                android:textColor="@color/colorButtonResponseText"
+                                android:backgroundTint="@color/colorButtonHasGoodExperienceNotSelected"/>
+
+                    </LinearLayout>
+
+                </FrameLayout>
 
             </LinearLayout>
 
-            <Button
-                    android:id="@+id/b_submit"
+            <ViewSwitcher
+                    android:id="@+id/vs_submit_loading"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Submit"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorText"
-                    android:backgroundTint="@color/colorAccent"/>
+                    android:layout_height="wrap_content">
+
+                <Button
+                        android:id="@+id/b_submit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Submit"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorText"
+                        android:backgroundTint="@color/colorAccent"/>
+
+                <ProgressBar
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+            </ViewSwitcher>
 
         </LinearLayout>
 
