@@ -17,7 +17,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
-import com.labs.sauti.activity.BaseActivity
 import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.view_model.TradeInfoViewModel
@@ -94,14 +93,16 @@ class TradeInfoSearchFragment : Fragment() {
         //Places all buttons in a list, sets clicklisteners and disable search button.
         buttonSpinnerSetup()
 
+        tradeInfoViewModel.setFirstSpinnerContent()
 
         tradeInfoViewModel.getTradeInfoFirstSpinnerContent().observe(this, Observer {
                 if(it.isNotEmpty()) {
-                    loadNextSpinner(sscv_trade_info_q_1, it)
+                    loadNextSpinner(sscv_trade_info_q_1, it, "Works")
+                } else {
+                    loadNextSpinner(sscv_trade_info_q_1, listOf("Nothing"), null)
                 }
         })
 
-        tradeInfoViewModel.getLanguage()
 
         b_trade_info_search.setOnClickListener {
 
@@ -129,26 +130,31 @@ class TradeInfoSearchFragment : Fragment() {
 
     private fun buttonSpinnerSetup() {
 
-        spinnerListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-        }
+//        spinnerListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onNothingSelected(parent: AdapterView<*>?) {
+//            }
+//
+//            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//
+//            }
+//
+//        }
         categoryListener = View.OnClickListener { v ->
             val b = v as Button
 
             b.background.setTint(ContextCompat.getColor(context!!, R.color.colorAccent))
 
-            tradeInfoViewModel.setTradeInfoCategory(b.text.toString())
+            val category = b.text.toString()
+            tradeInfoViewModel.setFirstSpinnerContent(category)
 
             buttonList.forEach {button->
                 if(button.id != b.id) {
                     button.background.setTint(ContextCompat.getColor(context!!, R.color.colorButtonResponse))
                 }
+            }
+
+            for (i in 1..3) {
+                searchSpinnerList[i].visibility = View.GONE
             }
         }
 
@@ -178,6 +184,8 @@ class TradeInfoSearchFragment : Fragment() {
         if(parentFragment is onTradeInfoSearchCompletedListener) {
             onFragmentFullScreenStateChangedListener = parentFragment as OnFragmentFullScreenStateChangedListener
             onFragmentFullScreenStateChangedListener!!.onFragmetFullScreenStateChanged(true)
+        }  else {
+            throw RuntimeException("parentFragment must implement OnFragmentFullScreenStateChangedListener")
         }
     }
 
@@ -203,10 +211,15 @@ class TradeInfoSearchFragment : Fragment() {
         fun newInstance() = TradeInfoSearchFragment()
     }
 
-    fun loadNextSpinner(next: SearchSpinnerCustomView, spinnerList : List<String>) {
+    fun loadNextSpinner(next: SearchSpinnerCustomView, spinnerList : List<String>, headerString : String?) {
         next.visibility = View.VISIBLE
-        next.addSearchHeader("What are you looking for?")
         next.addSpinnerContents(spinnerList)
+        if (headerString != null) {
+            next.addSearchHeader(headerString)
+        } else {
+            next.addSearchHeader("Bananas")
+        }
+
         //next.progressBarSVisibility()
     }
 }

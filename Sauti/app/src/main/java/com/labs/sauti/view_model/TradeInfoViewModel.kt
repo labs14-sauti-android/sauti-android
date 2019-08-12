@@ -13,10 +13,10 @@ import io.reactivex.schedulers.Schedulers
 
 class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseViewModel() {
 
-    private val errorLiveData by lazy { MutableLiveData<Throwable>() }
-    private val tradeInfoLanguage by lazy { MutableLiveData<String>() }
-    private val tradeInfoCategory by lazy {MutableLiveData<String>()}
-    private val tradeInfoFirstSpinnerContent by lazy { MutableLiveData<List<String>>() }
+    private val errorLiveData: MutableLiveData<Throwable> = MutableLiveData()
+    private val tradeInfoLanguage: MutableLiveData<String> = MutableLiveData()
+    private val tradeInfoCategory: MutableLiveData<String> = MutableLiveData()
+    private val tradeInfoFirstSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
 
 
     fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
@@ -34,17 +34,24 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
     }
 
 
-
     //This sets the trade info and checks the language then places that in the
     //viewmodel so it can be pulled later.
     fun setTradeInfoCategory(cat: String) {
-        tradeInfoCategory.postValue(cat)
+        tradeInfoCategory.value = cat
 
     }
 
-    fun getLanguage() {
+    fun setFirstSpinnerContent(cat: String? = null) {
+
+        if (cat == null) {
+//            cat = "Border Procedures"
+            tradeInfoCategory.value = "Border Procedures"
+        } else {
+            tradeInfoCategory.value = cat as String
+        }
+
         when(tradeInfoCategory.value) {
-            "Border Procedures" -> {
+            "Border Procedures" -> (
                 addDisposable(sautiRepository.getSelectedLanguage().subscribeOn(Schedulers.io()).subscribe(
                     { s ->
                         tradeInfoLanguage.postValue(s.toUpperCase())
@@ -57,8 +64,9 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
                         errorLiveData.postValue(it)
                     }
                 ))
-            }
-            "Required Documents"->{}
+                    )
+            "Required Documents"->( tradeInfoFirstSpinnerContent.postValue(listOf())
+                    )
             "Border Agencies"->{}
             "Regulated Goods"->{}
         }

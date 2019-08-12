@@ -34,7 +34,6 @@ class SearchSpinnerCustomView @JvmOverloads constructor(
         }
 
 
-
         p_search_param.visibility = View.GONE
     }
 
