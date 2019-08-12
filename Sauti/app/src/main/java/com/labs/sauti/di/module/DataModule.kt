@@ -63,7 +63,10 @@ class DataModule(private val sautiAuthorization: String) {
     @Singleton
     fun provideTradeInfoRoomCache(sautiRoomDatabase: SautiRoomDatabase) : TradeInfoRoomCache {
         return TradeInfoRoomCache(sautiRoomDatabase)
+    }
 
+    @Provides
+    @Singleton
     fun provideHelpRepository(sautiApiService: SautiApiService): HelpRepository {
         return HelpRepositoryImpl(sautiApiService)
     }
