@@ -1,23 +1,22 @@
 package com.labs.sauti.repository
 
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import com.labs.sauti.api.SautiApiService
 import com.labs.sauti.cache.*
 import com.labs.sauti.helper.NetworkHelper
-import com.labs.sauti.model.*
-import com.labs.sauti.model.market_price.MarketPriceData
-import com.labs.sauti.model.market_price.MarketPriceSearchData
+import com.labs.sauti.model.SignInResponse
+import com.labs.sauti.model.SignUpRequest
+import com.labs.sauti.model.SignUpResponse
+import com.labs.sauti.model.User
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionData
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResultData
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
+import com.labs.sauti.model.market_price.MarketPriceData
+import com.labs.sauti.model.market_price.MarketPriceSearchData
 import com.labs.sauti.sp.SessionSp
 import com.labs.sauti.sp.SettingsSp
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
-import okhttp3.OkHttpClient
-import okhttp3.Request
 
 class SautiRepositoryImpl(
     private val networkHelper: NetworkHelper,
@@ -28,8 +27,10 @@ class SautiRepositoryImpl(
     private val marketPriceRoomCache: MarketPriceRoomCache,
     private val marketPriceSearchRoomCache: MarketPriceSearchRoomCache,
     private val exchangeRateRoomCache: ExchangeRateCache,
-    private val exchangeRateConversionRoomCache: ExchangeRateConversionCache
+    private val exchangeRateConversionRoomCache: ExchangeRateConversionCache,
+    private val tradeInfoRoomCache: TradeInfoRoomCache
 ) : SautiRepository {
+
 
     override fun signUp(signUpRequest: SignUpRequest): Single<SignUpResponse> {
         return sautiApiService.signUp(signUpRequest)
@@ -305,5 +306,23 @@ class SautiRepositoryImpl(
         return Completable.fromCallable {
             settingsSp.setSelectedLanguage(language)
         }
+    }
+
+    override fun getTradeInfoProductCategory(language: String): Single<MutableList<String>> {
+        return sautiApiService.getTradeInfoCategories(language)
+            .onErrorResumeNext{
+                tradeInfoRoomCache.getTIProductCategories(language)
+            }
+            .doOnSuccess{
+                it.sort()
+            }
+            .subscribeOn(Schedulers.io())
+    }
+
+    override fun getRegulatedGoodsCountries(language: String): Single<MutableList<String>> {
+        return sautiApiService.getRegulatedGoodsCountries(language)
+            .onErrorResumeNext(
+                tradeInfoRoomCache.getRegulatedGoodsCountries(language)
+            )
     }
 }

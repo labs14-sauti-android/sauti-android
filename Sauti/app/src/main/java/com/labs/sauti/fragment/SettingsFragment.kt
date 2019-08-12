@@ -91,7 +91,7 @@ class SettingsFragment : Fragment() {
 
         fl_language_luganda.setOnClickListener {
             shouldRestartActivity = true
-            settingsViewModel.setSelectedLanguage("lg")
+            settingsViewModel.setSelectedLanguage("lu")
         }
     }
 

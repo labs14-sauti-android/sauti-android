@@ -26,15 +26,22 @@ class SearchSpinnerCustomView @JvmOverloads constructor(
     }
 
     fun addSpinnerContents(list : List<String>) {
-        ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, list).also { adapter->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val alteredList = list.toMutableList()
+        alteredList.add(0, "")
+        ArrayAdapter(context, android.R.layout.simple_spinner_item, alteredList).also { adapter->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
             s_search_param.adapter = adapter
         }
+
+        p_search_param.visibility = View.GONE
     }
+
 
     fun progressBarSVisibility() {
         if(p_search_param.isVisible) {
             p_search_param.visibility = View.GONE
+        } else {
+            p_search_param.visibility = View.VISIBLE
         }
     }
 

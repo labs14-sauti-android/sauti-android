@@ -12,10 +12,10 @@ import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.labs.sauti.R
-import com.labs.sauti.model.TradeInfoData
+import com.labs.sauti.model.trade_info.TradeInfo
 import kotlinx.android.synthetic.main.fragment_trade_info.*
-import androidx.transition.TransitionManager
 import com.labs.sauti.SautiApp
+import com.labs.sauti.activity.BaseActivity
 import com.labs.sauti.view_model.TradeInfoViewModel
 import javax.inject.Inject
 
@@ -33,13 +33,9 @@ OnFragmentFullScreenStateChangedListener{
 
     private lateinit var tradeInfoViewModel: TradeInfoViewModel
 
-    //TODO: Add bindings
-
-
-    //TODO: Remove Dummy Data, using MVVM later
-    lateinit var testTIbanned: TradeInfoData
-    lateinit var testTIdocuments: TradeInfoData
     var tiDetailsIsVisible = false
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,39 +45,6 @@ OnFragmentFullScreenStateChangedListener{
             (it.applicationContext as SautiApp).getTradeInfoComponent().inject(this)
             tradeInfoViewModel= ViewModelProviders.of(this, tradeInfoViewModelFactory).get(TradeInfoViewModel::class.java)
         }
-
-        //TODO: Remove dummy data creation
-        testTIbanned = TradeInfoData(0,
-            "These commodities are banned:",
-            "These commodities are banned and cannot legally cross the border:",
-            listOf("-Air Zinc",
-                "-Batteries",
-                "-Batteries",
-                "-Khanga, kikoi, kitenge",
-                "-Lithium",
-                "-Maize",
-                "-Manganese Dioxide",
-                "-Matches",
-                "-Mercuric Oxide",
-                "-Rice",
-                "-Silver Oxide",
-                "-Sugar",
-                "-Tobacco",
-                "-Used clothing",
-                "-Wheat")
-        )
-
-        //TODO: Remove dummy data creation
-        testTIdocuments = TradeInfoData(1,
-            "Required Documents:",
-            "Required Documents...expanded",
-            listOf("1. Import ",
-                "2. Valid Invoice",
-                "3. Simplified Certificate Of Origin (SCOO)",
-                "4. National ID",
-                "5. Something"))
-
-
     }
 
     override fun onCreateView(
@@ -92,16 +55,100 @@ OnFragmentFullScreenStateChangedListener{
         return inflater.inflate(R.layout.fragment_trade_info, container, false)
     }
 
-    //TODO Whole section will be decoupled for MVVM
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        tiv_recent_first.consumeTIData(testTIbanned)
-        tiv_recent_second.consumeTIData(testTIdocuments)
+        observeTradeInfoViewModel()
 
 
-        tiv_recent_first.setOnClickListener(object : View.OnClickListener {
+
+
+
+
+        b_trade_info_search.setOnClickListener{
+            openTradeInfoSearchFragment()
+        }
+
+    }
+
+
+    fun observeTradeInfoViewModel() {
+
+        //Border Procedures
+        // Category -> Product -> Going Where -> Origin Made -> Value
+        //fun loadFirstSp
+
+    }
+
+
+    fun addTIDetailsLL(tradeInfo: TradeInfo) {
+        l_tradeinfo_left_list.removeAllViews()
+        l_tradeinfo_right_list.removeAllViews()
+        var half = (tradeInfo.tradeinfoList.size) / 2
+
+
+        for (i in 0 until (tradeInfo.tradeinfoList.size)) {
+            //TODO: Change language so left LL will have one more if odd number of elements.
+            val textView = TextView(context)
+            TextViewCompat.setTextAppearance(textView, R.style.CardViewRecentDetailsListTextStyling)
+            textView.text = tradeInfo.tradeinfoList[i]
+            textView.setOnClickListener {
+                //TODO: Add a child fragment explaining what that doc is when clicked.
+            }
+
+            when {
+                i > half -> l_tradeinfo_right_list.addView(textView)
+                i == half -> l_tradeinfo_left_list.addView(textView)
+                else -> l_tradeinfo_left_list.addView(textView)
+            }
+        }
+    }
+
+
+    companion object {
+
+        private const val MAX_RECENT_ITEMS = 2
+
+        @JvmStatic
+        fun newInstance() =
+            TradeInfoFragment()
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        if (context is OnFragmentFullScreenStateChangedListener) {
+            onFragmentFullScreenStateChangedListener = context
+        } else {
+            throw RuntimeException("Context must implement OnFragmentFullScreenStateChangedListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        onFragmentFullScreenStateChangedListener = null
+    }
+
+    override fun onTradeInfoSearchCompleted(tradeInfo: TradeInfo) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
+        onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(isFullScreen)
+    }
+
+    private fun openTradeInfoSearchFragment() {
+        val tradeInfoSearchFragment = TradeInfoSearchFragment.newInstance()
+
+        childFragmentManager.beginTransaction()
+            .add(R.id.fl_fragment_container_trade_info, tradeInfoSearchFragment)
+            .addToBackStack(null)?.commit()
+    }
+    //TODO: Must remove - Testing to see layout. 
+}
+
+/* //TODO Reimplement animated views.
+tiv_recent_first.setOnClickListener(object : View.OnClickListener {
             var visible: Boolean = tiDetailsIsVisible
 
             override fun onClick(v: View) {
@@ -141,76 +188,7 @@ OnFragmentFullScreenStateChangedListener{
 
             }
         })
-
-
-
-        b_trade_info_search.setOnClickListener{
-            openTradeInfoSearchFragment()
-        }
-
-    }
-
-
-    fun addTIDetailsLL(tradeInfoData: TradeInfoData) {
-        l_tradeinfo_left_list.removeAllViews()
-        l_tradeinfo_right_list.removeAllViews()
-        var half = (tradeInfoData.tradeinfoList.size) / 2
-
-
-        for (i in 0 until (tradeInfoData.tradeinfoList.size)) {
-            //TODO: Change language so left LL will have one more if odd number of elements.
-            val textView = TextView(context)
-            TextViewCompat.setTextAppearance(textView, R.style.CardViewRecentDetailsListTextStyling)
-            textView.text = tradeInfoData.tradeinfoList[i]
-            textView.setOnClickListener {
-                //TODO: Add a child fragment explaining what that doc is when clicked.
-            }
-
-            when {
-                i > half -> l_tradeinfo_right_list.addView(textView)
-                i == half -> l_tradeinfo_left_list.addView(textView)
-                else -> l_tradeinfo_left_list.addView(textView)
-            }
-        }
-    }
-
-
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            TradeInfoFragment()
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-
-        if (context is OnFragmentFullScreenStateChangedListener) {
-            onFragmentFullScreenStateChangedListener = context
-        } else {
-            throw RuntimeException("Context must implement OnFragmentFullScreenStateChangedListener")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        onFragmentFullScreenStateChangedListener = null
-    }
-
-    override fun onTradeInfoSearchCompleted(tradeInfo: TradeInfoData) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
-        onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(isFullScreen)
-    }
-
-    private fun openTradeInfoSearchFragment() {
-        val tradeInfoSearchFragment = TradeInfoSearchFragment.newInstance()
-        activity?.supportFragmentManager?.beginTransaction()
-            ?.add(R.id.primary_fragment_container, tradeInfoSearchFragment)?.addToBackStack(null)?.commit()
-    }
-    //TODO: Must remove - Testing to see layout. 
-}
+ */
 
 
 //tiv_recent_first.setOnClickListener{
@@ -227,3 +205,44 @@ OnFragmentFullScreenStateChangedListener{
 //        })
 //}
 
+
+/*
+
+//TODO: Remove dummy data creation
+        testTIbanned = TradeInfo(
+            0,
+            "These commodities are banned:",
+            "These commodities are banned and cannot legally cross the border:",
+            listOf(
+                "-Air Zinc",
+                "-Batteries",
+                "-Batteries",
+                "-Khanga, kikoi, kitenge",
+                "-Lithium",
+                "-Maize",
+                "-Manganese Dioxide",
+                "-Matches",
+                "-Mercuric Oxide",
+                "-Rice",
+                "-Silver Oxide",
+                "-Sugar",
+                "-Tobacco",
+                "-Used clothing",
+                "-Wheat"
+            )
+        )
+
+        //TODO: Remove dummy data creation
+        testTIdocuments = TradeInfo(
+            1,
+            "Required Documents:",
+            "Required Documents...expanded",
+            listOf(
+                "1. Import ",
+                "2. Valid Invoice",
+                "3. Simplified Certificate Of Origin (SCOO)",
+                "4. National ID",
+                "5. Something"
+            )
+        )
+ */

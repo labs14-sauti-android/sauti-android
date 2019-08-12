@@ -9,6 +9,9 @@ interface BaseDao<in T> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(type: T): Maybe<Long>
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertALL(vararg type: T)
+
     @Delete
     fun delete(type: T): Completable
 

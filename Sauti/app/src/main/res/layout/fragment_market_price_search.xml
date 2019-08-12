@@ -246,7 +246,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:text="No connection. Your searches may not be updated."
+            android:text="@string/no_connection"
             android:background="@color/colorWarningBackground"
             android:paddingStart="22dp"
             android:paddingEnd="22dp"

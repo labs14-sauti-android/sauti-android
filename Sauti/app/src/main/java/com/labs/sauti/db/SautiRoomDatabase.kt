@@ -9,9 +9,10 @@ import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.model.market_price.MarketPriceSearchData
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionData
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
+import com.labs.sauti.model.trade_info.*
 
 
-const val DATABASE_SCHEMA_VERSION = 8
+const val DATABASE_SCHEMA_VERSION = 12
 const val DB_NAME = "local-db"
 
 
@@ -22,6 +23,10 @@ const val DB_NAME = "local-db"
     entities = [
         ProductData::class,
         TradeInfoData::class,
+        RegulatedGoodData::class,
+        BorderAgencyData::class,
+        TaxesData::class,
+        RequiredDocumentData::class,
         MarketPriceData::class,
         MarketPriceSearchData::class,
         ExchangeRateData::class,
@@ -35,6 +40,8 @@ abstract class SautiRoomDatabase : RoomDatabase() {
 
     //add DAO
     abstract fun tradeInfoDao(): TradeInfoDao
+    abstract fun regulatedGoodDao(): RegulatedGoodDao
+    abstract fun borderAgencyDao():BorderAgencyDao
 
     abstract fun marketPriceDao(): MarketPriceDao
     abstract fun marketPriceSearchDao(): MarketPriceSearchDao

@@ -34,4 +34,8 @@ interface SautiRepository {
     fun getSelectedLanguage(): Single<String>
     fun setSelectedLanguage(language: String): Completable
 
+    fun getTradeInfoProductCategory(language: String): Single<MutableList<String>>
+
+    fun getRegulatedGoodsCountries(language: String): Single<MutableList<String>>
+
 }

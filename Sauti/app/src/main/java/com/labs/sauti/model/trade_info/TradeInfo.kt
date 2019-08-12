@@ -1,4 +1,4 @@
-package com.labs.sauti.model
+package com.labs.sauti.model.trade_info
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -15,9 +15,8 @@ import com.google.gson.annotations.SerializedName
 * Regulated goods
 * */
 
-
-@Entity(tableName = "trade_info")
-data class TradeInfoData (
+//This will be the class that is stored into the UI.
+data class TradeInfo (
     @SerializedName("tradeinfoid")
     @Expose
     @PrimaryKey(autoGenerate = true)
