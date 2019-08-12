@@ -6,7 +6,7 @@ import io.reactivex.schedulers.Schedulers
 
 class TradeInfoRoomCache(private val sautiRoomDatabase: SautiRoomDatabase) : TradeInfoCache {
 
-    override fun getCountries(language: String): Single<MutableList<String>> {
+    override fun getTIProductCategories(language: String): Single<MutableList<String>> {
         return sautiRoomDatabase.tradeInfoDao().getTradeInfoCategories(language)
             .subscribeOn(Schedulers.io())
     }

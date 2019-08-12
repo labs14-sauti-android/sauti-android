@@ -14,8 +14,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.labs.sauti.R
 import com.labs.sauti.model.trade_info.TradeInfo
 import kotlinx.android.synthetic.main.fragment_trade_info.*
-import androidx.transition.TransitionManager
 import com.labs.sauti.SautiApp
+import com.labs.sauti.activity.BaseActivity
 import com.labs.sauti.view_model.TradeInfoViewModel
 import javax.inject.Inject
 
@@ -56,7 +56,6 @@ OnFragmentFullScreenStateChangedListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         observeTradeInfoViewModel()
 
 
@@ -69,6 +68,7 @@ OnFragmentFullScreenStateChangedListener{
         }
 
     }
+
 
     fun observeTradeInfoViewModel() {
 
@@ -137,8 +137,10 @@ OnFragmentFullScreenStateChangedListener{
 
     private fun openTradeInfoSearchFragment() {
         val tradeInfoSearchFragment = TradeInfoSearchFragment.newInstance()
-        activity?.supportFragmentManager?.beginTransaction()
-            ?.add(R.id.primary_fragment_container, tradeInfoSearchFragment)?.addToBackStack(null)?.commit()
+
+        childFragmentManager.beginTransaction()
+            .add(R.id.fl_fragment_container_trade_info, tradeInfoSearchFragment)
+            .addToBackStack(null)?.commit()
     }
     //TODO: Must remove - Testing to see layout. 
 }

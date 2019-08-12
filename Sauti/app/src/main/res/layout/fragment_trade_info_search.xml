@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   xmlns:tools="http://schemas.android.com/tools"
-                                                   android:layout_width="match_parent"
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.TradeInfoSearchFragment"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@color/colorPrimaryDark">
+
+
+
+
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
                                                    android:layout_height="match_parent"
-                                                   tools:context=".fragment.TradeInfoSearchFragment"
-                                                   android:clickable="true"
-                                                   android:focusable="true"
                                                    android:background="@color/colorPrimaryDark"
-                                                   android:id="@+id/cl_trade_info_fragment_container">
+                                                   android:id="@+id/cl_trade_info_search_fragment_container">
 
     <Button
             android:text="@string/b_trade_info_border_procedures_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
             style="@style/TradeInfoButtonStyling"
             android:id="@+id/b_trade_info_procedures"
             app:layout_constraintStart_toStartOf="parent"
@@ -107,7 +116,7 @@
                     android:layout_height="wrap_content"
                     android:visibility="gone"
                     android:id="@+id/sscv_trade_info_q_3"
-                    tools:visibility="visible"
+                    tools:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_2"
                     app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_4"
                     app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
@@ -117,7 +126,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    tools:visibility="visible"
+                    tools:visibility="gone"
                     android:id="@+id/sscv_trade_info_q_4"
                     app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_3"
                     app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_5"
@@ -129,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/sscv_trade_info_q_5"
                     android:visibility="gone"
-                    tools:visibility="visible"
+                    tools:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_4"
                     app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
@@ -169,3 +178,4 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

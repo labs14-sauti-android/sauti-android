@@ -32,6 +32,9 @@ class SearchSpinnerCustomView @JvmOverloads constructor(
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
             s_search_param.adapter = adapter
         }
+
+
+
         p_search_param.visibility = View.GONE
     }
 

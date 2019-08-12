@@ -8,8 +8,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.Button
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
+import com.labs.sauti.activity.BaseActivity
 import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.view_model.TradeInfoViewModel
@@ -37,6 +38,7 @@ class TradeInfoSearchFragment : Fragment() {
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private lateinit var categoryListener : View.OnClickListener
+    private lateinit var spinnerListener: AdapterView.OnItemSelectedListener
 
     private lateinit var buttonList : List<Button>
     private lateinit var searchSpinnerList : List<SearchSpinnerCustomView>
@@ -84,22 +86,26 @@ class TradeInfoSearchFragment : Fragment() {
             it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
         })
 
+
+
         //TODO: Change the text in each of the custom spinners
         //setTranslatedTexts()
 
         //Places all buttons in a list, sets clicklisteners and disable search button.
         buttonSpinnerSetup()
 
-        tradeInfoViewModel.getLanguage()
-
-
 
         tradeInfoViewModel.getTradeInfoFirstSpinnerContent().observe(this, Observer {
                 if(it.isNotEmpty()) {
                     loadNextSpinner(sscv_trade_info_q_1, it)
                 }
-
         })
+
+        tradeInfoViewModel.getLanguage()
+
+        b_trade_info_search.setOnClickListener {
+
+        }
 
 //        tradeInfoViewModel.loadFirstSpinnerContent()
 
@@ -123,6 +129,15 @@ class TradeInfoSearchFragment : Fragment() {
 
     private fun buttonSpinnerSetup() {
 
+        spinnerListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+        }
         categoryListener = View.OnClickListener { v ->
             val b = v as Button
 
@@ -137,7 +152,7 @@ class TradeInfoSearchFragment : Fragment() {
             }
         }
 
-        b_trade_info_procedures.background.setTint(ContextCompat.getColor(context!!, R.color.colorAccent))
+
 
         buttonList = listOf(b_trade_info_procedures,
             b_trade_info_documents,
@@ -155,6 +170,24 @@ class TradeInfoSearchFragment : Fragment() {
         b_trade_info_regulated.setOnClickListener(categoryListener)
 
         b_trade_info_search.isEnabled = false
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        if(parentFragment is onTradeInfoSearchCompletedListener) {
+            onFragmentFullScreenStateChangedListener = parentFragment as OnFragmentFullScreenStateChangedListener
+            onFragmentFullScreenStateChangedListener!!.onFragmetFullScreenStateChanged(true)
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        onTradeSearchCompletedListener = null
+
+        onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
+        onFragmentFullScreenStateChangedListener = null
+
     }
 
     private fun setTranslatedTexts() {

@@ -280,6 +280,7 @@ class MarketPriceSearchFragment : Fragment() {
             val market = s_markets.selectedItem as String
 
             vs_categories.visibility = View.VISIBLE
+            vs_categories.visibility = View.VISIBLE
             marketPricesViewModel.getCategories(selectedCountryCode!!, market)
         }
     }

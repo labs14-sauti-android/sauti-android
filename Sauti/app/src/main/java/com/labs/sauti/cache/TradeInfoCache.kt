@@ -4,5 +4,6 @@ import io.reactivex.Single
 
 interface TradeInfoCache {
 
-    fun getCountries(language: String): Single<MutableList<String>>
+    fun getTIProductCategories(language: String): Single<MutableList<String>>
+
 }

@@ -33,21 +33,7 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
         }
     }
 
-    init {
-        addDisposable(sautiRepository.getSelectedLanguage().subscribeOn(Schedulers.io()).subscribe(
-            { s ->
-                tradeInfoLanguage.postValue(s.toUpperCase())
-//                sautiRepository.getTradeInfoProductCategory(s.toUpperCase()).subscribe(
-//                    {tradeInfoFirstSpinnerContent.postValue(it)},
-//                    {errorLiveData.postValue(it)}
-//                )
-            },
-            {
-                errorLiveData.postValue(it)
-            }
-        ))
 
-    }
 
     //This sets the trade info and checks the language then places that in the
     //viewmodel so it can be pulled later.
@@ -57,18 +43,26 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
     }
 
     fun getLanguage() {
-        addDisposable(sautiRepository.getSelectedLanguage().subscribeOn(Schedulers.io()).subscribe(
-            { s ->
-                tradeInfoLanguage.postValue(s.toUpperCase())
-                sautiRepository.getTradeInfoProductCategory(s.toUpperCase()).subscribe(
-                    {tradeInfoFirstSpinnerContent.postValue(it)},
-                    {errorLiveData.postValue(it)}
-                )
-            },
-            {
-                errorLiveData.postValue(it)
+        when(tradeInfoCategory.value) {
+            "Border Procedures" -> {
+                addDisposable(sautiRepository.getSelectedLanguage().subscribeOn(Schedulers.io()).subscribe(
+                    { s ->
+                        tradeInfoLanguage.postValue(s.toUpperCase())
+                        sautiRepository.getTradeInfoProductCategory(s.toUpperCase()).subscribe(
+                            {tradeInfoFirstSpinnerContent.postValue(it)},
+                            {errorLiveData.postValue(it)}
+                        )
+                    },
+                    {
+                        errorLiveData.postValue(it)
+                    }
+                ))
             }
-        ))
+            "Required Documents"->{}
+            "Border Agencies"->{}
+            "Regulated Goods"->{}
+        }
+
     }
 
     //Check the tradeinfo

@@ -311,7 +311,7 @@ class SautiRepositoryImpl(
     override fun getTradeInfoProductCategory(language: String): Single<MutableList<String>> {
         return sautiApiService.getTradeInfoCategories(language)
             .onErrorResumeNext{
-                tradeInfoRoomCache.getCountries(language)
+                tradeInfoRoomCache.getTIProductCategories(language)
             }
             .doOnSuccess{
                 it.sort()
