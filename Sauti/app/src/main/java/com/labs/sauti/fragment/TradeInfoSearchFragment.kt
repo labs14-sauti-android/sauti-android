@@ -64,13 +64,7 @@ class TradeInfoSearchFragment : Fragment() {
 
             tradeInfoViewModel = ViewModelProviders.of(this, tradeInfoViewModelFactory)
                 .get(TradeInfoViewModel::class.java)
-
-
         }
-
-
-
-
     }
 
     override fun onCreateView(
@@ -102,21 +96,19 @@ class TradeInfoSearchFragment : Fragment() {
 
         tradeInfoViewModel.getTradeInfoFirstSpinnerContent().observe(this, Observer {
             val category = tradeInfoViewModel.getTradeInfoCategory().value as String
-            if(it.isNotEmpty()) {
-                loadNextSpinner(sscv_trade_info_q_1, it, category, category)
+            if(category == "Regulated Goods") {
+                loadNextSpinner(sscv_trade_info_q_1, it, "Regulated Goods")
             } else {
-                loadNextSpinner(sscv_trade_info_q_1, listOf("fat"), category, category )
+                loadNextSpinner(sscv_trade_info_q_1, it, "What is your commodity?")
             }
         })
+
+
 
 
         b_trade_info_search.setOnClickListener {
 
         }
-
-//        tradeInfoViewModel.loadFirstSpinnerContent()
-
-
 
         //TODO: Testing SpinnerCustomView logic
         //loadNextSpinner(sscv_trade_info_q_1)
@@ -136,15 +128,6 @@ class TradeInfoSearchFragment : Fragment() {
 
     private fun buttonSpinnerSetup() {
 
-//        spinnerListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onNothingSelected(parent: AdapterView<*>?) {
-//            }
-//
-//            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-//
-//            }
-//
-//        }
         categoryListener = View.OnClickListener { v ->
             val b = v as Button
 
@@ -217,16 +200,52 @@ class TradeInfoSearchFragment : Fragment() {
         fun newInstance() = TradeInfoSearchFragment()
     }
 
-    fun loadNextSpinner(next: SearchSpinnerCustomView, spinnerList : List<String>, headerString : String?, spinCat: String) {
+    fun loadNextSpinner(next: SearchSpinnerCustomView, spinnerList : List<String>, headerString : String) {
         next.visibility = View.VISIBLE
-        next.addSpinnerContents(spinnerList)
-        if (headerString != null) {
-            next.addSearchHeader(headerString)
+
+        if(headerString == "Regulated Goods") {
+            val countryNames = convertCountryNames(spinnerList)
+            next.addSpinnerContents(countryNames)
+
+            val listener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+            }
+
         } else {
-            next.addSearchHeader("Bananas")
+            next.addSpinnerContents(spinnerList)
         }
 
-        //next.progressBarSVisibility()
+        next.addSearchHeader(headerString)
+
+    }
+
+    fun convertCountryNames(countryList : List<String>) : List<String> {
+
+        val map = hashMapOf("BDI" to "Burundi",
+            "DRC" to "Democratic Republic of the Congo",
+            "KEN" to "Kenya",
+            "MWI" to "Malawi",
+            "RWA" to "Rwanda",
+            "TZA" to "Tanzania",
+            "UGA" to "Uganda")
+        val countryNames = mutableListOf<String>()
+
+        countryList.forEach {
+            val string = map[it]
+            if(string == null) {
+                countryNames.add(it)
+            } else {
+                countryNames.add(string)
+            }
+        }
+
+        return countryNames
     }
 }
 

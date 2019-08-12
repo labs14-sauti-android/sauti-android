@@ -33,9 +33,9 @@ class SearchSpinnerCustomView @JvmOverloads constructor(
             s_search_param.adapter = adapter
         }
 
-
         p_search_param.visibility = View.GONE
     }
+
 
     fun progressBarSVisibility() {
         if(p_search_param.isVisible) {

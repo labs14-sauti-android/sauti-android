@@ -36,6 +36,6 @@ interface SautiRepository {
 
     fun getTradeInfoProductCategory(language: String): Single<MutableList<String>>
 
-    fun getTradeInfoBorderAgenciesCountries()
+    fun getRegulatedGoodsCountries(language: String): Single<MutableList<String>>
 
 }

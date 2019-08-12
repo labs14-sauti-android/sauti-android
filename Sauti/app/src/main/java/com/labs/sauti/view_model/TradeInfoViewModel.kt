@@ -17,12 +17,14 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
     private val tradeInfoLanguage: MutableLiveData<String> = MutableLiveData()
     private val tradeInfoCategory: MutableLiveData<String> = MutableLiveData()
     private val tradeInfoFirstSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
+    private val tradeInfoSecondSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
 
 
     fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
     fun getTradeInfoLangueLiveData() : LiveData<String> = tradeInfoLanguage
     fun getTradeInfoCategory() : LiveData<String> = tradeInfoCategory
     fun getTradeInfoFirstSpinnerContent(): LiveData<List<String>> = tradeInfoFirstSpinnerContent
+    fun getTradeInfoSecondSpinnerContent() : LiveData<List<String>> = tradeInfoSecondSpinnerContent
 
 
 
@@ -48,11 +50,10 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
     }
 
     fun setFirstSpinnerContent(cat: String? = null) {
-
         if (cat == null) {
             tradeInfoCategory.value = "Border Procedures"
         } else {
-            tradeInfoCategory.value = cat as String
+            tradeInfoCategory.value = cat
         }
 
         val language = tradeInfoLanguage.value as String
@@ -78,9 +79,29 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
                         }
                     ))
                     )
-            "Border Agencies"->{}
-            "Regulated Goods"->{}
+            "Border Agencies"->(
+                    addDisposable(sautiRepository.getTradeInfoProductCategory(language).subscribeOn(Schedulers.io()).subscribe(
+                        {
+                            tradeInfoFirstSpinnerContent.postValue(it)
+                        },
+                        {
+                            errorLiveData.postValue(it)
+                        }
+                    ))
+                    )
+            "Regulated Goods"->(
+                    addDisposable(sautiRepository.getRegulatedGoodsCountries(language).subscribeOn(Schedulers.io()).subscribe(
+                        {
+                            tradeInfoFirstSpinnerContent.postValue(it)
+                        },
+                        {
+                            errorLiveData.postValue(it)
+                        }
+                    ))
+                    )
         }
+
+        fun getTradeInfoSecondSpinnerContent() {}
 
 //        when(tradeInfoCategory.value) {
 //            "Border Procedures" -> (
@@ -106,20 +127,20 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
     }
 
     //Check the tradeinfo
-    fun loadFirstSpinnerContent() {
-
-        val lang = tradeInfoLanguage.value.toString()
-        val cat = tradeInfoCategory.value.toString()
-        when(tradeInfoCategory.value.toString()) {
-            "Border Procedures" ->{ addDisposable(sautiRepository.getTradeInfoProductCategory(tradeInfoLanguage.value.toString()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
-                {tradeInfoFirstSpinnerContent.postValue(it)},
-                {errorLiveData.postValue(it)}
-            ))
-            }
-
-
-        }
-    }
+//    fun loadFirstSpinnerContent() {
+//
+//        val lang = tradeInfoLanguage.value.toString()
+//        val cat = tradeInfoCategory.value.toString()
+//        when(tradeInfoCategory.value.toString()) {
+//            "Border Procedures" ->{ addDisposable(sautiRepository.getTradeInfoProductCategory(tradeInfoLanguage.value.toString()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
+//                {tradeInfoFirstSpinnerContent.postValue(it)},
+//                {errorLiveData.postValue(it)}
+//            ))
+//            }
+//
+//
+//        }
+//    }
 
     //fun getFirstSpinnerContent()
 

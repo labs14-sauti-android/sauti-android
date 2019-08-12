@@ -317,7 +317,12 @@ class SautiRepositoryImpl(
                 it.sort()
             }
             .subscribeOn(Schedulers.io())
-
     }
 
+    override fun getRegulatedGoodsCountries(language: String): Single<MutableList<String>> {
+        return sautiApiService.getRegulatedGoodsCountries(language)
+            .onErrorResumeNext(
+                tradeInfoRoomCache.getRegulatedGoodsCountries(language)
+            )
+    }
 }

@@ -11,5 +11,12 @@ class TradeInfoRoomCache(private val sautiRoomDatabase: SautiRoomDatabase) : Tra
             .subscribeOn(Schedulers.io())
     }
 
+    override fun getRegulatedGoodsCountries(language: String): Single<MutableList<String>> {
+        return sautiRoomDatabase.regulatedGoodDao().getRegulatedGoodsCountries(language)
+            .subscribeOn(Schedulers.io())
+    }
+
+
+
 
 }

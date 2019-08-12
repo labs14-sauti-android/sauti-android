@@ -36,11 +36,10 @@ data class TradeInfoData(
     @SerializedName("productCat")
     @Expose
     val productCat: String,
-
-    //TODO: Revisit models.
-/*    @SerializedName("relevantAgencyData")
+/*
+    @SerializedName("relevantAgencyData")
     @Expose
-    val relevantAgencyData: List<BorderAgencyData>,
+    var relevantAgencyData: List<BorderAgencyData>? = null,
 
     @SerializedName("requiredDocumentData")
     @Expose

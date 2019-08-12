@@ -67,4 +67,8 @@ interface SautiApiService {
         @Query("language") language: String
     ): Single<MutableList<String>>
 
+    @GET("/regulated-good/countries")
+    fun getRegulatedGoodsCountries(
+        @Query("language") language: String
+    ): Single<MutableList<String>>
 }
