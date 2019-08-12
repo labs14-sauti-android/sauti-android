@@ -9,8 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.labs.sauti.R
@@ -20,7 +22,6 @@ import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.view_model.TradeInfoViewModel
 import com.labs.sauti.views.SearchSpinnerCustomView
 import kotlinx.android.synthetic.main.fragment_trade_info_search.*
-import java.util.*
 import javax.inject.Inject
 
 
@@ -61,20 +62,9 @@ class TradeInfoSearchFragment : Fragment() {
             tradeInfoViewModel = ViewModelProviders.of(this, tradeInfoViewModelFactory)
                 .get(TradeInfoViewModel::class.java)
 
-            categoryListener = View.OnClickListener { v ->
-                val b = v as Button
 
-                b.background.setTint(ContextCompat.getColor(it, R.color.colorAccent))
-
-                tradeInfoViewModel.setTradeInfoCategory(b.text.toString())
-
-                buttonList.forEach {button->
-                    if(button.id != b.id) {
-                        button.background.setTint(ContextCompat.getColor(it, R.color.colorButtonResponse))
-                    }
-                }
-            }
         }
+
 
 
 
@@ -100,11 +90,23 @@ class TradeInfoSearchFragment : Fragment() {
         //Places all buttons in a list, sets clicklisteners and disable search button.
         buttonSpinnerSetup()
 
-        tradeInfoViewModel
+        tradeInfoViewModel.getLanguage()
+
+
+
+        tradeInfoViewModel.getTradeInfoFirstSpinnerContent().observe(this, Observer {
+                if(it.isNotEmpty()) {
+                    loadNextSpinner(sscv_trade_info_q_1, it)
+                }
+
+        })
+
+//        tradeInfoViewModel.loadFirstSpinnerContent()
+
 
 
         //TODO: Testing SpinnerCustomView logic
-        loadNextSpinner(sscv_trade_info_q_1)
+        //loadNextSpinner(sscv_trade_info_q_1)
 
     }
 
@@ -114,11 +116,29 @@ class TradeInfoSearchFragment : Fragment() {
         // Category -> Product -> Going Where -> Origin Made -> Value
         //fun loadFirstSp
 
+
     }
 
 
 
     private fun buttonSpinnerSetup() {
+
+        categoryListener = View.OnClickListener { v ->
+            val b = v as Button
+
+            b.background.setTint(ContextCompat.getColor(context!!, R.color.colorAccent))
+
+            tradeInfoViewModel.setTradeInfoCategory(b.text.toString())
+
+            buttonList.forEach {button->
+                if(button.id != b.id) {
+                    button.background.setTint(ContextCompat.getColor(context!!, R.color.colorButtonResponse))
+                }
+            }
+        }
+
+        b_trade_info_procedures.background.setTint(ContextCompat.getColor(context!!, R.color.colorAccent))
+
         buttonList = listOf(b_trade_info_procedures,
             b_trade_info_documents,
             b_trade_info_agencies,
@@ -150,16 +170,11 @@ class TradeInfoSearchFragment : Fragment() {
         fun newInstance() = TradeInfoSearchFragment()
     }
 
-    fun loadNextSpinner(next: SearchSpinnerCustomView) {
-        next.progressBarSVisibility()
+    fun loadNextSpinner(next: SearchSpinnerCustomView, spinnerList : List<String>) {
+        next.visibility = View.VISIBLE
         next.addSearchHeader("What are you looking for?")
-        next.addSpinnerContents(listOf(" ",
-            "Border Procedures",
-            "Required Documents",
-            "Border Agencies",
-            "Tax Calculator",
-            "Regulated Goods")
-        )
+        next.addSpinnerContents(spinnerList)
+        //next.progressBarSVisibility()
     }
 }
 

@@ -62,6 +62,12 @@ class DataModule(private val sautiAuthorization: String) {
 
     @Provides
     @Singleton
+    fun provideTradeInfoRoomCache(sautiRoomDatabase: SautiRoomDatabase) : TradeInfoRoomCache {
+        return TradeInfoRoomCache(sautiRoomDatabase)
+    }
+
+    @Provides
+    @Singleton
     fun provideSautiRepository(
         networkHelper: NetworkHelper,
         sautiApiService: SautiApiService,
@@ -70,7 +76,8 @@ class DataModule(private val sautiAuthorization: String) {
         marketPriceRoomCache: MarketPriceRoomCache,
         marketPriceSearchRoomCache: MarketPriceSearchRoomCache,
         exchangeRateRoomCache: ExchangeRateRoomCache,
-        exchangeRateConversionRoomCache: ExchangeRateConversionRoomCache
+        exchangeRateConversionRoomCache: ExchangeRateConversionRoomCache,
+        tradeInfoRoomCache: TradeInfoRoomCache
     ): SautiRepository {
         return SautiRepositoryImpl(
             networkHelper,
@@ -81,7 +88,8 @@ class DataModule(private val sautiAuthorization: String) {
             marketPriceRoomCache,
             marketPriceSearchRoomCache,
             exchangeRateRoomCache,
-            exchangeRateConversionRoomCache
+            exchangeRateConversionRoomCache,
+            tradeInfoRoomCache
         )
     }
 

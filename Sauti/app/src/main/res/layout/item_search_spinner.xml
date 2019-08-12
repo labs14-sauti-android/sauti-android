@@ -33,7 +33,7 @@
                 android:layout_width="0dp"
                 android:layout_height="40dp" android:id="@+id/s_search_param"
                 android:layout_marginTop="5dp"
-                android:backgroundTint="#2e2e2e"
+                android:backgroundTint="@color/colorCardBackground"
                 app:layout_constraintTop_toBottomOf="@+id/t_search_param"
                 app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

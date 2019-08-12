@@ -1,10 +1,7 @@
 package com.labs.sauti.repository
 
 import com.labs.sauti.api.SautiApiService
-import com.labs.sauti.cache.ExchangeRateCache
-import com.labs.sauti.cache.ExchangeRateConversionCache
-import com.labs.sauti.cache.MarketPriceRoomCache
-import com.labs.sauti.cache.MarketPriceSearchRoomCache
+import com.labs.sauti.cache.*
 import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.model.SignInResponse
 import com.labs.sauti.model.SignUpRequest
@@ -30,8 +27,10 @@ class SautiRepositoryImpl(
     private val marketPriceRoomCache: MarketPriceRoomCache,
     private val marketPriceSearchRoomCache: MarketPriceSearchRoomCache,
     private val exchangeRateRoomCache: ExchangeRateCache,
-    private val exchangeRateConversionRoomCache: ExchangeRateConversionCache
+    private val exchangeRateConversionRoomCache: ExchangeRateConversionCache,
+    private val tradeInfoRoomCache: TradeInfoRoomCache
 ) : SautiRepository {
+
 
     override fun signUp(signUpRequest: SignUpRequest): Single<SignUpResponse> {
         return sautiApiService.signUp(signUpRequest)
@@ -308,4 +307,17 @@ class SautiRepositoryImpl(
             settingsSp.setSelectedLanguage(language)
         }
     }
+
+    override fun getTradeInfoProductCategory(language: String): Single<MutableList<String>> {
+        return sautiApiService.getTradeInfoCategories(language)
+            .onErrorResumeNext{
+                tradeInfoRoomCache.getCountries(language)
+            }
+            .doOnSuccess{
+                it.sort()
+            }
+            .subscribeOn(Schedulers.io())
+
+    }
+
 }
