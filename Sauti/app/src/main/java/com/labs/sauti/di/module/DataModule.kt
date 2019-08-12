@@ -7,10 +7,7 @@ import com.labs.sauti.cache.MarketPriceSearchRoomCache
 import com.labs.sauti.cache.*
 import com.labs.sauti.db.SautiRoomDatabase
 import com.labs.sauti.helper.NetworkHelper
-import com.labs.sauti.repository.HelpRepository
-import com.labs.sauti.repository.HelpRepositoryImpl
-import com.labs.sauti.repository.SautiRepository
-import com.labs.sauti.repository.SautiRepositoryImpl
+import com.labs.sauti.repository.*
 import com.labs.sauti.sp.SessionSp
 import com.labs.sauti.sp.SettingsSp
 import dagger.Module
@@ -66,6 +63,12 @@ class DataModule(private val sautiAuthorization: String) {
     @Singleton
     fun provideHelpRepository(sautiApiService: SautiApiService): HelpRepository {
         return HelpRepositoryImpl(sautiApiService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideReportRepository(sautiApiService: SautiApiService): ReportRepository {
+        return ReportRepositoryImpl(sautiApiService)
     }
 
     @Provides
