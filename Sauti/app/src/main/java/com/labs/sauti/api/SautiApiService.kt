@@ -8,6 +8,8 @@ import com.labs.sauti.model.SignUpResponse
 import com.labs.sauti.model.User
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
 import com.labs.sauti.model.trade_info.RegulatedGoodData
+import com.labs.sauti.model.trade_info.TradeInfo
+import com.labs.sauti.model.trade_info.TradeInfoData
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.*
@@ -68,6 +70,67 @@ interface SautiApiService {
         @Query("language") language: String
     ): Single<MutableList<String>>
 
+    @GET("/trade-info/products")
+    fun getTradeInfoProducts(
+        @Query("language") language: String,
+        @Query("category") category: String
+    ): Single<MutableList<String>>
+
+    @GET("/trade-info/origins")
+    fun getTradeInfoOrigins(
+        @Query("language") language : String,
+        @Query("category") category : String,
+        @Query("product") product: String
+    ): Single<MutableList<String>>
+
+    @GET("/trade-info/dests")
+    fun getTradeInfoDests(
+        @Query("language") language : String,
+        @Query("category") category : String,
+        @Query("product") product: String,
+        @Query("origin") origin: String
+    ): Single<MutableList<String>>
+
+    @GET("/trade-info/search/taxes")
+    fun searchTradeInfoTaxes(
+        @Query("language") language : String,
+        @Query("category") category : String,
+        @Query("product") product: String,
+        @Query("origin") origin: String,
+        @Query("dest") dest: String,
+        @Query("value") value: Double
+    ): Single<MutableList<TradeInfoData>>
+
+    @GET("/trade-info/search/procedures")
+    fun searchTradeInfoBorderProcedures(
+        @Query("language") language : String,
+        @Query("category") category : String,
+        @Query("product") product: String,
+        @Query("origin") origin: String,
+        @Query("dest") dest: String,
+        @Query("value") value: Double
+    ): Single<MutableList<TradeInfoData>>
+
+    @GET("/trade-info/search/required-documents")
+    fun searchTradeInfoRequiredDocuments(
+        @Query("language") language : String,
+        @Query("category") category : String,
+        @Query("product") product: String,
+        @Query("origin") origin: String,
+        @Query("dest") dest: String,
+        @Query("value") value: Double
+    ): Single<MutableList<TradeInfoData>>
+
+    @GET("/trade-info/search/relevant-agencies")
+    fun searchTradeInfoBorderAgencies(
+        @Query("language") language : String,
+        @Query("category") category : String,
+        @Query("product") product: String,
+        @Query("origin") origin: String,
+        @Query("dest") dest: String,
+        @Query("value") value: Double
+    ): Single<MutableList<TradeInfoData>>
+
     @GET("/regulated-good/countries")
     fun getRegulatedGoodsCountries(
         @Query("language") language: String
@@ -78,4 +141,5 @@ interface SautiApiService {
         @Query("language") language: String,
         @Query("country") country: String
     ): Single<RegulatedGoodData>
+
 }
