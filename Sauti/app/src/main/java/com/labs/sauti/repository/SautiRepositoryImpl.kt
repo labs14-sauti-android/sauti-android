@@ -12,7 +12,7 @@ import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResultData
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
 import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.model.market_price.MarketPriceSearchData
-import com.labs.sauti.model.trade_info.RegulatedGoodData
+import com.labs.sauti.model.trade_info.*
 import com.labs.sauti.sp.SessionSp
 import com.labs.sauti.sp.SettingsSp
 import io.reactivex.Completable
@@ -336,31 +336,78 @@ class SautiRepositoryImpl(
     }
 
 
+    //TODO: Room
     override fun getTradeInfoProductProducts(language: String, category: String): Single<MutableList<String>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return sautiApiService.getTradeInfoProducts(language, category)
+            .subscribeOn(Schedulers.io())
     }
+
+    //TODO: Room
 
     override fun getTradeInfoOrigin(language: String, category: String, product: String): Single<MutableList<String>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return sautiApiService.getTradeInfoOrigins(language, category, product)
+            .subscribeOn(Schedulers.io())
     }
 
+    //TODO: Room
     override fun getTradeInfoDestination(
         language: String,
         category: String,
         product: String,
         origin: String
     ): Single<MutableList<String>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return sautiApiService.getTradeInfoDests(language, category, product, origin)
+            .subscribeOn(Schedulers.io())
     }
 
-    override fun searchTradeInfo(
+    //TODO: Room
+    override fun searchTradeInfoBorderProcedures(
         language: String,
         category: String,
         product: String,
         origin: String,
+        dest: String,
         value: Double
-    ): Single<MutableList<String>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    ): Single<MutableList<Procedure>> {
+        return sautiApiService.searchTradeInfoBorderProcedures(language, category, product, origin, dest, value)
+            .subscribeOn(Schedulers.io())
     }
 
+    //TODO: Room
+    override fun searchTradeInfoRequiredDocuments(
+        language: String,
+        category: String,
+        product: String,
+        origin: String,
+        dest: String,
+        value: Double
+    ): Single<MutableList<RequiredDocument>> {
+        return sautiApiService.searchTradeInfoRequiredDocuments(language, category, product, origin, dest, value)
+            .subscribeOn(Schedulers.io())
+    }
+
+    //TODO: Room
+    override fun searchTradeInfoBorderAgencies(
+        language: String,
+        category: String,
+        product: String,
+        origin: String,
+        dest: String,
+        value: Double
+    ): Single<MutableList<BorderAgency>> {
+        return sautiApiService.searchTradeInfoBorderAgencies(language, category, product, origin, dest, value)
+            .subscribeOn(Schedulers.io())
+    }
+
+    override fun searchTradeInfoTaxes(
+        language: String,
+        category: String,
+        product: String,
+        origin: String,
+        dest: String,
+        value: Double
+    ): Single<MutableList<Taxes>> {
+        return sautiApiService.searchTradeInfoTaxes(language, category, product, origin, dest, value)
+            .subscribeOn(Schedulers.io())
+    }
 }

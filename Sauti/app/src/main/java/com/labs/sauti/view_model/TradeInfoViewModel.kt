@@ -20,6 +20,7 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
     private val tradeInfoCategory: MutableLiveData<String> = MutableLiveData()
     private val tradeInfoFirstSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
     private val tradeInfoSecondSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
+    private val tradeInfoThirdSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
 
     private val searchRegulatedGoodLiveData by lazy { MutableLiveData<TradeInfo>() }
     private val searchTradeInfoProcedure by lazy { MutableLiveData<TradeInfo>() }
@@ -31,6 +32,8 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
     fun getTradeInfoCategory() : LiveData<String> = tradeInfoCategory
     fun getTradeInfoFirstSpinnerContent(): LiveData<List<String>> = tradeInfoFirstSpinnerContent
     fun getTradeInfoSecondSpinnerContent() : LiveData<List<String>> = tradeInfoSecondSpinnerContent
+    fun getTradeInfoThirdSpinnerContent() : LiveData<List<String>> = tradeInfoThirdSpinnerContent
+
 
     fun getSearchRegulatedGoodsLiveData(): LiveData<TradeInfo> = searchRegulatedGoodLiveData
     fun getSearchTradeInfoProcedure(): LiveData<TradeInfo> = searchTradeInfoProcedure
@@ -116,6 +119,7 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
     }
 
     fun setFirstSpinnerContent(cat: String? = null) {
+
         if (cat == null) {
             tradeInfoCategory.value = "Border Procedures"
         } else {
@@ -124,64 +128,55 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
 
         val language = tradeInfoLanguage.value as String
 
-        when(tradeInfoCategory.value) {
-            "Border Procedures" -> (
-                    addDisposable(sautiRepository.getTradeInfoProductCategory(language).subscribeOn(Schedulers.io()).subscribe(
-                        {
-                            tradeInfoFirstSpinnerContent.postValue(it)
-                        },
-                        {
-                            errorLiveData.postValue(it)
-                        }
-                    ))
-                    )
-            "Required Documents"->(
-                    addDisposable(sautiRepository.getTradeInfoProductCategory(language).subscribeOn(Schedulers.io()).subscribe(
-                        {
-                            tradeInfoFirstSpinnerContent.postValue(it)
-                        },
-                        {
-                            errorLiveData.postValue(it)
-                        }
-                    ))
-                    )
-            "Border Agencies"->(
-                    addDisposable(sautiRepository.getTradeInfoProductCategory(language).subscribeOn(Schedulers.io()).subscribe(
-                        {
-                            tradeInfoFirstSpinnerContent.postValue(it)
-                        },
-                        {
-                            errorLiveData.postValue(it)
-                        }
-                    ))
-                    )
-            "Regulated Goods"->(
-                    addDisposable(sautiRepository.getRegulatedGoodsCountries(language).subscribeOn(Schedulers.io()).subscribe(
-                        {
-                            tradeInfoFirstSpinnerContent.postValue(it)
-                        },
-                        {
-                            errorLiveData.postValue(it)
-                        }
-                    ))
-                    )
+        //TODO: String will not be hardcoded and turned into resource with translations
+        if(tradeInfoCategory.value == "Regulated Goods") {
+            addDisposable(sautiRepository.getRegulatedGoodsCountries(language).subscribeOn(Schedulers.io()).subscribe(
+                {
+                    tradeInfoFirstSpinnerContent.postValue(it)
+                },
+                {
+                    errorLiveData.postValue(it)
+                })
+            )
+        } else {
+            addDisposable(sautiRepository.getTradeInfoProductCategory(language).subscribeOn(Schedulers.io()).subscribe(
+                {
+                    tradeInfoFirstSpinnerContent.postValue(it)
+                },
+                {
+                    errorLiveData.postValue(it)
+                })
+            )
+        }
+    }
+
+    fun setSecondSpinnerContent(firstChoice : String) {
+
+        if(tradeInfoCategory.value == "Regulated Goods") {
+
+            val regulationType = listOf("Prohibited goods", "Restricted goods", "Sensitive goods")
+            tradeInfoSecondSpinnerContent.postValue(regulationType)
+
+        } else {
+            val language = tradeInfoLanguage.value as String
+
+            addDisposable(sautiRepository.getTradeInfoProductProducts(language, firstChoice).subscribeOn(Schedulers.io()).subscribe(
+                {
+                    tradeInfoSecondSpinnerContent.postValue(it)
+                },
+                {
+                    errorLiveData.postValue(it)
+                })
+            )
         }
 
     }
 
-    fun setSecondSpinnerContent(choice : String) {
+    fun setThirdSpinnerContent(category: String, product: String, origin: String) {
 
+        val origin = listOf("EAC", "non-EAC")
+        tradeInfoThirdSpinnerContent.postValue(origin)
 
-
-        when(tradeInfoCategory.value) {
-            "Border Procedures" -> {}
-            "Required Documents"->{}
-            "Border Agencies"->{}
-            "Regulated Goods"-> {
-                val regulationType = listOf("Prohibited goods", "Restricted goods", "Sensitive goods")
-                tradeInfoSecondSpinnerContent.postValue(regulationType)
-                    }
-        }
     }
 
 
