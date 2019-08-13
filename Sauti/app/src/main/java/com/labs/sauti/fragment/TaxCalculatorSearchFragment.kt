@@ -7,16 +7,27 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.analytics.FirebaseAnalytics
 
 import com.labs.sauti.R
 import com.labs.sauti.model.TaxCalculationData
+import com.labs.sauti.view_model.TaxCalculatorViewModel
 import kotlinx.android.synthetic.main.fragment_tax_calculator_search.*
+import javax.inject.Inject
 
 // TODO fullscreen
 class TaxCalculatorSearchFragment : Fragment() {
 
     private var onTaxCalculatorSearchCompletedListener: OnTaxCalculatorSearchCompletedListener? = null
     private var onFragmentFullScreenStateChangedListener: OnFragmentFullScreenStateChangedListener? = null
+
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
+    @Inject
+    lateinit var taxCalculatorViewModelFactory: TaxCalculatorViewModel.Factory
+
+    private lateinit var taxCalculatorViewModel: TaxCalculatorViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

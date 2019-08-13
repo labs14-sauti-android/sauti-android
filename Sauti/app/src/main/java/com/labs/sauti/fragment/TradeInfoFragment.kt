@@ -72,7 +72,6 @@ OnFragmentFullScreenStateChangedListener{
             override fun onClick(v: View) {
                 if(tradeInfoRecent != null) {
                     t_trade_info_header.text = tradeInfoRecent!!.tradeinfoTopicExpanded
-                    addTIDetailsLL(tradeInfoRecent!!)
 
                     //1. Check if the view is visible
                     //2. If not visibile make visible
@@ -158,6 +157,8 @@ OnFragmentFullScreenStateChangedListener{
 
     override fun OnTradeInfoSearchCompleted(tradeInfo: TradeInfo) {
         tiv_recent_first.consumeTIData(tradeInfo)
+        addTIDetailsLL(tradeInfo)
+        cl_expanded_trade_info.visibility = View.VISIBLE
         tradeInfoRecent = tradeInfo
 
 
