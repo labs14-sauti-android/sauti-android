@@ -2,9 +2,7 @@ package com.labs.sauti.db
 
 import android.content.Context
 import androidx.room.*
-import com.labs.sauti.helper.ProhibitedConverter
-import com.labs.sauti.helper.RestrictedConverter
-import com.labs.sauti.helper.SensitiveConverter
+import com.labs.sauti.helper.*
 import com.labs.sauti.model.*
 import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.model.market_price.MarketPriceSearchData
@@ -25,9 +23,7 @@ const val DB_NAME = "local-db"
         ProductData::class,
         TradeInfoData::class,
         RegulatedGoodData::class,
-        BorderAgencyData::class,
-        TaxesData::class,
-        RequiredDocumentData::class,
+        Taxes::class,
         MarketPriceData::class,
         MarketPriceSearchData::class,
         ExchangeRateData::class,
@@ -35,7 +31,14 @@ const val DB_NAME = "local-db"
     version = DATABASE_SCHEMA_VERSION,
     exportSchema = false
 )
-@TypeConverters(ProhibitedConverter::class, RestrictedConverter::class, SensitiveConverter::class)
+@TypeConverters(
+    ProhibitedConverter::class,
+    RestrictedConverter::class,
+    SensitiveConverter::class,
+    ProcedureConverter::class,
+    BorderAgencyConverter::class,
+    RequiredDocumentConverter::class,
+    TaxesConverter::class)
 abstract class SautiRoomDatabase : RoomDatabase() {
 
     abstract fun productDao() : ProductDao
@@ -43,7 +46,6 @@ abstract class SautiRoomDatabase : RoomDatabase() {
     //add DAO
     abstract fun tradeInfoDao(): TradeInfoDao
     abstract fun regulatedGoodDao(): RegulatedGoodDao
-    abstract fun borderAgencyDao():BorderAgencyDao
 
     abstract fun marketPriceDao(): MarketPriceDao
     abstract fun marketPriceSearchDao(): MarketPriceSearchDao

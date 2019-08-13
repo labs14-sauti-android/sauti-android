@@ -32,15 +32,26 @@ data class RegulatedGoodData(
     val sensitives: List<Sensitive>
 )
 
-
+@Entity(tableName = "prohibited_goods")
 data class Prohibited(
+
+    @SerializedName("name")
+    @Expose
     val name: String
 )
 
+@Entity(tableName = "sensitive_goods")
 data class Sensitive(
+
+    @SerializedName("name")
+    @Expose
     val name: String
 )
 
+@Entity(tableName = "restricted_goods")
 data class Restricted(
+
+    @SerializedName("names")
+    @Expose
     val name: String
 )

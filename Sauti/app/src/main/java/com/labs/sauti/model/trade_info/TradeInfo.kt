@@ -17,14 +17,8 @@ import com.google.gson.annotations.SerializedName
 
 //This will be the class that is stored into the UI.
 data class TradeInfo (
-    @SerializedName("tradeinfoid")
-    @Expose
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "tradeinfo_id")
-    var tradeinfoID: Long = 0,
-    var tradeinfoTopic : String? = null,
-    var tradeinfoTopicExpanded : String? = null,
-    @Ignore
+    var tradeinfoTopic : String,
+    var tradeinfoTopicExpanded : String,
     var tradeinfoList : List<String> = listOf()
 )
 //TODO Markup with room annotations. Ideal way I would like data to be delivered in a list.
