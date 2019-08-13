@@ -8,9 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.transition.TransitionManager
 import com.labs.sauti.R
 import com.labs.sauti.model.trade_info.TradeInfo
 import kotlinx.android.synthetic.main.fragment_trade_info.*
@@ -33,6 +35,8 @@ OnFragmentFullScreenStateChangedListener{
     private lateinit var tradeInfoViewModel: TradeInfoViewModel
 
     var tiDetailsIsVisible = false
+
+    var tradeInfoRecent : TradeInfo? = null
 
 
 
@@ -63,7 +67,29 @@ OnFragmentFullScreenStateChangedListener{
 
 
 
+        tiv_recent_first.setOnClickListener(object : View.OnClickListener {
 
+            override fun onClick(v: View) {
+                if(tradeInfoRecent != null) {
+                    t_trade_info_header.text = tradeInfoRecent!!.tradeinfoTopicExpanded
+                    addTIDetailsLL(tradeInfoRecent!!)
+
+                    //1. Check if the view is visible
+                    //2. If not visibile make visible
+                    if(t_trade_info_header.text.toString() == tradeInfoRecent!!.tradeinfoTopicExpanded) {
+                        TransitionManager.beginDelayedTransition(fl_fragment_container_trade_info)
+
+                        if(cl_expanded_trade_info.visibility == View.VISIBLE) {
+                            cl_expanded_trade_info.visibility = View.GONE
+                        } else {
+                            cl_expanded_trade_info.visibility = View.VISIBLE
+                        }
+                    } else {
+                        TransitionManager.beginDelayedTransition(fl_fragment_container_trade_info)
+                    }
+                }
+            }
+        })
 
         b_trade_info_search.setOnClickListener{
             openTradeInfoSearchFragment()
@@ -91,7 +117,7 @@ OnFragmentFullScreenStateChangedListener{
             //TODO: Change language so left LL will have one more if odd number of elements.
             val textView = TextView(context)
             TextViewCompat.setTextAppearance(textView, R.style.CardViewRecentDetailsListTextStyling)
-            textView.text = tradeInfo.tradeinfoList[i]
+            textView.text = "- ${tradeInfo.tradeinfoList[i]}"
             textView.setOnClickListener {
                 //TODO: Add a child fragment explaining what that doc is when clicked.
             }
@@ -114,6 +140,7 @@ OnFragmentFullScreenStateChangedListener{
             TradeInfoFragment()
     }
 
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
 
@@ -131,6 +158,9 @@ OnFragmentFullScreenStateChangedListener{
 
     override fun OnTradeInfoSearchCompleted(tradeInfo: TradeInfo) {
         tiv_recent_first.consumeTIData(tradeInfo)
+        tradeInfoRecent = tradeInfo
+
+
     }
 
     override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
@@ -142,7 +172,8 @@ OnFragmentFullScreenStateChangedListener{
 
         childFragmentManager.beginTransaction()
             .add(R.id.fl_fragment_container_trade_info, tradeInfoSearchFragment)
-            .addToBackStack(null)?.commit()
+            .addToBackStack(null)
+            .commit()
     }
     //TODO: Must remove - Testing to see layout. 
 }
