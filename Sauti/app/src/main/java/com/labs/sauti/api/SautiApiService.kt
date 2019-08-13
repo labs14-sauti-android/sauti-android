@@ -7,9 +7,7 @@ import com.labs.sauti.model.SignUpRequest
 import com.labs.sauti.model.SignUpResponse
 import com.labs.sauti.model.User
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
-import com.labs.sauti.model.trade_info.RegulatedGoodData
-import com.labs.sauti.model.trade_info.TradeInfo
-import com.labs.sauti.model.trade_info.TradeInfoData
+import com.labs.sauti.model.trade_info.*
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.*
@@ -99,7 +97,7 @@ interface SautiApiService {
         @Query("origin") origin: String,
         @Query("dest") dest: String,
         @Query("value") value: Double
-    ): Single<MutableList<TradeInfoData>>
+    ): Single<MutableList<Taxes>>
 
     @GET("/trade-info/search/procedures")
     fun searchTradeInfoBorderProcedures(
@@ -109,7 +107,7 @@ interface SautiApiService {
         @Query("origin") origin: String,
         @Query("dest") dest: String,
         @Query("value") value: Double
-    ): Single<MutableList<TradeInfoData>>
+    ): Single<MutableList<Procedure>>
 
     @GET("/trade-info/search/required-documents")
     fun searchTradeInfoRequiredDocuments(
@@ -119,7 +117,7 @@ interface SautiApiService {
         @Query("origin") origin: String,
         @Query("dest") dest: String,
         @Query("value") value: Double
-    ): Single<MutableList<TradeInfoData>>
+    ): Single<MutableList<RequiredDocument>>
 
     @GET("/trade-info/search/relevant-agencies")
     fun searchTradeInfoBorderAgencies(
@@ -129,7 +127,7 @@ interface SautiApiService {
         @Query("origin") origin: String,
         @Query("dest") dest: String,
         @Query("value") value: Double
-    ): Single<MutableList<TradeInfoData>>
+    ): Single<MutableList<BorderAgency>>
 
     @GET("/regulated-good/countries")
     fun getRegulatedGoodsCountries(

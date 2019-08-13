@@ -83,6 +83,7 @@
             android:layout_width="0dp" android:layout_marginTop="3dp" android:layout_marginBottom="3dp"/>
     <ScrollView
             android:layout_width="0dp"
+            android:fadeScrollbars="false"
             android:layout_height="0dp" app:layout_constraintTop_toBottomOf="@+id/b_trade_info_regulated"
             app:layout_constraintBottom_toTopOf="@+id/b_trade_info_search" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
