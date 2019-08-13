@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "taxes")
-data class TaxesData(
+data class Taxes(
 
     val taxPerc: String,
     @PrimaryKey

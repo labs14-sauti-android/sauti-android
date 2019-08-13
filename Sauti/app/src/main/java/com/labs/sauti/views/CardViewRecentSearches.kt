@@ -24,8 +24,6 @@ class CardViewRecentSearches @JvmOverloads constructor(
         if(tradeInfo is TradeInfo) {
             t_card_view_header.text = tradeInfo.tradeinfoTopic
 
-
-
             //TODO: Hardcoded value for now. Change later.
             for (i in 0..2) {
                 val textView = TextView(context, null, R.style.CardViewTradeInfoContentTextStyling)

@@ -12,6 +12,7 @@ import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResultData
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
 import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.model.market_price.MarketPriceSearchData
+import com.labs.sauti.model.trade_info.RegulatedGoodData
 import com.labs.sauti.sp.SessionSp
 import com.labs.sauti.sp.SettingsSp
 import io.reactivex.Completable
@@ -30,6 +31,7 @@ class SautiRepositoryImpl(
     private val exchangeRateConversionRoomCache: ExchangeRateConversionCache,
     private val tradeInfoRoomCache: TradeInfoRoomCache
 ) : SautiRepository {
+
 
 
     override fun signUp(signUpRequest: SignUpRequest): Single<SignUpResponse> {
@@ -308,6 +310,20 @@ class SautiRepositoryImpl(
         }
     }
 
+
+    override fun getRegulatedGoodsCountries(language: String): Single<MutableList<String>> {
+        return sautiApiService.getRegulatedGoodsCountries(language)
+            .onErrorResumeNext(
+                tradeInfoRoomCache.getRegulatedGoodsCountries(language)
+            )
+    }
+
+    //TODO: Save in room and error cases when not online
+    override fun searchRegulatedGoods(language: String, country: String): Single<RegulatedGoodData> {
+        return sautiApiService.searchRegulatedData(language, country)
+            .subscribeOn(Schedulers.io())
+    }
+
     override fun getTradeInfoProductCategory(language: String): Single<MutableList<String>> {
         return sautiApiService.getTradeInfoCategories(language)
             .onErrorResumeNext{
@@ -319,10 +335,32 @@ class SautiRepositoryImpl(
             .subscribeOn(Schedulers.io())
     }
 
-    override fun getRegulatedGoodsCountries(language: String): Single<MutableList<String>> {
-        return sautiApiService.getRegulatedGoodsCountries(language)
-            .onErrorResumeNext(
-                tradeInfoRoomCache.getRegulatedGoodsCountries(language)
-            )
+
+    override fun getTradeInfoProductProducts(language: String, category: String): Single<MutableList<String>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override fun getTradeInfoOrigin(language: String, category: String, product: String): Single<MutableList<String>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getTradeInfoDestination(
+        language: String,
+        category: String,
+        product: String,
+        origin: String
+    ): Single<MutableList<String>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun searchTradeInfo(
+        language: String,
+        category: String,
+        product: String,
+        origin: String,
+        value: Double
+    ): Single<MutableList<String>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 }

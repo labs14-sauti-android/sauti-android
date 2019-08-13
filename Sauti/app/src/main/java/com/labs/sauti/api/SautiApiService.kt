@@ -7,6 +7,7 @@ import com.labs.sauti.model.SignUpRequest
 import com.labs.sauti.model.SignUpResponse
 import com.labs.sauti.model.User
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
+import com.labs.sauti.model.trade_info.RegulatedGoodData
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.*
@@ -71,4 +72,10 @@ interface SautiApiService {
     fun getRegulatedGoodsCountries(
         @Query("language") language: String
     ): Single<MutableList<String>>
+
+    @GET("/regulated-good/search")
+    fun searchRegulatedData(
+        @Query("language") language: String,
+        @Query("country") country: String
+    ): Single<RegulatedGoodData>
 }

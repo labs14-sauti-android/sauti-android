@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.labs.sauti.model.trade_info.RegulatedGood
+import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.repository.SautiRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -19,6 +21,10 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
     private val tradeInfoFirstSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
     private val tradeInfoSecondSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
 
+    private val searchRegulatedGoodLiveData by lazy { MutableLiveData<TradeInfo>() }
+    private val searchTradeInfoProcedure by lazy { MutableLiveData<TradeInfo>() }
+    private val searchTradeInfoDocuments by lazy { MutableLiveData<TradeInfo>() }
+    private val searchTradeInfoAgencies by lazy { MutableLiveData<TradeInfo>() }
 
     fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
     fun getTradeInfoLangueLiveData() : LiveData<String> = tradeInfoLanguage
@@ -26,24 +32,84 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
     fun getTradeInfoFirstSpinnerContent(): LiveData<List<String>> = tradeInfoFirstSpinnerContent
     fun getTradeInfoSecondSpinnerContent() : LiveData<List<String>> = tradeInfoSecondSpinnerContent
 
+    fun getSearchRegulatedGoodsLiveData(): LiveData<TradeInfo> = searchRegulatedGoodLiveData
+    fun getSearchTradeInfoProcedure(): LiveData<TradeInfo> = searchTradeInfoProcedure
+    fun getSearchTradeInfoDocuments(): LiveData<TradeInfo> = searchTradeInfoDocuments
+    fun getSearchTradeInfoAgencies(): LiveData<TradeInfo> = searchTradeInfoAgencies
 
+    fun searchRegulatedGoods(language: String, country: String, regulatedType: String) {
 
-    class Factory(private val sautiRepository: SautiRepository) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            @Suppress("UNCHECKED_CAST")
-            return TradeInfoViewModel(sautiRepository) as T
+        when(regulatedType) {
+            "Prohibited goods"->(
+                    addDisposable(sautiRepository.searchRegulatedGoods(language, country)
+                        .map
+                        {
+                            val list = mutableListOf<String>()
+                            it.prohibiteds.forEach { pro ->
+                                list.add(pro.name)
+                            }
+
+                            TradeInfo("These commodities are prohibited",
+                                "Prohibited Goods",
+                                list)
+                        }
+                        .subscribe(
+                            {
+                                searchRegulatedGoodLiveData.postValue(it)
+                            },
+                            {
+                                errorLiveData.postValue(it)
+                            }
+                        ))
+                    )
+
+            "Restricted goods"-> (
+                    addDisposable(sautiRepository.searchRegulatedGoods(language, country)
+                        .map
+                        {
+                            val list = mutableListOf<String>()
+                            it.restricteds.forEach { rest ->
+                                list.add(rest.name)
+                            }
+
+                            TradeInfo("These commodities are restricted:",
+                                "Restricted Goods",
+                                list)
+                        }
+                        .subscribe(
+                            {
+                                searchRegulatedGoodLiveData.postValue(it)
+                            },
+                            {
+                                errorLiveData.postValue(it)
+                            }
+                        ))
+                    )
+            "Sensitive goods"->(
+                    addDisposable(sautiRepository.searchRegulatedGoods(language, country)
+                        .map
+                        {
+                            val list = mutableListOf<String>()
+                            it.sensitives.forEach { sensitive ->
+                                list.add(sensitive.name)
+                            }
+
+                            TradeInfo("These commodities are sensitive:",
+                                "Sensitive Goods",
+                                list)
+                        }
+                        .subscribe(
+                            {
+                                searchRegulatedGoodLiveData.postValue(it)
+                            },
+                            {
+                                errorLiveData.postValue(it)
+                            }
+                        ))
+                    )
         }
-    }
-
-
-    //This sets the trade info and checks the language then places that in the
-    //viewmodel so it can be pulled later.
-    fun setTradeInfoCategory(cat: String) {
-        tradeInfoCategory.value = cat
 
     }
-
-
 
     fun setLanguage(lang : String) {
         tradeInfoLanguage.value = lang.toUpperCase()
@@ -101,7 +167,36 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
                     )
         }
 
-        fun getTradeInfoSecondSpinnerContent() {}
+    }
+
+    fun setSecondSpinnerContent(choice : String) {
+
+
+
+        when(tradeInfoCategory.value) {
+            "Border Procedures" -> {}
+            "Required Documents"->{}
+            "Border Agencies"->{}
+            "Regulated Goods"-> {
+                val regulationType = listOf("Prohibited goods", "Restricted goods", "Sensitive goods")
+                tradeInfoSecondSpinnerContent.postValue(regulationType)
+                    }
+        }
+    }
+
+
+
+    class Factory(private val sautiRepository: SautiRepository) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            @Suppress("UNCHECKED_CAST")
+            return TradeInfoViewModel(sautiRepository) as T
+        }
+    }
+
+}
+
+
+
 
 //        when(tradeInfoCategory.value) {
 //            "Border Procedures" -> (
@@ -124,9 +219,9 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
 //            "Regulated Goods"->{}
 //        }
 
-    }
 
-    //Check the tradeinfo
+
+//Check the tradeinfo
 //    fun loadFirstSpinnerContent() {
 //
 //        val lang = tradeInfoLanguage.value.toString()
@@ -142,10 +237,6 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
 //        }
 //    }
 
-    //fun getFirstSpinnerContent()
+//fun getFirstSpinnerContent()
 
 
-
-
-
-}

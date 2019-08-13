@@ -3,7 +3,9 @@ package com.labs.sauti.views
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import com.labs.sauti.R
@@ -36,6 +38,12 @@ class SearchSpinnerCustomView @JvmOverloads constructor(
         p_search_param.visibility = View.GONE
     }
 
+    fun setSpinnerListener(listener : AdapterView.OnItemSelectedListener) {
+        this.s_search_param.onItemSelectedListener = listener
+    }
+
+
+    fun getSpinnerSelected(): String = s_search_param.selectedItem.toString()
 
     fun progressBarSVisibility() {
         if(p_search_param.isVisible) {

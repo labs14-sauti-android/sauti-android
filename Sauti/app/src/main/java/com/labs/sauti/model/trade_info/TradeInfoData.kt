@@ -25,9 +25,9 @@ data class TradeInfoData(
     @Expose
     val origin: String,
 
-//    @SerializedName("procedures")
-//    @Expose
-//    val procedures: List<ProcedureData>,
+    @SerializedName("procedures")
+    @Expose
+    val procedures: List<Procedure>? = null,
 
     @SerializedName("product")
     @Expose
@@ -36,18 +36,18 @@ data class TradeInfoData(
     @SerializedName("productCat")
     @Expose
     val productCat: String,
-/*
+
     @SerializedName("relevantAgencyData")
     @Expose
-    var relevantAgencyData: List<BorderAgencyData>? = null,
+    var relevantAgencyData: List<BorderAgency>? = null,
 
     @SerializedName("requiredDocumentData")
     @Expose
-    val requiredDocumentData: List<RequiredDocumentData>,
+    val requiredDocumentData: List<RequiredDocument>? = null,
 
     @SerializedName("taxes")
     @Expose
-    val taxes: List<TaxesData>,*/
+    val taxes: List<Taxes>? = null,
 
     @SerializedName("value")
     @Expose
