@@ -15,6 +15,9 @@ class CardViewRecentSearches @JvmOverloads constructor(
     defStyleAttr: Int = R.style.AppTheme
 ) : CardView(context, attrs, defStyleAttr) {
 
+    //TODO: Remove just for presentation
+    private var focusObject : Any? = null
+
     init {
         inflate(getContext(), R.layout.item_recent_card_view, this)
     }
@@ -30,6 +33,7 @@ class CardViewRecentSearches @JvmOverloads constructor(
                 textView.text = tradeInfo.tradeinfoList[i]
                 ll_card_list.addView(textView)
             }
+            focusObject = tradeInfo
         }
 
 
@@ -37,6 +41,8 @@ class CardViewRecentSearches @JvmOverloads constructor(
         //Determine maxlines for listed items
         //Handles the list format
     }
+
+    fun getFocusObject() = focusObject
 
 
 
