@@ -39,11 +39,11 @@ class SearchSpinnerCustomView @JvmOverloads constructor(
     }
 
     fun setSpinnerListener(listener : AdapterView.OnItemSelectedListener) {
-        s_search_param.onItemSelectedListener = listener
+        this.s_search_param.onItemSelectedListener = listener
     }
 
 
-    fun getSpinnerSelected()  = s_search_param.selectedItem
+    fun getSpinnerSelected(): String = s_search_param.selectedItem.toString()
 
     fun progressBarSVisibility() {
         if(p_search_param.isVisible) {

@@ -6,6 +6,12 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
+//Model for Views
+class RegulatedGood(
+    var prohibited: List<Prohibited>? = null,
+    var restricted: List<Restricted>? = null,
+    var sensitive: List<Sensitive>? = null
+)
 
 @Entity(tableName = "regulated_good")
 data class RegulatedGoodData(
@@ -51,7 +57,7 @@ data class Sensitive(
 @Entity(tableName = "restricted_goods")
 data class Restricted(
 
-    @SerializedName("names")
+    @SerializedName("name")
     @Expose
     val name: String
 )

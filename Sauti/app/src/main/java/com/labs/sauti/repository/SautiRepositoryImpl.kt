@@ -33,6 +33,7 @@ class SautiRepositoryImpl(
 ) : SautiRepository {
 
 
+
     override fun signUp(signUpRequest: SignUpRequest): Single<SignUpResponse> {
         return sautiApiService.signUp(signUpRequest)
     }
@@ -309,6 +310,20 @@ class SautiRepositoryImpl(
         }
     }
 
+
+    override fun getRegulatedGoodsCountries(language: String): Single<MutableList<String>> {
+        return sautiApiService.getRegulatedGoodsCountries(language)
+            .onErrorResumeNext(
+                tradeInfoRoomCache.getRegulatedGoodsCountries(language)
+            )
+    }
+
+    //TODO: Save in room and error cases when not online
+    override fun searchRegulatedGoods(language: String, country: String): Single<RegulatedGoodData> {
+        return sautiApiService.searchRegulatedData(language, country)
+            .subscribeOn(Schedulers.io())
+    }
+
     override fun getTradeInfoProductCategory(language: String): Single<MutableList<String>> {
         return sautiApiService.getTradeInfoCategories(language)
             .onErrorResumeNext{
@@ -320,48 +335,32 @@ class SautiRepositoryImpl(
             .subscribeOn(Schedulers.io())
     }
 
-    override fun getRegulatedGoodsCountries(language: String): Single<MutableList<String>> {
-        return sautiApiService.getRegulatedGoodsCountries(language)
-            .onErrorResumeNext(
-                tradeInfoRoomCache.getRegulatedGoodsCountries(language)
-            )
+
+    override fun getTradeInfoProductProducts(language: String, category: String): Single<MutableList<String>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun searchRegulatedGoods(language: String, country: String): Single<RegulatedGoodData> {
-        return sautiApiService.searchRegulatedData(language, country)
-            .doOnSuccess{
-//                regulatedGoodRoomcache.save(it).blockingAwait()
-            }
-            //TODO: Must Implement this code
-
-/*          .onErrorResumeNext{
-                regulatedGoodRoomCache.search(language, country)
-            }
-            .doOnSucess {
-                regulatedGood
-            }
-*/
-            .subscribeOn(Schedulers.io())
-
-        /*
-                return sautiApiService.searchMarketPrice(country, market, category, product)
-            .doOnSuccess {
-                marketPriceRoomCache.save(it).blockingAwait()
-            }
-            .onErrorResumeNext {
-                marketPriceRoomCache.search(country, market, category, product)
-            }
-            .doOnSuccess {
-                marketPriceSearchRoomCache.save(
-                    MarketPriceSearchData(
-                        country = country,
-                        market = market,
-                        category = category,
-                        product = product
-                    )
-                ).blockingAwait()
-            }
-            .subscribeOn(Schedulers.io())
-        * */
+    override fun getTradeInfoOrigin(language: String, category: String, product: String): Single<MutableList<String>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override fun getTradeInfoDestination(
+        language: String,
+        category: String,
+        product: String,
+        origin: String
+    ): Single<MutableList<String>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun searchTradeInfo(
+        language: String,
+        category: String,
+        product: String,
+        origin: String,
+        value: Double
+    ): Single<MutableList<String>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 }

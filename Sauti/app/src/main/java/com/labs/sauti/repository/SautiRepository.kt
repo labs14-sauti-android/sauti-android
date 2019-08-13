@@ -1,5 +1,6 @@
 package com.labs.sauti.repository
 
+import android.webkit.WebStorage
 import com.labs.sauti.model.*
 import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.model.market_price.MarketPriceSearchData
@@ -36,8 +37,13 @@ interface SautiRepository {
     fun setSelectedLanguage(language: String): Completable
 
     fun getTradeInfoProductCategory(language: String): Single<MutableList<String>>
+    fun getTradeInfoProductProducts(language: String, category: String): Single<MutableList<String>>
+    fun getTradeInfoOrigin         (language: String, category: String, product: String): Single<MutableList<String>>
+    fun getTradeInfoDestination    (language: String, category: String, product: String, origin: String): Single<MutableList<String>>
+    fun searchTradeInfo            (language: String, category: String, product: String, origin: String, value: Double): Single<MutableList<String>>
 
     fun getRegulatedGoodsCountries(language: String): Single<MutableList<String>>
-    fun searchRegulatedGoods(language: String, country: String) : Single<RegulatedGoodData>
+    fun searchRegulatedGoods      (language: String, country: String) : Single<RegulatedGoodData>
+
 
 }

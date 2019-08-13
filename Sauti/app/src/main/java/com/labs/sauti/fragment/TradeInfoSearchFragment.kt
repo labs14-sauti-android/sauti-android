@@ -12,6 +12,7 @@ import android.widget.AdapterView
 import android.widget.Button
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.isNotEmpty
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -29,7 +30,7 @@ import javax.inject.Inject
 
 class TradeInfoSearchFragment : Fragment() {
 
-    private var onTradeSearchCompletedListener : onTradeInfoSearchCompletedListener? = null
+    private var onTradeSearchCompletedListener : OnTradeInfoSearchCompletedListener? = null
     private var onFragmentFullScreenStateChangedListener : OnFragmentFullScreenStateChangedListener? = null
 
     @Inject
@@ -69,6 +70,7 @@ class TradeInfoSearchFragment : Fragment() {
         }
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -83,8 +85,6 @@ class TradeInfoSearchFragment : Fragment() {
             it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
         })
 
-
-
         //TODO: Change the text in each of the custom spinners
         //setTranslatedTexts()
 
@@ -96,30 +96,63 @@ class TradeInfoSearchFragment : Fragment() {
 
         tradeInfoViewModel.setFirstSpinnerContent()
 
+        //TODO: Extract String resources
         tradeInfoViewModel.getTradeInfoFirstSpinnerContent().observe(this, Observer {
             val category = tradeInfoViewModel.getTradeInfoCategory().value as String
             if(category == "Regulated Goods") {
                 loadFirstSpinner(sscv_trade_info_q_1, it, "Regulated Goods")
             } else {
-                loadFirstSpinner(sscv_trade_info_q_1, it, "What is your commodity?")
+                loadFirstSpinner(sscv_trade_info_q_1, it, "What is your commodity category?")
             }
         })
 
 
+        //TODO: Extract String resources
         tradeInfoViewModel.getTradeInfoSecondSpinnerContent().observe(this, Observer{
             val category = tradeInfoViewModel.getTradeInfoCategory().value as String
             if(category == "Regulated Goods"){
+                loadSecondSpinner(sscv_trade_info_q_2, it, "Regulation Type")
+            } else {
+                loadSecondSpinner(sscv_trade_info_q_2, it, "Select your product")
+            }
+        })
 
+        tradeInfoViewModel.getSearchRegulatedGoodsLiveData().observe(this, Observer {
+
+            if(it != null){
+                onTradeSearchCompletedListener?.OnTradeInfoSearchCompleted(it)
+                b_trade_info_search.isEnabled = true
+            } else {
+                b_trade_info_search.isEnabled = false
             }
         })
 
         b_trade_info_search.setOnClickListener {
 
+            if(!(sscv_trade_info_q_2.getSpinnerSelected().isNullOrEmpty())){
+                onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
+                fragmentManager!!.popBackStack()
+
+//                onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
+//                fragmentManager!!.popBackStack()
+
+
+//                val regulatedType = sscv_trade_info_q_1.getSpinnerSelected()
+//                if(!regulatedType.isNullOrEmpty()) {
+//                    val country = sscv_trade_info_q_1.getSpinnerSelected()
+//                    lateinit var countryCode: String
+//                    map.forEach mapBreak@{
+//                        if (it.value == country) {
+//                            countryCode = it.key
+//                            return@mapBreak
+//                        }
+//                    }
+//                       tradeInfoViewModel.searchRegulatedGoods(language.toUpperCase(), countryCode, regulatedType )
+//                }
+            }
         }
 
     }
-
-
 
 
     private fun buttonSpinnerSetup() {
@@ -166,12 +199,24 @@ class TradeInfoSearchFragment : Fragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
 
-        if(parentFragment is onTradeInfoSearchCompletedListener) {
+        if(parentFragment is OnTradeInfoSearchCompletedListener) {
+            onTradeSearchCompletedListener = parentFragment as OnTradeInfoSearchCompletedListener
+        }  else {
+            throw RuntimeException("parentFragment must implement OnTradeInfoSearchCompletedListener")
+        }
+
+        if(parentFragment is OnFragmentFullScreenStateChangedListener) {
             onFragmentFullScreenStateChangedListener = parentFragment as OnFragmentFullScreenStateChangedListener
             onFragmentFullScreenStateChangedListener!!.onFragmetFullScreenStateChanged(true)
         }  else {
             throw RuntimeException("parentFragment must implement OnFragmentFullScreenStateChangedListener")
         }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        context?.unregisterReceiver(networkChangedReceiver)
     }
 
     override fun onDetach() {
@@ -187,8 +232,8 @@ class TradeInfoSearchFragment : Fragment() {
         //TODO
     }
 
-    interface onTradeInfoSearchCompletedListener {
-        fun onTradeInfoSearchCompleted(tradeInfo: TradeInfo)
+    interface OnTradeInfoSearchCompletedListener {
+        fun OnTradeInfoSearchCompleted(tradeInfo: TradeInfo)
     }
 
     companion object {
@@ -215,7 +260,7 @@ class TradeInfoSearchFragment : Fragment() {
                 }
 
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    val country = next.getSpinnerSelected() as String
+                    val country = next.getSpinnerSelected()
 
                     if(!country.isNullOrEmpty()){
                         map.forEach mapBreak@{
@@ -244,9 +289,10 @@ class TradeInfoSearchFragment : Fragment() {
                 }
 
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    val product = next.getSpinnerSelected() as String
+                    val product = next.getSpinnerSelected()
 
                     if(!product.isNullOrEmpty()){
+                        Toast.makeText(context, product, Toast.LENGTH_LONG).show()
 
                     }
                 }
@@ -256,6 +302,60 @@ class TradeInfoSearchFragment : Fragment() {
         }
 
         next.addSearchHeader(headerString)
+    }
+
+    fun loadSecondSpinner(second: SearchSpinnerCustomView, spinnerList : List<String>, headerString : String) {
+        second.visibility = View.VISIBLE
+
+        if(headerString == "Regulation Type") {
+            second.addSpinnerContents(spinnerList)
+            second.addSearchHeader(headerString)
+
+            val secondListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//                    val regulatedType = parent!!.selectedItem as String
+                    val regulatedType = second.getSpinnerSelected()
+
+                    if(!regulatedType.isNullOrEmpty()){
+                        val country = sscv_trade_info_q_1.getSpinnerSelected()
+                        lateinit var countryCode : String
+                        map.forEach mapBreak@{
+                            if(it.value == country) {
+                                countryCode = it.key
+                                return@mapBreak
+                            }
+                        }
+                        tradeInfoViewModel.searchRegulatedGoods(language.toUpperCase(), countryCode, regulatedType)
+
+                    }
+                }
+            }
+
+            second.setSpinnerListener(secondListener)
+
+        } else {
+            second.addSpinnerContents(spinnerList)
+
+            val listener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    val product = second.getSpinnerSelected()
+
+                    if(!product.isNullOrEmpty()){
+
+                    }
+                }
+            }
+
+            second.setSpinnerListener(listener)
+        }
+
+        second.addSearchHeader(headerString)
     }
 
     fun convertCountryNames(countryList : List<String>) : List<String> {
