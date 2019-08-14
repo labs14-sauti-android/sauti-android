@@ -52,7 +52,7 @@
                                 android:layout_height="wrap_content"
                                 tools:text="Wholesale: 90 KES/1Kg"
                                 android:textColor="@color/colorText"
-                                android:textSize="16sp"
+                                android:textSize="18sp"
                                 android:textStyle="bold"/>
                         <TextView
                                 android:id="@+id/t_details_retail"
@@ -60,7 +60,7 @@
                                 android:layout_height="wrap_content"
                                 tools:text="Retail: 120 KES/1Kg"
                                 android:textColor="@color/colorText"
-                                android:textSize="16sp"
+                                android:textSize="18sp"
                                 android:textStyle="bold"
                                 android:layout_marginBottom="9dp"/>
                         <TextView
@@ -69,14 +69,14 @@
                                 android:layout_height="wrap_content"
                                 tools:text="Updated: 2019-06-24"
                                 android:textColor="@color/colorText"
-                                android:textSize="14sp"/>
+                                android:textSize="12sp"/>
                         <TextView
                                 android:id="@+id/t_details_source"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 tools:text="Source: EAGC-RATIN"
                                 android:textColor="@color/colorText"
-                                android:textSize="14sp"/>
+                                android:textSize="12sp"/>
 
                     </LinearLayout>
 
@@ -145,7 +145,6 @@
                                     android:layout_height="match_parent"/>
 
                         </ViewSwitcher>
-
 
                     </LinearLayout>
 

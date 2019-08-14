@@ -131,7 +131,7 @@ OnFragmentFullScreenStateChangedListener {
 
             itemView.t_recent_product_at_market.text = "${recentMarketPrice.product} at ${recentMarketPrice.market}"
             itemView.t_recent_wholesale.text = "Wholesale: ${recentMarketPrice.wholesale} ${recentMarketPrice.currency}/1Kg"
-            recentMarketPrice.retail.let {
+            recentMarketPrice.retail?.let {
                 if (it != 0L) {
                     t_details_retail.text = "Retail: ${recentMarketPrice.retail} ${recentMarketPrice.currency}/1Kg"
                 }
