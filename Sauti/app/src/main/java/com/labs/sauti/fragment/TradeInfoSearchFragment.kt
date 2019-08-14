@@ -251,8 +251,8 @@ class TradeInfoSearchFragment : Fragment() {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
 
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    val country = next.getSpinnerSelected()
+                override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                    val country = parent.getItemAtPosition(position) as String
 
                     if(!country.isNullOrEmpty()){
                         map.forEach mapBreak@{
@@ -275,8 +275,9 @@ class TradeInfoSearchFragment : Fragment() {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
 
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    category = next.getSpinnerSelected()
+                override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+
+                    category = parent.getItemAtPosition(position) as String
 
                     if(!category.isNullOrEmpty()){
                         tradeInfoViewModel.setSecondSpinnerContent(category)
@@ -296,18 +297,18 @@ class TradeInfoSearchFragment : Fragment() {
 
         if(headerString == "Regulation Type") {
             second.addSpinnerContents(spinnerList)
-            second.addSearchHeader(headerString)
 
             val secondListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
 
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
 //                    val regulatedType = parent!!.selectedItem as String
-                    val regulatedType = second.getSpinnerSelected()
+                    //val regulatedType = second.getSpinnerSelected()
+                    val regulatedType = parent.getItemAtPosition(position) as String
 
                     if(!regulatedType.isNullOrEmpty()){
-                        val country = sscv_trade_info_q_1.getSpinnerSelected()
+                        var country = sscv_trade_info_q_1.getSpinnerSelected()
                         lateinit var countryCode : String
                         map.forEach mapBreak@{
                             if(it.value == country) {
@@ -330,8 +331,8 @@ class TradeInfoSearchFragment : Fragment() {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
 
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    product = second.getSpinnerSelected()
+                override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                    product = parent.getItemAtPosition(position) as String
 
                     if(!product.isNullOrEmpty()){
                        tradeInfoViewModel.setThirdSpinnerContent(language, category, product)
@@ -355,11 +356,11 @@ class TradeInfoSearchFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                origin = third.getSpinnerSelected()
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                origin = parent.getItemAtPosition(position) as String
 
                 if(!origin.isNullOrEmpty()){
-                    tradeInfoViewModel
+  //                  tradeInfoViewModel.set
                 }
 
             }

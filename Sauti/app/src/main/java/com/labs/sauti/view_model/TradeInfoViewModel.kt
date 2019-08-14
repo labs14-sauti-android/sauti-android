@@ -1,6 +1,7 @@
 package com.labs.sauti.view_model
 
 import android.view.View
+import android.webkit.WebStorage
 import android.widget.Button
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -174,10 +175,6 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
 
     fun setThirdSpinnerContent(language: String, category: String, product: String) {
 
-
-//        val origin = listOf("EAC", "non-EAC")
-//        tradeInfoThirdSpinnerContent.postValue(origin)
-
         addDisposable(sautiRepository.getTradeInfoOrigin(language, category, product)
             .subscribeOn(Schedulers.io()).subscribe(
             {
@@ -187,10 +184,21 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
                 errorLiveData.postValue(it)
             })
         )
-
     }
 
 
+    fun setFourthSpinnerContent(language: String, category: String, product: String, origin: String) {
+
+        addDisposable(sautiRepository.getTradeInfoOrigin(language, category, product)
+            .subscribeOn(Schedulers.io()).subscribe(
+                {
+                    tradeInfoThirdSpinnerContent.postValue(it)
+                },
+                {
+                    errorLiveData.postValue(it)
+                })
+        )
+    }
 
     class Factory(private val sautiRepository: SautiRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
