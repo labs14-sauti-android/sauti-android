@@ -95,10 +95,10 @@ class TradeInfoSearchFragment : Fragment() {
         //Places all buttons in a list, sets clicklisteners and disable search button.
         buttonSpinnerSetup()
 
-        language = SettingsSp(context!!).getSelectedLanguage()
+        language = SettingsSp(context!!).getSelectedLanguage().toUpperCase()
         tradeInfoViewModel.setLanguage(language)
 
-        tradeInfoViewModel.setFirstSpinnerContent()
+//        tradeInfoViewModel.setFirstSpinnerContent()
 
         //TODO: Extract String resources
         tradeInfoViewModel.getTradeInfoFirstSpinnerContent().observe(this, Observer {
@@ -331,7 +331,7 @@ class TradeInfoSearchFragment : Fragment() {
                 }
 
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    val product = second.getSpinnerSelected()
+                    product = second.getSpinnerSelected()
 
                     if(!product.isNullOrEmpty()){
                        tradeInfoViewModel.setThirdSpinnerContent(language, category, product)
@@ -345,23 +345,28 @@ class TradeInfoSearchFragment : Fragment() {
         second.addSearchHeader(headerString)
     }
 
-    fun loadThirdSpinner(second: SearchSpinnerCustomView, spinnerList : List<String>, headerString : String) {
-        second.visibility = View.VISIBLE
+    fun loadThirdSpinner(third: SearchSpinnerCustomView, spinnerList : List<String>, headerString : String) {
+        third.visibility = View.VISIBLE
 
 
-        second.addSpinnerContents(spinnerList)
+        third.addSpinnerContents(spinnerList)
 
         val secondListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                origin = third.getSpinnerSelected()
+
+                if(!origin.isNullOrEmpty()){
+                    tradeInfoViewModel
+                }
 
             }
         }
 
-        second.setSpinnerListener(secondListener)
-        second.addSearchHeader(headerString)
+        third.setSpinnerListener(secondListener)
+        third.addSearchHeader(headerString)
     }
 
     fun convertCountryNames(countryList : List<String>) : List<String> {

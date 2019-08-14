@@ -22,7 +22,6 @@
             android:text="@string/b_trade_info_border_procedures_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAccent"
             style="@style/TradeInfoButtonStyling"
             android:id="@+id/b_trade_info_procedures"
             app:layout_constraintStart_toStartOf="parent"

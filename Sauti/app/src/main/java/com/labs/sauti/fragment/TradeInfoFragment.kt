@@ -71,7 +71,6 @@ OnFragmentFullScreenStateChangedListener{
 
             override fun onClick(v: View) {
                 if(tradeInfoRecent != null) {
-                    t_trade_info_header.text = tradeInfoRecent!!.tradeinfoTopicExpanded
 
                     //1. Check if the view is visible
                     //2. If not visibile make visible
@@ -84,7 +83,7 @@ OnFragmentFullScreenStateChangedListener{
                             cl_expanded_trade_info.visibility = View.VISIBLE
                         }
                     } else {
-                        TransitionManager.beginDelayedTransition(fl_fragment_container_trade_info)
+                        addTIDetailsLL(tradeInfoRecent!!)
                     }
                 }
             }
@@ -107,6 +106,7 @@ OnFragmentFullScreenStateChangedListener{
 
 
     fun addTIDetailsLL(tradeInfo: TradeInfo) {
+        t_trade_info_header.text = tradeInfo.tradeinfoTopicExpanded
         l_tradeinfo_left_list.removeAllViews()
         l_tradeinfo_right_list.removeAllViews()
         var half = (tradeInfo.tradeinfoList.size) / 2

@@ -172,10 +172,21 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
 
     }
 
-    fun setThirdSpinnerContent(category: String, product: String, origin: String) {
+    fun setThirdSpinnerContent(language: String, category: String, product: String) {
 
-        val origin = listOf("EAC", "non-EAC")
-        tradeInfoThirdSpinnerContent.postValue(origin)
+
+//        val origin = listOf("EAC", "non-EAC")
+//        tradeInfoThirdSpinnerContent.postValue(origin)
+
+        addDisposable(sautiRepository.getTradeInfoOrigin(language, category, product)
+            .subscribeOn(Schedulers.io()).subscribe(
+            {
+                tradeInfoThirdSpinnerContent.postValue(it)
+            },
+            {
+                errorLiveData.postValue(it)
+            })
+        )
 
     }
 
