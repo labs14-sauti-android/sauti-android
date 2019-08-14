@@ -219,6 +219,12 @@ OnFragmentFullScreenStateChangedListener {
         onFragmentFullScreenStateChangedListener = null
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        context!!.unregisterReceiver(networkChangedReceiver)
+    }
+
     override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
         onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(isFullScreen)
     }
