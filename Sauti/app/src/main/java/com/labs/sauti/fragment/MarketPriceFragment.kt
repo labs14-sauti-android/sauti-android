@@ -1,6 +1,9 @@
 package com.labs.sauti.fragment
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
@@ -17,6 +20,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.databinding.FragmentMarketPriceBinding
+import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.model.market_price.MarketPrice
 import com.labs.sauti.view_model.MarketPriceViewModel
 import kotlinx.android.synthetic.main.fragment_market_price.*
@@ -40,6 +44,16 @@ OnFragmentFullScreenStateChangedListener {
     private var shouldSelectMostRecentMarketPriceView = false
     private var selectedRecentMarketPriceView: View? = null
 
+    private val networkChangedReceiver = object: BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (NetworkHelper.hasNetworkConnection(context!!)) {
+                t_warning_no_network_connection.visibility = View.GONE
+            } else {
+                t_warning_no_network_connection.visibility = View.VISIBLE
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -62,6 +76,10 @@ OnFragmentFullScreenStateChangedListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        context!!.registerReceiver(networkChangedReceiver, IntentFilter().also {
+            it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
+        })
 
         ll_details.visibility = View.GONE
 
