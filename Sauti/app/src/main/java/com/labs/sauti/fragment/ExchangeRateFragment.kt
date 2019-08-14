@@ -1,6 +1,9 @@
 package com.labs.sauti.fragment
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.SpannableString
@@ -17,6 +20,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.helper.LocaleHelper
+import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResult
 import com.labs.sauti.view_model.ExchangeRateViewModel
 import kotlinx.android.synthetic.main.fragment_exchange_rate.*
@@ -37,6 +41,16 @@ OnFragmentFullScreenStateChangedListener{
     private var shouldSelectMostRecentExchangeRateView = false
     private var selectedConversionResultRootView: View? = null
 
+    private val networkChangedReceiver = object: BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (NetworkHelper.hasNetworkConnection(context!!)) {
+                t_warning_no_network_connection.visibility = View.GONE
+            } else {
+                t_warning_no_network_connection.visibility = View.VISIBLE
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -54,6 +68,10 @@ OnFragmentFullScreenStateChangedListener{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        context!!.registerReceiver(networkChangedReceiver, IntentFilter().also {
+            it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
+        })
 
         setTranslatableTexts()
 
@@ -186,6 +204,12 @@ OnFragmentFullScreenStateChangedListener{
     override fun onDetach() {
         super.onDetach()
         onFragmentFullScreenStateChangedListener = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        context!!.unregisterReceiver(networkChangedReceiver)
     }
 
     override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
