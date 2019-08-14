@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.labs.sauti.model.market_price.MarketPrice
-import com.labs.sauti.repository.SautiRepository
+import com.labs.sauti.repository.MarketPriceRepository
 import com.labs.sauti.view_state.market_price.*
 
-class MarketPriceViewModel(private val sautiRepository: SautiRepository): BaseViewModel() {
+class MarketPriceViewModel(private val marketPriceRepository: MarketPriceRepository): BaseViewModel() {
 
     private val errorLiveData by lazy { MutableLiveData<Throwable>() }
     private val countriesViewState by lazy { MutableLiveData<CountriesViewState>() }
@@ -28,7 +28,7 @@ class MarketPriceViewModel(private val sautiRepository: SautiRepository): BaseVi
 
     fun getCountries() {
         countriesViewState.value = CountriesViewState(true)
-        addDisposable(sautiRepository.getMarketPriceCountries().subscribe(
+        addDisposable(marketPriceRepository.getMarketPriceCountries().subscribe(
             {
                 countriesViewState.postValue(CountriesViewState(false, it))
             },
@@ -40,7 +40,7 @@ class MarketPriceViewModel(private val sautiRepository: SautiRepository): BaseVi
 
     fun getMarkets(country: String) {
         marketsViewState.value = MarketsViewState(true)
-        addDisposable(sautiRepository.getMarketPriceMarkets(country).subscribe(
+        addDisposable(marketPriceRepository.getMarketPriceMarkets(country).subscribe(
             {
                 marketsViewState.postValue(MarketsViewState(false, it))
             },
@@ -52,7 +52,7 @@ class MarketPriceViewModel(private val sautiRepository: SautiRepository): BaseVi
 
     fun getCategories(country: String, market: String) {
         categoriesViewState.value = CategoriesViewState(true)
-        addDisposable(sautiRepository.getMarketPriceCategories(country, market).subscribe(
+        addDisposable(marketPriceRepository.getMarketPriceCategories(country, market).subscribe(
             {
                 categoriesViewState.postValue(CategoriesViewState(false, it))
             },
@@ -64,7 +64,7 @@ class MarketPriceViewModel(private val sautiRepository: SautiRepository): BaseVi
 
     fun getProducts(country: String, market: String, category: String) {
         productsViewState.value = ProductsViewState(true)
-        addDisposable(sautiRepository.getMarketPriceProducts(country, market, category).subscribe(
+        addDisposable(marketPriceRepository.getMarketPriceProducts(country, market, category).subscribe(
             {
                     productsViewState.postValue(ProductsViewState(false, it))
             },
@@ -75,7 +75,7 @@ class MarketPriceViewModel(private val sautiRepository: SautiRepository): BaseVi
     }
 
     fun searchMarketPrice(country: String, market: String, category: String, product: String) {
-        addDisposable(sautiRepository.searchMarketPrice(country, market, category, product)
+        addDisposable(marketPriceRepository.searchMarketPrice(country, market, category, product)
             .map { marketPriceData ->
                 MarketPrice(
                     marketPriceData.country,
@@ -101,7 +101,7 @@ class MarketPriceViewModel(private val sautiRepository: SautiRepository): BaseVi
 
     fun getRecentMarketPrices() {
         recentMarketPricesViewState.value = RecentMarketPricesViewState(true)
-        addDisposable(sautiRepository.searchRecentMarketPrices()
+        addDisposable(marketPriceRepository.searchRecentMarketPrices()
             .map {
                 it.map { marketPriceData ->
                     MarketPrice(
@@ -132,7 +132,7 @@ class MarketPriceViewModel(private val sautiRepository: SautiRepository): BaseVi
 
     fun getRecentMarketPricesInCache() {
         recentMarketPricesViewState.value = RecentMarketPricesViewState(true)
-        addDisposable(sautiRepository.searchRecentMarketPriceInCache()
+        addDisposable(marketPriceRepository.searchRecentMarketPriceInCache()
             .map {
                 it.map { marketPriceData ->
                     MarketPrice(
@@ -161,10 +161,10 @@ class MarketPriceViewModel(private val sautiRepository: SautiRepository): BaseVi
             ))
     }
 
-    class Factory(private val sautiRepository: SautiRepository): ViewModelProvider.Factory {
+    class Factory(private val marketPriceRepository: MarketPriceRepository): ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return MarketPriceViewModel(sautiRepository) as T
+            return MarketPriceViewModel(marketPriceRepository) as T
         }
     }
 

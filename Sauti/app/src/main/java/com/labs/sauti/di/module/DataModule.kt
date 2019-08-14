@@ -104,4 +104,51 @@ class DataModule(private val sautiAuthorization: String) {
         )
     }
 
+    @Provides
+    @Singleton
+    fun provideMarketPriceRepository(
+        sautiApiService: SautiApiService,
+        marketPriceRoomCache: MarketPriceRoomCache,
+        marketPriceSearchRoomCache: MarketPriceSearchRoomCache
+    ): MarketPriceRepository {
+        return MarketPriceRepositoryImpl(
+            sautiApiService,
+            marketPriceRoomCache,
+            marketPriceSearchRoomCache
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideExchangeRateRepository(
+        sautiApiService: SautiApiService,
+        exchangeRateRoomCache: ExchangeRateRoomCache,
+        exchangeRateConversionRoomCache: ExchangeRateConversionRoomCache
+    ): ExchangeRateRepository {
+        return ExchangeRateRepositoryImpl(
+            sautiApiService,
+            exchangeRateRoomCache,
+            exchangeRateConversionRoomCache
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(
+        sautiApiService: SautiApiService,
+        sessionSp: SessionSp
+    ): UserRepository {
+        return UserRepositoryImpl(
+            sautiApiService,
+            sessionSp,
+            sautiAuthorization
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideSettingsRepository(settingsSp: SettingsSp): SettingsRepository {
+        return SettingsRepositoryImpl(settingsSp)
+    }
+
 }

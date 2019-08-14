@@ -10,6 +10,7 @@ import com.labs.sauti.model.trade_info.*
 import io.reactivex.Completable
 import io.reactivex.Single
 
+// TODO delete this
 interface SautiRepository {
 
     fun signUp(signUpRequest: SignUpRequest): Single<SignUpResponse>

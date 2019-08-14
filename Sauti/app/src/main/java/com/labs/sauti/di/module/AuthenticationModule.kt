@@ -1,6 +1,7 @@
 package com.labs.sauti.di.module
 
 import com.labs.sauti.repository.SautiRepository
+import com.labs.sauti.repository.UserRepository
 import com.labs.sauti.view_model.AuthenticationViewModel
 import dagger.Module
 import dagger.Provides
@@ -9,8 +10,8 @@ import dagger.Provides
 class AuthenticationModule {
 
     @Provides
-    fun provideAuthenticationViewModelFactory(sautiRepository: SautiRepository): AuthenticationViewModel.Factory {
-        return AuthenticationViewModel.Factory(sautiRepository)
+    fun provideAuthenticationViewModelFactory(userRepository: UserRepository): AuthenticationViewModel.Factory {
+        return AuthenticationViewModel.Factory(userRepository)
     }
 
 }

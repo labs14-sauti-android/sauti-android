@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.labs.sauti.repository.SautiRepository
+import com.labs.sauti.repository.SettingsRepository
 
-class SettingsViewModel(private val sautiRepository: SautiRepository): BaseViewModel() {
+class SettingsViewModel(private val settingsRepository: SettingsRepository): BaseViewModel() {
 
     private val errorLiveData by lazy { MutableLiveData<Throwable>() }
     private val selectedLanguageLiveData by lazy { MutableLiveData<String>() }
@@ -15,7 +15,7 @@ class SettingsViewModel(private val sautiRepository: SautiRepository): BaseViewM
     fun getSelectedLanguageLiveData(): LiveData<String> = selectedLanguageLiveData
 
     fun getSelectedLanguage() {
-        addDisposable(sautiRepository.getSelectedLanguage().subscribe(
+        addDisposable(settingsRepository.getSelectedLanguage().subscribe(
             {
                 selectedLanguageLiveData.postValue(it)
             },
@@ -26,10 +26,10 @@ class SettingsViewModel(private val sautiRepository: SautiRepository): BaseViewM
     }
 
     fun setSelectedLanguage(language: String) {
-        addDisposable(sautiRepository.setSelectedLanguage(language)
+        addDisposable(settingsRepository.setSelectedLanguage(language)
             .subscribe(
             {
-                selectedLanguageLiveData.postValue(sautiRepository.getSelectedLanguage().blockingGet())
+                selectedLanguageLiveData.postValue(settingsRepository.getSelectedLanguage().blockingGet())
             },
             {
                 errorLiveData.postValue(it)
@@ -37,10 +37,10 @@ class SettingsViewModel(private val sautiRepository: SautiRepository): BaseViewM
         ))
     }
 
-    class Factory(private val sautiRepository: SautiRepository): ViewModelProvider.Factory {
+    class Factory(private val settingsRepository: SettingsRepository): ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return SettingsViewModel(sautiRepository) as T
+            return SettingsViewModel(settingsRepository) as T
         }
     }
 }
