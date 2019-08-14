@@ -28,6 +28,9 @@ class SearchSpinnerCustomView @JvmOverloads constructor(
     }
 
     fun addSpinnerContents(list : List<String>) {
+
+        p_search_param.visibility = View.VISIBLE
+
         val alteredList = list.toMutableList()
         alteredList.add(0, "")
         ArrayAdapter(context, android.R.layout.simple_spinner_item, alteredList).also { adapter->

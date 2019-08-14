@@ -125,6 +125,12 @@ class TradeInfoSearchFragment : Fragment() {
             }
         })
 
+        tradeInfoViewModel.getTradeInfoFourthSpinnerContent().observe(this, Observer {
+            if(tradeInfoCategory != "Regulated Goods"){
+                loadFourthSpinner(sscv_trade_info_q_4, it, "Select where you're going")
+            }
+        })
+
         tradeInfoViewModel.getSearchRegulatedGoodsLiveData().observe(this, Observer {
 
             if(it != null){
@@ -144,6 +150,8 @@ class TradeInfoSearchFragment : Fragment() {
         }
 
     }
+
+
 
 
     private fun buttonSpinnerSetup() {
@@ -352,7 +360,7 @@ class TradeInfoSearchFragment : Fragment() {
 
         third.addSpinnerContents(spinnerList)
 
-        val secondListener = object : AdapterView.OnItemSelectedListener {
+        val thirdListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
@@ -360,18 +368,39 @@ class TradeInfoSearchFragment : Fragment() {
                 origin = parent.getItemAtPosition(position) as String
 
                 if(!origin.isNullOrEmpty()){
-  //                  tradeInfoViewModel.set
+                    tradeInfoViewModel.setFourthSpinnerContent(language, category, product, origin)
                 }
 
             }
         }
 
-        third.setSpinnerListener(secondListener)
+        third.setSpinnerListener(thirdListener)
         third.addSearchHeader(headerString)
     }
 
-    fun convertCountryNames(countryList : List<String>) : List<String> {
+    private fun loadFourthSpinner(fourth: SearchSpinnerCustomView, spinnerList: List<String>, headerString: String) {
+        fourth.visibility = View.VISIBLE
+        val conversion = convertCountryNames(spinnerList)
+        fourth.addSpinnerContents(conversion)
 
+        val fourthListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                dest = parent.getItemAtPosition(position) as String
+
+                if(!dest.isNullOrEmpty()){
+//                    tradeInfoViewModel.setFifthSpinnerContent(language, category, product, origin)
+                }
+            }
+        }
+
+        fourth.setSpinnerListener(fourthListener)
+        fourth.addSearchHeader(headerString)
+    }
+
+    fun convertCountryNames(countryList : List<String>) : List<String> {
 
         val countryNames = mutableListOf<String>()
 

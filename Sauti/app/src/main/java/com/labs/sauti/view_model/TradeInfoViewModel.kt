@@ -22,6 +22,7 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
     private val tradeInfoFirstSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
     private val tradeInfoSecondSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
     private val tradeInfoThirdSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
+    private val tradeInfoFourthSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
 
     private val searchRegulatedGoodLiveData by lazy { MutableLiveData<TradeInfo>() }
     private val searchTradeInfoProcedure by lazy { MutableLiveData<TradeInfo>() }
@@ -34,6 +35,7 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
     fun getTradeInfoFirstSpinnerContent(): LiveData<List<String>> = tradeInfoFirstSpinnerContent
     fun getTradeInfoSecondSpinnerContent() : LiveData<List<String>> = tradeInfoSecondSpinnerContent
     fun getTradeInfoThirdSpinnerContent() : LiveData<List<String>> = tradeInfoThirdSpinnerContent
+    fun getTradeInfoFourthSpinnerContent() : LiveData<List<String>> = tradeInfoFourthSpinnerContent
 
 
     fun getSearchRegulatedGoodsLiveData(): LiveData<TradeInfo> = searchRegulatedGoodLiveData
@@ -189,10 +191,10 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
 
     fun setFourthSpinnerContent(language: String, category: String, product: String, origin: String) {
 
-        addDisposable(sautiRepository.getTradeInfoOrigin(language, category, product)
+        addDisposable(sautiRepository.getTradeInfoDestination(language, category, product, origin)
             .subscribeOn(Schedulers.io()).subscribe(
                 {
-                    tradeInfoThirdSpinnerContent.postValue(it)
+                    tradeInfoFourthSpinnerContent.postValue(it)
                 },
                 {
                     errorLiveData.postValue(it)
