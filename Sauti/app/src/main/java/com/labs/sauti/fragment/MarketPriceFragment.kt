@@ -21,6 +21,7 @@ import com.labs.sauti.model.market_price.MarketPrice
 import com.labs.sauti.view_model.MarketPriceViewModel
 import kotlinx.android.synthetic.main.fragment_market_price.*
 import kotlinx.android.synthetic.main.item_recent_market_price.view.*
+import java.text.DecimalFormat
 import javax.inject.Inject
 
 // TODO 5 weeks old max market price
@@ -108,11 +109,15 @@ OnFragmentFullScreenStateChangedListener {
         val productAtMarketSStr = SpannableString("${marketPrice.product} at ${marketPrice.market}")
         productAtMarketSStr.setSpan(UnderlineSpan(), 0, productAtMarketSStr.length, 0)
         t_details_product_at_market.text = productAtMarketSStr
-        t_details_wholesale.text = "Wholesale: ${marketPrice.wholesale} ${marketPrice.currency}/1Kg"
-        marketPrice.retail.let {
-            if (it != 0L) {
-                t_details_retail.text = "Retail: ${marketPrice.retail} ${marketPrice.currency}/1Kg"
-            }
+        val decimalFormat = DecimalFormat("#,##0.00")
+        val wholesaleStr = decimalFormat.format(marketPrice.wholesale)
+        t_details_wholesale.text = "Wholesale: $wholesaleStr ${marketPrice.currency}/1Kg"
+        if (marketPrice.retail != null && marketPrice.retail!! > 0.0) {
+            t_details_retail.textSize = 0.0f
+            val retailStr = decimalFormat.format(marketPrice.retail!!)
+            t_details_retail.text = "Retail: $retailStr ${marketPrice.currency}/1Kg"
+        } else {
+            t_details_retail.textSize = 0.0f
         }
         t_details_updated.text = "Updated: ${marketPrice.date?.substring(0, 10)}"
         t_details_source.text = "Source: EAGC-RATIN" // TODO
@@ -130,11 +135,15 @@ OnFragmentFullScreenStateChangedListener {
             if (index == 0 && shouldSelectMostRecentMarketPriceView) selectedRecentMarketPriceView = itemView
 
             itemView.t_recent_product_at_market.text = "${recentMarketPrice.product} at ${recentMarketPrice.market}"
-            itemView.t_recent_wholesale.text = "Wholesale: ${recentMarketPrice.wholesale} ${recentMarketPrice.currency}/1Kg"
-            recentMarketPrice.retail?.let {
-                if (it != 0L) {
-                    t_details_retail.text = "Retail: ${recentMarketPrice.retail} ${recentMarketPrice.currency}/1Kg"
-                }
+            val decimalFormat = DecimalFormat("#,##0.00")
+            val wholesaleStr = decimalFormat.format(recentMarketPrice.wholesale)
+            itemView.t_recent_wholesale.text = "Wholesale: $wholesaleStr ${recentMarketPrice.currency}/1Kg"
+            if (recentMarketPrice.retail != null && recentMarketPrice.retail!! > 0.0) {
+                itemView.t_recent_retail.textSize = 0.0f
+                val retailStr = decimalFormat.format(recentMarketPrice.retail!!)
+                itemView.t_recent_retail.text = "Retail: $retailStr ${recentMarketPrice.currency}/1Kg"
+            } else {
+                itemView.t_recent_retail.textSize = 0.0f
             }
             itemView.t_recent_updated.text = "Updated: ${recentMarketPrice.date?.substring(0, 10)}"
             itemView.t_recent_source.text = "Source: EAGC-RATIN" // TODO
