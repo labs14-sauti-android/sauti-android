@@ -54,6 +54,9 @@ data class TradeInfoData(
     val value: String
 )
 
+fun TradeInfoData.toBorderAgencyTI() {
+
+}
 
 
 

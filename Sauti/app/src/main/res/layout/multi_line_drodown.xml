@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+    <TextView
+            android:id="@+id/text1"
+            android:layout_width="match_parent"
+            style="?android:attr/spinnerItemStyle"
+            android:singleLine="false"
+            android:background="@color/colorCardBackground"
+            android:scrollHorizontally="false"
+            android:ellipsize="none"
+            android:textAlignment="inherit"
+            android:layout_height="wrap_content"
+            tools:text='"This is a really long block of text and I wonder what this will look like"'>
+    </TextView>
+</LinearLayout>

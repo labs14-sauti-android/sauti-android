@@ -131,6 +131,10 @@ class TradeInfoSearchFragment : Fragment() {
             }
         })
 
+        tradeInfoViewModel.getTradeInfoFifthSpinnerContent().observe(this, Observer {
+            loadFifthSpinner(sscv_trade_info_q_5, it, "Is the value of your goods: ")
+        })
+
         tradeInfoViewModel.getSearchRegulatedGoodsLiveData().observe(this, Observer {
 
             if(it != null){
@@ -390,14 +394,37 @@ class TradeInfoSearchFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 dest = parent.getItemAtPosition(position) as String
 
-                if(!dest.isNullOrEmpty()){
-//                    tradeInfoViewModel.setFifthSpinnerContent(language, category, product, origin)
+                if(dest.isNotEmpty()){
+                    tradeInfoViewModel.setFifthSpinnerContent()
                 }
             }
         }
 
         fourth.setSpinnerListener(fourthListener)
         fourth.addSearchHeader(headerString)
+    }
+
+    private fun loadFifthSpinner(fifth: SearchSpinnerCustomView, spinnerContent: List<String>, headerString: String) {
+
+        fifth.visibility = View.VISIBLE
+        fifth.addSpinnerContents(spinnerContent)
+        fifth.addSearchHeader(headerString)
+
+        val fifthListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+                when (position) {
+                    1 -> {}
+                    2 -> {}
+                }
+            }
+        }
+
+        fifth.setSpinnerListener(fifthListener)
+
     }
 
     fun convertCountryNames(countryList : List<String>) : List<String> {

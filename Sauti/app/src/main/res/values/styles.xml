@@ -77,6 +77,10 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:background">@drawable/rounded_button</item>
     </style>
+    <style name="spinnerStyle">
+        <item name="android:clickable">true</item>
+    </style>
+
 
     <!-- TODO: Navigation Drawer Styling. -->
 

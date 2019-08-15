@@ -23,6 +23,8 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
     private val tradeInfoSecondSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
     private val tradeInfoThirdSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
     private val tradeInfoFourthSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
+    private val tradeInfoFifthSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
+
 
     private val searchRegulatedGoodLiveData by lazy { MutableLiveData<TradeInfo>() }
     private val searchTradeInfoProcedure by lazy { MutableLiveData<TradeInfo>() }
@@ -36,6 +38,7 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
     fun getTradeInfoSecondSpinnerContent() : LiveData<List<String>> = tradeInfoSecondSpinnerContent
     fun getTradeInfoThirdSpinnerContent() : LiveData<List<String>> = tradeInfoThirdSpinnerContent
     fun getTradeInfoFourthSpinnerContent() : LiveData<List<String>> = tradeInfoFourthSpinnerContent
+    fun getTradeInfoFifthSpinnerContent() : LiveData<List<String>> = tradeInfoFifthSpinnerContent
 
 
     fun getSearchRegulatedGoodsLiveData(): LiveData<TradeInfo> = searchRegulatedGoodLiveData
@@ -200,6 +203,13 @@ class  TradeInfoViewModel(private val sautiRepository: SautiRepository): BaseVie
                     errorLiveData.postValue(it)
                 })
         )
+    }
+
+    fun setFifthSpinnerContent() {
+
+        val itemValue = listOf("Greater than USD 2000 \n(approx KES 206540/UGX 7390200)", "Less than USD 2000 \n(approx KES 206540/UGX 7390200)")
+        tradeInfoFifthSpinnerContent.postValue(itemValue)
+
     }
 
     class Factory(private val sautiRepository: SautiRepository) : ViewModelProvider.Factory {
