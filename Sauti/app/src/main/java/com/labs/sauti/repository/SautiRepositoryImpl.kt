@@ -311,18 +311,9 @@ class SautiRepositoryImpl(
     }
 
 
-    override fun getRegulatedGoodsCountries(language: String): Single<MutableList<String>> {
-        return sautiApiService.getRegulatedGoodsCountries(language)
-            .onErrorResumeNext(
-                tradeInfoRoomCache.getRegulatedGoodsCountries(language)
-            )
-    }
 
-    //TODO: Save in room and error cases when not online
-    override fun searchRegulatedGoods(language: String, country: String): Single<RegulatedGoodData> {
-        return sautiApiService.searchRegulatedData(language, country)
-            .subscribeOn(Schedulers.io())
-    }
+
+
 
     override fun getTradeInfoProductCategory(language: String): Single<MutableList<String>> {
         return sautiApiService.getTradeInfoCategories(language)
@@ -408,6 +399,20 @@ class SautiRepositoryImpl(
         value: Double
     ): Single<MutableList<Taxes>> {
         return sautiApiService.searchTradeInfoTaxes(language, category, product, origin, dest, value)
+            .subscribeOn(Schedulers.io())
+    }
+
+
+    override fun getRegulatedGoodsCountries(language: String): Single<MutableList<String>> {
+        return sautiApiService.getRegulatedGoodsCountries(language)
+            .onErrorResumeNext(
+                tradeInfoRoomCache.getRegulatedGoodsCountries(language)
+            )
+    }
+
+    //TODO: Save in room and error cases when not online
+    override fun searchRegulatedGoods(language: String, country: String): Single<RegulatedGoodData> {
+        return sautiApiService.searchRegulatedData(language, country)
             .subscribeOn(Schedulers.io())
     }
 }

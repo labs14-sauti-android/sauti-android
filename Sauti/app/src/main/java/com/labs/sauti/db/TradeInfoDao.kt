@@ -12,9 +12,6 @@ import io.reactivex.Single
 @Dao
 interface TradeInfoDao : BaseDao<TradeInfoData> {
 
-
-
-
     @Query(value = "SELECT * FROM trade_info")
     fun getAllTradeInfo(): List<TradeInfoData>
 

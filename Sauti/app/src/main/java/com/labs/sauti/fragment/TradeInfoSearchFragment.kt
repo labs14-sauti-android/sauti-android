@@ -22,6 +22,7 @@ import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.sp.SettingsSp
 import com.labs.sauti.view_model.TradeInfoViewModel
 import com.labs.sauti.views.SearchSpinnerCustomView
+import io.reactivex.Completable
 import kotlinx.android.synthetic.main.fragment_trade_info_search.*
 import javax.inject.Inject
 
@@ -88,6 +89,8 @@ class TradeInfoSearchFragment : Fragment() {
         context!!.registerReceiver(networkChangedReceiver, IntentFilter().also {
             it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
         })
+
+
 
         //TODO: Change the text in each of the custom spinners
         //setTranslatedTexts()
