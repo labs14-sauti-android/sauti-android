@@ -10,7 +10,7 @@
         app:cardElevation="4dp"
         android:layout_weight="0.5"
         app:cardBackgroundColor="@color/colorCardBackground"
-        tools:layout_width="match_parent">
+        tools:layout_width="200dp">
 
     <LinearLayout
             android:layout_width="match_parent"
