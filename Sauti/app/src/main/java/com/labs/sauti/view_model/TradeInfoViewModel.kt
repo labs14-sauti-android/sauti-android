@@ -129,6 +129,7 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
 
         val language = tradeInfoLanguage.value as String
 
+        val s = 5
         //TODO: String will not be hardcoded and turned into resource with translations
         if(tradeInfoCategory.value == "Regulated Goods") {
             addDisposable(tradeInfoRepository.getRegulatedGoodsCountries(language).subscribeOn(Schedulers.io()).subscribe(

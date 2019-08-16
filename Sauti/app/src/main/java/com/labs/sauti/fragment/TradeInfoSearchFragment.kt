@@ -177,7 +177,7 @@ class TradeInfoSearchFragment : Fragment() {
                 }
             }
 
-            for (i in 1..3) {
+            for (i in 1..4) {
                 searchSpinnerList[i].visibility = View.GONE
             }
 

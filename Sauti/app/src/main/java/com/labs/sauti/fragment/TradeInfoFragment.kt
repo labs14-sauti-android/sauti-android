@@ -88,7 +88,7 @@ OnFragmentFullScreenStateChangedListener{
             }
         })
 
-        b_trade_info_search.setOnClickListener{
+        fab_trade_info_search.setOnClickListener{
             openTradeInfoSearchFragment()
         }
 

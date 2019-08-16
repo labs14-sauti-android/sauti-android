@@ -17,7 +17,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/cl_expanded_tax_calculator"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5">
@@ -102,7 +102,7 @@
                 android:layout_marginTop="12dp"
                 app:layout_constraintTop_toBottomOf="@+id/tiv_tax_calculator_recent_first"/>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/b_trade_info_search"
+                android:id="@+id/fab_tax_calculator_search"
                 android:layout_margin="20dp"
                 android:layout_gravity="bottom|end"
                 android:layout_width="wrap_content"

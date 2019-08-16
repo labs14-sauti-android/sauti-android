@@ -16,10 +16,10 @@ import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.helper.LocaleHelper
 import com.labs.sauti.model.ReportForm
-import com.labs.sauti.view_model.ReportViewModel
 import kotlinx.android.synthetic.main.fragment_report.*
 import javax.inject.Inject
 
+/*
 class ReportFragment : Fragment() {
 
     @Inject
@@ -65,16 +65,16 @@ class ReportFragment : Fragment() {
             Toast.makeText(context!!, "Failed to load borderNames. ${it.message}", Toast.LENGTH_LONG).show()
         })
 
-        reportViewModel.getBorderNamesViewState().observe(this, Observer {
-            if (it.isLoading) {
-                vs_borders_loading.displayedChild = 1
-            } else {
-                vs_borders_loading.displayedChild = 0
-                it.borderNames?.let { borders ->
-                    handleBorders(borders)
-                }
-            }
-        })
+//        reportViewModel.getBorderNamesViewState().observe(this, Observer {
+//            if (it.isLoading) {
+//                vs_borders_loading.displayedChild = 1
+//            } else {
+//                vs_borders_loading.displayedChild = 0
+//                it.borderNames?.let { borders ->
+//                    handleBorders(borders)
+//                }
+//            }
+//        })
 
         reportViewModel.getBorders()
 
@@ -126,3 +126,4 @@ class ReportFragment : Fragment() {
             }
     }
 }
+*/

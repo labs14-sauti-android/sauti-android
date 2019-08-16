@@ -49,9 +49,9 @@ class DashboardFragment : Fragment() {
             onReplaceFragmentListener?.onReplaceFragment(MarketplaceFragment::class.java)
         }
 
-        t_report.setOnClickListener {
+/*        t_report.setOnClickListener {
             onReplaceFragmentListener?.onReplaceFragment(ReportFragment::class.java)
-        }
+        }*/
 
         t_help.setOnClickListener {
             onReplaceFragmentListener?.onReplaceFragment(HelpFragment::class.java)
