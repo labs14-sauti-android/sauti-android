@@ -106,26 +106,43 @@ OnFragmentFullScreenStateChangedListener{
 
     fun addTIDetailsLL(tradeInfo: TradeInfo) {
         t_trade_info_header.text = tradeInfo.tradeinfoTopicExpanded
-        l_trade_info_left_list.removeAllViews()
-        l_trade_info_right_list.removeAllViews()
-        var half = (tradeInfo.tradeinfoList.size) / 2
+        l_trade_info_left_list.visibility = View.GONE
+        l_trade_info_right_list.visibility = View.GONE
+        rv_trade_info_required_documents.visibility = View.GONE
+
+        when(tradeInfo.tradeinfoTopic) {
+            "Border Procedures"->{}
+            "Required Documents"->{}
+            "Border Agencies"->{}
+            "Regulated Goods" ->{
+                l_trade_info_left_list.removeAllViews()
+                l_trade_info_right_list.removeAllViews()
+                l_trade_info_left_list.visibility = View.VISIBLE
+                l_trade_info_right_list.visibility = View.VISIBLE
+
+                val half = (tradeInfo.tradeinfoList.size) / 2
 
 
-        for (i in 0 until (tradeInfo.tradeinfoList.size)) {
-            //TODO: Change language so left LL will have one more if odd number of elements.
-            val textView = TextView(context)
-            TextViewCompat.setTextAppearance(textView, R.style.CardViewRecentDetailsListTextStyling)
-            textView.text = "- ${tradeInfo.tradeinfoList[i]}"
-            textView.setOnClickListener {
-                //TODO: Add a child fragment explaining what that doc is when clicked.
+                for (i in 0 until (tradeInfo.tradeinfoList.size)) {
+                    //TODO: Change language so left LL will have one more if odd number of elements.
+                    val textView = TextView(context)
+                    TextViewCompat.setTextAppearance(textView, R.style.CardViewRecentDetailsListTextStyling)
+                    textView.text = "- ${tradeInfo.tradeinfoList[i]}"
+                    textView.setOnClickListener {
+                        //TODO: Add a child fragment explaining what that doc is when clicked.
+                    }
+
+                    when {
+                        i > half -> l_trade_info_right_list.addView(textView)
+                        i == half -> l_trade_info_left_list.addView(textView)
+                        else -> l_trade_info_left_list.addView(textView)
+                    }
+                }
             }
 
-            when {
-                i > half -> l_trade_info_right_list.addView(textView)
-                i == half -> l_trade_info_left_list.addView(textView)
-                else -> l_trade_info_left_list.addView(textView)
-            }
         }
+
+
     }
 
 
