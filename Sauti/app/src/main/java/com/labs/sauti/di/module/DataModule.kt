@@ -77,13 +77,11 @@ class DataModule(private val sautiAuthorization: String) {
         return HelpRepositoryImpl(sautiApiService)
     }
 
-/*
     @Provides
     @Singleton
     fun provideReportRepository(sautiApiService: SautiApiService): ReportRepository {
         return ReportRepositoryImpl(sautiApiService)
     }
-*/
 
     @Provides
     @Singleton

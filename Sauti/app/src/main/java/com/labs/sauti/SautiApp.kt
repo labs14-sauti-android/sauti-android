@@ -14,7 +14,7 @@ class SautiApp : Application() {
     private var settingsComponent: SettingsComponent? = null
     private var tradeinfoComponent : TradeInfoComponent? = null
     private var helpComponent: HelpComponent? = null
-/*    private var reportComponent: ReportComponent? = null*/
+    private var reportComponent: ReportComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -80,10 +80,10 @@ class SautiApp : Application() {
         return helpComponent!!
     }
 
-/*    fun getReportComponent(): ReportComponent {
+    fun getReportComponent(): ReportComponent {
         if (reportComponent == null) {
             reportComponent = mainComponent.plus(ReportModule())
         }
         return reportComponent!!
-    }*/
+    }
 }

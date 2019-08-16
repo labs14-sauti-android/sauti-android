@@ -16,10 +16,10 @@ import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.helper.LocaleHelper
 import com.labs.sauti.model.ReportForm
+import com.labs.sauti.view_model.ReportViewModel
 import kotlinx.android.synthetic.main.fragment_report.*
 import javax.inject.Inject
 
-/*
 class ReportFragment : Fragment() {
 
     @Inject
@@ -126,4 +126,3 @@ class ReportFragment : Fragment() {
             }
     }
 }
-*/

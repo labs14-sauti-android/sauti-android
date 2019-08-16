@@ -145,33 +145,33 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
 
                 return true
             }
-//            R.id.nav_sign_in_out -> {
-//                if (item.title == getString(R.string.menu_sign_out)) {
-//                    authenticationViewModel.signOut()
-//
-//                    item.title = getString(R.string.menu_sign_in)
-//                    setUserNavInfoAsLoggedOut()
-//
-//                    drawer_layout.closeDrawer(GravityCompat.START)
-//
-//                } else {
-//                    val signInFragment = SignInFragment.newInstance()
-//
-//                    supportFragmentManager.beginTransaction()
-//                        .replace(R.id.fragment_container, signInFragment)
-//                        .addToBackStack(null)
-//                        .commit()
-//                }
-//
-//                return true
-//            }
-/*            R.id.nav_report -> {
+/*            R.id.nav_sign_in_out -> {
+                if (item.title == getString(R.string.menu_sign_out)) {
+                    authenticationViewModel.signOut()
+
+                    item.title = getString(R.string.menu_sign_in)
+                    setUserNavInfoAsLoggedOut()
+
+                    drawer_layout.closeDrawer(GravityCompat.START)
+
+                } else {
+                    val signInFragment = SignInFragment.newInstance()
+
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, signInFragment)
+                        .addToBackStack(null)
+                        .commit()
+                }
+
+                return true
+            }*/
+            R.id.nav_report -> {
                 if (replaceFragment(ReportFragment::class.java)) {
                     drawer_layout.closeDrawer(GravityCompat.START)
                 }
 
                 return true
-            }*/
+            }
             R.id.nav_help -> {
                 if (replaceFragment(HelpFragment::class.java)) {
                     drawer_layout.closeDrawer(GravityCompat.START)
@@ -365,14 +365,14 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
                     nav_view.menu.findItem(R.id.nav_marketplace).isChecked = true
                 }
             }
-/*            c.isAssignableFrom(ReportFragment::class.java) -> {
+            c.isAssignableFrom(ReportFragment::class.java) -> {
                 if (baseFragment !is ReportFragment) {
                     shouldReplace = true
                     baseFragment = ReportFragment.newInstance()
                     toolbar.title = "Report"
                     nav_view.menu.findItem(R.id.nav_report).isChecked = true
                 }
-            }*/
+            }
             c.isAssignableFrom(HelpFragment::class.java) -> {
                 if (baseFragment !is HelpFragment) {
                     shouldReplace = true

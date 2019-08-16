@@ -4,12 +4,12 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.labs.sauti.api.SautiApiService
 import com.labs.sauti.model.ReportForm
+import com.labs.sauti.model.report.Border
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.Request
-/*
 
 class ReportRepositoryImpl(private val sautiApiService: SautiApiService) : ReportRepository {
     override fun getBorderNames(): Single<MutableList<String>> {
@@ -57,4 +57,4 @@ class ReportRepositoryImpl(private val sautiApiService: SautiApiService) : Repor
         // TODO test only
         return Completable.complete()
     }
-}*/
+}
