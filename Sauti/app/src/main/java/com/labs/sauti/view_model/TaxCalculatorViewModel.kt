@@ -7,6 +7,8 @@ import com.labs.sauti.repository.TradeInfoRepository
 
 class TaxCalculatorViewModel(private val sautiRepository: SautiRepository) : BaseViewModel() {
 
+
+
     class Factory(private val tradeInfoRepository: TradeInfoRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
