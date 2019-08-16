@@ -13,7 +13,7 @@ class TradeInfoRepositoryImpl(
     private val sautiApiService: SautiApiService,
     private val settingsSp: SettingsSp,
     private val tradeInfoRoomCache: TradeInfoRoomCache,
-    private val tradeInfoRoomSearchCache: TradeInfoRoomCache
+    private val tradeInfoSearchRoomCache: TradeInfoSearchRoomCache
 ) : TradeInfoRepository {
 
 
