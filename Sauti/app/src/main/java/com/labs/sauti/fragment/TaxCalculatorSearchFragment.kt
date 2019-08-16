@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -23,6 +24,7 @@ import com.labs.sauti.sp.SettingsSp
 import com.labs.sauti.view_model.TaxCalculatorViewModel
 import com.labs.sauti.view_model.TradeInfoViewModel
 import com.labs.sauti.views.SearchSpinnerCustomView
+import kotlinx.android.synthetic.main.fragment_tax_calculator.*
 import kotlinx.android.synthetic.main.fragment_tax_calculator_search.*
 import javax.inject.Inject
 
@@ -111,6 +113,18 @@ class TaxCalculatorSearchFragment : Fragment() {
         tradeInfoViewModel.getTradeInfoFourthSpinnerContent().observe(this, Observer {
             loadFourthSpinner(sscv_tax_calculator_q_4, it, "Select where you're going")
         })
+
+        b_tax_calculator_search.setOnClickListener {
+
+            val amountS = et_tax_calculator.text.toString()
+            val amount = if(amountS.isEmpty()) 0.0 else amountS.toDouble()
+
+            if(amount <= 0) {
+                Toast.makeText(context!!, "Please input an amount greater than 0", Toast.LENGTH_LONG).show()
+            } else {
+                //Get TaxCalculator search.
+            }
+        }
     }
 
     fun loadFirstSpinner(next: SearchSpinnerCustomView, spinnerList : List<String>, headerString : String) {

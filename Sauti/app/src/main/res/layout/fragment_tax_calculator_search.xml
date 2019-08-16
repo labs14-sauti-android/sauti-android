@@ -49,7 +49,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 android:layout_marginTop="24dp"
                 app:layout_constraintTop_toBottomOf="@+id/t_tax_calculator_search_header"
-                android:layout_marginBottom="30dp" app:layout_constraintBottom_toTopOf="@+id/b_trade_info_search"
+                android:layout_marginBottom="30dp" app:layout_constraintBottom_toTopOf="@+id/b_tax_calculator_search"
                 app:layout_constraintVertical_bias="0.0">
             <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
                                                                android:layout_height="wrap_content"
@@ -118,10 +118,10 @@
                             android:textColor="@color/colorText"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                            android:id="@+id/textView"
+                            android:id="@+id/t_tax_calculator_value"
                     />
                     <EditText
-                            android:id="@+id/et_value"
+                            android:id="@+id/et_tax_calculator"
                             android:layout_width="0dp"
                             android:layout_height="40dp"
                             android:digits="0123456789"
@@ -133,7 +133,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             android:layout_marginTop="8dp"
-                            app:layout_constraintTop_toBottomOf="@+id/textView"
+                            app:layout_constraintTop_toBottomOf="@+id/t_tax_calculator_value"
                             app:layout_constraintBottom_toBottomOf="parent"/>
 
 
@@ -146,7 +146,7 @@
                 android:textAllCaps="false"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/b_trade_info_search"
+                android:id="@+id/b_tax_calculator_search"
                 android:textStyle="bold"
                 android:textSize="24sp"
                 android:backgroundTint="@color/colorAccent"
