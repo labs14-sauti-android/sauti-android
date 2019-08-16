@@ -1,11 +1,11 @@
 package com.labs.sauti.helper
 
 import androidx.recyclerview.widget.RecyclerView
-import android.R
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
+import com.labs.sauti.R
 
 
 class SimpleDividerItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
