@@ -147,6 +147,17 @@ class TradeInfoSearchFragment : Fragment() {
             }
         })
 
+        tradeInfoViewModel.getSearchTradeInfoDocuments().observe(this, Observer {
+            if(it != null) {
+                onTradeSearchCompletedListener?.OnTradeInfoSearchCompleted(it)
+                b_trade_info_search.isEnabled = true
+            } else {
+                b_trade_info_search.isEnabled = false
+            }
+        })
+
+
+
         b_trade_info_search.setOnClickListener {
 
             if(!(sscv_trade_info_q_2.getSpinnerSelected().isNullOrEmpty())){
@@ -419,8 +430,8 @@ class TradeInfoSearchFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
                 when (position) {
-                    1 -> {}
-                    2 -> {}
+                    1 -> {tradeInfoViewModel.searchRequiredDocuments(language, category, product, origin, dest, 1.0)}
+                    2 -> {tradeInfoViewModel.searchRequiredDocuments(language, category, product, origin, dest, 2001.0)}
                 }
             }
         }

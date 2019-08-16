@@ -28,13 +28,13 @@ class CardViewRecentSearches @JvmOverloads constructor(
         //TODO: Hardcoded value for now. Change later.
         for (i in 0..3) {
             val textView = TextView(context, null, R.style.CardViewTradeInfoContentTextStyling)
-            textView.text = tradeInfo.tradeinfoList[i]
+            textView.text = """-${tradeInfo.tradeinfoList!![i]}"""
             ll_card_list.addView(textView)
         }
         focusObject = tradeInfo
     }
 
-    fun consumeTIData(tradeInfo: Any) {
+/*    fun consumeTIData(tradeInfo: Any) {
 
         if(tradeInfo is TradeInfo) {
             t_card_view_header.text = tradeInfo.tradeinfoTopic
@@ -52,7 +52,7 @@ class CardViewRecentSearches @JvmOverloads constructor(
         //Determine maxlines for header
         //Determine maxlines for listed items
         //Handles the list format
-    }
+    }*/
 
     fun getFocusObject() = focusObject
 

@@ -8,7 +8,8 @@ import androidx.room.Entity
 data class TradeInfo (
     var tradeinfoTopic : String,
     var tradeinfoTopicExpanded : String,
-    var tradeinfoList : List<String>,
+    var tradeinfoList : List<String>? = null,
+    var tradeInfoDocs : MutableList<RequiredDocument>? = null,
     var regulatedType : String? = null,
     val tradeInfoID : Long? = null
 )

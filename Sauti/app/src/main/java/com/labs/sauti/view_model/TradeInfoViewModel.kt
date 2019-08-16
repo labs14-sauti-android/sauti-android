@@ -41,6 +41,22 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     fun getSearchTradeInfoDocuments(): LiveData<TradeInfo> = searchTradeInfoDocuments
     fun getSearchTradeInfoAgencies(): LiveData<TradeInfo> = searchTradeInfoAgencies
 
+    fun searchRequiredDocuments(language: String, category: String, product: String, origin: String, dest: String, value: Double) {
+        addDisposable(tradeInfoRepository.searchTradeInfoRequiredDocuments(language, category, product, origin, dest, value)
+            .map
+            {
+                    TradeInfo(tradeinfoTopic = "Required Documents", tradeinfoTopicExpanded = "Required Documents", tradeInfoDocs = it)
+            }
+            .subscribe(
+                {
+                    searchTradeInfoDocuments.postValue(it)
+                },
+                {
+                    errorLiveData.postValue(it)
+                }
+            ))
+    }
+
     fun searchRegulatedGoods(language: String, country: String, regulatedType: String) {
 
         when(regulatedType) {
@@ -131,7 +147,7 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
 
         val language = tradeInfoLanguage.value as String
 
-        val s = 5
+
         //TODO: String will not be hardcoded and turned into resource with translations
         if(tradeInfoCategory.value == "Regulated Goods") {
             addDisposable(tradeInfoRepository.getRegulatedGoodsCountries(language).subscribeOn(Schedulers.io()).subscribe(

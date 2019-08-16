@@ -120,14 +120,14 @@ OnFragmentFullScreenStateChangedListener{
                 l_trade_info_left_list.visibility = View.VISIBLE
                 l_trade_info_right_list.visibility = View.VISIBLE
 
-                val half = (tradeInfo.tradeinfoList.size) / 2
+                val half = (tradeInfo.tradeinfoList!!.size) / 2
 
 
-                for (i in 0 until (tradeInfo.tradeinfoList.size)) {
+                for (i in 0 until (tradeInfo.tradeinfoList!!.size)) {
                     //TODO: Change language so left LL will have one more if odd number of elements.
                     val textView = TextView(context)
                     TextViewCompat.setTextAppearance(textView, R.style.CardViewRecentDetailsListTextStyling)
-                    textView.text = "- ${tradeInfo.tradeinfoList[i]}"
+                    textView.text = "- ${tradeInfo.tradeinfoList!![i]}"
                     textView.setOnClickListener {
                         //TODO: Add a child fragment explaining what that doc is when clicked.
                     }
@@ -174,6 +174,10 @@ OnFragmentFullScreenStateChangedListener{
     override fun OnTradeInfoSearchCompleted(tradeInfo: TradeInfo) {
         if(tradeInfo.regulatedType != null) {
             tiv_trade_info_recent_first.consumeTIRegulatedGood(tradeInfo)
+        }
+
+        if(tradeInfo.tradeInfoDocs != null) {
+            tiv_trade_info_recent_first
         }
 
 
