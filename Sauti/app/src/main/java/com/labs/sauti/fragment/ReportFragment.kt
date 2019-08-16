@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -63,15 +62,15 @@ class ReportFragment : Fragment() {
         }
 
         reportViewModel.getErrorLiveData().observe(this, Observer {
-            Toast.makeText(context!!, "Failed to load borders. ${it.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(context!!, "Failed to load borderNames. ${it.message}", Toast.LENGTH_LONG).show()
         })
 
-        reportViewModel.getBordersViewState().observe(this, Observer {
+        reportViewModel.getBorderNamesViewState().observe(this, Observer {
             if (it.isLoading) {
                 vs_borders_loading.displayedChild = 1
             } else {
                 vs_borders_loading.displayedChild = 0
-                it.borders?.let { borders ->
+                it.borderNames?.let { borders ->
                     handleBorders(borders)
                 }
             }
