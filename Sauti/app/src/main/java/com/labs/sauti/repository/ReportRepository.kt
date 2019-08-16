@@ -5,6 +5,6 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 interface ReportRepository {
-    fun getBorders(): Single<MutableList<String>>
+    fun getBorderNames(): Single<MutableList<String>>
     fun submitReportForm(reportForm: ReportForm): Completable
 }
