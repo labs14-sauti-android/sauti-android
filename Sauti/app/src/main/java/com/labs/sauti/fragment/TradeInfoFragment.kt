@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -15,6 +16,8 @@ import androidx.transition.TransitionManager
 import com.labs.sauti.R
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.SautiApp
+import com.labs.sauti.helper.DocumentsAdapter
+import com.labs.sauti.helper.SimpleDividerItemDecoration
 import com.labs.sauti.view_model.TradeInfoViewModel
 import kotlinx.android.synthetic.main.fragment_trade_info.*
 import javax.inject.Inject
@@ -36,6 +39,8 @@ OnFragmentFullScreenStateChangedListener{
     var tiDetailsIsVisible = false
 
     var tradeInfoRecent : TradeInfo? = null
+
+    lateinit var documentsAdapter : DocumentsAdapter
 
 
 
@@ -112,7 +117,14 @@ OnFragmentFullScreenStateChangedListener{
 
         when(tradeInfo.tradeinfoTopic) {
             "Border Procedures"->{}
-            "Required Documents"->{}
+            "Required Documents"->{
+                rv_trade_info_required_documents.visibility = View.VISIBLE
+                documentsAdapter = DocumentsAdapter(tradeInfo.tradeInfoDocs!!) {
+                    Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
+                }
+                rv_trade_info_required_documents.addItemDecoration(SimpleDividerItemDecoration(context!!))
+                rv_trade_info_required_documents.adapter = documentsAdapter
+            }
             "Border Agencies"->{}
             "Regulated Goods" ->{
                 l_trade_info_left_list.removeAllViews()
