@@ -53,9 +53,9 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
                                 list.add(pro.name)
                             }
 
-                            TradeInfo("These commodities are prohibited",
-                                "Prohibited Goods",
-                                list)
+                            TradeInfo("Regulated Goods",
+                                "These commodities are prohibited",
+                                list, regulatedType = "Prohibited Goods")
                         }
                         .subscribe(
                             {
@@ -76,9 +76,10 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
                                 list.add(rest.name)
                             }
 
-                            TradeInfo("These commodities are restricted:",
-                                "Restricted Goods",
-                                list)
+                            TradeInfo("Regulated Goods",
+                                "These commodities are restricted",
+                                list,
+                                regulatedType = "Restricted Goods")
                         }
                         .subscribe(
                             {
@@ -98,9 +99,10 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
                                 list.add(sensitive.name)
                             }
 
-                            TradeInfo("These commodities are sensitive:",
-                                "Sensitive Goods",
-                                list)
+                            TradeInfo("Regulated Goods",
+                                "These commodities are sensitive",
+                                list,
+                                regulatedType = "Sensitive Goods")
                         }
                         .subscribe(
                             {

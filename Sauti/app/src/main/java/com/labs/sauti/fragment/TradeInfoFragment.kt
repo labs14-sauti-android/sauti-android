@@ -172,7 +172,11 @@ OnFragmentFullScreenStateChangedListener{
     }
 
     override fun OnTradeInfoSearchCompleted(tradeInfo: TradeInfo) {
-        tiv_trade_info_recent_first.consumeTIData(tradeInfo)
+        if(tradeInfo.regulatedType != null) {
+            tiv_trade_info_recent_first.consumeTIRegulatedGood(tradeInfo)
+        }
+
+
         addTIDetailsLL(tradeInfo)
         cl_expanded_trade_info.visibility = View.VISIBLE
         tradeInfoRecent = tradeInfo

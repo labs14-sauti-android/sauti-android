@@ -9,6 +9,7 @@ data class TradeInfo (
     var tradeinfoTopic : String,
     var tradeinfoTopicExpanded : String,
     var tradeinfoList : List<String>,
+    var regulatedType : String? = null,
     val tradeInfoID : Long? = null
 )
 //TODO Markup with room annotations. Ideal way I would like data to be delivered in a list.
