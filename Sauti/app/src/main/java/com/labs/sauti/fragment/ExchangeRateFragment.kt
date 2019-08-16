@@ -1,6 +1,9 @@
 package com.labs.sauti.fragment
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.SpannableString
@@ -17,10 +20,12 @@ import androidx.lifecycle.ViewModelProviders
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.helper.LocaleHelper
+import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResult
 import com.labs.sauti.view_model.ExchangeRateViewModel
 import kotlinx.android.synthetic.main.fragment_exchange_rate.*
 import kotlinx.android.synthetic.main.item_recent_exchange_rate.view.*
+import java.text.DecimalFormat
 import javax.inject.Inject
 
 class ExchangeRateFragment : Fragment(), ExchangeRateConvertFragment.OnConversionCompletedListener,
@@ -35,6 +40,16 @@ OnFragmentFullScreenStateChangedListener{
 
     private var shouldSelectMostRecentExchangeRateView = false
     private var selectedConversionResultRootView: View? = null
+
+    private val networkChangedReceiver = object: BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (NetworkHelper.hasNetworkConnection(context!!)) {
+                t_warning_no_network_connection.visibility = View.GONE
+            } else {
+                t_warning_no_network_connection.visibility = View.VISIBLE
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +68,10 @@ OnFragmentFullScreenStateChangedListener{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        context!!.registerReceiver(networkChangedReceiver, IntentFilter().also {
+            it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
+        })
 
         setTranslatableTexts()
 
@@ -96,10 +115,11 @@ OnFragmentFullScreenStateChangedListener{
     }
 
     private fun setConversionResultDetails(exchangeRateConversionResult: ExchangeRateConversionResult) {
-        val amountStr = String.format("%.2f", exchangeRateConversionResult.amount)
-        val resultStr = String.format("%.2f", exchangeRateConversionResult.result)
+        val decimalFormat = DecimalFormat("#,##0.00")
+        val amountStr = decimalFormat.format(exchangeRateConversionResult.amount)
+        val resultStr = decimalFormat.format(exchangeRateConversionResult.result)
         t_details_result.text = "$amountStr ${exchangeRateConversionResult.fromCurrency} is $resultStr ${exchangeRateConversionResult.toCurrency}"
-        val toPerFromStr = String.format("%.2f", exchangeRateConversionResult.toPerFrom)
+        val toPerFromStr = decimalFormat.format(exchangeRateConversionResult.toPerFrom)
         t_details_to_per_from.text = "(1${exchangeRateConversionResult.fromCurrency} = $toPerFromStr ${exchangeRateConversionResult.toCurrency})"
     }
 
@@ -118,10 +138,11 @@ OnFragmentFullScreenStateChangedListener{
             itemView.t_recent_todays_intl_exchange_rates.text = localeCtx.getString(R.string.today_s_intl_exchange_rates)
             itemView.t_recent_todays_intl_exchange_rates.typeface = Typeface.DEFAULT_BOLD
 
-            val amountStr = String.format("%.2f", conversionResult.amount)
-            val resultStr = String.format("%.2f", conversionResult.result)
+            val decimalFormat = DecimalFormat("#,##0.00")
+            val amountStr = decimalFormat.format(conversionResult.amount)
+            val resultStr = decimalFormat.format(conversionResult.result)
             itemView.t_recent_result.text = "$amountStr ${conversionResult.fromCurrency} is $resultStr ${conversionResult.toCurrency}"
-            val toPerFromStr = String.format("%.2f", conversionResult.toPerFrom)
+            val toPerFromStr = decimalFormat.format(conversionResult.toPerFrom)
             itemView.t_recent_to_per_from.text = "(1${conversionResult.fromCurrency} = $toPerFromStr ${conversionResult.toCurrency})"
 
             itemView.setOnClickListener {
@@ -183,6 +204,12 @@ OnFragmentFullScreenStateChangedListener{
     override fun onDetach() {
         super.onDetach()
         onFragmentFullScreenStateChangedListener = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        context!!.unregisterReceiver(networkChangedReceiver)
     }
 
     override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {

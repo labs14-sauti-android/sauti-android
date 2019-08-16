@@ -1,5 +1,6 @@
 package com.labs.sauti.di.module
 
+import com.labs.sauti.repository.MarketPriceRepository
 import com.labs.sauti.repository.SautiRepository
 import com.labs.sauti.view_model.MarketPriceViewModel
 import dagger.Module
@@ -9,7 +10,7 @@ import dagger.Provides
 class MarketPriceModule {
 
     @Provides
-    fun provideMarketPriceViewModelFactory(sautiRepository: SautiRepository): MarketPriceViewModel.Factory {
-        return MarketPriceViewModel.Factory(sautiRepository)
+    fun provideMarketPriceViewModelFactory(marketPriceRepository: MarketPriceRepository): MarketPriceViewModel.Factory {
+        return MarketPriceViewModel.Factory(marketPriceRepository)
     }
 }

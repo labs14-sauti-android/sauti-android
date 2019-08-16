@@ -52,7 +52,7 @@
                                 android:layout_height="wrap_content"
                                 tools:text="Wholesale: 90 KES/1Kg"
                                 android:textColor="@color/colorText"
-                                android:textSize="16sp"
+                                android:textSize="18sp"
                                 android:textStyle="bold"/>
                         <TextView
                                 android:id="@+id/t_details_retail"
@@ -60,7 +60,7 @@
                                 android:layout_height="wrap_content"
                                 tools:text="Retail: 120 KES/1Kg"
                                 android:textColor="@color/colorText"
-                                android:textSize="16sp"
+                                android:textSize="18sp"
                                 android:textStyle="bold"
                                 android:layout_marginBottom="9dp"/>
                         <TextView
@@ -69,14 +69,14 @@
                                 android:layout_height="wrap_content"
                                 tools:text="Updated: 2019-06-24"
                                 android:textColor="@color/colorText"
-                                android:textSize="14sp"/>
+                                android:textSize="12sp"/>
                         <TextView
                                 android:id="@+id/t_details_source"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 tools:text="Source: EAGC-RATIN"
                                 android:textColor="@color/colorText"
-                                android:textSize="14sp"/>
+                                android:textSize="12sp"/>
 
                     </LinearLayout>
 
@@ -146,12 +146,26 @@
 
                         </ViewSwitcher>
 
-
                     </LinearLayout>
 
                 </LinearLayout>
 
             </ScrollView>
+
+            <TextView
+                    android:id="@+id/t_warning_no_network_connection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:text="@string/no_connection"
+                    android:background="@color/colorWarningBackground"
+                    android:paddingStart="22dp"
+                    android:paddingEnd="22dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:textColor="@color/colorWarningText"
+                    android:textSize="12sp"
+                    android:visibility="gone"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/b_search"

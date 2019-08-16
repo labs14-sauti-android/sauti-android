@@ -35,11 +35,11 @@ data class MarketPriceData(
 
     @SerializedName("wholesale")
     @Expose
-    var wholesale: Long? = null,
+    var wholesale: Double? = null,
 
     @SerializedName("retail")
     @Expose
-    var retail: Long? = null,
+    var retail: Double? = null,
 
     @SerializedName("currency")
     @Expose

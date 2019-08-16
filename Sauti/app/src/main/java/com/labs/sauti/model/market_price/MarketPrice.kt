@@ -6,8 +6,8 @@ class MarketPrice(
     var productAgg: String? = null,
     var productCat: String? = null,
     var product: String? = null,
-    var wholesale: Long? = null,
-    var retail: Long? = null,
+    var wholesale: Double? = null,
+    var retail: Double? = null,
     var currency: String? = null,
     var date: String? = null
 )

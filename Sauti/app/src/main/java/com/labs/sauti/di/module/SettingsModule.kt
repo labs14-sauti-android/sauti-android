@@ -1,6 +1,7 @@
 package com.labs.sauti.di.module
 
 import com.labs.sauti.repository.SautiRepository
+import com.labs.sauti.repository.SettingsRepository
 import com.labs.sauti.view_model.SettingsViewModel
 import dagger.Module
 import dagger.Provides
@@ -9,8 +10,8 @@ import dagger.Provides
 class SettingsModule {
 
     @Provides
-    fun provideSettingsViewModelFactory(sautiRepository: SautiRepository): SettingsViewModel.Factory {
-        return SettingsViewModel.Factory(sautiRepository)
+    fun provideSettingsViewModelFactory(settingsRepository: SettingsRepository): SettingsViewModel.Factory {
+        return SettingsViewModel.Factory(settingsRepository)
     }
 
 }
