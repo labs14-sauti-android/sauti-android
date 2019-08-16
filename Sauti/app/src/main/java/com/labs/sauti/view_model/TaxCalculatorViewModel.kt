@@ -2,10 +2,9 @@ package com.labs.sauti.view_model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.labs.sauti.repository.SautiRepository
 import com.labs.sauti.repository.TradeInfoRepository
 
-class TaxCalculatorViewModel(private val sautiRepository: SautiRepository) : BaseViewModel() {
+class TaxCalculatorViewModel(private val tradeInfoRepository: TradeInfoRepository) : BaseViewModel() {
 
 
 

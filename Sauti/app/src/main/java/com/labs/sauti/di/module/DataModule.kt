@@ -6,7 +6,6 @@ import com.labs.sauti.cache.MarketPriceRoomCache
 import com.labs.sauti.cache.MarketPriceSearchRoomCache
 import com.labs.sauti.cache.*
 import com.labs.sauti.db.SautiRoomDatabase
-import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.repository.*
 import com.labs.sauti.sp.SessionSp
 import com.labs.sauti.sp.SettingsSp
@@ -81,33 +80,6 @@ class DataModule(private val sautiAuthorization: String) {
     @Singleton
     fun provideReportRepository(sautiApiService: SautiApiService): ReportRepository {
         return ReportRepositoryImpl(sautiApiService)
-    }
-
-    @Provides
-    @Singleton
-    fun provideSautiRepository(
-        networkHelper: NetworkHelper,
-        sautiApiService: SautiApiService,
-        sessionSp: SessionSp,
-        settingsSp: SettingsSp,
-        marketPriceRoomCache: MarketPriceRoomCache,
-        marketPriceSearchRoomCache: MarketPriceSearchRoomCache,
-        exchangeRateRoomCache: ExchangeRateRoomCache,
-        exchangeRateConversionRoomCache: ExchangeRateConversionRoomCache,
-        tradeInfoRoomCache: TradeInfoRoomCache
-    ): SautiRepository {
-        return SautiRepositoryImpl(
-            networkHelper,
-            sautiApiService,
-            sautiAuthorization,
-            sessionSp,
-            settingsSp,
-            marketPriceRoomCache,
-            marketPriceSearchRoomCache,
-            exchangeRateRoomCache,
-            exchangeRateConversionRoomCache,
-            tradeInfoRoomCache
-        )
     }
 
     @Provides
