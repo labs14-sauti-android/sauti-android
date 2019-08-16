@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="sauti_api_base_url" translatable="false">https://labs-sauti.herokuapp.com/</string>
-    <string name="sauti_login_authorization" translatable="false">Basic bGFtYmRhLWNsaWVudDpsYW1iZGEtc2VjcmV0</string>
-
-</resources>
