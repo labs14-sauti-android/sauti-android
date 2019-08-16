@@ -1,262 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".fragment.TaxCalculatorSearchFragment"
-             android:clickable="true"
-             android:focusable="true"
-             android:background="@color/colorPrimaryDark">
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.TaxCalculatorSearchFragment"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@color/colorPrimaryDark">
 
-    <ScrollView android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-        <LinearLayout
-                android:layout_width="match_parent"
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"
+                                                       android:background="@color/colorPrimaryDark"
+                                                       android:id="@+id/cl_tax_calculator_search_fragment_container">
+
+        <TextView
+                android:text="@string/menu_tax_calculator"
+                style="@style/SearchFragmentHeaderStyling"
+                android:id="@+id/t_tax_calculator_search_header"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="20dp" app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="24dp"
+        />
+
+        <ImageView
+                android:src="@drawable/ic_tax_calculator"
+                android:scaleType="fitEnd"
+                android:layout_height="0dp"
+                android:id="@+id/i_tax_calculator_search_header_image"
+                android:tint="@color/colorText"
+                app:layout_constraintTop_toTopOf="@+id/t_tax_calculator_search_header" android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/t_tax_calculator_search_header"
+                app:layout_constraintStart_toEndOf="@+id/t_tax_calculator_search_header" android:layout_marginStart="8dp"
+                android:layout_width="0dp" android:layout_marginTop="3dp" android:layout_marginBottom="3dp"/>
+        <ScrollView
+                android:layout_width="0dp"
+                android:fadeScrollbars="false"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="23dp">
-
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Start Search"
-                    android:textSize="24sp"
-                    android:layout_marginBottom="20dp"
-                    android:textColor="@color/colorText"/>
-
-            <ViewSwitcher
-                    android:id="@+id/vs_categories"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="30dp">
-
-                <LinearLayout
-                        android:layout_width="match_parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/sv_tax_calculator"
+                app:layout_constraintHorizontal_bias="0.0"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/t_tax_calculator_search_header">
+            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content"
+                                                               android:id="@+id/c_tax_calculator_spinner_container">
+                <com.labs.sauti.views.SearchSpinnerCustomView
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:id="@+id/sscv_tax_calculator_q_1"
+                        android:visibility="visible"
+                        app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="20dp" app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="20dp" app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintBottom_toTopOf="@+id/sscv_tax_calculator_q_2"
+                        android:layout_marginBottom="30dp"
+                        app:layout_constraintVertical_bias="0.0"/>
+                <com.labs.sauti.views.SearchSpinnerCustomView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible"
+                        android:id="@+id/sscv_tax_calculator_q_2"
+                        tools:visibility="visible"
+                        app:layout_constraintTop_toBottomOf="@+id/sscv_tax_calculator_q_1"
+                        app:layout_constraintBottom_toTopOf="@+id/sscv_tax_calculator_q_3"
+                        app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="20dp"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
+                        android:layout_marginBottom="30dp"/>
+                <com.labs.sauti.views.SearchSpinnerCustomView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible"
+                        android:id="@+id/sscv_tax_calculator_q_3"
+                        tools:visibility="visible"
+                        app:layout_constraintTop_toBottomOf="@+id/sscv_tax_calculator_q_2"
+                        app:layout_constraintBottom_toTopOf="@+id/sscv_tax_calculator_q_4"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
+                        app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="30dp"/>
+                <com.labs.sauti.views.SearchSpinnerCustomView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible"
+                        tools:visibility="visible"
+                        android:id="@+id/sscv_tax_calculator_q_4"
+                        app:layout_constraintTop_toBottomOf="@+id/sscv_tax_calculator_q_3"
+                        app:layout_constraintBottom_toTopOf="@+id/sscv_tax_calculator_q_5"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
+                        app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="30dp"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/sscv_tax_calculator_q_5"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/sscv_tax_calculator_q_4"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
+                        app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="20dp">
 
                     <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="What category of commodities are you trading?"
+                            android:text="What is the approximate value of your good in UGX?"
                             android:textSize="14sp"
-                            android:textColor="@color/colorText"/>
-
-                    <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                        <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:src="@drawable/search_spinner_background"/>
-
-                        <Spinner
-                                android:id="@+id/s_categories"
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:backgroundTint="#2e2e2e">
-                        </Spinner>
-
-                    </RelativeLayout>
-
-                </LinearLayout>
-
-                <ProgressBar
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-            </ViewSwitcher>
-
-            <ViewSwitcher
-                    android:id="@+id/vs_products"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="30dp">
-
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="What commodity are you trading?"
-                            android:textSize="14sp"
-                            android:textColor="@color/colorText"/>
-
-                    <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                        <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:src="@drawable/search_spinner_background"/>
-
-                        <Spinner
-                                android:id="@+id/s_products"
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:backgroundTint="#2e2e2e">
-                        </Spinner>
-
-                    </RelativeLayout>
-
-                </LinearLayout>
-
-                <ProgressBar
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-            </ViewSwitcher>
-
-            <ViewSwitcher
-                    android:id="@+id/vs_where_to_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="30dp">
-
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Where are you selling your goods?"
-                            android:textSize="14sp"
-                            android:textColor="@color/colorText"/>
-
-                    <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                        <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:src="@drawable/search_spinner_background"/>
-
-                        <Spinner
-                                android:id="@+id/s_where_to_list"
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:backgroundTint="#2e2e2e">
-                        </Spinner>
-
-                    </RelativeLayout>
-
-                </LinearLayout>
-
-                <ProgressBar
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-            </ViewSwitcher>
-
-            <ViewSwitcher
-                    android:id="@+id/vs_where_from_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="30dp">
-
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Where was your product made/originate?"
-                            android:textSize="14sp"
-                            android:textColor="@color/colorText"/>
-
-                    <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                        <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:src="@drawable/search_spinner_background"/>
-
-                        <Spinner
-                                android:id="@+id/s_where_from_list"
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:backgroundTint="#2e2e2e">
-                        </Spinner>
-
-                    </RelativeLayout>
-
-                </LinearLayout>
-
-                <ProgressBar
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-            </ViewSwitcher>
-
-            <LinearLayout
-                    android:id="@+id/ll_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="30dp">
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="What is the approximate value of your good in UGX?"
-                        android:textSize="14sp"
-                        android:textColor="@color/colorText"/>
-
-                <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                            android:textColor="@color/colorText"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                            android:id="@+id/textView"
+                    />
 
                     <EditText
                             android:id="@+id/et_value"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="40dp"
                             android:digits="0123456789"
                             android:inputType="number"
                             android:maxLines="1"
                             android:hint="Enter Amount"
                             android:background="#d9d6d6"
-                            android:padding="10dp"/>
+                            android:padding="10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@+id/textView"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
 
-                </RelativeLayout>
 
-            </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+        <Button
+                android:text="@string/search_button_text"
+                android:clickable="false"
+                android:textAllCaps="false"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/b_tax_calculator_search"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:backgroundTint="@color/colorAccent"
+                android:textColor="@color/colorText"
+                android:layout_marginStart="20dp"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                android:layout_marginTop="30dp" app:layout_constraintTop_toBottomOf="@+id/sv_tax_calculator"
+                android:layout_marginBottom="56dp" app:layout_constraintBottom_toTopOf="@+id/t_tax_calculator_warning"
+                app:layout_constraintVertical_bias="0.0"/>
+        <TextView
+                android:text="@string/no_connection"
+                android:layout_width="0dp"
+                android:visibility="visible"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:background="@color/colorWarningBackground"
+                android:textColor="@color/colorWarningText"
+                android:textSize="12sp"
+                android:id="@+id/t_tax_calculator_warning"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+        />
 
-            <ViewSwitcher
-                    android:id="@+id/vs_search_loading"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
 
-                <Button
-                        android:id="@+id/b_search"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Search"
-                        android:textStyle="bold"
-                        android:textSize="24sp"
-                        android:backgroundTint="@color/colorAccent"
-                        android:textColor="@color/colorText"/>
-
-                <ProgressBar
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
-
-            </ViewSwitcher>
-
-        </LinearLayout>
-
-    </ScrollView>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

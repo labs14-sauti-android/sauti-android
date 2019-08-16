@@ -19,8 +19,7 @@
                 android:id="@+id/cl_expanded_trade_info"
                 android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/textView"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5">
             <TextView
                     android:textStyle="bold"
@@ -32,31 +31,50 @@
                     android:id="@+id/t_trade_info_header" app:layout_constraintStart_toStartOf="parent"
                     android:textColor="@color/colorTextInformation"
                     android:layout_marginTop="22dp" app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="20dp"/>
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="20dp"
+                    android:layout_marginEnd="64dp"/>
+            <TextView
+                    android:text="TextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    style="@style/TradeInfoDetailsSubHeaderStyling"
+                    android:id="@+id/t_trade_info_sub_header" android:layout_marginTop="12dp"
+                    app:layout_constraintTop_toBottomOf="@+id/t_trade_info_header"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="95dp"/>
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/l_tradeinfo_left_list"
+                    android:id="@+id/l_trade_info_left_list"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="@+id/t_trade_info_header"
                     app:layout_constraintTop_toBottomOf="@+id/t_trade_info_header"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintEnd_toStartOf="@+id/l_tradeinfo_right_list" android:layout_marginTop="18dp"
+                    app:layout_constraintEnd_toStartOf="@+id/l_trade_info_right_list" android:layout_marginTop="18dp"
                     android:layout_marginBottom="25dp" app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintVertical_bias="0.0">
             </LinearLayout>
             <LinearLayout
-                    app:layout_constraintStart_toEndOf="@+id/l_tradeinfo_left_list"
+                    app:layout_constraintStart_toEndOf="@+id/l_trade_info_left_list"
                     android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/l_tradeinfo_right_list"
+                    android:id="@+id/l_trade_info_right_list"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="4dp"
                     app:layout_constraintTop_toBottomOf="@+id/t_trade_info_header"
                     app:layout_constraintHorizontal_bias="0.5"
                     android:layout_marginTop="18dp" android:layout_marginEnd="20dp" android:layout_marginBottom="25dp"
                     app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.0">
             </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="13dp"
+                    app:layout_constraintTop_toBottomOf="@+id/t_trade_info_sub_header"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
             <!-- TODO: textstyle, size, and font family will receive a style -->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -64,31 +82,31 @@
                 android:text="@string/your_recent_searches"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView"
+                android:id="@+id/t_trade_info_total"
                 android:textColor="@color/colorText"
                 android:layout_marginStart="30dp" app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cl_expanded_trade_info"
-        />
+                android:layout_marginTop="18dp"/>
         <com.labs.sauti.views.CardViewRecentSearches
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:id="@+id/tiv_recent_first"
+                android:id="@+id/tiv_trade_info_recent_first"
                 app:cardCornerRadius="5dp"
                 app:cardUseCompatPadding="true"
-                app:layout_constraintStart_toStartOf="@+id/textView"
-                android:layout_marginTop="6dp" app:layout_constraintTop_toBottomOf="@+id/textView"
-                app:layout_constraintDimensionRatio="1:1"/>
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="6dp" app:layout_constraintTop_toBottomOf="@+id/t_trade_info_total"
+                app:layout_constraintDimensionRatio="1:1" android:layout_marginStart="30dp"/>
         <com.labs.sauti.views.CardViewRecentSearches
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:id="@+id/tiv_recent_second"
+                android:id="@+id/tiv_trade_info_recent_second"
                 app:cardCornerRadius="5dp"
                 app:cardUseCompatPadding="true"
-                app:layout_constraintStart_toEndOf="@+id/tiv_recent_first"
+                app:layout_constraintStart_toEndOf="@+id/tiv_trade_info_recent_first"
                 app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="35dp" app:layout_constraintTop_toTopOf="@+id/tiv_recent_first"
-                app:layout_constraintBottom_toBottomOf="@+id/tiv_recent_first"
-                app:layout_constraintDimensionRatio="w,1:1"
+                android:layout_marginEnd="35dp" app:layout_constraintTop_toTopOf="@+id/tiv_trade_info_recent_first"
+                app:layout_constraintBottom_toBottomOf="@+id/tiv_trade_info_recent_first"
+                app:layout_constraintDimensionRatio="1:1"
                 android:layout_marginStart="15dp" app:layout_constraintVertical_bias="1.0">
         </com.labs.sauti.views.CardViewRecentSearches>
         <TextView
@@ -103,11 +121,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="12dp"
-                app:layout_constraintTop_toBottomOf="@+id/tiv_recent_first"/>
+                app:layout_constraintTop_toBottomOf="@+id/tiv_trade_info_recent_first"/>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/b_trade_info_search"
                 android:layout_margin="20dp"
-                android:layout_gravity="bottom|end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
@@ -116,7 +133,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginEnd="@dimen/fab_margin"
                 app:layout_constraintEnd_toEndOf="parent"
-        />
+                app:layout_constraintTop_toBottomOf="@+id/t_push_to_view"
+                app:layout_constraintVertical_bias="1.0" android:layout_marginTop="5dp"/>
         <!-- TODO: t_push_to_view could use styling but not seen anywhere -->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

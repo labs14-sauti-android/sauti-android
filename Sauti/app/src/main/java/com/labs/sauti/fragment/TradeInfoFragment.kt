@@ -8,16 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.transition.TransitionManager
 import com.labs.sauti.R
 import com.labs.sauti.model.trade_info.TradeInfo
-import kotlinx.android.synthetic.main.fragment_trade_info.*
 import com.labs.sauti.SautiApp
 import com.labs.sauti.view_model.TradeInfoViewModel
+import kotlinx.android.synthetic.main.fragment_trade_info.*
 import javax.inject.Inject
 
 
@@ -67,7 +66,7 @@ OnFragmentFullScreenStateChangedListener{
 
 
 
-        tiv_recent_first.setOnClickListener(object : View.OnClickListener {
+        tiv_trade_info_recent_first.setOnClickListener(object : View.OnClickListener {
 
             override fun onClick(v: View) {
                 if(tradeInfoRecent != null) {
@@ -107,8 +106,8 @@ OnFragmentFullScreenStateChangedListener{
 
     fun addTIDetailsLL(tradeInfo: TradeInfo) {
         t_trade_info_header.text = tradeInfo.tradeinfoTopicExpanded
-        l_tradeinfo_left_list.removeAllViews()
-        l_tradeinfo_right_list.removeAllViews()
+        l_trade_info_left_list.removeAllViews()
+        l_trade_info_right_list.removeAllViews()
         var half = (tradeInfo.tradeinfoList.size) / 2
 
 
@@ -122,9 +121,9 @@ OnFragmentFullScreenStateChangedListener{
             }
 
             when {
-                i > half -> l_tradeinfo_right_list.addView(textView)
-                i == half -> l_tradeinfo_left_list.addView(textView)
-                else -> l_tradeinfo_left_list.addView(textView)
+                i > half -> l_trade_info_right_list.addView(textView)
+                i == half -> l_trade_info_left_list.addView(textView)
+                else -> l_trade_info_left_list.addView(textView)
             }
         }
     }
@@ -156,7 +155,7 @@ OnFragmentFullScreenStateChangedListener{
     }
 
     override fun OnTradeInfoSearchCompleted(tradeInfo: TradeInfo) {
-        tiv_recent_first.consumeTIData(tradeInfo)
+        tiv_trade_info_recent_first.consumeTIData(tradeInfo)
         addTIDetailsLL(tradeInfo)
         cl_expanded_trade_info.visibility = View.VISIBLE
         tradeInfoRecent = tradeInfo

@@ -9,6 +9,7 @@ class SautiApp : Application() {
     private lateinit var mainComponent: MainComponent
     private var authenticationComponent: AuthenticationComponent? = null
     private var marketPriceComponent: MarketPriceComponent? = null
+    private var taxCalculatorComponent: TaxCalculatorComponent? = null
     private var exchangeRateComponent: ExchangeRateComponent? = null
     private var settingsComponent: SettingsComponent? = null
     private var tradeinfoComponent : TradeInfoComponent? = null
@@ -63,6 +64,13 @@ class SautiApp : Application() {
             tradeinfoComponent = mainComponent.plus(TradeInfoModule())
         }
         return tradeinfoComponent!!
+    }
+
+    fun getTaxCalculatorComponent() : TaxCalculatorComponent {
+        if(taxCalculatorComponent == null ) {
+            taxCalculatorComponent = mainComponent.plus(TaxCalculatorModule())
+        }
+        return taxCalculatorComponent!!
     }
 
     fun getHelpComponent() : HelpComponent {

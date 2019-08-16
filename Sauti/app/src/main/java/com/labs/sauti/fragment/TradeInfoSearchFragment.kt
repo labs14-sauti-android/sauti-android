@@ -22,7 +22,6 @@ import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.sp.SettingsSp
 import com.labs.sauti.view_model.TradeInfoViewModel
 import com.labs.sauti.views.SearchSpinnerCustomView
-import io.reactivex.Completable
 import kotlinx.android.synthetic.main.fragment_trade_info_search.*
 import javax.inject.Inject
 

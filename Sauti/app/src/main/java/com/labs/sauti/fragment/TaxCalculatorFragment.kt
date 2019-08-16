@@ -31,12 +31,12 @@ OnFragmentFullScreenStateChangedListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ll_details.visibility = View.GONE
+//        ll_details.visibility = View.GONE
 
-        b_search.setOnClickListener {
+        b_trade_info_search.setOnClickListener {
             val taxCalculatorSearchFragment = TaxCalculatorSearchFragment.newInstance()
             childFragmentManager.beginTransaction()
-                .replace(R.id.fl_fragment_container, taxCalculatorSearchFragment)
+                .replace(R.id.fl_fragment_container_tax_calculator, taxCalculatorSearchFragment)
                 .addToBackStack(null)
                 .commit()
         }

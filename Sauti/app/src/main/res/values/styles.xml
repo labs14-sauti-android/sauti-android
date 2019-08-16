@@ -82,6 +82,12 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">@dimen/searchParamTextSize</item>
     </style>
+    <style name="TradeInfoDetailsSubHeaderStyling">
+        <item name="android:textSize">@dimen/searchParamTextSize</item>
+        <item name="android:textColor">@color/colorTIDetailsSubheaderText</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
 
 
     <!-- TODO: Navigation Drawer Styling. -->

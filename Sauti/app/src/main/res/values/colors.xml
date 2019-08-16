@@ -19,4 +19,5 @@
     <color name="colorSelectedLanguage">#5b5b5b</color>
     <color name="colorAboutImage">#f8c8c4</color>
     <color name="colorTextEditText">#000000</color>
+    <color name="colorTIDetailsSubheaderText">#c7c2c2</color>
 </resources>
