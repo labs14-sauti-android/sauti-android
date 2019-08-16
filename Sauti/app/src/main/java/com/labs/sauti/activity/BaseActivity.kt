@@ -1,5 +1,6 @@
 package com.labs.sauti.activity
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -60,6 +61,7 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
         )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
+        drawer_layout.setScrimColor(Color.parseColor("#66c4c4c4"))
 
         // initial base fragment
         supportActionBar!!.title = "Sauti"
@@ -68,6 +70,7 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
             .replace(R.id.primary_fragment_container, baseFragment)
             .commit()
         nav_view.menu.findItem(R.id.nav_dashboard).isChecked = true
+
     }
 
     override fun onResume() {
@@ -142,26 +145,26 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
 
                 return true
             }
-//            R.id.nav_sign_in_out -> {
-//                if (item.title == getString(R.string.menu_sign_out)) {
-//                    authenticationViewModel.signOut()
-//
-//                    item.title = getString(R.string.menu_sign_in)
-//                    setUserNavInfoAsLoggedOut()
-//
-//                    drawer_layout.closeDrawer(GravityCompat.START)
-//
-//                } else {
-//                    val signInFragment = SignInFragment.newInstance()
-//
-//                    supportFragmentManager.beginTransaction()
-//                        .replace(R.id.fragment_container, signInFragment)
-//                        .addToBackStack(null)
-//                        .commit()
-//                }
-//
-//                return true
-//            }
+/*            R.id.nav_sign_in_out -> {
+                if (item.title == getString(R.string.menu_sign_out)) {
+                    authenticationViewModel.signOut()
+
+                    item.title = getString(R.string.menu_sign_in)
+                    setUserNavInfoAsLoggedOut()
+
+                    drawer_layout.closeDrawer(GravityCompat.START)
+
+                } else {
+                    val signInFragment = SignInFragment.newInstance()
+
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, signInFragment)
+                        .addToBackStack(null)
+                        .commit()
+                }
+
+                return true
+            }*/
             R.id.nav_report -> {
                 if (replaceFragment(ReportFragment::class.java)) {
                     drawer_layout.closeDrawer(GravityCompat.START)

@@ -13,3 +13,4 @@ class ReportModule {
         return ReportViewModel.Factory(reportRepository)
     }
 }
+

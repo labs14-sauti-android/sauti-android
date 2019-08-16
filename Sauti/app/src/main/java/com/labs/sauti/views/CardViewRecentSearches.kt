@@ -22,6 +22,18 @@ class CardViewRecentSearches @JvmOverloads constructor(
         inflate(getContext(), R.layout.item_recent_card_view, this)
     }
 
+    fun consumeTIRegulatedGood(tradeInfo: TradeInfo) {
+        t_card_view_header.text = tradeInfo.regulatedType
+
+        //TODO: Hardcoded value for now. Change later.
+        for (i in 0..3) {
+            val textView = TextView(context, null, R.style.CardViewTradeInfoContentTextStyling)
+            textView.text = tradeInfo.tradeinfoList[i]
+            ll_card_list.addView(textView)
+        }
+        focusObject = tradeInfo
+    }
+
     fun consumeTIData(tradeInfo: Any) {
 
         if(tradeInfo is TradeInfo) {

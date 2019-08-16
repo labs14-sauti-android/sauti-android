@@ -9,6 +9,7 @@ import com.labs.sauti.repository.ReportRepository
 import com.labs.sauti.view_state.report.BorderNamesViewState
 import com.labs.sauti.view_state.report.SubmitReportFormViewState
 
+
 class ReportViewModel(private val reportRepository: ReportRepository) : BaseViewModel() {
 
     private val errorLiveData by lazy { MutableLiveData<Throwable>() }

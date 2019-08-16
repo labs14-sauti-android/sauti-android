@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.labs.sauti.R
 import com.labs.sauti.model.TaxCalculationData
 import kotlinx.android.synthetic.main.fragment_tax_calculator.*
@@ -31,12 +30,12 @@ OnFragmentFullScreenStateChangedListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ll_details.visibility = View.GONE
+//        ll_details.visibility = View.GONE
 
-        b_search.setOnClickListener {
+        fab_tax_calculator_search.setOnClickListener {
             val taxCalculatorSearchFragment = TaxCalculatorSearchFragment.newInstance()
             childFragmentManager.beginTransaction()
-                .replace(R.id.fl_fragment_container, taxCalculatorSearchFragment)
+                .replace(R.id.fl_fragment_container_tax_calculator, taxCalculatorSearchFragment)
                 .addToBackStack(null)
                 .commit()
         }

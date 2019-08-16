@@ -11,173 +11,173 @@
         android:background="@color/colorPrimaryDark">
 
 
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"
+                                                       android:background="@color/colorPrimaryDark"
+                                                       android:id="@+id/cl_trade_info_search_fragment_container">
+
+        <Button
+                android:text="@string/b_trade_info_border_procedures_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/TradeInfoButtonStyling"
+                android:id="@+id/b_trade_info_procedures"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="20dp" android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/t_trade_info_search_header"
+                app:layout_constraintEnd_toStartOf="@+id/b_trade_info_documents"
+                app:layout_constraintHorizontal_bias="0.5"/>
+        <Button
+                android:text="@string/b_trade_info_required_documents_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/TradeInfoButtonStyling"
+                android:id="@+id/b_trade_info_documents"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/t_trade_info_search_header"
+                app:layout_constraintStart_toEndOf="@+id/b_trade_info_procedures"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintEnd_toStartOf="@+id/b_trade_info_agencies"
+                android:layout_marginEnd="32dp" android:layout_marginStart="32dp"/>
+        <Button
+                android:text="@string/b_trade_info_border_agencies_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/b_trade_info_agencies"
+                style="@style/TradeInfoButtonStyling"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="20dp" android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/t_trade_info_search_header"
+                app:layout_constraintStart_toEndOf="@+id/b_trade_info_documents"
+                app:layout_constraintHorizontal_bias="0.5"/>
+        <Button
+                android:text="@string/b_trade_info_regulated_goods_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/TradeInfoButtonStyling"
+                android:id="@+id/b_trade_info_regulated" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="20dp" android:layout_marginTop="18dp"
+                app:layout_constraintTop_toBottomOf="@+id/b_trade_info_procedures"
+                app:layout_constraintEnd_toEndOf="@+id/b_trade_info_procedures"
+        />
+        <TextView
+                android:text="@string/trade_info_search_header"
+                style="@style/SearchFragmentHeaderStyling"
+                android:id="@+id/t_trade_info_search_header"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="20dp" app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="24dp"/>
+
+        <ImageView
+                android:src="@drawable/ic_trade_info"
+                android:scaleType="fitEnd"
+                android:layout_height="0dp"
+                android:id="@+id/i_trade_info_search_header_image"
+                android:tint="@color/colorText"
+                app:layout_constraintTop_toTopOf="@+id/t_trade_info_search_header" android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/t_trade_info_search_header"
+                app:layout_constraintStart_toEndOf="@+id/t_trade_info_search_header" android:layout_marginStart="8dp"
+                android:layout_width="0dp" android:layout_marginTop="3dp" android:layout_marginBottom="3dp"/>
+        <ScrollView
+                android:layout_width="0dp"
+                android:fadeScrollbars="false"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/b_trade_info_regulated" android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp" app:layout_constraintBottom_toTopOf="@+id/b_trade_info_search"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content"
+                                                               android:id="@+id/c_trade_info_spinner_container">
+                <com.labs.sauti.views.SearchSpinnerCustomView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/sscv_trade_info_q_1"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="20dp" app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="20dp" app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_2"
+                        android:layout_marginBottom="30dp"
+                        app:layout_constraintVertical_bias="0.0"/>
+                <com.labs.sauti.views.SearchSpinnerCustomView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:id="@+id/sscv_trade_info_q_2"
+                        tools:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_1"
+                        app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_3"
+                        app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="20dp"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
+                        android:layout_marginBottom="30dp"/>
+                <com.labs.sauti.views.SearchSpinnerCustomView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:id="@+id/sscv_trade_info_q_3"
+                        tools:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_2"
+                        app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_4"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
+                        app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="30dp"/>
+                <com.labs.sauti.views.SearchSpinnerCustomView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        tools:visibility="gone"
+                        android:id="@+id/sscv_trade_info_q_4"
+                        app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_3"
+                        app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_5"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
+                        app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="30dp"/>
+                <com.labs.sauti.views.SearchSpinnerCustomView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/sscv_trade_info_q_5"
+                        android:visibility="gone"
+                        tools:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_4"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
+                        app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="20dp"
+                />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+        <Button
+                android:text="@string/search_button_text"
+                android:clickable="false"
+                android:textAllCaps="false"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/b_trade_info_search"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:backgroundTint="@color/colorAccent"
+                android:textColor="@color/colorText"
+                android:layout_marginStart="20dp"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/t_trade_info_warning"/>
+        <TextView
+                android:text="@string/no_connection"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:background="@color/colorWarningBackground"
+                android:textColor="@color/colorWarningText"
+                android:textSize="12sp"
+                android:id="@+id/t_trade_info_warning"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+        />
 
 
-<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-                                                   android:layout_height="match_parent"
-                                                   android:background="@color/colorPrimaryDark"
-                                                   android:id="@+id/cl_trade_info_search_fragment_container">
-
-    <Button
-            android:text="@string/b_trade_info_border_procedures_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAccent"
-            style="@style/TradeInfoButtonStyling"
-            android:id="@+id/b_trade_info_procedures"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="20dp" android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@+id/t_trade_info_search_header"
-            app:layout_constraintEnd_toStartOf="@+id/b_trade_info_documents"
-            app:layout_constraintHorizontal_bias="0.5"/>
-    <Button
-            android:text="@string/b_trade_info_required_documents_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            style="@style/TradeInfoButtonStyling"
-            android:id="@+id/b_trade_info_documents"
-            android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@+id/t_trade_info_search_header"
-            app:layout_constraintStart_toEndOf="@+id/b_trade_info_procedures"
-            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toStartOf="@+id/b_trade_info_agencies"
-            android:layout_marginEnd="32dp" android:layout_marginStart="32dp"/>
-    <Button
-            android:text="@string/b_trade_info_border_agencies_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/b_trade_info_agencies"
-            style="@style/TradeInfoButtonStyling"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="20dp" android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@+id/t_trade_info_search_header"
-            app:layout_constraintStart_toEndOf="@+id/b_trade_info_documents"
-            app:layout_constraintHorizontal_bias="0.5"/>
-    <Button
-            android:text="@string/b_trade_info_regulated_goods_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            style="@style/TradeInfoButtonStyling"
-            android:id="@+id/b_trade_info_regulated" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="20dp" android:layout_marginTop="18dp"
-            app:layout_constraintTop_toBottomOf="@+id/b_trade_info_procedures"
-            app:layout_constraintEnd_toEndOf="@+id/b_trade_info_procedures"
-    />
-    <TextView
-            android:text="@string/trade_info_search_header"
-            style="@style/SearchFragmentHeaderStyling"
-            android:id="@+id/t_trade_info_search_header"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="20dp" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="24dp"/>
-
-    <ImageView
-            android:src="@drawable/ic_trade_info"
-            android:scaleType="fitEnd"
-            android:layout_height="0dp"
-            android:id="@+id/i_trade_info_search_header_image"
-            android:tint="@color/colorText"
-            app:layout_constraintTop_toTopOf="@+id/t_trade_info_search_header" android:layout_marginEnd="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/t_trade_info_search_header"
-            app:layout_constraintStart_toEndOf="@+id/t_trade_info_search_header" android:layout_marginStart="8dp"
-            android:layout_width="0dp" android:layout_marginTop="3dp" android:layout_marginBottom="3dp"/>
-    <ScrollView
-            android:layout_width="0dp"
-            android:fadeScrollbars="false"
-            android:layout_height="0dp" app:layout_constraintTop_toBottomOf="@+id/b_trade_info_regulated"
-            app:layout_constraintBottom_toTopOf="@+id/b_trade_info_search" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="15dp" android:layout_marginBottom="8dp">
-        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-                                                           android:layout_height="wrap_content"
-                                                           android:id="@+id/c_trade_info_spinner_container">
-            <com.labs.sauti.views.SearchSpinnerCustomView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/sscv_trade_info_q_1"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="20dp" app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="20dp" app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_2" android:layout_marginBottom="30dp"
-                    app:layout_constraintVertical_bias="0.0"/>
-            <com.labs.sauti.views.SearchSpinnerCustomView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:id="@+id/sscv_trade_info_q_2"
-                    tools:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_1"
-                    app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_3"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="20dp"
-                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
-                    android:layout_marginBottom="30dp"/>
-            <com.labs.sauti.views.SearchSpinnerCustomView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:id="@+id/sscv_trade_info_q_3"
-                    tools:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_2"
-                    app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_4"
-                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="30dp"/>
-            <com.labs.sauti.views.SearchSpinnerCustomView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    tools:visibility="gone"
-                    android:id="@+id/sscv_trade_info_q_4"
-                    app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_3"
-                    app:layout_constraintBottom_toTopOf="@+id/sscv_trade_info_q_5"
-                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="30dp"/>
-            <com.labs.sauti.views.SearchSpinnerCustomView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/sscv_trade_info_q_5"
-                    android:visibility="gone"
-                    tools:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/sscv_trade_info_q_4"
-                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="20dp"
-            />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-    <Button
-            android:text="@string/search_button_text"
-            android:clickable="false"
-            android:textAllCaps="false"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/b_trade_info_search"
-            android:textStyle="bold"
-            android:textSize="24sp"
-            android:backgroundTint="@color/colorAccent"
-            android:textColor="@color/colorText"
-            android:layout_marginStart="20dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/t_trade_info_warning"/>
-    <TextView
-            android:text="@string/no_connection"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:background="@color/colorWarningBackground"
-            android:textColor="@color/colorWarningText"
-            android:textSize="12sp"
-            android:id="@+id/t_trade_info_warning"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-    />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

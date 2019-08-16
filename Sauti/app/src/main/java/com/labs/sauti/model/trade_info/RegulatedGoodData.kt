@@ -5,13 +5,10 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.sql.Date
 
 //Model for Views
-class RegulatedGood(
-    var prohibited: List<Prohibited>? = null,
-    var restricted: List<Restricted>? = null,
-    var sensitive: List<Sensitive>? = null
-)
+
 
 @Entity(tableName = "regulated_good")
 data class RegulatedGoodData(
@@ -35,29 +32,16 @@ data class RegulatedGoodData(
 
     @SerializedName("sensitives")
     @Expose
-    val sensitives: List<Sensitive>
-)
+    val sensitives: List<Sensitive>,
 
-@Entity(tableName = "prohibited_goods")
-data class Prohibited(
+    var timestamp: Long? = null
+) {
+    fun setTimestamp(){
+        this.timestamp = System.currentTimeMillis()
+    }
 
-    @SerializedName("name")
-    @Expose
-    val name: String
-)
+    fun getDateFromTimestamp() = timestamp?.let { Date(it) }
+}
 
-@Entity(tableName = "sensitive_goods")
-data class Sensitive(
 
-    @SerializedName("name")
-    @Expose
-    val name: String
-)
 
-@Entity(tableName = "restricted_goods")
-data class Restricted(
-
-    @SerializedName("name")
-    @Expose
-    val name: String
-)

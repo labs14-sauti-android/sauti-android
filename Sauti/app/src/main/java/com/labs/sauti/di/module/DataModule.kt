@@ -67,6 +67,12 @@ class DataModule(private val sautiAuthorization: String) {
 
     @Provides
     @Singleton
+    fun provideTradeInfoSearchRoomCache(sautiRoomDatabase: SautiRoomDatabase): TradeInfoSearchRoomCache {
+        return TradeInfoSearchRoomCache(sautiRoomDatabase)
+    }
+
+    @Provides
+    @Singleton
     fun provideHelpRepository(sautiApiService: SautiApiService): HelpRepository {
         return HelpRepositoryImpl(sautiApiService)
     }
@@ -151,4 +157,17 @@ class DataModule(private val sautiAuthorization: String) {
         return SettingsRepositoryImpl(settingsSp)
     }
 
+    @Provides
+    @Singleton
+    fun provideTradeInfoRepository(
+        sautiApiService: SautiApiService,
+        settingsSp: SettingsSp,
+        tradeInfoRoomCache: TradeInfoRoomCache,
+        tradeInfoSearchRoomCache: TradeInfoSearchRoomCache
+    ) : TradeInfoRepository {
+        return TradeInfoRepositoryImpl(sautiApiService,
+            settingsSp,
+            tradeInfoRoomCache,
+            tradeInfoSearchRoomCache)
+    }
 }

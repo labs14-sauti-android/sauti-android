@@ -65,16 +65,16 @@ class ReportFragment : Fragment() {
             Toast.makeText(context!!, "Failed to load borderNames. ${it.message}", Toast.LENGTH_LONG).show()
         })
 
-        reportViewModel.getBorderNamesViewState().observe(this, Observer {
-            if (it.isLoading) {
-                vs_borders_loading.displayedChild = 1
-            } else {
-                vs_borders_loading.displayedChild = 0
-                it.borderNames?.let { borders ->
-                    handleBorders(borders)
-                }
-            }
-        })
+//        reportViewModel.getBorderNamesViewState().observe(this, Observer {
+//            if (it.isLoading) {
+//                vs_borders_loading.displayedChild = 1
+//            } else {
+//                vs_borders_loading.displayedChild = 0
+//                it.borderNames?.let { borders ->
+//                    handleBorders(borders)
+//                }
+//            }
+//        })
 
         reportViewModel.getBorders()
 
