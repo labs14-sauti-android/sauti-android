@@ -1,7 +1,7 @@
 package com.labs.sauti.repository
 
-import android.webkit.WebStorage
 import com.labs.sauti.model.*
+import com.labs.sauti.model.authentication.UserData
 import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.model.market_price.MarketPriceSearchData
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResultData
@@ -17,7 +17,7 @@ interface SautiRepository {
     fun signIn(username: String, password: String): Single<SignInResponse>
     fun signOut(): Completable
     fun isAccessTokenValid(): Single<Boolean>
-    fun getCurrentUser(): Single<User>
+    fun getCurrentUser(): Single<UserData>
 
     fun getMarketPriceCountries(): Single<MutableList<String>>
     fun getMarketPriceMarkets(country: String): Single<MutableList<String>>

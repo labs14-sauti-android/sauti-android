@@ -5,77 +5,90 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.labs.sauti.model.*
+import com.labs.sauti.model.authentication.User
 import com.labs.sauti.repository.UserRepository
+import com.labs.sauti.view_state.authentication.*
 
 class AuthenticationViewModel(private val userRepository: UserRepository) : BaseViewModel() {
 
-    // TODO lazy. view state
+    private val errorLiveData by lazy { MutableLiveData<Throwable>() }
+    private val signUpViewState by lazy { MutableLiveData<SignUpViewState>() }
+    private val signInViewState by lazy { MutableLiveData<SignInViewState>() }
+    private val signOutViewState by lazy { MutableLiveData<SignOutViewState>() }
+    private val isSignedInViewState by lazy { MutableLiveData<IsSignedInViewState>() }
+    private val signedInUserViewState by lazy { MutableLiveData<SignedInUserViewState>() }
 
-    private val signUpResponseLiveData by lazy { MutableLiveData<SignUpResponse>() }
-    private val signInResponseLiveData = MutableLiveData<SignInResponse>()
-    private val signOutLiveData = MutableLiveData<Any?>()
-    private val isSignedInLiveData = MutableLiveData<Boolean>()
-    private val userLiveData = MutableLiveData<User>()
-    private val errorLiveData = MutableLiveData<SautiApiError>()
-
-    fun getSignUpResponseLiveData(): LiveData<SignUpResponse> = signUpResponseLiveData
-    fun getSignInResponseLiveData(): LiveData<SignInResponse> = signInResponseLiveData
-    fun getSignOutLiveData(): LiveData<Any?> = signOutLiveData
-    fun getIsSignedInLiveData(): LiveData<Boolean> = isSignedInLiveData
-    fun getUserLiveData(): LiveData<User> = userLiveData
-    fun getErrorLiveData(): LiveData<SautiApiError> = errorLiveData
+    fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
+    fun getSignUpViewState(): LiveData<SignUpViewState> = signUpViewState
+    fun getSignInViewState(): LiveData<SignInViewState> = signInViewState
+    fun getSignOutViewState(): LiveData<SignOutViewState> = signOutViewState
+    fun getIsSignedViewState(): LiveData<IsSignedInViewState> = isSignedInViewState
+    fun getSignedInUserViewState(): LiveData<SignedInUserViewState> = signedInUserViewState
 
     fun signUp(signUpRequest: SignUpRequest) {
+        signUpViewState.value = SignUpViewState(isLoading = true)
         addDisposable(userRepository.signUp(signUpRequest).subscribe(
             {
-                signUpResponseLiveData.postValue(it)
+                signUpViewState.postValue(SignUpViewState(isLoading = false))
             },
             {
-                errorLiveData.postValue(SautiApiError.fromThrowable(it))
+                signUpViewState.postValue(SignUpViewState(isLoading = false))
+                errorLiveData.postValue(it)
             }
         ))
     }
 
     fun signIn(username: String, password: String) {
+        signInViewState.value = SignInViewState(isLoading = true)
         addDisposable(userRepository.signIn(username, password).subscribe(
             {
-                signInResponseLiveData.postValue(it)
+                signInViewState.postValue(SignInViewState(isLoading = false))
             },
             {
-                errorLiveData.postValue(SautiApiError.fromThrowable(it))
+                signInViewState.postValue(SignInViewState(isLoading = false))
+                errorLiveData.postValue(it)
             }
         ))
     }
 
     fun signOut() {
+        signOutViewState.value = SignOutViewState(isLoading = true)
         addDisposable(userRepository.signOut().subscribe(
             {
-                signOutLiveData.postValue(null)
+                signOutViewState.postValue(SignOutViewState(isLoading = false))
             },
             {
-                errorLiveData.postValue(SautiApiError.fromThrowable(it))
+                signOutViewState.postValue(SignOutViewState(isLoading = false))
+                errorLiveData.postValue(it)
             }
         ))
     }
 
     fun isSignedIn() {
+        isSignedInViewState.value = IsSignedInViewState(isLoading = true)
         addDisposable(userRepository.isAccessTokenValid().subscribe(
             {
-                isSignedInLiveData.postValue(it)
+                isSignedInViewState.postValue(IsSignedInViewState(isLoading = false, isSignedIn = it))
             },
             {
-                errorLiveData.postValue(SautiApiError.fromThrowable(it))
+                isSignedInViewState.postValue(IsSignedInViewState(isLoading = false))
+                errorLiveData.postValue(it)
             }
         ))
     }
 
-    fun getCurrentUser() {
-        addDisposable(userRepository.getCurrentUser().subscribe(
+    fun getSignedInUser() {
+        signedInUserViewState.value = SignedInUserViewState(isLoading = true)
+        addDisposable(userRepository.getSignedInUser()
+            .map {
+                User(it.id, it.username, it.phoneNumber)
+            }
+            .subscribe(
             {
-                userLiveData.postValue(it)
+                signedInUserViewState.postValue(SignedInUserViewState(isLoading = false, user = it))
             },
             {
-                errorLiveData.postValue(SautiApiError.fromThrowable(it))
+                errorLiveData.postValue(it)
             }
         ))
     }

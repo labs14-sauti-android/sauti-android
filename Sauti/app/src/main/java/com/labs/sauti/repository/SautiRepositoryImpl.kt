@@ -6,7 +6,7 @@ import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.model.SignInResponse
 import com.labs.sauti.model.SignUpRequest
 import com.labs.sauti.model.SignUpResponse
-import com.labs.sauti.model.User
+import com.labs.sauti.model.authentication.UserData
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionData
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResultData
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
@@ -64,7 +64,7 @@ class SautiRepositoryImpl(
         return Single.just(sessionSp.isAccessTokenValid())
     }
 
-    override fun getCurrentUser(): Single<User> {
+    override fun getCurrentUser(): Single<UserData> {
         if (sessionSp.isAccessTokenValid()) {
             val user = sessionSp.getUser()
             if (user != null) return Single.just(user)

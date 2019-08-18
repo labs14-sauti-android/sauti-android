@@ -19,7 +19,7 @@ import com.google.android.material.navigation.NavigationView
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.fragment.*
-import com.labs.sauti.model.User
+import com.labs.sauti.model.authentication.UserData
 import com.labs.sauti.view_model.AuthenticationViewModel
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -84,7 +84,7 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
         authenticationViewModel.isSignedIn()
 
         // user data
-        authenticationViewModel.getUserLiveData().observe(this, Observer<User> {
+        authenticationViewModel.getUserLiveData().observe(this, Observer<UserData> {
             nav_view.n_main_t_name.text = it.username ?: ""
         })
         authenticationViewModel.getCurrentUser()
@@ -250,7 +250,7 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
 
     override fun onSignInCompleted() {
         // user data
-        authenticationViewModel.getUserLiveData().observe(this, Observer<User> {
+        authenticationViewModel.getUserLiveData().observe(this, Observer<UserData> {
             nav_view.n_main_t_name.text = it.username ?: ""
         })
         authenticationViewModel.getCurrentUser()

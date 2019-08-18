@@ -2,7 +2,7 @@ package com.labs.sauti.sp
 
 import android.content.Context
 import com.google.gson.GsonBuilder
-import com.labs.sauti.model.User
+import com.labs.sauti.model.authentication.UserData
 
 // TODO rxjava
 class SessionSp(private val context: Context) {
@@ -71,12 +71,12 @@ class SessionSp(private val context: Context) {
         setAccessToken("")
     }
 
-    fun getUser(): User? {
+    fun getUser(): UserData? {
         val userStr = sp.getString(KEY_USER, null) ?: return null
-        return GsonBuilder().create().fromJson(userStr, User::class.java)
+        return GsonBuilder().create().fromJson(userStr, UserData::class.java)
     }
 
-    fun setUser(user: User?) {
+    fun setUser(user: UserData?) {
         val editor = sp.edit()
         if (user == null) {
             editor.remove(KEY_USER)

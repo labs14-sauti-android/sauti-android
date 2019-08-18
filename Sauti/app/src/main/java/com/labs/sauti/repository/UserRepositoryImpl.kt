@@ -4,7 +4,7 @@ import com.labs.sauti.api.SautiApiService
 import com.labs.sauti.model.SignInResponse
 import com.labs.sauti.model.SignUpRequest
 import com.labs.sauti.model.SignUpResponse
-import com.labs.sauti.model.User
+import com.labs.sauti.model.authentication.UserData
 import com.labs.sauti.sp.SessionSp
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -43,7 +43,7 @@ class UserRepositoryImpl(
         return Single.just(sessionSp.isAccessTokenValid())
     }
 
-    override fun getCurrentUser(): Single<User> {
+    override fun getSignedInUser(): Single<UserData> {
         if (sessionSp.isAccessTokenValid()) {
             val user = sessionSp.getUser()
             if (user != null) return Single.just(user)
@@ -54,7 +54,6 @@ class UserRepositoryImpl(
                 }
         }
 
-        // TODO test this and see if it actually does what I think it does
         return Single.error(Throwable())
     }
 }
