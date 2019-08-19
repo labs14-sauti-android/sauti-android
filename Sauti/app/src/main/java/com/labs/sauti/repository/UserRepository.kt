@@ -10,6 +10,5 @@ interface UserRepository {
     fun signUp(signUpRequest: SignUpRequest): Single<Long>
     fun signIn(username: String, password: String): Single<SignInResponse>
     fun signOut(): Completable
-    fun isAccessTokenValid(): Single<Boolean>
     fun getSignedInUser(): Single<UserData>
 }

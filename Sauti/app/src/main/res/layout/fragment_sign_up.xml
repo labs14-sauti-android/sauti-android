@@ -42,23 +42,6 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Name"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorText"/>
-
-            <EditText
-                    android:id="@+id/et_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter Name"
-                    android:textColorHint="#c4c4c4"
-                    android:backgroundTint="@color/colorText"
-                    android:textColor="@color/colorText"
-                    android:maxLines="1"/>
-
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:text="Username"
                     android:textStyle="bold"
                     android:textColor="@color/colorText"/>
@@ -104,6 +87,24 @@
                     android:layout_height="wrap_content"
                     android:hint="Enter Password"
                     android:inputType="textPassword"
+                    android:textColorHint="#c4c4c4"
+                    android:backgroundTint="@color/colorText"
+                    android:textColor="@color/colorText"
+                    android:maxLines="1"/>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Phone Number"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorText"/>
+
+            <EditText
+                    android:id="@+id/et_phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Phone Number"
+                    android:inputType="phone"
                     android:textColorHint="#c4c4c4"
                     android:backgroundTint="@color/colorText"
                     android:textColor="@color/colorText"

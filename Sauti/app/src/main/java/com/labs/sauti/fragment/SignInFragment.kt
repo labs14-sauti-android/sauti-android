@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.snackbar.Snackbar
 
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
@@ -53,8 +54,7 @@ class SignInFragment : Fragment() {
 
         // error
         authenticationViewModel.getErrorLiveData().observe(this, Observer {
-            // TODO better error showing
-            Toast.makeText(context, "Sign in failed. ${it.message}", Toast.LENGTH_LONG).show()
+            Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
         })
 
         // success
@@ -65,7 +65,7 @@ class SignInFragment : Fragment() {
                 vs_sign_in.displayedChild = 0
 
                 if (it.isSuccess) {
-                    Toast.makeText(context, "Sign in successful", Toast.LENGTH_LONG).show()
+                    Snackbar.make(view, "Sign in successful", Snackbar.LENGTH_SHORT).show()
                     onSignInCompletedListener!!.onSignInCompleted()
                     activity!!.supportFragmentManager.popBackStack()
                 }
@@ -84,7 +84,6 @@ class SignInFragment : Fragment() {
     }
 
     private fun signIn() {
-        // TODO check validity
         authenticationViewModel.signIn(et_username.text.toString(), et_password.text.toString())
     }
 

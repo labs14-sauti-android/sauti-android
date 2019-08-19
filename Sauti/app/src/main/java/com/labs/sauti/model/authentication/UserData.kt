@@ -4,9 +4,9 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 data class UserData(
-    @SerializedName("userid")
+    @SerializedName("userId")
     @Expose
-    var id: Long? = null,
+    var userId: Long? = null,
 
     @SerializedName("username")
     @Expose

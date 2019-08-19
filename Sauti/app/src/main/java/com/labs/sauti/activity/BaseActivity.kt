@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.fragment.*
@@ -72,7 +73,7 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
 
         // authentication error
         authenticationViewModel.getErrorLiveData().observe(this, Observer {
-            // TODO
+            Snackbar.make(findViewById(android.R.id.content), it, Snackbar.LENGTH_SHORT).show()
         })
 
         // user data
@@ -80,23 +81,12 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
             if (it.isLoading) {
                 // TODO loading
             } else {
-                if (it.user?.id != null) {
+                if (it.user?.userId != null) {
                     nav_view.getHeaderView(0).n_main_t_name.text = it.user!!.username
-                } else {
-                    nav_view.getHeaderView(0).n_main_t_name.text = ""
-                }
-            }
-        })
-        // TODO use getSignedInUserViewState to check if signed in?
-        authenticationViewModel.getIsSignedInViewState().observe(this, Observer {
-            if (it.isLoading) {
-                // TODO loading
-            } else {
-                if (it.isSignedIn) {
                     nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_out)
                 } else {
+                    nav_view.getHeaderView(0).n_main_t_name.text = ""
                     nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_in)
-                    setUserNavInfoAsLoggedOut()
                 }
             }
         })
@@ -106,7 +96,7 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
                 // TODO loading
             } else {
                 if (it.isSuccess) {
-                    Toast.makeText(this, "Signed out", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(findViewById(android.R.id.content), "Signed out", Snackbar.LENGTH_SHORT).show()
                     nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_in)
                     setUserNavInfoAsLoggedOut()
                 }
@@ -118,7 +108,6 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
         super.onResume()
 
         authenticationViewModel.getSignedInUser()
-        authenticationViewModel.isSignedIn()
     }
 
     override fun onDestroy() {
@@ -276,7 +265,7 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
     override fun onSignInCompleted() {
         authenticationViewModel.getSignedInUser()
 
-        nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_out)
+        // TODO refresh activity
     }
 
     override fun openSignUp() {

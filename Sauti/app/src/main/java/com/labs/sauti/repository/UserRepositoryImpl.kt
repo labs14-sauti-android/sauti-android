@@ -23,6 +23,9 @@ class UserRepositoryImpl(
                 sessionSp.setAccessToken(it.accessToken ?: "")
                 sessionSp.setExpiresIn(it.expiresIn ?: 0)
                 sessionSp.setLoggedInAt(System.currentTimeMillis() / 1000L)
+
+                val userData = sautiApiService.getCurrentUser("Bearer ${it.accessToken}").blockingGet()
+                sessionSp.setUser(userData)
             }
     }
 
@@ -38,10 +41,6 @@ class UserRepositoryImpl(
         }
     }
 
-    override fun isAccessTokenValid(): Single<Boolean> {
-        return Single.just(sessionSp.isAccessTokenValid())
-    }
-
     override fun getSignedInUser(): Single<UserData> {
         if (sessionSp.isAccessTokenValid()) {
             val user = sessionSp.getUser()
@@ -51,10 +50,10 @@ class UserRepositoryImpl(
                 .doOnSuccess {
                     sessionSp.setUser(it)
                 }.onErrorResumeNext { // token expired in the server
-                    Single.just(UserData())
+                    Single.just(UserData()) // userId null
                 }
         }
 
-        return Single.just(UserData())
+        return Single.just(UserData()) // userId null
     }
 }

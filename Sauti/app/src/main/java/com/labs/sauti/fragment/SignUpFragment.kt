@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.snackbar.Snackbar
 
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
@@ -49,8 +50,7 @@ class SignUpFragment : Fragment() {
 
         // error
         authenticationViewModel.getErrorLiveData().observe(this, Observer {
-            // TODO better error showing
-            Toast.makeText(context, "Sign up failed ${it.message}", Toast.LENGTH_LONG).show()
+            Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
         })
 
         // sign up
@@ -61,7 +61,7 @@ class SignUpFragment : Fragment() {
                 vs_sign_up_loading.displayedChild = 0
 
                 if (it.isSuccess) {
-                    Toast.makeText(context, "Sign up successful", Toast.LENGTH_LONG).show()
+                    Snackbar.make(view, "Sign up successful", Snackbar.LENGTH_SHORT).show()
                     activity!!.supportFragmentManager.popBackStack()
                 }
             }
@@ -80,7 +80,11 @@ class SignUpFragment : Fragment() {
     }
 
     private fun signUp() {
-        // TODO check validity
+        val usernameStr = et_username.text.toString()
+        if (usernameStr.length < 8 || usernameStr.length > 64) {
+            et_username.error = "Username must be 8-64 characters long"
+            return
+        }
 
         val passwordStr = et_password.text.toString()
         val confirmPasswordStr = et_confirm_password.text.toString()
@@ -91,11 +95,16 @@ class SignUpFragment : Fragment() {
             return
         }
 
+        if (passwordStr.length < 8 || passwordStr.length > 64) {
+            et_password.error = "Password must be 8-64 characters long"
+            return
+        }
+
         authenticationViewModel.signUp(
             SignUpRequest(
-                et_name.text.toString(),
                 et_username.text.toString(),
-                passwordStr
+                passwordStr,
+                et_phone_number.text.toString()
             )
         )
     }
