@@ -3,11 +3,13 @@ package com.labs.sauti.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 
 import com.labs.sauti.R
+import com.labs.sauti.adapter.DashboardPagerAdapter
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 
 class DashboardFragment : Fragment() {
@@ -29,6 +31,12 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        view_pager.adapter = DashboardPagerAdapter(context!!, childFragmentManager)
+        tabs.setupWithViewPager(view_pager)
+
+        // disable view pager swiping
+        view_pager.setOnTouchListener { _, _ -> true }
+
         c_market_price.setOnClickListener {
             onReplaceFragmentListener?.onReplaceFragment(MarketPriceFragment::class.java)
         }
@@ -49,9 +57,9 @@ class DashboardFragment : Fragment() {
             onReplaceFragmentListener?.onReplaceFragment(MarketplaceFragment::class.java)
         }
 
-/*        t_report.setOnClickListener {
+        t_report.setOnClickListener {
             onReplaceFragmentListener?.onReplaceFragment(ReportFragment::class.java)
-        }*/
+        }
 
         t_help.setOnClickListener {
             onReplaceFragmentListener?.onReplaceFragment(HelpFragment::class.java)

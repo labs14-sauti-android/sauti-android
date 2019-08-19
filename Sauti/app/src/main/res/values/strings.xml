@@ -5,7 +5,12 @@
     <string name="navigation_drawer_close" translatable="false">Close</string>
     <string name="nav_header_desc" translatable="false">Navigation header</string>
 
-    <string name="language_activity_text" translatable="false"><b>Sauti</b><font fgcolor='#e84c3d'><b>.</b></font></string>
+    <string name="language_activity_text" translatable="false">
+        <b>Sauti</b>
+        <font fgcolor='#e84c3d'>
+            <b>.</b>
+        </font>
+    </string>
     <string name="menu_market_prices" translatable="false">Market Prices</string>
     <string name="menu_tax_calculator" translatable="false">Tax Calculator</string>
     <string name="menu_trade_info" translatable="false">Trade Info</string>
@@ -26,24 +31,54 @@
     <string name="menu_report" translatable="false">Report</string>
     <string name="trade_info_search_header" translatable="false">Trade Info Search</string>
     <string name="search_button_text" translatable="false">Search</string>
-    <string name="don_t_have_an_account_sign_up" translatable="false"><font fgcolor='#6e83f3'>Don\'t have an account?</font>Sign up</string>
-    <string name="sauti_sign_in" translatable="false"><b>Sauti<font fgcolor='#e84c3d'>.</font></b>Sign In</string>
-    <string name="sauti_sign_up" translatable="false"><b>Sauti<font fgcolor='#e84c3d'>.</font></b>Sign Up</string>
-    <string name="already_have_an_account_sign_in" translatable="false"><font fgcolor='#6e83f3'>Already have an account?</font>Sign In</string>
+    <string name="don_t_have_an_account_sign_up" translatable="false"><font fgcolor='#6e83f3'>Don\'t have an
+        account?</font>Sign up
+    </string>
+    <string name="sauti_sign_in" translatable="false">
+        <b>Sauti
+            <font fgcolor='#e84c3d'>.</font>
+        </b>
+        Sign In
+    </string>
+    <string name="sauti_sign_up" translatable="false">
+        <b>Sauti
+            <font fgcolor='#e84c3d'>.</font>
+        </b>
+        Sign Up
+    </string>
+    <string name="already_have_an_account_sign_in" translatable="false"><font fgcolor='#6e83f3'>Already have an
+        account?</font>Sign In
+    </string>
 
-    <string name="about_sauti" translatable="false">Sauti<font fgcolor='#e84c3d'>.</font></string>
+    <string name="about_sauti" translatable="false">Sauti
+        <font fgcolor='#e84c3d'>.</font>
+    </string>
     <string name="about_text_header_1" translatable="false">Anonymous Reporting for Border Crossings</string>
-    <string name="about_text_1" translatable="false">Through our anonymous reporting mechanism we crowd-source data to map incidents of harassment and corruption at border crossings across East Africa.</string>
+    <string name="about_text_1" translatable="false">Through our anonymous reporting mechanism we crowd-source data to
+        map incidents of harassment and corruption at border crossings across East Africa.
+    </string>
     <string name="about_text_header_2" translatable="false">Driving Advocacy and Partnerships</string>
-    <string name="about_text_2" translatable="false">Traders can use our number to find out what documentation, taxes and tariffs are applicable to their products, and receive regular updates on changes to border procedures.</string>
-    <string name="about_text_header_3" translatable="false">Empowering Africa\'s Cross-Border Traders with the Right Information</string>
-    <string name="about_text_3" translatable="false">We work with civil society organisations to use data collected through our platform for evidence-based advocacy at community, national and regional levels.</string>
+    <string name="about_text_2" translatable="false">Traders can use our number to find out what documentation, taxes
+        and tariffs are applicable to their products, and receive regular updates on changes to border procedures.
+    </string>
+    <string name="about_text_header_3" translatable="false">Empowering Africa\'s Cross-Border Traders with the Right
+        Information
+    </string>
+    <string name="about_text_3" translatable="false">We work with civil society organisations to use data collected
+        through our platform for evidence-based advocacy at community, national and regional levels.
+    </string>
     <string name="about_text_header_4" translatable="false">Triggering Change</string>
-    <string name="about_text_4" translatable="false">Sauti means voice in Swahili and our mission is to empower cross-border traders to exercise their rights as citizens of the East African Community – able to trade freely and safely across borders and stand up for their rights with a loud and clear voice.</string>
-    <string name="about_attribution_fontawesome" translatable="false">Icons created with <font fgcolor='#6e83f3'>fontawesome</font>.</string>
+    <string name="about_text_4" translatable="false">Sauti means voice in Swahili and our mission is to empower
+        cross-border traders to exercise their rights as citizens of the East African Community – able to trade freely
+        and safely across borders and stand up for their rights with a loud and clear voice.
+    </string>
+    <string name="about_attribution_fontawesome" translatable="false">Icons created with <font fgcolor='#6e83f3'>
+        fontawesome</font>.
+    </string>
 
     <string name="your_recent_conversions" translatable="false">Your Recent Conversions</string>
-    <string name="sauti_marketplace" translatable="false">Sauti<font fgcolor='#e84c3d'>.</font> Marketplace</string>
+    <string name="sauti_marketplace" translatable="false">Sauti<font fgcolor='#e84c3d'>.</font> Marketplace
+    </string>
 
     <!--Market Price-->
     <string name="select_country_for_markets">Select Country For Markets</string>
@@ -58,7 +93,9 @@
     <string name="how_much_do_you_want_to_exchange">How much do you want to exchange?</string>
 
     <!--Report-->
-    <string name="we_will_now_ask_some_questions_about_your_border_experience">We will now ask some questions about your border experience.</string>
+    <string name="we_will_now_ask_some_questions_about_your_border_experience">We will now ask some questions about your
+        border experience.
+    </string>
     <string name="which_border_did_you_cross">Which border did you cross?</string>
     <string name="did_you_have_a_good_experience">Did you have a good experience?</string>
     <string name="yes">Yes</string>
@@ -66,7 +103,9 @@
 
     <!--Help-->
     <string name="report_incorrect_info">Report Incorrect Info</string>
-    <string name="did_you_notice_incorrect_information_on_the_sauti_app">Did you notice incorrect information on the Sauti app?</string>
+    <string name="did_you_notice_incorrect_information_on_the_sauti_app">Did you notice incorrect information on the
+        Sauti app?
+    </string>
     <string name="enter_incorrect_information">Enter Incorrect Information</string>
     <string name="no_connection">No connection. Your searches may not be updated.</string>
     <string name="b_trade_info_border_procedures_text">Border Procedures</string>
