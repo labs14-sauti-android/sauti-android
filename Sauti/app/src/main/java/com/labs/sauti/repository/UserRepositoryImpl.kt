@@ -1,9 +1,8 @@
 package com.labs.sauti.repository
 
 import com.labs.sauti.api.SautiApiService
-import com.labs.sauti.model.SignInResponse
-import com.labs.sauti.model.SignUpRequest
-import com.labs.sauti.model.SignUpResponse
+import com.labs.sauti.model.authentication.SignInResponse
+import com.labs.sauti.model.authentication.SignUpRequest
 import com.labs.sauti.model.authentication.UserData
 import com.labs.sauti.sp.SessionSp
 import io.reactivex.Completable
@@ -14,7 +13,7 @@ class UserRepositoryImpl(
     private val sessionSp: SessionSp,
     private val sautiAuthorization: String
 ): UserRepository {
-    override fun signUp(signUpRequest: SignUpRequest): Single<SignUpResponse> {
+    override fun signUp(signUpRequest: SignUpRequest): Single<Long> {
         return sautiApiService.signUp(signUpRequest)
     }
 
@@ -43,7 +42,7 @@ class UserRepositoryImpl(
         return Single.just(sessionSp.isAccessTokenValid())
     }
 
-    override fun getSignedInUser(): Single<UserData?> {
+    override fun getSignedInUser(): Single<UserData> {
         if (sessionSp.isAccessTokenValid()) {
             val user = sessionSp.getUser()
             if (user != null) return Single.just(user)
@@ -52,10 +51,10 @@ class UserRepositoryImpl(
                 .doOnSuccess {
                     sessionSp.setUser(it)
                 }.onErrorResumeNext { // token expired in the server
-                    Single.just(null)
+                    Single.just(UserData())
                 }
         }
 
-        return Single.just(null)
+        return Single.just(UserData())
     }
 }

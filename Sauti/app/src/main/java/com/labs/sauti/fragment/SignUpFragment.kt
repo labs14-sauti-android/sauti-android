@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
-import com.labs.sauti.model.SignUpRequest
+import com.labs.sauti.model.authentication.SignUpRequest
 import com.labs.sauti.view_model.AuthenticationViewModel
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import kotlinx.android.synthetic.main.fragment_sign_up.et_password
@@ -91,7 +91,13 @@ class SignUpFragment : Fragment() {
             return
         }
 
-        authenticationViewModel.signUp(SignUpRequest(et_name.text.toString(), et_username.text.toString(), passwordStr))
+        authenticationViewModel.signUp(
+            SignUpRequest(
+                et_name.text.toString(),
+                et_username.text.toString(),
+                passwordStr
+            )
+        )
     }
 
     override fun onAttach(context: Context?) {

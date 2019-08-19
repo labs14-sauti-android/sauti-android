@@ -1,9 +1,8 @@
 package com.labs.sauti.api
 
 import com.labs.sauti.model.market_price.MarketPriceData
-import com.labs.sauti.model.SignInResponse
-import com.labs.sauti.model.SignUpRequest
-import com.labs.sauti.model.SignUpResponse
+import com.labs.sauti.model.authentication.SignInResponse
+import com.labs.sauti.model.authentication.SignUpRequest
 import com.labs.sauti.model.authentication.UserData
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
 import com.labs.sauti.model.trade_info.*
@@ -13,11 +12,11 @@ import retrofit2.http.*
 
 interface SautiApiService {
 
-    @POST("/users/user")
-    fun signUp(@Body signUpRequest: SignUpRequest): Single<SignUpResponse>
+    @POST("/users")
+    fun signUp(@Body signUpRequest: SignUpRequest): Single<Long>
 
     @FormUrlEncoded
-    @POST("oauth/token")
+    @POST("/oauth/token")
     fun signIn(
         @Header("Authorization") authorization: String,
         @Field("grant_type") grantType: String,
@@ -28,7 +27,7 @@ interface SautiApiService {
     @GET("/oauth/revoke-token")
     fun signOut(@Header("Authorization") authorization: String): Completable
 
-    @GET("users/getusername")
+    @GET("/users/user")
     fun getCurrentUser(@Header("Authorization") authorization: String): Single<UserData>
 
     @GET("/market-price/countries")
@@ -58,7 +57,7 @@ interface SautiApiService {
         @Query("product") product: String
     ): Single<MarketPriceData>
 
-    @GET("exchange-rate/all")
+    @GET("/exchange-rate/all")
     fun getExchangeRates(): Single<MutableList<ExchangeRateData>>
 
 

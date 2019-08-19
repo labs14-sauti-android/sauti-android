@@ -80,10 +80,10 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
             if (it.isLoading) {
                 // TODO loading
             } else {
-                if (it.user == null) {
-                    nav_view.n_main_t_name.text = ""
+                if (it.user?.id != null) {
+                    nav_view.getHeaderView(0).n_main_t_name.text = it.user!!.username
                 } else {
-                    nav_view.n_main_t_name.text = it.user!!.username
+                    nav_view.getHeaderView(0).n_main_t_name.text = ""
                 }
             }
         })
@@ -270,7 +270,7 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
     }
 
     private fun setUserNavInfoAsLoggedOut() {
-        nav_view.getHeaderView(0).n_main_t_name.text = getString(R.string.not_logged_in)
+        nav_view.getHeaderView(0).n_main_t_name.text = ""
     }
 
     override fun onSignInCompleted() {

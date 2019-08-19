@@ -14,5 +14,21 @@ data class UserData(
 
     @SerializedName("phoneNumber")
     @Expose
-    var phoneNumber: String? = null
+    var phoneNumber: String? = null,
+
+    @SerializedName("firstName")
+    @Expose
+    var firstName: String? = null,
+
+    @SerializedName("lastName")
+    @Expose
+    var lastName: String? = null,
+
+    @SerializedName("location")
+    @Expose
+    var location: String? = null,
+
+    @SerializedName("gender")
+    @Expose
+    var gender: String? = null
 )

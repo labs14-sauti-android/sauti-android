@@ -4,12 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.labs.sauti.model.*
+import com.labs.sauti.model.authentication.SignUpRequest
 import com.labs.sauti.model.authentication.User
-import com.labs.sauti.model.authentication.UserData
 import com.labs.sauti.repository.UserRepository
 import com.labs.sauti.view_state.authentication.*
-import io.reactivex.functions.Function
 
 class AuthenticationViewModel(private val userRepository: UserRepository) : BaseViewModel() {
 
@@ -31,10 +29,10 @@ class AuthenticationViewModel(private val userRepository: UserRepository) : Base
         signUpViewState.value = SignUpViewState(isLoading = true)
         addDisposable(userRepository.signUp(signUpRequest).subscribe(
             {
-                signUpViewState.postValue(SignUpViewState(isLoading = false))
+                signUpViewState.postValue(SignUpViewState(isLoading = false, isSuccess = true))
             },
             {
-                signUpViewState.postValue(SignUpViewState(isLoading = false))
+                signUpViewState.postValue(SignUpViewState(isLoading = false, isSuccess = false))
                 errorLiveData.postValue(it)
             }
         ))
@@ -44,10 +42,10 @@ class AuthenticationViewModel(private val userRepository: UserRepository) : Base
         signInViewState.value = SignInViewState(isLoading = true)
         addDisposable(userRepository.signIn(username, password).subscribe(
             {
-                signInViewState.postValue(SignInViewState(isLoading = false))
+                signInViewState.postValue(SignInViewState(isLoading = false, isSuccess = true))
             },
             {
-                signInViewState.postValue(SignInViewState(isLoading = false))
+                signInViewState.postValue(SignInViewState(isLoading = false, isSuccess = false))
                 errorLiveData.postValue(it)
             }
         ))
@@ -57,10 +55,10 @@ class AuthenticationViewModel(private val userRepository: UserRepository) : Base
         signOutViewState.value = SignOutViewState(isLoading = true)
         addDisposable(userRepository.signOut().subscribe(
             {
-                signOutViewState.postValue(SignOutViewState(isLoading = false))
+                signOutViewState.postValue(SignOutViewState(isLoading = false, isSuccess = true))
             },
             {
-                signOutViewState.postValue(SignOutViewState(isLoading = false))
+                signOutViewState.postValue(SignOutViewState(isLoading = false, isSuccess = false))
                 errorLiveData.postValue(it)
             }
         ))
@@ -82,18 +80,23 @@ class AuthenticationViewModel(private val userRepository: UserRepository) : Base
     fun getSignedInUser() {
         signedInUserViewState.value = SignedInUserViewState(isLoading = true)
         addDisposable(userRepository.getSignedInUser()
-            .map { userData: UserData? ->
-                if (userData == null) {
-                    null
-                } else {
-                    User(userData.id, userData.username, userData.phoneNumber)
-                }
+            .map {
+                User(
+                    it.id,
+                    it.username,
+                    it.phoneNumber,
+                    it.firstName,
+                    it.lastName,
+                    it.location,
+                    it.gender
+                )
             }
             .subscribe(
             {
                 signedInUserViewState.postValue(SignedInUserViewState(isLoading = false, user = it))
             },
             {
+                signedInUserViewState.postValue(SignedInUserViewState(isLoading = false))
                 errorLiveData.postValue(it)
             }
         ))

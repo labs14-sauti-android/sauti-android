@@ -12,7 +12,6 @@
     <string name="menu_exchange_rates" translatable="false">Exchange Rates</string>
     <string name="menu_sign_in" translatable="false">Sign In</string>
     <string name="menu_sign_out" translatable="false">Sign Out</string>
-    <string name="not_logged_in" translatable="false">Not Logged In</string>
     <string name="your_recent_searches" translatable="false">Your Recent Searches</string>
     <string name="menu_marketplace" translatable="false">Marketplace</string>
     <string name="menu_dashboard" translatable="false">Dashboard</string>

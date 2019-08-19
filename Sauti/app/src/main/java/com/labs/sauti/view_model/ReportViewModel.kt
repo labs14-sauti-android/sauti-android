@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.labs.sauti.model.ReportForm
+import com.labs.sauti.model.report.ReportForm
 import com.labs.sauti.repository.ReportRepository
 import com.labs.sauti.view_state.report.BorderNamesViewState
 import com.labs.sauti.view_state.report.SubmitReportFormViewState

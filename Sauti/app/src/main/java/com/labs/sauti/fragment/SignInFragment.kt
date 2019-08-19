@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProviders
 
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
-import com.labs.sauti.model.SignInResponse
 import com.labs.sauti.view_model.AuthenticationViewModel
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import javax.inject.Inject
