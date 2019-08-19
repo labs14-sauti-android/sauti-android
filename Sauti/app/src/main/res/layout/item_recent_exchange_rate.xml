@@ -4,21 +4,22 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="170dp"
+        android:layout_weight="0.5"
         app:cardUseCompatPadding="true"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
-        android:layout_weight="0.5"
         app:cardBackgroundColor="@color/colorCardBackground"
-        tools:layout_width="match_parent"
-        android:minHeight="140dp">
-
-    <!--TODO lock height-->
+        tools:layout_width="170dp"
+        tools:layout_height="170dp">
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="5dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:orientation="vertical">
 
         <TextView
@@ -37,7 +38,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="50 KES is 1809 UGX"
-                android:gravity="center"
                 android:textColor="@color/colorCardText"
                 android:textSize="14sp"
                 android:layout_marginBottom="29dp"/>
@@ -47,7 +47,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="(1KES = 36.1804 UGX)"
-                android:gravity="center"
                 android:textColor="@color/colorCardText"
                 android:textSize="12sp"/>
 
