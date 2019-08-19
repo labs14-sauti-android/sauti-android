@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.labs.sauti.R
 import com.labs.sauti.model.trade_info.Procedure
 import kotlinx.android.synthetic.main.border_procedures_element_layout.view.*
-import org.w3c.dom.Text
 
 class ProceduresAdapter(
     private val procedures: MutableList<Procedure> = mutableListOf(),
