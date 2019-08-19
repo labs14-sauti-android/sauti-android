@@ -9,10 +9,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.snackbar.Snackbar
 
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
-import com.labs.sauti.model.SignInResponse
 import com.labs.sauti.view_model.AuthenticationViewModel
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import javax.inject.Inject
@@ -52,38 +52,38 @@ class SignInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // success
-        authenticationViewModel.getSignInResponseLiveData().observe(this, Observer<SignInResponse> {
-            Toast.makeText(context, "Sign in successful", Toast.LENGTH_LONG).show()
-
-            onSignInCompletedListener!!.onSignInCompleted()
-
-            activity!!.supportFragmentManager.popBackStack()
-
-            vs_sign_in.displayedChild = 0
-        })
-
         // error
         authenticationViewModel.getErrorLiveData().observe(this, Observer {
-            // TODO better error showing
-            Toast.makeText(context, "Sign in failed. ${it.errorDescription}", Toast.LENGTH_LONG).show()
-
-            vs_sign_in.displayedChild = 0
+            Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
         })
 
-        // button
+        // success
+        authenticationViewModel.getSignInViewState().observe(this, Observer {
+            if (it.isLoading) {
+                vs_sign_in.displayedChild = 1
+            } else {
+                vs_sign_in.displayedChild = 0
+
+                if (it.isSuccess) {
+                    Snackbar.make(view, "Sign in successful", Snackbar.LENGTH_SHORT).show()
+                    onSignInCompletedListener!!.onSignInCompleted()
+                    activity!!.supportFragmentManager.popBackStack()
+                }
+            }
+        })
+
+        // sign in click
         b_sign_in.setOnClickListener {
-            vs_sign_in.displayedChild = 1
             signIn()
         }
 
+        // sign up click
         t_sign_up.setOnClickListener {
             openSignUp()
         }
     }
 
     private fun signIn() {
-        // TODO check validity
         authenticationViewModel.signIn(et_username.text.toString(), et_password.text.toString())
     }
 

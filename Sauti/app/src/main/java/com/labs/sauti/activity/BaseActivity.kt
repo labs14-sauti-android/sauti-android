@@ -17,10 +17,10 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.fragment.*
-import com.labs.sauti.model.User
 import com.labs.sauti.view_model.AuthenticationViewModel
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -71,27 +71,43 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
             .commit()
         nav_view.menu.findItem(R.id.nav_dashboard).isChecked = true
 
+        // authentication error
+        authenticationViewModel.getErrorLiveData().observe(this, Observer {
+            Snackbar.make(findViewById(android.R.id.content), it, Snackbar.LENGTH_SHORT).show()
+        })
+
+        // user data
+        authenticationViewModel.getSignedInUserViewState().observe(this, Observer {
+            if (it.isLoading) {
+                // TODO loading
+            } else {
+                if (it.user?.userId != null) {
+                    nav_view.getHeaderView(0).n_main_t_name.text = it.user!!.username
+                    nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_out)
+                } else {
+                    nav_view.getHeaderView(0).n_main_t_name.text = ""
+                    nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_in)
+                }
+            }
+        })
+
+        authenticationViewModel.getSignOutViewState().observe(this, Observer {
+            if (it.isLoading) {
+                // TODO loading
+            } else {
+                if (it.isSuccess) {
+                    Snackbar.make(findViewById(android.R.id.content), "Signed out", Snackbar.LENGTH_SHORT).show()
+                    nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_in)
+                    setUserNavInfoAsLoggedOut()
+                }
+            }
+        })
     }
 
     override fun onResume() {
         super.onResume()
 
-//        authenticationViewModel.getIsSignedInLiveData().observe(this, Observer<Boolean> {
-//            if (it) {
-//                nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_out)
-//            } else {
-//                setUserNavInfoAsLoggedOut()
-//                nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_in)
-//            }
-//        })
-        authenticationViewModel.isSignedIn()
-
-        // user data
-        authenticationViewModel.getUserLiveData().observe(this, Observer<User> {
-            nav_view.n_main_t_name.text = it.username ?: ""
-        })
-        authenticationViewModel.getCurrentUser()
-
+        authenticationViewModel.getSignedInUser()
     }
 
     override fun onDestroy() {
@@ -145,15 +161,11 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
 
                 return true
             }
-/*            R.id.nav_sign_in_out -> {
+            R.id.nav_sign_in_out -> {
                 if (item.title == getString(R.string.menu_sign_out)) {
                     authenticationViewModel.signOut()
 
-                    item.title = getString(R.string.menu_sign_in)
-                    setUserNavInfoAsLoggedOut()
-
                     drawer_layout.closeDrawer(GravityCompat.START)
-
                 } else {
                     val signInFragment = SignInFragment.newInstance()
 
@@ -164,7 +176,7 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
                 }
 
                 return true
-            }*/
+            }
             R.id.nav_report -> {
                 if (replaceFragment(ReportFragment::class.java)) {
                     drawer_layout.closeDrawer(GravityCompat.START)
@@ -247,18 +259,13 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
     }
 
     private fun setUserNavInfoAsLoggedOut() {
-        nav_view.getHeaderView(0).n_main_t_name.text = getString(R.string.not_logged_in)
+        nav_view.getHeaderView(0).n_main_t_name.text = ""
     }
 
-
     override fun onSignInCompleted() {
-        // user data
-        authenticationViewModel.getUserLiveData().observe(this, Observer<User> {
-            nav_view.n_main_t_name.text = it.username ?: ""
-        })
-        authenticationViewModel.getCurrentUser()
+        authenticationViewModel.getSignedInUser()
 
-        //nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_out)
+        // TODO refresh activity
     }
 
     override fun openSignUp() {
