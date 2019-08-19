@@ -61,15 +61,15 @@
                                 tools:text="Retail: 120 KES/1Kg"
                                 android:textColor="@color/colorText"
                                 android:textSize="18sp"
-                                android:textStyle="bold"
-                                android:layout_marginBottom="9dp"/>
+                                android:textStyle="bold"/>
                         <TextView
                                 android:id="@+id/t_details_updated"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 tools:text="Updated: 2019-06-24"
                                 android:textColor="@color/colorText"
-                                android:textSize="12sp"/>
+                                android:textSize="12sp"
+                                android:layout_marginTop="9dp"/>
                         <TextView
                                 android:id="@+id/t_details_source"
                                 android:layout_width="match_parent"
@@ -94,7 +94,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
                                 android:text="@string/your_recent_searches"
-                                android:textColor="@color/colorTextInformation"/>
+                                android:textColor="@color/colorText"/>
 
                         <ViewSwitcher
                                 android:id="@+id/vs_recent_market_prices_loading"
