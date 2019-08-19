@@ -152,6 +152,15 @@ class TradeInfoSearchFragment : Fragment() {
             }
         })
 
+        tradeInfoViewModel.getSearchTradeInfoProcedure().observe(this, Observer{
+            if(it != null) {
+                onTradeSearchCompletedListener?.OnTradeInfoSearchCompleted(it)
+                b_trade_info_search.isEnabled = true
+            } else {
+                b_trade_info_search.isEnabled = false
+            }
+        })
+
 
 
         b_trade_info_search.setOnClickListener {
@@ -427,7 +436,10 @@ class TradeInfoSearchFragment : Fragment() {
                 //TODO: Should check for button text instead of this.
                 when (tradeInfoCategory) {
                     "Border Procedures" -> {
-
+                        when (position) {
+                            1 -> {tradeInfoViewModel.searchBorderProcedures(language, category, product, origin, dest, 2001.0)}
+                            2 -> {tradeInfoViewModel.searchBorderProcedures(language, category, product, origin, dest, 1.0)}
+                        }
                     }
                     "Required Documents" -> {
                         when (position) {

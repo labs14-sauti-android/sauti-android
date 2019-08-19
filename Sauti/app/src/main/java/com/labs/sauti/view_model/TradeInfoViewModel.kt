@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.labs.sauti.model.trade_info.Procedure
 import com.labs.sauti.model.trade_info.RequiredDocument
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.repository.TradeInfoRepository
@@ -41,6 +42,21 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     fun getSearchTradeInfoProcedure(): LiveData<TradeInfo> = searchTradeInfoProcedure
     fun getSearchTradeInfoDocuments(): LiveData<TradeInfo> = searchTradeInfoDocuments
     fun getSearchTradeInfoAgencies(): LiveData<TradeInfo> = searchTradeInfoAgencies
+
+    fun searchBorderProcedures(language: String, category: String, product: String, origin: String, dest: String, value: Double) {
+        addDisposable(tradeInfoRepository.searchTradeInfoBorderProcedures(language, category, product, origin, dest, value)
+            .map {
+                TradeInfo("Border Procedures", "Border Procedures", tradeInfoProcedure = it)
+            }
+            .subscribe(
+                {
+                    searchTradeInfoProcedure.postValue(it)
+                },
+                {
+                    errorLiveData.postValue(it)
+                }
+            ))
+    }
 
     fun searchRequiredDocuments(language: String, category: String, product: String, origin: String, dest: String, value: Double) {
         addDisposable(tradeInfoRepository.searchTradeInfoRequiredDocuments(language, category, product, origin, dest, value)

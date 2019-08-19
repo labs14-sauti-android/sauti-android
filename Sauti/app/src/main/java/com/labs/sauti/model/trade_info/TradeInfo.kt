@@ -9,6 +9,7 @@ data class TradeInfo (
     var tradeinfoTopic : String,
     var tradeinfoTopicExpanded : String,
     var tradeinfoList : List<String>? = null,
+    var tradeInfoProcedure: List<Procedure>? = null,
     var tradeInfoDocs : MutableList<RequiredDocument>? = null,
     var regulatedType : String? = null,
     val tradeInfoID : Long? = null
