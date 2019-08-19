@@ -44,7 +44,7 @@ class TradeInfoSearchFragment : Fragment() {
 
     private lateinit var firstSpinnerSelected : String
     private lateinit var language : String
-    private var tradeInfoCategory : String = "Border Procedures"
+    private lateinit var tradeInfoCategory : String
 
     lateinit var product : String
     lateinit var category: String
@@ -424,10 +424,28 @@ class TradeInfoSearchFragment : Fragment() {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
-                when (position) {
-                    1 -> {tradeInfoViewModel.searchRequiredDocuments(language, category, product, origin, dest, 2001.0)}
-                    2 -> {tradeInfoViewModel.searchRequiredDocuments(language, category, product, origin, dest, 1.0)}
+                //TODO: Should check for button text instead of this.
+                when (tradeInfoCategory) {
+                    "Border Procedures" -> {
+
+                    }
+                    "Required Documents" -> {
+                        when (position) {
+                            1 -> {tradeInfoViewModel.searchRequiredDocuments(language, category, product, origin, dest, 2001.0)}
+                            2 -> {tradeInfoViewModel.searchRequiredDocuments(language, category, product, origin, dest, 1.0)}
+                        }
+                    }
+
+                    "Border Agencies" -> {
+                        //Basically same implementation as required documents.
+                    }
+
+
                 }
+
+
+
+
             }
         }
 

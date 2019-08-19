@@ -138,7 +138,12 @@ OnFragmentFullScreenStateChangedListener{
                 rv_trade_info_required_documents.addItemDecoration(SimpleDividerItemDecoration(context!!))
                 rv_trade_info_required_documents.adapter = documentsAdapter
             }
-            "Border Agencies"->{}
+            "Border Agencies"->{
+                i_trade_info_divider_top.visibility = View.VISIBLE
+                i_trade_info_divider_bottom.visibility = View.VISIBLE
+                t_trade_info_sub_header.visibility = View.VISIBLE
+                t_trade_info_sub_header.text = "Push to View More Information About The Agency"
+            }
             "Regulated Goods" ->{
                 l_trade_info_left_list.removeAllViews()
                 l_trade_info_right_list.removeAllViews()
@@ -149,7 +154,6 @@ OnFragmentFullScreenStateChangedListener{
 
 
                 for (i in 0 until (tradeInfo.tradeinfoList!!.size)) {
-                    //TODO: Change language so left LL will have one more if odd number of elements.
                     val textView = TextView(context)
                     TextViewCompat.setTextAppearance(textView, R.style.CardViewRecentDetailsListTextStyling)
                     textView.text = "- ${tradeInfo.tradeinfoList!![i]}"
