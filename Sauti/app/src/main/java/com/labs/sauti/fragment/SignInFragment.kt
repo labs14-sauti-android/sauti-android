@@ -52,31 +52,33 @@ class SignInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // success
-        authenticationViewModel.getSignInResponseLiveData().observe(this, Observer<SignInResponse> {
-            Toast.makeText(context, "Sign in successful", Toast.LENGTH_LONG).show()
-
-            onSignInCompletedListener!!.onSignInCompleted()
-
-            activity!!.supportFragmentManager.popBackStack()
-
-            vs_sign_in.displayedChild = 0
-        })
-
         // error
         authenticationViewModel.getErrorLiveData().observe(this, Observer {
             // TODO better error showing
-            Toast.makeText(context, "Sign in failed. ${it.errorDescription}", Toast.LENGTH_LONG).show()
-
-            vs_sign_in.displayedChild = 0
+            Toast.makeText(context, "Sign in failed. ${it.message}", Toast.LENGTH_LONG).show()
         })
 
-        // button
+        // success
+        authenticationViewModel.getSignInViewState().observe(this, Observer {
+            if (it.isLoading) {
+                vs_sign_in.displayedChild = 1
+            } else {
+                vs_sign_in.displayedChild = 0
+
+                if (it.isSuccess) {
+                    Toast.makeText(context, "Sign in successful", Toast.LENGTH_LONG).show()
+                    onSignInCompletedListener!!.onSignInCompleted()
+                    activity!!.supportFragmentManager.popBackStack()
+                }
+            }
+        })
+
+        // sign in click
         b_sign_in.setOnClickListener {
-            vs_sign_in.displayedChild = 1
             signIn()
         }
 
+        // sign up click
         t_sign_up.setOnClickListener {
             openSignUp()
         }

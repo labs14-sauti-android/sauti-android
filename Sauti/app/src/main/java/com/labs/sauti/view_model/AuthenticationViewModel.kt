@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.labs.sauti.model.*
 import com.labs.sauti.model.authentication.User
+import com.labs.sauti.model.authentication.UserData
 import com.labs.sauti.repository.UserRepository
 import com.labs.sauti.view_state.authentication.*
+import io.reactivex.functions.Function
 
 class AuthenticationViewModel(private val userRepository: UserRepository) : BaseViewModel() {
 
@@ -22,7 +24,7 @@ class AuthenticationViewModel(private val userRepository: UserRepository) : Base
     fun getSignUpViewState(): LiveData<SignUpViewState> = signUpViewState
     fun getSignInViewState(): LiveData<SignInViewState> = signInViewState
     fun getSignOutViewState(): LiveData<SignOutViewState> = signOutViewState
-    fun getIsSignedViewState(): LiveData<IsSignedInViewState> = isSignedInViewState
+    fun getIsSignedInViewState(): LiveData<IsSignedInViewState> = isSignedInViewState
     fun getSignedInUserViewState(): LiveData<SignedInUserViewState> = signedInUserViewState
 
     fun signUp(signUpRequest: SignUpRequest) {
@@ -80,8 +82,12 @@ class AuthenticationViewModel(private val userRepository: UserRepository) : Base
     fun getSignedInUser() {
         signedInUserViewState.value = SignedInUserViewState(isLoading = true)
         addDisposable(userRepository.getSignedInUser()
-            .map {
-                User(it.id, it.username, it.phoneNumber)
+            .map { userData: UserData? ->
+                if (userData == null) {
+                    null
+                } else {
+                    User(userData.id, userData.username, userData.phoneNumber)
+                }
             }
             .subscribe(
             {

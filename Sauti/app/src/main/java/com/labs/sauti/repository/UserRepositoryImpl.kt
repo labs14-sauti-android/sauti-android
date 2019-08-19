@@ -43,7 +43,7 @@ class UserRepositoryImpl(
         return Single.just(sessionSp.isAccessTokenValid())
     }
 
-    override fun getSignedInUser(): Single<UserData> {
+    override fun getSignedInUser(): Single<UserData?> {
         if (sessionSp.isAccessTokenValid()) {
             val user = sessionSp.getUser()
             if (user != null) return Single.just(user)
@@ -51,9 +51,11 @@ class UserRepositoryImpl(
             return sautiApiService.getCurrentUser("Bearer ${sessionSp.getAccessToken()}")
                 .doOnSuccess {
                     sessionSp.setUser(it)
+                }.onErrorResumeNext { // token expired in the server
+                    Single.just(null)
                 }
         }
 
-        return Single.error(Throwable())
+        return Single.just(null)
     }
 }

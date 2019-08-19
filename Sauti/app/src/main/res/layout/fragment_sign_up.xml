@@ -110,7 +110,7 @@
                     android:maxLines="1"/>
 
             <ViewSwitcher
-                    android:id="@+id/vs_sign_up"
+                    android:id="@+id/vs_sign_up_loading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
