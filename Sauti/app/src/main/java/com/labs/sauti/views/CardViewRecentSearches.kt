@@ -22,6 +22,10 @@ class CardViewRecentSearches @JvmOverloads constructor(
         inflate(getContext(), R.layout.item_recent_card_view, this)
     }
 
+    fun consumeTIRequiredDocuments(tradeInfo: TradeInfo) {
+
+    }
+
     fun consumeTIRegulatedGood(tradeInfo: TradeInfo) {
         t_card_view_header.text = tradeInfo.regulatedType
 

@@ -110,14 +110,27 @@ OnFragmentFullScreenStateChangedListener{
 
 
     fun addTIDetailsLL(tradeInfo: TradeInfo) {
+        //Present for all.
         t_trade_info_header.text = tradeInfo.tradeinfoTopicExpanded
+
+        //Regulated Goods
         l_trade_info_left_list.visibility = View.GONE
         l_trade_info_right_list.visibility = View.GONE
+
+        //Required Documents
+        t_trade_info_sub_header.visibility = View.GONE
         rv_trade_info_required_documents.visibility = View.GONE
+        i_trade_info_divider_top.visibility = View.GONE
+        i_trade_info_divider_bottom.visibility = View.GONE
 
         when(tradeInfo.tradeinfoTopic) {
             "Border Procedures"->{}
             "Required Documents"->{
+                i_trade_info_divider_top.visibility = View.VISIBLE
+                i_trade_info_divider_bottom.visibility = View.VISIBLE
+                t_trade_info_sub_header.visibility = View.VISIBLE
+                t_trade_info_sub_header.text = "Push to View More Information About The Document"
+
                 rv_trade_info_required_documents.visibility = View.VISIBLE
                 documentsAdapter = DocumentsAdapter(tradeInfo.tradeInfoDocs!!) {
                     Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
@@ -189,7 +202,7 @@ OnFragmentFullScreenStateChangedListener{
         }
 
         if(tradeInfo.tradeInfoDocs != null) {
-            tiv_trade_info_recent_first
+//            tiv_trade_info_recent_first.consumeTIRegulatedGood(tradeInfo)
         }
 
 

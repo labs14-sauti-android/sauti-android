@@ -89,12 +89,8 @@ class TradeInfoSearchFragment : Fragment() {
             it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
         })
 
+        b_trade_info_search.isEnabled = false
 
-
-        //TODO: Change the text in each of the custom spinners
-        //setTranslatedTexts()
-
-        //Places all buttons in a list, sets clicklisteners and disable search button.
         buttonSpinnerSetup()
 
         language = SettingsSp(context!!).getSelectedLanguage().toUpperCase()
@@ -191,8 +187,6 @@ class TradeInfoSearchFragment : Fragment() {
             for (i in 1..4) {
                 searchSpinnerList[i].visibility = View.GONE
             }
-
-            b_trade_info_search.isEnabled = false
         }
 
         buttonList = listOf(b_trade_info_procedures,
@@ -269,7 +263,7 @@ class TradeInfoSearchFragment : Fragment() {
         next.visibility = View.VISIBLE
 
         if(headerString == "Regulated Goods") {
-            val countryNames = convertCountryNames(spinnerList)
+            val countryNames = convertCountryNamesList(spinnerList)
             next.addSpinnerContents(countryNames)
 
             val listener = object : AdapterView.OnItemSelectedListener {
@@ -397,7 +391,7 @@ class TradeInfoSearchFragment : Fragment() {
 
     private fun loadFourthSpinner(fourth: SearchSpinnerCustomView, spinnerList: List<String>, headerString: String) {
         fourth.visibility = View.VISIBLE
-        val conversion = convertCountryNames(spinnerList)
+        val conversion = convertCountryNamesList(spinnerList)
         fourth.addSpinnerContents(conversion)
 
         val fourthListener = object : AdapterView.OnItemSelectedListener {
@@ -405,9 +399,10 @@ class TradeInfoSearchFragment : Fragment() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                dest = parent.getItemAtPosition(position) as String
+                var destChoice = parent.getItemAtPosition(position) as String
 
-                if(dest.isNotEmpty()){
+                if(destChoice.isNotEmpty()){
+                    dest = convertCountrytoCountryCode(destChoice)
                     tradeInfoViewModel.setFifthSpinnerContent()
                 }
             }
@@ -430,8 +425,8 @@ class TradeInfoSearchFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
                 when (position) {
-                    1 -> {tradeInfoViewModel.searchRequiredDocuments(language, category, product, origin, dest, 1.0)}
-                    2 -> {tradeInfoViewModel.searchRequiredDocuments(language, category, product, origin, dest, 2001.0)}
+                    1 -> {tradeInfoViewModel.searchRequiredDocuments(language, category, product, origin, dest, 2001.0)}
+                    2 -> {tradeInfoViewModel.searchRequiredDocuments(language, category, product, origin, dest, 1.0)}
                 }
             }
         }
@@ -440,7 +435,21 @@ class TradeInfoSearchFragment : Fragment() {
 
     }
 
-    fun convertCountryNames(countryList : List<String>) : List<String> {
+    fun convertCountrytoCountryCode(countryName : String) : String {
+
+        when(countryName) {
+            "Kenya" -> (return "KEN")
+            "Burundi"-> (return "BDI")
+            "Democratic Republic of the Congo"-> (return "DRC")
+            "Malawi"-> (return "MWI")
+            "Rwanda"-> (return "RWA")
+            "Tanzania"-> (return "TZA")
+            "Uganda"-> (return "UGA")
+            else -> return ""
+        }
+    }
+
+    fun convertCountryNamesList(countryList : List<String>) : List<String> {
 
         val countryNames = mutableListOf<String>()
 

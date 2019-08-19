@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.labs.sauti.model.trade_info.RequiredDocument
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.repository.TradeInfoRepository
 import io.reactivex.schedulers.Schedulers
@@ -45,7 +46,12 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
         addDisposable(tradeInfoRepository.searchTradeInfoRequiredDocuments(language, category, product, origin, dest, value)
             .map
             {
-                    TradeInfo(tradeinfoTopic = "Required Documents", tradeinfoTopicExpanded = "Required Documents", tradeInfoDocs = it)
+                val docsList = mutableListOf<RequiredDocument>()
+                it.forEach{doc ->
+                    docsList.add(doc)
+                }
+
+                TradeInfo(tradeinfoTopic = "Required Documents", tradeinfoTopicExpanded = "Required Documents", tradeInfoDocs = docsList)
             }
             .subscribe(
                 {

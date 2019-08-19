@@ -31,7 +31,7 @@ class DocumentsAdapter(
 
 
         fun bind(data : RequiredDocument, listener: (RequiredDocument) -> Unit) = with(itemView) {
-            docName.text = "$adapterPosition:${data.docTitle}"
+            docName.text = """${(adapterPosition + 1)}:${data.docTitle}"""
             setOnClickListener { listener(data) }
         }
     }
