@@ -1,6 +1,5 @@
 package com.labs.sauti.di.module
 
-import com.labs.sauti.repository.SautiRepository
 import com.labs.sauti.repository.UserRepository
 import com.labs.sauti.view_model.AuthenticationViewModel
 import dagger.Module
