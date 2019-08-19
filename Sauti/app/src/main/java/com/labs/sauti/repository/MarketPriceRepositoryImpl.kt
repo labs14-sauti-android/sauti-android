@@ -5,6 +5,7 @@ import com.labs.sauti.cache.MarketPriceCache
 import com.labs.sauti.cache.MarketPriceSearchCache
 import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.model.market_price.MarketPriceSearchData
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
@@ -13,6 +14,12 @@ class MarketPriceRepositoryImpl(
     private val marketPriceRoomCache: MarketPriceCache,
     private val marketPriceSearchRoomCache: MarketPriceSearchCache
 ) : MarketPriceRepository {
+
+    override fun updateMarketPrices(): Completable {
+        return Completable.fromCallable {
+            // TODO
+        }
+    }
 
     override fun getMarketPriceCountries(): Single<MutableList<String>> {
         return sautiApiService.getMarketPriceCountries()

@@ -9,14 +9,10 @@ import android.telephony.TelephonyManager
 
 
 object NetworkHelper {
-
-    const val TYPE_WIFI = "WIFI"
-    const val TYPE_MOBILE = "MOBILE"
-
-    const val MOBILE_2G = "2G"
-    const val MOBILE_3G = "3G"
-    const val MOBILE_4G = "4g"
-    const val MOBILE_UNKNOWN = "unknown"
+    const val CLASS_2G = "2G"
+    const val CLASS_3G = "3G"
+    const val CLASS_4G = "4g"
+    const val CLASS_UNKNOWN = "unknown"
 
     fun hasNetworkConnection(context: Context): Boolean {
         val cm = getSystemService(context, ConnectivityManager::class.java) ?: return false
@@ -31,7 +27,7 @@ object NetworkHelper {
             TelephonyManager.NETWORK_TYPE_EDGE,
             TelephonyManager.NETWORK_TYPE_CDMA,
             TelephonyManager.NETWORK_TYPE_1xRTT,
-            TelephonyManager.NETWORK_TYPE_IDEN -> return MOBILE_2G
+            TelephonyManager.NETWORK_TYPE_IDEN -> return CLASS_2G
             TelephonyManager.NETWORK_TYPE_UMTS,
             TelephonyManager.NETWORK_TYPE_EVDO_0,
             TelephonyManager.NETWORK_TYPE_EVDO_A,
@@ -40,24 +36,21 @@ object NetworkHelper {
             TelephonyManager.NETWORK_TYPE_HSPA,
             TelephonyManager.NETWORK_TYPE_EVDO_B,
             TelephonyManager.NETWORK_TYPE_EHRPD,
-            TelephonyManager.NETWORK_TYPE_HSPAP -> return MOBILE_3G
-            TelephonyManager.NETWORK_TYPE_LTE -> return MOBILE_4G
-            else -> return MOBILE_UNKNOWN
+            TelephonyManager.NETWORK_TYPE_HSPAP -> return CLASS_3G
+            TelephonyManager.NETWORK_TYPE_LTE -> return CLASS_4G
+            else -> return CLASS_UNKNOWN
         }
     }
 
-    fun getNetworkConnectionTypes(context: Context): List<String> {
-        val outTypes = mutableListOf<String>()
-        val cm = getSystemService(context, ConnectivityManager::class.java) ?: return outTypes
-        val allNetworks = cm.allNetworks ?: return outTypes
+    /**
+     * @param transport eg NetworkCapabilities.TRANSPORT_WIFI
+     * */
+    fun hasTransport(context: Context, transport: Int): Boolean {
+        val cm = getSystemService(context, ConnectivityManager::class.java) ?: return false
+        val allNetworks = cm.allNetworks ?: return false
         for (network in allNetworks) {
-
-            if (cm.getNetworkCapabilities(network).hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                outTypes.add(TYPE_WIFI)
-            } else if (cm.getNetworkCapabilities(network).hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                outTypes.add(TYPE_MOBILE)
-            }
+            if (cm.getNetworkCapabilities(network).hasTransport(transport)) return true
         }
-        return outTypes
+        return false
     }
 }

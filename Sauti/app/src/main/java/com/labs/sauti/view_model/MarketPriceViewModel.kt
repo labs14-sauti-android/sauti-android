@@ -26,6 +26,10 @@ class MarketPriceViewModel(private val marketPriceRepository: MarketPriceReposit
     fun getSearchMarketPriceLiveData(): LiveData<MarketPrice> = searchMarketPriceLiveData
     fun getRecentMarketPricesViewState(): LiveData<RecentMarketPricesViewState> = recentMarketPricesViewState
 
+    fun updateMarketPrices() {
+        addDisposable(marketPriceRepository.updateMarketPrices().subscribe())
+    }
+
     fun getCountries() {
         countriesViewState.value = CountriesViewState(true)
         addDisposable(marketPriceRepository.getMarketPriceCountries().subscribe(

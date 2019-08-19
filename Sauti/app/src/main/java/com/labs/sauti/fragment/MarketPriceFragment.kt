@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
@@ -79,6 +80,8 @@ OnFragmentFullScreenStateChangedListener {
             it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
         })
 
+        tryUpdatingMarketPrices()
+
         ll_details.visibility = View.GONE
 
         marketPriceViewModel.getRecentMarketPricesViewState().observe(this, Observer {
@@ -110,6 +113,14 @@ OnFragmentFullScreenStateChangedListener {
 
         b_search.setOnClickListener {
             openMarketPriceSearchFragment()
+        }
+    }
+
+    private fun tryUpdatingMarketPrices() {
+        if (NetworkHelper.hasNetworkConnection(context!!) &&
+            (NetworkHelper.hasTransport(context!!, NetworkCapabilities.TRANSPORT_WIFI) ||
+                    NetworkHelper.getNetworkClass(context!!) == NetworkHelper.CLASS_4G)) {
+            marketPriceViewModel.updateMarketPrices()
         }
     }
 
