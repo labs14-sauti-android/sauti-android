@@ -6,7 +6,6 @@ import com.labs.sauti.cache.MarketPriceRoomCache
 import com.labs.sauti.cache.MarketPriceSearchRoomCache
 import com.labs.sauti.cache.*
 import com.labs.sauti.db.SautiRoomDatabase
-import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.repository.*
 import com.labs.sauti.sp.SessionSp
 import com.labs.sauti.sp.SettingsSp
@@ -67,6 +66,12 @@ class DataModule(private val sautiAuthorization: String) {
 
     @Provides
     @Singleton
+    fun provideTradeInfoSearchRoomCache(sautiRoomDatabase: SautiRoomDatabase): TradeInfoSearchRoomCache {
+        return TradeInfoSearchRoomCache(sautiRoomDatabase)
+    }
+
+    @Provides
+    @Singleton
     fun provideHelpRepository(sautiApiService: SautiApiService): HelpRepository {
         return HelpRepositoryImpl(sautiApiService)
     }
@@ -75,33 +80,6 @@ class DataModule(private val sautiAuthorization: String) {
     @Singleton
     fun provideReportRepository(sautiApiService: SautiApiService): ReportRepository {
         return ReportRepositoryImpl(sautiApiService)
-    }
-
-    @Provides
-    @Singleton
-    fun provideSautiRepository(
-        networkHelper: NetworkHelper,
-        sautiApiService: SautiApiService,
-        sessionSp: SessionSp,
-        settingsSp: SettingsSp,
-        marketPriceRoomCache: MarketPriceRoomCache,
-        marketPriceSearchRoomCache: MarketPriceSearchRoomCache,
-        exchangeRateRoomCache: ExchangeRateRoomCache,
-        exchangeRateConversionRoomCache: ExchangeRateConversionRoomCache,
-        tradeInfoRoomCache: TradeInfoRoomCache
-    ): SautiRepository {
-        return SautiRepositoryImpl(
-            networkHelper,
-            sautiApiService,
-            sautiAuthorization,
-            sessionSp,
-            settingsSp,
-            marketPriceRoomCache,
-            marketPriceSearchRoomCache,
-            exchangeRateRoomCache,
-            exchangeRateConversionRoomCache,
-            tradeInfoRoomCache
-        )
     }
 
     @Provides
@@ -151,4 +129,17 @@ class DataModule(private val sautiAuthorization: String) {
         return SettingsRepositoryImpl(settingsSp)
     }
 
+    @Provides
+    @Singleton
+    fun provideTradeInfoRepository(
+        sautiApiService: SautiApiService,
+        settingsSp: SettingsSp,
+        tradeInfoRoomCache: TradeInfoRoomCache,
+        tradeInfoSearchRoomCache: TradeInfoSearchRoomCache
+    ) : TradeInfoRepository {
+        return TradeInfoRepositoryImpl(sautiApiService,
+            settingsSp,
+            tradeInfoRoomCache,
+            tradeInfoSearchRoomCache)
+    }
 }

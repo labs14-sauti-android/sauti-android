@@ -1,6 +1,6 @@
 package com.labs.sauti.view_state.report
 
-data class BordersViewState(
+data class BorderNamesViewState(
     var isLoading: Boolean = false,
-    var borders: List<String>? = null
+    var borderNames: List<String>? = null
 )

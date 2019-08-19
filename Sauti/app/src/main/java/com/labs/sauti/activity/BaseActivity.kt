@@ -1,5 +1,6 @@
 package com.labs.sauti.activity
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -59,6 +60,7 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
         )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
+        drawer_layout.setScrimColor(Color.parseColor("#66c4c4c4"))
 
         // initial base fragment
         supportActionBar!!.title = "Sauti"

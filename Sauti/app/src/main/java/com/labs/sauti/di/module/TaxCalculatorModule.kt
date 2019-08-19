@@ -6,7 +6,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class TradeInfoModule {
+class TaxCalculatorModule {
 
     @Provides
     fun provideTradeInfoViewModelFactory(tradeInfoRepository: TradeInfoRepository): TradeInfoViewModel.Factory {

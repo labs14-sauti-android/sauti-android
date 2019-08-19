@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.children
+import androidx.core.view.marginBottom
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -28,8 +28,6 @@ import kotlinx.android.synthetic.main.item_recent_market_price.view.*
 import java.text.DecimalFormat
 import javax.inject.Inject
 
-// TODO 5 weeks old max market price
-// TODO do not show 0 retail price
 class MarketPriceFragment : Fragment(), MarketPriceSearchFragment.OnMarketPriceSearchCompletedListener,
 OnFragmentFullScreenStateChangedListener {
 
@@ -131,11 +129,21 @@ OnFragmentFullScreenStateChangedListener {
         val wholesaleStr = decimalFormat.format(marketPrice.wholesale)
         t_details_wholesale.text = "Wholesale: $wholesaleStr ${marketPrice.currency}/1Kg"
         if (marketPrice.retail != null && marketPrice.retail!! > 0.0) {
-            t_details_retail.textSize = 0.0f
+            // swap margin
+            val wholesaleMargin = t_details_wholesale.marginBottom
+            (t_details_wholesale.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = t_details_retail.marginBottom
+            (t_details_retail.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = wholesaleMargin
+
+            t_details_retail.visibility = View.VISIBLE
             val retailStr = decimalFormat.format(marketPrice.retail!!)
             t_details_retail.text = "Retail: $retailStr ${marketPrice.currency}/1Kg"
         } else {
-            t_details_retail.textSize = 0.0f
+            // swap margin
+            val wholesaleMargin = t_details_wholesale.marginBottom
+            (t_details_wholesale.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = t_details_retail.marginBottom
+            (t_details_retail.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = wholesaleMargin
+
+            t_details_retail.visibility = View.GONE
         }
         t_details_updated.text = "Updated: ${marketPrice.date?.substring(0, 10)}"
         t_details_source.text = "Source: EAGC-RATIN" // TODO
@@ -157,11 +165,21 @@ OnFragmentFullScreenStateChangedListener {
             val wholesaleStr = decimalFormat.format(recentMarketPrice.wholesale)
             itemView.t_recent_wholesale.text = "Wholesale: $wholesaleStr ${recentMarketPrice.currency}/1Kg"
             if (recentMarketPrice.retail != null && recentMarketPrice.retail!! > 0.0) {
-                itemView.t_recent_retail.textSize = 0.0f
+                // swap margin
+                val wholesaleMargin = itemView.t_recent_wholesale.marginBottom
+                (itemView.t_recent_wholesale.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = itemView.t_recent_retail.marginBottom
+                (itemView.t_recent_retail.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = wholesaleMargin
+
+                itemView.t_recent_retail.visibility = View.VISIBLE
                 val retailStr = decimalFormat.format(recentMarketPrice.retail!!)
                 itemView.t_recent_retail.text = "Retail: $retailStr ${recentMarketPrice.currency}/1Kg"
             } else {
-                itemView.t_recent_retail.textSize = 0.0f
+                // swap margin
+                val wholesaleMargin = itemView.t_recent_wholesale.marginBottom
+                (itemView.t_recent_wholesale.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = itemView.t_recent_retail.marginBottom
+                (itemView.t_recent_retail.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = wholesaleMargin
+
+                itemView.t_recent_retail.visibility = View.GONE
             }
             itemView.t_recent_updated.text = "Updated: ${recentMarketPrice.date?.substring(0, 10)}"
             itemView.t_recent_source.text = "Source: EAGC-RATIN" // TODO

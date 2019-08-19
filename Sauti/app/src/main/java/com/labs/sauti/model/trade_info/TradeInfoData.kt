@@ -1,9 +1,12 @@
 package com.labs.sauti.model.trade_info
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.sql.Date
+
 
 
 //This will be the class that is stored into room
@@ -11,6 +14,7 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "trade_info")
 data class TradeInfoData(
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "trade_info_id")
     var id: Long? = null,
 
     @SerializedName("dest")
@@ -51,9 +55,21 @@ data class TradeInfoData(
 
     @SerializedName("value")
     @Expose
-    val value: String
-)
+    val value: String,
 
+    var timestamp: Long? = null
+) {
+    fun setTimestamp(){
+        this.timestamp = System.currentTimeMillis()
+    }
+
+    fun getDateFromTimestamp() = timestamp?.let { Date(it) }
+}
+
+fun TradeInfoData.toBorderAgencyTI() {
+
+
+}
 
 
 
