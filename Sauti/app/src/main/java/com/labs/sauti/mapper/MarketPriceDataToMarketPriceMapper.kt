@@ -1,0 +1,3 @@
+package com.labs.sauti.mapper
+
+class MarketPriceDataToMarketPriceMapper

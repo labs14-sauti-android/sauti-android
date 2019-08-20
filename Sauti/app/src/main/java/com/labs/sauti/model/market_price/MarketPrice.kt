@@ -9,5 +9,6 @@ class MarketPrice(
     var wholesale: Double? = null,
     var retail: Double? = null,
     var currency: String? = null,
-    var date: String? = null
+    var date: String? = null,
+    var nearbyMarketplaceNames: MutableList<String> = mutableListOf()
 )

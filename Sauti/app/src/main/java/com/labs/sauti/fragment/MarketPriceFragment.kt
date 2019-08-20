@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.fragment_market_price.*
 import kotlinx.android.synthetic.main.item_recent_market_price.view.*
 import java.text.DecimalFormat
 import javax.inject.Inject
+import kotlin.math.max
 
 class MarketPriceFragment : Fragment(), MarketPriceSearchFragment.OnMarketPriceSearchCompletedListener,
 OnFragmentFullScreenStateChangedListener {
@@ -149,6 +150,14 @@ OnFragmentFullScreenStateChangedListener {
         }
         t_details_updated.text = "Updated: ${marketPrice.date?.substring(0, 10)}"
         t_details_source.text = "Source: EAGC-RATIN" // TODO
+
+        t_nearby_markets.text = buildString {
+            marketPrice.nearbyMarketplaceNames.forEach {
+                append(it)
+                append(", ")
+            }
+            setLength(max(0, length - 2))
+        }
     }
 
     private fun handleRecentMarketPrices(recentMarketPrices: List<MarketPrice>) {
