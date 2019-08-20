@@ -88,6 +88,11 @@
         <item name="android:textStyle">normal</item>
         <item name="android:fontFamily">@font/roboto</item>
     </style>
+    <style name="TradeInfoDetailsFragmentHeaderStyling">
+        <item name="android:textSize">@dimen/tradeinfodetailsFragmentHeaderSize</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
 
     <!-- TODO: Navigation Drawer Styling. -->
