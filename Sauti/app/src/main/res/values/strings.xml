@@ -6,7 +6,10 @@
     <string name="nav_header_desc" translatable="false">Navigation header</string>
 
     <string name="language_activity_text" translatable="false">
-        <b>Sauti</b><font fgcolor='#e84c3d'><b>.</b></font>
+        <b>Sauti</b>
+        <font fgcolor='#e84c3d'>
+            <b>.</b>
+        </font>
     </string>
     <string name="menu_market_prices" translatable="false">Market Prices</string>
     <string name="menu_tax_calculator" translatable="false">Tax Calculator</string>
@@ -20,7 +23,6 @@
     <string name="menu_dashboard" translatable="false">Dashboard</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="push_to_view" translatable="false">Push To View</string>
     <string name="menu_about" translatable="false">About</string>
     <string name="menu_settings" translatable="false">Settings</string>
