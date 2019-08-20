@@ -6,10 +6,7 @@
     <string name="nav_header_desc" translatable="false">Navigation header</string>
 
     <string name="language_activity_text" translatable="false">
-        <b>Sauti</b>
-        <font fgcolor='#e84c3d'>
-            <b>.</b>
-        </font>
+        <b>Sauti</b><font fgcolor='#e84c3d'><b>.</b></font>
     </string>
     <string name="menu_market_prices" translatable="false">Market Prices</string>
     <string name="menu_tax_calculator" translatable="false">Tax Calculator</string>

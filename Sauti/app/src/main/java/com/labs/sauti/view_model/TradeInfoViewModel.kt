@@ -9,6 +9,7 @@ import com.labs.sauti.model.trade_info.RequiredDocument
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.repository.TradeInfoRepository
 import io.reactivex.schedulers.Schedulers
+import java.time.LocalDateTime
 
 
 class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository): BaseViewModel() {
@@ -43,10 +44,10 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     fun getSearchTradeInfoDocuments(): LiveData<TradeInfo> = searchTradeInfoDocuments
     fun getSearchTradeInfoAgencies(): LiveData<TradeInfo> = searchTradeInfoAgencies
 
-    fun searchBorderProcedures(language: String, category: String, product: String, origin: String, dest: String, value: Double) {
+    fun searchBorderProcedures(language: String, category: String, product: String, origin: String, dest: String, value: Double, destChoice: String) {
         addDisposable(tradeInfoRepository.searchTradeInfoBorderProcedures(language, category, product, origin, dest, value)
             .map {
-                TradeInfo("Border Procedures", "Border Procedures", tradeInfoProcedure = it)
+                TradeInfo("Border Procedures", "Border Procedures", tradeInfoProcedure = it, tradeInfoCountry = destChoice)
             }
             .subscribe(
                 {

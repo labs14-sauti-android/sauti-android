@@ -9,10 +9,11 @@ data class TradeInfo (
     var tradeinfoTopic : String,
     var tradeinfoTopicExpanded : String,
     var tradeinfoList : List<String>? = null,
-    var tradeInfoProcedure: List<Procedure>? = null,
+    var tradeInfoProcedure: MutableList<Procedure>? = null,
+    var tradeInfoCountry: String? = null,
     var tradeInfoDocs : MutableList<RequiredDocument>? = null,
     var regulatedType : String? = null,
-    val tradeInfoID : Long? = null
+    val tradeInfoID : Long? = System.currentTimeMillis()
 )
 //TODO Markup with room annotations. Ideal way I would like data to be delivered in a list.
 //TODO: Ignore will be removed for conversion.

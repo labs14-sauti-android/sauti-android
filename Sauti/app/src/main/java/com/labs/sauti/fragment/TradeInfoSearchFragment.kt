@@ -50,6 +50,7 @@ class TradeInfoSearchFragment : Fragment() {
     lateinit var category: String
     lateinit var origin : String
     lateinit var dest : String
+    lateinit var destChoice: String
     var value:  Double? = 0.0
 
     private val networkChangedReceiver = object: BroadcastReceiver() {
@@ -408,7 +409,7 @@ class TradeInfoSearchFragment : Fragment() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                var destChoice = parent.getItemAtPosition(position) as String
+                destChoice = parent.getItemAtPosition(position) as String
 
                 if(destChoice.isNotEmpty()){
                     dest = convertCountrytoCountryCode(destChoice)
@@ -437,8 +438,8 @@ class TradeInfoSearchFragment : Fragment() {
                 when (tradeInfoCategory) {
                     "Border Procedures" -> {
                         when (position) {
-                            1 -> {tradeInfoViewModel.searchBorderProcedures(language, category, product, origin, dest, 2001.0)}
-                            2 -> {tradeInfoViewModel.searchBorderProcedures(language, category, product, origin, dest, 1.0)}
+                            1 -> {tradeInfoViewModel.searchBorderProcedures(language, category, product, origin, dest, 2001.0, destChoice)}
+                            2 -> {tradeInfoViewModel.searchBorderProcedures(language, category, product, origin, dest, 1.0, destChoice)}
                         }
                     }
                     "Required Documents" -> {

@@ -17,6 +17,7 @@ import com.labs.sauti.R
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.SautiApp
 import com.labs.sauti.helper.DocumentsAdapter
+import com.labs.sauti.helper.ProceduresAdapter
 import com.labs.sauti.helper.SimpleDividerItemDecoration
 import com.labs.sauti.view_model.TradeInfoViewModel
 import kotlinx.android.synthetic.main.fragment_trade_info.*
@@ -41,6 +42,7 @@ OnFragmentFullScreenStateChangedListener{
     var tradeInfoRecent : TradeInfo? = null
 
     lateinit var documentsAdapter : DocumentsAdapter
+    lateinit var proceduresAdapter: ProceduresAdapter
 
 
 
@@ -113,6 +115,9 @@ OnFragmentFullScreenStateChangedListener{
         //Present for all.
         t_trade_info_header.text = tradeInfo.tradeinfoTopicExpanded
 
+        //Border Procedures
+        rv_trade_info_border_procedures.visibility = View.GONE
+
         //Regulated Goods
         l_trade_info_left_list.visibility = View.GONE
         l_trade_info_right_list.visibility = View.GONE
@@ -124,7 +129,17 @@ OnFragmentFullScreenStateChangedListener{
         i_trade_info_divider_bottom.visibility = View.GONE
 
         when(tradeInfo.tradeinfoTopic) {
-            "Border Procedures"->{}
+            "Border Procedures"->{
+                t_trade_info_sub_header.visibility = View.VISIBLE
+                rv_trade_info_border_procedures.visibility = View.VISIBLE
+                t_trade_info_sub_header.text = """To ${tradeInfo.tradeInfoCountry}"""
+                proceduresAdapter = ProceduresAdapter(tradeInfo.tradeInfoProcedure!!) {
+                    //TODO: Child Fragment
+                    Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
+                }
+                rv_trade_info_border_procedures.adapter = proceduresAdapter
+
+            }
             "Required Documents"->{
                 i_trade_info_divider_top.visibility = View.VISIBLE
                 i_trade_info_divider_bottom.visibility = View.VISIBLE
@@ -133,6 +148,7 @@ OnFragmentFullScreenStateChangedListener{
 
                 rv_trade_info_required_documents.visibility = View.VISIBLE
                 documentsAdapter = DocumentsAdapter(tradeInfo.tradeInfoDocs!!) {
+                    //TODO: Child Fragment
                     Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
                 }
                 rv_trade_info_required_documents.addItemDecoration(SimpleDividerItemDecoration(context!!))

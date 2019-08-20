@@ -29,7 +29,7 @@ class ProceduresAdapter(
         private val bpStepDescrip : TextView = view.rv_tv_border_procedures_desc
 
         fun bind(data : Procedure, listener: (Procedure) -> Unit) = with(itemView) {
-            bpStep.text = data.step.toString()
+            bpStep.text = data.step.toString() + ":"
             bpStepDescrip.text = data.description
 
             setOnClickListener { listener(data) }
