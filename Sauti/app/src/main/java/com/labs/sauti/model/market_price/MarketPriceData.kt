@@ -47,5 +47,7 @@ data class MarketPriceData(
 
     @SerializedName("date")
     @Expose
-    var date: String? = null
+    var date: String? = null,
+
+    var nearbyMarketplaceNames: MutableList<String> = mutableListOf()
 )

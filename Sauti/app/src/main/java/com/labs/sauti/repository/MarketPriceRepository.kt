@@ -2,9 +2,12 @@ package com.labs.sauti.repository
 
 import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.model.market_price.MarketPriceSearchData
+import io.reactivex.Completable
 import io.reactivex.Single
 
 interface MarketPriceRepository {
+    fun updateMarketPrices(): Completable
+
     fun getMarketPriceCountries(): Single<MutableList<String>>
     fun getMarketPriceMarkets(country: String): Single<MutableList<String>>
     fun getMarketPriceCategories(country: String, market: String): Single<MutableList<String>>

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
@@ -27,6 +28,7 @@ import kotlinx.android.synthetic.main.fragment_market_price.*
 import kotlinx.android.synthetic.main.item_recent_market_price.view.*
 import java.text.DecimalFormat
 import javax.inject.Inject
+import kotlin.math.max
 
 class MarketPriceFragment : Fragment(), MarketPriceSearchFragment.OnMarketPriceSearchCompletedListener,
 OnFragmentFullScreenStateChangedListener {
@@ -79,6 +81,8 @@ OnFragmentFullScreenStateChangedListener {
             it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
         })
 
+        tryUpdatingMarketPrices()
+
         ll_details.visibility = View.GONE
 
         marketPriceViewModel.getRecentMarketPricesViewState().observe(this, Observer {
@@ -113,6 +117,14 @@ OnFragmentFullScreenStateChangedListener {
         }
     }
 
+    private fun tryUpdatingMarketPrices() {
+        if (NetworkHelper.hasNetworkConnection(context!!) &&
+            (NetworkHelper.hasTransport(context!!, NetworkCapabilities.TRANSPORT_WIFI) ||
+                    NetworkHelper.getNetworkClass(context!!) == NetworkHelper.CLASS_4G)) {
+            marketPriceViewModel.updateMarketPrices()
+        }
+    }
+
     private fun openMarketPriceSearchFragment() {
         val marketPriceSearchFragment = MarketPriceSearchFragment.newInstance()
         childFragmentManager.beginTransaction()
@@ -138,6 +150,14 @@ OnFragmentFullScreenStateChangedListener {
         }
         t_details_updated.text = "Updated: ${marketPrice.date?.substring(0, 10)}"
         t_details_source.text = "Source: EAGC-RATIN" // TODO
+
+        t_nearby_markets.text = buildString {
+            marketPrice.nearbyMarketplaceNames.forEach {
+                append(it)
+                append(", ")
+            }
+            setLength(max(0, length - 2))
+        }
     }
 
     private fun handleRecentMarketPrices(recentMarketPrices: List<MarketPrice>) {
