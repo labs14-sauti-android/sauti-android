@@ -15,10 +15,4 @@ class AppModule(private val context: Context) {
         return context.applicationContext
     }
 
-    @Provides
-    @Singleton
-    fun provideNetworkHelper(context: Context): NetworkHelper {
-        return NetworkHelper(context)
-    }
-
 }

@@ -76,7 +76,31 @@
                                 android:layout_height="wrap_content"
                                 tools:text="Source: EAGC-RATIN"
                                 android:textColor="@color/colorText"
-                                android:textSize="12sp"/>
+                                android:textSize="12sp"
+                                android:layout_marginBottom="12dp"/>
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Nearby Markets At: "
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/colorTextDim"/>
+
+                            <TextView
+                                    android:id="@+id/t_nearby_markets"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    tools:text="Market1, Market2, Market3, Market4, Market5, Market6"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/colorTextDim"/>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
