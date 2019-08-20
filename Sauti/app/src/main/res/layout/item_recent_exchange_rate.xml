@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.cardview.widget.CardView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="170dp"
-        android:layout_weight="0.5"
         app:cardUseCompatPadding="true"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
@@ -15,7 +15,7 @@
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="170dp"
             android:paddingTop="7dp"
             android:paddingBottom="5dp"
             android:paddingStart="8dp"
