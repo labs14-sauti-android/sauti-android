@@ -1,13 +1,20 @@
 package com.labs.sauti.repository
 
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import com.labs.sauti.api.SautiApiService
 import com.labs.sauti.cache.MarketPriceCache
 import com.labs.sauti.cache.MarketPriceSearchCache
+import com.labs.sauti.math.LatLon
 import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.model.market_price.MarketPriceSearchData
+import com.labs.sauti.model.market_price.MarketplaceData
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import java.lang.NumberFormatException
 
 class MarketPriceRepositoryImpl(
     private val sautiApiService: SautiApiService,
@@ -67,8 +74,51 @@ class MarketPriceRepositoryImpl(
 
     override fun searchMarketPrice(country: String, market: String, category: String, product: String): Single<MarketPriceData> {
         return sautiApiService.searchMarketPrice(country, market, category, product)
-            .doOnSuccess {
-                marketPriceRoomCache.save(it).blockingAwait()
+            .doOnSuccess {marketPrice ->
+                // TODO test only
+                val request = Request.Builder()
+                    .url("http://sautiafrica.org/endpoints/api.php?url=v1/marketplaces/&type=json")
+                    .build()
+                val responseBody = OkHttpClient.Builder().build()
+                    .newCall(request)
+                    .execute()
+                    .body()
+
+                responseBody ?: throw Exception("No response")
+
+                val responseStr = responseBody.string()
+
+                val type = object: TypeToken<MutableList<MarketplaceData>>() {}.type
+                val marketplaces = GsonBuilder().create().fromJson<MutableList<MarketplaceData>>(responseStr, type)
+
+                for ((i, currentMarketplace) in marketplaces.withIndex()) {
+                    if (currentMarketplace.name == market) {
+                        marketplaces.removeAt(i)
+
+                        try {
+                            val lat1 = currentMarketplace.lat?.toDouble() ?: throw NumberFormatException()
+                            val lon1 = currentMarketplace.lon?.toDouble() ?: throw NumberFormatException()
+
+                            marketplaces.forEach {marketplace ->
+                                try {
+                                    val lat2 = marketplace.lat?.toDouble() ?: return@forEach
+                                    val lon2 = marketplace.lon?.toDouble() ?: return@forEach
+
+                                    val d = LatLon.distance(lat1, lon1, lat2, lon2)
+                                    if (d <= 50.0) marketPrice.nearbyMarketplaceNames
+                                        .add(marketplace.name ?: return@forEach)
+
+                                    // Busia is 450 km from Arusha
+
+                                } catch (e: NumberFormatException) {}
+                            }
+                        } catch (e: NumberFormatException) {}
+
+                        break
+                    }
+                }
+
+                marketPriceRoomCache.save(marketPrice).blockingAwait()
             }
             .onErrorResumeNext {
                 marketPriceRoomCache.search(country, market, category, product)

@@ -1,6 +1,6 @@
 package com.labs.sauti.view_state.market_price
 
 class CategoriesViewState(
-    var isLoading: Boolean = true,
+    var isLoading: Boolean = false,
     var categories: List<String>? = null
 )

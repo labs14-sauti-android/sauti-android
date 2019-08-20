@@ -10,20 +10,20 @@ import com.labs.sauti.view_state.market_price.*
 
 class MarketPriceViewModel(private val marketPriceRepository: MarketPriceRepository): BaseViewModel() {
 
-    private val errorLiveData by lazy { MutableLiveData<Throwable>() }
+    private val errorLiveData by lazy { MutableLiveData<String>() }
     private val countriesViewState by lazy { MutableLiveData<CountriesViewState>() }
     private val marketsViewState by lazy { MutableLiveData<MarketsViewState>() }
     private val categoriesViewState by lazy { MutableLiveData<CategoriesViewState>() }
     private val productsViewState by lazy { MutableLiveData<ProductsViewState>() }
-    private val searchMarketPriceLiveData by lazy { MutableLiveData<MarketPrice>() }
+    private val searchMarketPriceViewState by lazy { MutableLiveData<SearchMarketPriceViewState>() }
     private val recentMarketPricesViewState by lazy { MutableLiveData<RecentMarketPricesViewState>() }
 
-    fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
+    fun getErrorLiveData(): LiveData<String> = errorLiveData
     fun getCountriesViewState(): LiveData<CountriesViewState> = countriesViewState
     fun getMarketsViewState(): LiveData<MarketsViewState> = marketsViewState
     fun getCategoriesViewState(): LiveData<CategoriesViewState> = categoriesViewState
     fun getProductsViewState(): LiveData<ProductsViewState> = productsViewState
-    fun getSearchMarketPriceLiveData(): LiveData<MarketPrice> = searchMarketPriceLiveData
+    fun getSearchMarketPriceViewState(): LiveData<SearchMarketPriceViewState> = searchMarketPriceViewState
     fun getRecentMarketPricesViewState(): LiveData<RecentMarketPricesViewState> = recentMarketPricesViewState
 
     fun updateMarketPrices() {
@@ -37,7 +37,8 @@ class MarketPriceViewModel(private val marketPriceRepository: MarketPriceReposit
                 countriesViewState.postValue(CountriesViewState(false, it))
             },
             {
-                errorLiveData.postValue(it)
+                countriesViewState.postValue(CountriesViewState(false))
+                errorLiveData.postValue("An error has occurred")
             }
         ))
     }
@@ -49,7 +50,8 @@ class MarketPriceViewModel(private val marketPriceRepository: MarketPriceReposit
                 marketsViewState.postValue(MarketsViewState(false, it))
             },
             {
-                errorLiveData.postValue(it)
+                marketsViewState.postValue(MarketsViewState(false))
+                errorLiveData.postValue("An error has occurred")
             }
         ))
     }
@@ -61,7 +63,8 @@ class MarketPriceViewModel(private val marketPriceRepository: MarketPriceReposit
                 categoriesViewState.postValue(CategoriesViewState(false, it))
             },
             {
-                errorLiveData.postValue(it)
+                marketsViewState.postValue(MarketsViewState(false))
+                errorLiveData.postValue("An error has occurred")
             }
         ))
     }
@@ -70,15 +73,17 @@ class MarketPriceViewModel(private val marketPriceRepository: MarketPriceReposit
         productsViewState.value = ProductsViewState(true)
         addDisposable(marketPriceRepository.getMarketPriceProducts(country, market, category).subscribe(
             {
-                    productsViewState.postValue(ProductsViewState(false, it))
+                productsViewState.postValue(ProductsViewState(false, it))
             },
             {
-                errorLiveData.postValue(it)
+                marketsViewState.postValue(MarketsViewState(false))
+                errorLiveData.postValue("An error has occurred")
             }
         ))
     }
 
     fun searchMarketPrice(country: String, market: String, category: String, product: String) {
+        searchMarketPriceViewState.value = SearchMarketPriceViewState(isLoading = true)
         addDisposable(marketPriceRepository.searchMarketPrice(country, market, category, product)
             .map { marketPriceData ->
                 MarketPrice(
@@ -90,15 +95,17 @@ class MarketPriceViewModel(private val marketPriceRepository: MarketPriceReposit
                     marketPriceData.wholesale,
                     marketPriceData.retail,
                     marketPriceData.currency,
-                    marketPriceData.date
+                    marketPriceData.date,
+                    marketPriceData.nearbyMarketplaceNames
                 )
             }
             .subscribe(
                 {
-                    searchMarketPriceLiveData.postValue(it)
+                    searchMarketPriceViewState.postValue(SearchMarketPriceViewState(isLoading = false, marketPrice = it))
                 },
                 {
-                    errorLiveData.postValue(it)
+                    searchMarketPriceViewState.postValue(SearchMarketPriceViewState(isLoading = false))
+                    errorLiveData.postValue("Cannot find market price")
                 }
             ))
     }
@@ -117,7 +124,8 @@ class MarketPriceViewModel(private val marketPriceRepository: MarketPriceReposit
                         marketPriceData.wholesale,
                         marketPriceData.retail,
                         marketPriceData.currency,
-                        marketPriceData.date
+                        marketPriceData.date,
+                        marketPriceData.nearbyMarketplaceNames
                     )
                 }
             }
@@ -129,7 +137,8 @@ class MarketPriceViewModel(private val marketPriceRepository: MarketPriceReposit
                     ))
                 },
                 {
-                    errorLiveData.postValue(it)
+                    recentMarketPricesViewState.postValue(RecentMarketPricesViewState(isLoading = false))
+                    errorLiveData.postValue("An error has occurred")
                 }
             ))
     }
@@ -148,7 +157,8 @@ class MarketPriceViewModel(private val marketPriceRepository: MarketPriceReposit
                         marketPriceData.wholesale,
                         marketPriceData.retail,
                         marketPriceData.currency,
-                        marketPriceData.date
+                        marketPriceData.date,
+                        marketPriceData.nearbyMarketplaceNames
                     )
                 }
             }
@@ -160,7 +170,7 @@ class MarketPriceViewModel(private val marketPriceRepository: MarketPriceReposit
                     ))
                 },
                 {
-                    errorLiveData.postValue(it)
+                    errorLiveData.postValue("An error has occurred")
                 }
             ))
     }

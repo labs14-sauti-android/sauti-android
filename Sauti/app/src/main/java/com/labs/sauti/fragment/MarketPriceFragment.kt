@@ -13,21 +13,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.marginBottom
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
+import com.labs.sauti.adapter.RecentMarketPriceAdapter
 import com.labs.sauti.databinding.FragmentMarketPriceBinding
 import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.model.market_price.MarketPrice
 import com.labs.sauti.view_model.MarketPriceViewModel
 import kotlinx.android.synthetic.main.fragment_market_price.*
-import kotlinx.android.synthetic.main.item_recent_market_price.view.*
 import java.text.DecimalFormat
 import javax.inject.Inject
+import kotlin.math.max
 
 class MarketPriceFragment : Fragment(), MarketPriceSearchFragment.OnMarketPriceSearchCompletedListener,
 OnFragmentFullScreenStateChangedListener {
@@ -40,8 +41,10 @@ OnFragmentFullScreenStateChangedListener {
     private lateinit var marketPriceViewModel: MarketPriceViewModel
     private lateinit var binding: FragmentMarketPriceBinding
 
+    private lateinit var recentMarketPriceAdapter: RecentMarketPriceAdapter
+
     private var shouldSelectMostRecentMarketPriceView = false
-    private var selectedRecentMarketPriceView: View? = null
+    private var selectedRecentMarketPricesPosition = -1
 
     private val networkChangedReceiver = object: BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -82,15 +85,23 @@ OnFragmentFullScreenStateChangedListener {
 
         tryUpdatingMarketPrices()
 
-        ll_details.visibility = View.GONE
+        recentMarketPriceAdapter = RecentMarketPriceAdapter(mutableListOf(),
+            object: RecentMarketPriceAdapter.OnRecentMarketPriceClickedListener {
+                override fun onRecentMarketPriceClicked(position: Int, recentMarketPrice: MarketPrice) {
+                    this@MarketPriceFragment.onRecentMarketPriceClicked(position, recentMarketPrice)
+                }
+            })
 
+        // setup recycler view
+        r_recent_market_prices.layoutManager = GridLayoutManager(context, 2)
+        r_recent_market_prices.adapter = recentMarketPriceAdapter
+
+        // recent market prices
         marketPriceViewModel.getRecentMarketPricesViewState().observe(this, Observer {
             if (it.isLoading) {
                 vs_recent_market_prices_loading.displayedChild = 1
             } else {
                 vs_recent_market_prices_loading.displayedChild = 0
-
-                ll_recent_market_prices.removeAllViews()
 
                 if (it.recentMarketPrices == null) {
                     vs_recent_market_prices_empty.displayedChild = 1
@@ -102,6 +113,10 @@ OnFragmentFullScreenStateChangedListener {
                         } else {
                             vs_recent_market_prices_empty.displayedChild = 0
                             handleRecentMarketPrices(recentMarketPrices)
+
+                            if (shouldSelectMostRecentMarketPriceView) {
+                                selectedRecentMarketPricesPosition = 0
+                            }
                         }
 
                         shouldSelectMostRecentMarketPriceView = false
@@ -111,6 +126,7 @@ OnFragmentFullScreenStateChangedListener {
         })
         marketPriceViewModel.getRecentMarketPrices()
 
+        // search click
         b_search.setOnClickListener {
             openMarketPriceSearchFragment()
         }
@@ -149,61 +165,50 @@ OnFragmentFullScreenStateChangedListener {
         }
         t_details_updated.text = "Updated: ${marketPrice.date?.substring(0, 10)}"
         t_details_source.text = "Source: EAGC-RATIN" // TODO
+
+        t_nearby_markets.text = buildString {
+            if (marketPrice.nearbyMarketplaceNames.isEmpty()) {
+                append("None")
+                return@buildString
+            }
+
+            marketPrice.nearbyMarketplaceNames.forEach {
+                append(it)
+                append(", ")
+            }
+            setLength(max(0, length - 2))
+        }
     }
 
     private fun handleRecentMarketPrices(recentMarketPrices: List<MarketPrice>) {
-        recentMarketPrices.forEachIndexed recentMarketPricesBreak@{ index, recentMarketPrice ->
-            if (index > MAX_RECENT_ITEMS) {
-                return@recentMarketPricesBreak
-            }
+        recentMarketPriceAdapter.setRecentMarketPrices(recentMarketPrices)
+    }
 
-            val itemView = LayoutInflater.from(context!!).inflate(R.layout.item_recent_market_price, ll_recent_market_prices, false)
-            ll_recent_market_prices.addView(itemView)
+    private fun onRecentMarketPriceClicked(position: Int, recentMarketPrice: MarketPrice) {
+        if (selectedRecentMarketPricesPosition == -1) { // nothing was selected
+            setMarketPriceDetails(recentMarketPrice)
+            TransitionManager.beginDelayedTransition(fl_fragment_container)
+            ll_details.visibility = View.VISIBLE
+            selectedRecentMarketPricesPosition = position
+            return
+        }
 
-            if (index == 0 && shouldSelectMostRecentMarketPriceView) selectedRecentMarketPriceView = itemView
-
-            itemView.t_recent_product_at_market.text = "${recentMarketPrice.product} at ${recentMarketPrice.market}"
-            val decimalFormat = DecimalFormat("#,##0.00")
-            val wholesaleStr = decimalFormat.format(recentMarketPrice.wholesale)
-            itemView.t_recent_wholesale.text = "Wholesale: $wholesaleStr ${recentMarketPrice.currency}/1Kg"
-            if (recentMarketPrice.retail != null && recentMarketPrice.retail!! > 0.0) {
-                itemView.t_recent_retail.visibility = View.VISIBLE
-
-                val retailStr = decimalFormat.format(recentMarketPrice.retail!!)
-                itemView.t_recent_retail.text = "Retail: $retailStr ${recentMarketPrice.currency}/1Kg"
+        if (position == selectedRecentMarketPricesPosition) { // selected was clicked
+            TransitionManager.beginDelayedTransition(fl_fragment_container)
+            if (ll_details.visibility == View.VISIBLE) {
+                ll_details.visibility = View.GONE
             } else {
-                itemView.t_recent_retail.visibility = View.GONE
+                ll_details.visibility = View.VISIBLE
             }
-            itemView.t_recent_updated.text = "Updated: ${recentMarketPrice.date?.substring(0, 10)}"
-            itemView.t_recent_source.text = "Source: EAGC-RATIN" // TODO
-
-            itemView.setOnClickListener {
-                if (selectedRecentMarketPriceView == null) {
-                    setMarketPriceDetails(recentMarketPrice)
-                    TransitionManager.beginDelayedTransition(fl_fragment_container)
-                    ll_details.visibility = View.VISIBLE
-                    selectedRecentMarketPriceView = it
-                    return@setOnClickListener
-                }
-
-                if (it == selectedRecentMarketPriceView) {
-                    TransitionManager.beginDelayedTransition(fl_fragment_container)
-                    if (ll_details.visibility == View.VISIBLE) {
-                        ll_details.visibility = View.GONE
-                    } else {
-                        ll_details.visibility = View.VISIBLE
-                    }
-                } else {
-                    setMarketPriceDetails(recentMarketPrice)
-                    if (ll_details.visibility == View.GONE) {
-                        TransitionManager.beginDelayedTransition(fl_fragment_container)
-                        ll_details.visibility = View.VISIBLE
-                    }
-                }
-
-                selectedRecentMarketPriceView = it
+        } else { // other item was clicked
+            setMarketPriceDetails(recentMarketPrice)
+            if (ll_details.visibility == View.GONE) {
+                TransitionManager.beginDelayedTransition(fl_fragment_container)
+                ll_details.visibility = View.VISIBLE
             }
         }
+
+        selectedRecentMarketPricesPosition = position
     }
 
     override fun onMarketPriceSearchCompleted(marketPrice: MarketPrice) {
@@ -211,6 +216,7 @@ OnFragmentFullScreenStateChangedListener {
         setMarketPriceDetails(marketPrice)
 
         marketPriceViewModel.getRecentMarketPricesInCache()
+        selectedRecentMarketPricesPosition = -1 // unselect
         shouldSelectMostRecentMarketPriceView = true
     }
 
@@ -241,9 +247,6 @@ OnFragmentFullScreenStateChangedListener {
     }
 
     companion object {
-
-        private const val MAX_RECENT_ITEMS = 2
-
         @JvmStatic
         fun newInstance() =
             MarketPriceFragment()
