@@ -3,6 +3,7 @@ package com.labs.sauti.fragment
 
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -67,12 +68,6 @@ OnFragmentFullScreenStateChangedListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeTradeInfoViewModel()
-
-
-
-
-
         tiv_trade_info_recent_first.setOnClickListener(object : View.OnClickListener {
 
             override fun onClick(v: View) {
@@ -100,16 +95,6 @@ OnFragmentFullScreenStateChangedListener{
         }
 
     }
-
-
-    fun observeTradeInfoViewModel() {
-
-        //Border Procedures
-        // Category -> Product -> Going Where -> Origin Made -> Value
-        //fun loadFirstSp
-
-    }
-
 
     fun addTIDetailsLL(tradeInfo: TradeInfo) {
         //Present for all.
@@ -149,7 +134,18 @@ OnFragmentFullScreenStateChangedListener{
                 rv_trade_info_required_documents.visibility = View.VISIBLE
                 documentsAdapter = DocumentsAdapter(tradeInfo.tradeInfoDocs!!) {
                     //TODO: Child Fragment
-                    Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
+//                    Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
+                    val tradeInfoDetailsFragment = TradeInfoDetailsFragment.newInstance(it.docTitle, it.docDescription)
+//                    tradeInfoDetailsFragment.show(childFragmentManager)
+
+
+                    tradeInfoDetailsFragment.show(childFragmentManager, "fire")
+/*
+                    childFragmentManager.beginTransaction()
+                        .add(R.id.primary_fragment_container, tradeInfoDetailsFragment)
+                        .addToBackStack(null)
+                        .commit()*/
+
                 }
                 rv_trade_info_required_documents.addItemDecoration(SimpleDividerItemDecoration(context!!))
                 rv_trade_info_required_documents.adapter = documentsAdapter

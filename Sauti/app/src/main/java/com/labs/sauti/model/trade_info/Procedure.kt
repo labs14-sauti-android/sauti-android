@@ -4,6 +4,7 @@ import androidx.room.Entity
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
+
 @Entity(tableName = "procedure")
 data class Procedure(
 
