@@ -3,15 +3,15 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:showIn="navigation_view">
 
-    <!--<group-->
-            <!--android:id="@+id/menu_group_0"-->
-            <!--android:checkableBehavior="none">-->
+    <group
+            android:id="@+id/menu_group_0"
+            android:checkableBehavior="none">
 
-        <!--<item-->
-                <!--android:id="@+id/nav_sign_in_out"-->
-                <!--android:title="@string/menu_sign_in" />-->
+        <item
+                android:id="@+id/nav_sign_in_out"
+                android:title="@string/menu_sign_in" />
 
-    <!--</group>-->
+    </group>
 
     <group
             android:id="@+id/menu_group_1"

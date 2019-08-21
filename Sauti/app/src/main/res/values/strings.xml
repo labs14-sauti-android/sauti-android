@@ -17,7 +17,6 @@
     <string name="menu_exchange_rates" translatable="false">Exchange Rates</string>
     <string name="menu_sign_in" translatable="false">Sign In</string>
     <string name="menu_sign_out" translatable="false">Sign Out</string>
-    <string name="not_logged_in" translatable="false">Not Logged In</string>
     <string name="your_recent_searches" translatable="false">Your Recent Searches</string>
     <string name="menu_marketplace" translatable="false">Marketplace</string>
     <string name="menu_dashboard" translatable="false">Dashboard</string>
@@ -31,6 +30,11 @@
     <string name="menu_report" translatable="false">Report</string>
     <string name="trade_info_search_header" translatable="false">Trade Info Search</string>
     <string name="search_button_text" translatable="false">Search</string>
+
+    <string name="don_t_have_an_account_sign_up" translatable="false"><font fgcolor='#6e83f3'>Don\'t have an account?</font> Sign up</string>
+    <string name="sauti_sign_in" translatable="false"><b>Sauti<font fgcolor='#e84c3d'>.</font></b> Sign In</string>
+    <string name="sauti_sign_up" translatable="false"><b>Sauti<font fgcolor='#e84c3d'>.</font></b> Sign Up</string>
+    <string name="already_have_an_account_sign_in" translatable="false"><font fgcolor='#6e83f3'>Already have an account?</font> Sign In</string>
     <string name="don_t_have_an_account_sign_up" translatable="false"><font fgcolor='#6e83f3'>Don\'t have an
         account?</font>Sign up
     </string>

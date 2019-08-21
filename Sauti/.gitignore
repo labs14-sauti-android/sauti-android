@@ -12,3 +12,4 @@
 /captures
 .externalNativeBuild
 app/google-services.json
+app/src/main/res/values/sauti_api.xml

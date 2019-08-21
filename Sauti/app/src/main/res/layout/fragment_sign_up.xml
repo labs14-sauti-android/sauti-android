@@ -10,7 +10,7 @@
         android:background="#66c4c4c4">
 
     <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardUseCompatPadding="true"
             app:cardCornerRadius="10dp"
@@ -19,7 +19,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0.3">
+            app:layout_constraintVertical_bias="0.3"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp">
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -38,23 +40,6 @@
                     android:text="@string/sauti_sign_up"
                     android:textColor="@color/colorText"
                     android:layout_marginBottom="20dp"/>
-
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Name"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorText"/>
-
-            <EditText
-                    android:id="@+id/et_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter Name"
-                    android:textColorHint="#c4c4c4"
-                    android:backgroundTint="@color/colorText"
-                    android:textColor="@color/colorText"
-                    android:maxLines="1"/>
 
             <TextView
                     android:layout_width="match_parent"
@@ -109,8 +94,26 @@
                     android:textColor="@color/colorText"
                     android:maxLines="1"/>
 
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Phone Number"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorText"/>
+
+            <EditText
+                    android:id="@+id/et_phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Phone Number (Optional)"
+                    android:inputType="phone"
+                    android:textColorHint="#c4c4c4"
+                    android:backgroundTint="@color/colorText"
+                    android:textColor="@color/colorText"
+                    android:maxLines="1"/>
+
             <ViewSwitcher
-                    android:id="@+id/vs_sign_up"
+                    android:id="@+id/vs_sign_up_loading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 

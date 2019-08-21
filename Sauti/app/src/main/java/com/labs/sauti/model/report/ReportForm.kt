@@ -1,4 +1,4 @@
-package com.labs.sauti.model
+package com.labs.sauti.model.report
 
 import com.google.gson.annotations.Expose
 
