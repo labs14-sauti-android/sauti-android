@@ -44,6 +44,21 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     fun getSearchTradeInfoDocuments(): LiveData<TradeInfo> = searchTradeInfoDocuments
     fun getSearchTradeInfoAgencies(): LiveData<TradeInfo> = searchTradeInfoAgencies
 
+    fun searchBorderAgencies(language: String, category: String, product: String, origin: String, dest: String, value: Double){
+        addDisposable(tradeInfoRepository.searchTradeInfoBorderAgencies(language, category, product, origin, dest, value)
+            .map {
+
+            }
+            .subscribe(
+                {
+
+                },
+                {
+
+                }
+            ))
+    }
+
     fun searchBorderProcedures(language: String, category: String, product: String, origin: String, dest: String, value: Double, destChoice: String) {
         addDisposable(tradeInfoRepository.searchTradeInfoBorderProcedures(language, category, product, origin, dest, value)
             .map {

@@ -14,6 +14,7 @@ data class TradeInfo (
     var tradeInfoProcedure: MutableList<Procedure>? = null,
     var tradeInfoCountry: String? = null,
     var tradeInfoDocs : MutableList<RequiredDocument>? = null,
+    var tradeInfoAgencies: MutableList<BorderAgency>? = null,
     var regulatedType : String? = null,
     val tradeInfoID : Long? = System.currentTimeMillis()
 )

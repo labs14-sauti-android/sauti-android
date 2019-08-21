@@ -1,4 +1,4 @@
-package com.labs.sauti.helper
+package com.labs.sauti.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,29 +10,33 @@ import com.labs.sauti.model.trade_info.Procedure
 import kotlinx.android.synthetic.main.border_procedures_element_layout.view.*
 
 class ProceduresAdapter(
-    private val procedures: MutableList<Procedure> = mutableListOf(),
-    private val listener: (Procedure) -> Unit
+    private val procedures: MutableList<Procedure> = mutableListOf()
 ) : RecyclerView.Adapter<ProceduresAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = procedures.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(procedures[position], listener)
+        holder.bind(procedures[position])
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.border_procedures_element_layout, parent, false))
+        return ViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.border_procedures_element_layout,
+                parent,
+                false
+            )
+        )
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val bpStep : TextView = view.rv_tv_border_procedures_step
         private val bpStepDescrip : TextView = view.rv_tv_border_procedures_desc
 
-        fun bind(data : Procedure, listener: (Procedure) -> Unit) = with(itemView) {
+        fun bind(data : Procedure) {
             bpStep.text = data.step.toString() + ":"
             bpStepDescrip.text = data.description
 
-            setOnClickListener { listener(data) }
         }
     }
 

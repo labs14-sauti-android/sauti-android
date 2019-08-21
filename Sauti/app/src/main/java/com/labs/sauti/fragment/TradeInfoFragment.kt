@@ -3,7 +3,6 @@ package com.labs.sauti.fragment
 
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,8 +16,8 @@ import androidx.transition.TransitionManager
 import com.labs.sauti.R
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.SautiApp
-import com.labs.sauti.helper.DocumentsAdapter
-import com.labs.sauti.helper.ProceduresAdapter
+import com.labs.sauti.adapter.DocumentsAdapter
+import com.labs.sauti.adapter.ProceduresAdapter
 import com.labs.sauti.helper.SimpleDividerItemDecoration
 import com.labs.sauti.view_model.TradeInfoViewModel
 import kotlinx.android.synthetic.main.fragment_trade_info.*
