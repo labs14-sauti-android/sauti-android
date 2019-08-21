@@ -29,6 +29,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:background="@color/colorInformation"
+                        android:visibility="gone"
+                        tools:visibility="visible"
                         android:padding="20dp">
 
                     <TextView
@@ -107,14 +109,15 @@
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical">
 
-                                <LinearLayout
-                                        android:id="@+id/ll_recent_exchange_rates"
+                                <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/r_recent_exchange_rates"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:orientation="horizontal"
-                                        android:layout_marginBottom="12dp">
-
-                                </LinearLayout>
+                                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                                        app:spanCount="2"
+                                        tools:listitem="@layout/item_recent_exchange_rate"
+                                        tools:itemCount="2">
+                                </androidx.recyclerview.widget.RecyclerView>
 
                                 <TextView
                                         android:layout_width="match_parent"
