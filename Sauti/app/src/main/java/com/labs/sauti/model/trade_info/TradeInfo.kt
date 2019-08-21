@@ -1,8 +1,6 @@
 package com.labs.sauti.model.trade_info
 
-import android.os.Parcelable
 import androidx.room.Entity
-import kotlinx.android.parcel.Parcelize
 
 
 //This will be the class that is stored into the UI. Will take in regulated goods as well.
