@@ -162,6 +162,15 @@ class TradeInfoSearchFragment : Fragment() {
             }
         })
 
+        tradeInfoViewModel.getSearchTradeInfoAgencies().observe(this, Observer {
+            if(it != null) {
+                onTradeSearchCompletedListener?.OnTradeInfoSearchCompleted(it)
+                b_trade_info_search.isEnabled = true
+            } else {
+                b_trade_info_search.isEnabled = false
+            }
+        })
+
 
 
         b_trade_info_search.setOnClickListener {
@@ -450,7 +459,10 @@ class TradeInfoSearchFragment : Fragment() {
                     }
 
                     "Border Agencies" -> {
-                        //Basically same implementation as required documents.
+                        when (position) {
+                            1 -> {tradeInfoViewModel.searchBorderAgencies(language, category, product, origin, dest, 2001.0, destChoice)}
+                            2 -> {tradeInfoViewModel.searchBorderAgencies(language, category, product, origin, dest, 1.0, destChoice)}
+                        }
                     }
 
 

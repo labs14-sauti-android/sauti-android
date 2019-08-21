@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.labs.sauti.model.trade_info.BorderAgency
 import com.labs.sauti.model.trade_info.Procedure
 import com.labs.sauti.model.trade_info.RequiredDocument
 import com.labs.sauti.model.trade_info.TradeInfo
@@ -44,17 +45,21 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     fun getSearchTradeInfoDocuments(): LiveData<TradeInfo> = searchTradeInfoDocuments
     fun getSearchTradeInfoAgencies(): LiveData<TradeInfo> = searchTradeInfoAgencies
 
-    fun searchBorderAgencies(language: String, category: String, product: String, origin: String, dest: String, value: Double){
+    fun searchBorderAgencies(language: String, category: String, product: String, origin: String, dest: String, value: Double, destChoice: String){
         addDisposable(tradeInfoRepository.searchTradeInfoBorderAgencies(language, category, product, origin, dest, value)
             .map {
-
+                TradeInfo("Border Agencies",
+                    "Push to View More Information About The Agency",
+                    tradeInfoAgencies = it,
+                    tradeInfoCountry = destChoice
+                    )
             }
             .subscribe(
                 {
-
+                    searchTradeInfoAgencies.postValue(it)
                 },
                 {
-
+                    errorLiveData.postValue(it)
                 }
             ))
     }
@@ -62,7 +67,10 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     fun searchBorderProcedures(language: String, category: String, product: String, origin: String, dest: String, value: Double, destChoice: String) {
         addDisposable(tradeInfoRepository.searchTradeInfoBorderProcedures(language, category, product, origin, dest, value)
             .map {
-                TradeInfo("Border Procedures", "Border Procedures", tradeInfoProcedure = it, tradeInfoCountry = destChoice)
+                TradeInfo("Border Procedures",
+                    "Border Procedures",
+                    tradeInfoProcedure = it,
+                    tradeInfoCountry = destChoice)
             }
             .subscribe(
                 {

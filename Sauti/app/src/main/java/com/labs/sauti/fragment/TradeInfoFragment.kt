@@ -16,6 +16,7 @@ import androidx.transition.TransitionManager
 import com.labs.sauti.R
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.SautiApp
+import com.labs.sauti.adapter.AgencyAdapter
 import com.labs.sauti.adapter.DocumentsAdapter
 import com.labs.sauti.adapter.ProceduresAdapter
 import com.labs.sauti.helper.SimpleDividerItemDecoration
@@ -42,6 +43,7 @@ OnFragmentFullScreenStateChangedListener{
     var tradeInfoRecent : TradeInfo? = null
 
     lateinit var documentsAdapter : DocumentsAdapter
+    lateinit var agencyAdapter: AgencyAdapter
     lateinit var proceduresAdapter: ProceduresAdapter
 
 
@@ -117,10 +119,7 @@ OnFragmentFullScreenStateChangedListener{
                 t_trade_info_sub_header.visibility = View.VISIBLE
                 rv_trade_info_border_procedures.visibility = View.VISIBLE
                 t_trade_info_sub_header.text = """To ${tradeInfo.tradeInfoCountry}"""
-                proceduresAdapter = ProceduresAdapter(tradeInfo.tradeInfoProcedure!!) {
-                    //TODO: Child Fragment
-                    Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
-                }
+                proceduresAdapter = ProceduresAdapter(tradeInfo.tradeInfoProcedure!!)
                 rv_trade_info_border_procedures.adapter = proceduresAdapter
 
             }
@@ -132,28 +131,31 @@ OnFragmentFullScreenStateChangedListener{
 
                 rv_trade_info_required_documents.visibility = View.VISIBLE
                 documentsAdapter = DocumentsAdapter(tradeInfo.tradeInfoDocs!!) {
-                    //TODO: Child Fragment
-//                    Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
                     val tradeInfoDetailsFragment = TradeInfoDetailsFragment.newInstance(it.docTitle, it.docDescription)
-//                    tradeInfoDetailsFragment.show(childFragmentManager)
-
-
-                    tradeInfoDetailsFragment.show(childFragmentManager, "fire")
-/*
-                    childFragmentManager.beginTransaction()
-                        .add(R.id.primary_fragment_container, tradeInfoDetailsFragment)
-                        .addToBackStack(null)
-                        .commit()*/
+                    tradeInfoDetailsFragment.show(childFragmentManager, "reqDocs")
+                }
+                if(rv_trade_info_required_documents.itemDecorationCount == 0) {
+                    rv_trade_info_required_documents.addItemDecoration(SimpleDividerItemDecoration(context!!))
 
                 }
-                rv_trade_info_required_documents.addItemDecoration(SimpleDividerItemDecoration(context!!))
                 rv_trade_info_required_documents.adapter = documentsAdapter
             }
             "Border Agencies"->{
                 i_trade_info_divider_top.visibility = View.VISIBLE
                 i_trade_info_divider_bottom.visibility = View.VISIBLE
                 t_trade_info_sub_header.visibility = View.VISIBLE
-                t_trade_info_sub_header.text = "Push to View More Information About The Agency"
+                t_trade_info_sub_header.text = tradeInfo.tradeinfoTopicExpanded
+
+                rv_trade_info_required_documents.visibility = View.VISIBLE
+                agencyAdapter = AgencyAdapter(tradeInfo.tradeInfoAgencies!!) {
+                    val tradeinfoDetailsFragment = TradeInfoDetailsFragment.newInstance(it.agencyName, it.agencyDescription)
+                    tradeinfoDetailsFragment.show(childFragmentManager, "bordAgencies")
+                }
+                if(rv_trade_info_required_documents.itemDecorationCount == 0) {
+                    rv_trade_info_required_documents.addItemDecoration(SimpleDividerItemDecoration(context!!))
+
+                }
+                rv_trade_info_required_documents.adapter = agencyAdapter
             }
             "Regulated Goods" ->{
                 l_trade_info_left_list.removeAllViews()
