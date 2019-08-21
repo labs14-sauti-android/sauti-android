@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 
 import com.labs.sauti.R
@@ -78,6 +79,11 @@ class MarketPriceSearchFragment : Fragment() {
         vs_products.visibility = View.GONE
         b_search.isEnabled = false
 
+        // error
+        marketPricesViewModel.getErrorLiveData().observe(this, Observer {
+            Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
+        })
+
         // countries
         marketPricesViewModel.getCountriesViewState().observe(this, Observer {
             if (it.isLoading) {
@@ -128,17 +134,19 @@ class MarketPriceSearchFragment : Fragment() {
             }
         })
 
-        marketPricesViewModel.getErrorLiveData().observe(this, Observer {
-            Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
-        })
+        marketPricesViewModel.getSearchMarketPriceViewState().observe(this, Observer {
+            if (it.isLoading) {
+                vs_search_loading.displayedChild = 1
+            } else {
+                vs_search_loading.displayedChild = 0
 
-        marketPricesViewModel.getSearchMarketPriceLiveData().observe(this, Observer {
-            vs_search_loading.displayedChild = 0
+                if (it.marketPrice != null) {
+                    onMarketPriceSearchCompletedListener?.onMarketPriceSearchCompleted(it.marketPrice!!)
 
-            onMarketPriceSearchCompletedListener?.onMarketPriceSearchCompleted(it)
-
-            onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
-            fragmentManager!!.popBackStack()
+                    onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
+                    fragmentManager!!.popBackStack()
+                }
+            }
         })
 
         b_search.setOnClickListener {
@@ -146,7 +154,6 @@ class MarketPriceSearchFragment : Fragment() {
                 s_markets.selectedItem is String &&
                 s_categories.selectedItem is String &&
                 s_products.selectedItem is String) {
-                vs_search_loading.displayedChild = 1
 
                 marketPricesViewModel.searchMarketPrice(
                     selectedCountryCode!!,

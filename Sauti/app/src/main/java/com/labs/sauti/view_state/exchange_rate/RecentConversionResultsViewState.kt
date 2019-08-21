@@ -4,5 +4,5 @@ import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResult
 
 class RecentConversionResultsViewState(
     var isLoading: Boolean = true,
-    var recentConversionResults: MutableList<ExchangeRateConversionResult>? = null
+    var recentConversionResults: List<ExchangeRateConversionResult>? = null
 )

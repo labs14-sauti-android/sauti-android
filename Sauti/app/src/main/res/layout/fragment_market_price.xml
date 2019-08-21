@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:showIn="@layout/tool_app_bar_market_price">
     <data>
         <variable
@@ -35,6 +35,8 @@
                             android:layout_height="wrap_content"
                             android:padding="20dp"
                             android:orientation="vertical"
+                            android:visibility="gone"
+                            tools:visibility="visible"
                             android:background="@color/colorInformation">
 
                         <TextView
@@ -61,22 +63,46 @@
                                 tools:text="Retail: 120 KES/1Kg"
                                 android:textColor="@color/colorText"
                                 android:textSize="18sp"
-                                android:textStyle="bold"
-                                android:layout_marginBottom="9dp"/>
+                                android:textStyle="bold"/>
                         <TextView
                                 android:id="@+id/t_details_updated"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 tools:text="Updated: 2019-06-24"
                                 android:textColor="@color/colorText"
-                                android:textSize="12sp"/>
+                                android:textSize="12sp"
+                                android:layout_marginTop="9dp"/>
                         <TextView
                                 android:id="@+id/t_details_source"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 tools:text="Source: EAGC-RATIN"
                                 android:textColor="@color/colorText"
-                                android:textSize="12sp"/>
+                                android:textSize="12sp"
+                                android:layout_marginBottom="12dp"/>
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Nearby Markets At: "
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/colorTextDim"/>
+
+                            <TextView
+                                    android:id="@+id/t_nearby_markets"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    tools:text="Market1, Market2, Market3, Market4, Market5, Market6"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/colorTextDim"/>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -94,7 +120,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
                                 android:text="@string/your_recent_searches"
-                                android:textColor="@color/colorTextInformation"/>
+                                android:textColor="@color/colorText"/>
 
                         <ViewSwitcher
                                 android:id="@+id/vs_recent_market_prices_loading"
@@ -112,14 +138,15 @@
                                         android:layout_height="wrap_content"
                                         android:orientation="vertical">
 
-                                    <LinearLayout
-                                            android:id="@+id/ll_recent_market_prices"
+                                    <androidx.recyclerview.widget.RecyclerView
+                                            android:id="@+id/r_recent_market_prices"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:orientation="horizontal"
-                                            android:layout_marginBottom="12dp">
-
-                                    </LinearLayout>
+                                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                                            app:spanCount="2"
+                                            tools:listitem="@layout/item_recent_market_price"
+                                            tools:itemCount="2">
+                                    </androidx.recyclerview.widget.RecyclerView>
 
                                     <TextView
                                             android:layout_width="match_parent"

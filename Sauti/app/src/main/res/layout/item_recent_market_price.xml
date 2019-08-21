@@ -3,19 +3,23 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
         app:cardUseCompatPadding="true"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
         android:layout_weight="0.5"
         app:cardBackgroundColor="@color/colorCardBackground"
-        tools:layout_width="200dp">
+        tools:layout_width="170dp"
+        tools:layout_height="170dp">
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="2dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:orientation="vertical">
 
         <TextView
@@ -24,39 +28,34 @@
                 android:layout_height="wrap_content"
                 tools:text="Mixed Beans at Gitega"
                 android:textStyle="bold"
-                android:textSize="15.5sp"
+                android:textSize="16sp"
                 android:gravity="center"
                 android:textColor="@color/colorCardText"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="3dp"/>
 
         <TextView
                 android:id="@+id/t_recent_wholesale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="Wholesale: 703 BIF/1kg"
-                android:textStyle="bold"
-                android:gravity="center"
                 android:textColor="@color/colorCardText"
-                android:textSize="13.5sp"/>
+                android:textSize="14sp"/>
 
         <TextView
                 android:id="@+id/t_recent_retail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="Retail: 811 BIF/1kg"
-                android:textStyle="bold"
-                android:gravity="center"
                 android:textColor="@color/colorCardText"
-                android:layout_marginBottom="8dp"
-                android:textSize="13.5sp"/>
+                android:textSize="14sp"/>
 
         <TextView
                 android:id="@+id/t_recent_updated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="Updated: 2019-06-24"
-                android:gravity="center"
                 android:textColor="@color/colorCardText"
+                android:layout_marginTop="15dp"
                 android:textSize="12sp"/>
 
         <TextView
@@ -64,7 +63,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="Source: EAGC-RATIN"
-                android:gravity="center"
                 android:textColor="@color/colorCardText"
                 android:textSize="12sp"/>
 

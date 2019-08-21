@@ -2,6 +2,7 @@ package com.labs.sauti.db
 
 import android.content.Context
 import androidx.room.*
+import com.labs.sauti.converter.StringMutableListConverter
 import com.labs.sauti.helper.*
 import com.labs.sauti.model.*
 import com.labs.sauti.model.market_price.MarketPriceData
@@ -11,7 +12,7 @@ import com.labs.sauti.model.exchange_rate.ExchangeRateData
 import com.labs.sauti.model.trade_info.*
 
 
-const val DATABASE_SCHEMA_VERSION = 15
+const val DATABASE_SCHEMA_VERSION = 16
 const val DB_NAME = "local-db"
 
 
@@ -38,7 +39,8 @@ const val DB_NAME = "local-db"
     ProcedureConverter::class,
     BorderAgencyConverter::class,
     RequiredDocumentConverter::class,
-    TaxesConverter::class)
+    TaxesConverter::class,
+    StringMutableListConverter::class)
 abstract class SautiRoomDatabase : RoomDatabase() {
 
     abstract fun productDao() : ProductDao
