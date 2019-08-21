@@ -15,8 +15,6 @@ data class TradeInfo (
     var tradeInfoDocs : MutableList<RequiredDocument>? = null,
     var tradeInfoAgencies: MutableList<BorderAgency>? = null,
     var regulatedType : String? = null,
-    var tradeInfoTaxes : MutableList<Taxes>? = null,
-    var tradeInfo : Double? = null,
     @PrimaryKey
     val tradeInfoID : Long? = null
 )

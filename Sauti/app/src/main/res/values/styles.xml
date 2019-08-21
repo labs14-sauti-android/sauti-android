@@ -43,7 +43,7 @@
         <item name="android:textSize">@dimen/cardViewContentTextSize</item>
     </style>
     <style name="CardViewRecentHeaderTextStyling">
-        <item name="android:gravity">center</item>
+        <item name="android:gravity">left</item>
         <item name="android:textStyle">bold</item>
         <item name="android:breakStrategy">simple</item>
         <item name="android:textSize">@dimen/cardViewHeaderTextSize</item>
@@ -55,6 +55,12 @@
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">@dimen/cardViewHeaderTextSize</item>
         <item name="android:textColor">@color/colorText</item>
+    </style>
+    <style name="CardViewCategoryTextStyling">
+        <item name="android:textSize">@dimen/cardViewContentTextSize</item>
+        <item name="android:textColor">@color/colorCardViewCategory</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
     </style>
     <style name="SearchFragmentHeaderStyling">
         <item name="android:layout_width">wrap_content</item>
