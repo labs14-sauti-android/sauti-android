@@ -4,9 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.labs.sauti.model.trade_info.BorderAgency
+import com.labs.sauti.model.trade_info.Procedure
+import com.labs.sauti.model.trade_info.RequiredDocument
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.repository.TradeInfoRepository
 import io.reactivex.schedulers.Schedulers
+import java.time.LocalDateTime
 
 
 class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository): BaseViewModel() {
@@ -40,6 +44,64 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     fun getSearchTradeInfoProcedure(): LiveData<TradeInfo> = searchTradeInfoProcedure
     fun getSearchTradeInfoDocuments(): LiveData<TradeInfo> = searchTradeInfoDocuments
     fun getSearchTradeInfoAgencies(): LiveData<TradeInfo> = searchTradeInfoAgencies
+
+    fun searchBorderAgencies(language: String, category: String, product: String, origin: String, dest: String, value: Double, destChoice: String){
+        addDisposable(tradeInfoRepository.searchTradeInfoBorderAgencies(language, category, product, origin, dest, value)
+            .map {
+                TradeInfo("Border Agencies",
+                    "Push to View More Information About The Agency",
+                    tradeInfoAgencies = it,
+                    tradeInfoCountry = destChoice
+                    )
+            }
+            .subscribe(
+                {
+                    searchTradeInfoAgencies.postValue(it)
+                },
+                {
+                    errorLiveData.postValue(it)
+                }
+            ))
+    }
+
+    fun searchBorderProcedures(language: String, category: String, product: String, origin: String, dest: String, value: Double, destChoice: String) {
+        addDisposable(tradeInfoRepository.searchTradeInfoBorderProcedures(language, category, product, origin, dest, value)
+            .map {
+                TradeInfo("Border Procedures",
+                    "Border Procedures",
+                    tradeInfoProcedure = it,
+                    tradeInfoCountry = destChoice)
+            }
+            .subscribe(
+                {
+                    searchTradeInfoProcedure.postValue(it)
+                },
+                {
+                    errorLiveData.postValue(it)
+                }
+            ))
+    }
+
+    fun searchRequiredDocuments(language: String, category: String, product: String, origin: String, dest: String, value: Double) {
+        addDisposable(tradeInfoRepository.searchTradeInfoRequiredDocuments(language, category, product, origin, dest, value)
+            .map
+            {
+                val docsList = mutableListOf<RequiredDocument>()
+                it.forEach{doc ->
+                    docsList.add(doc)
+                }
+
+                TradeInfo(tradeinfoTopic = "Required Documents", tradeinfoTopicExpanded = "Required Documents", tradeInfoDocs = docsList)
+            }
+            .subscribe(
+                {
+                    searchTradeInfoDocuments.postValue(it)
+                },
+                {
+                    errorLiveData.postValue(it)
+                }
+            ))
+    }
 
     fun searchRegulatedGoods(language: String, country: String, regulatedType: String) {
 
@@ -131,7 +193,7 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
 
         val language = tradeInfoLanguage.value as String
 
-        val s = 5
+
         //TODO: String will not be hardcoded and turned into resource with translations
         if(tradeInfoCategory.value == "Regulated Goods") {
             addDisposable(tradeInfoRepository.getRegulatedGoodsCountries(language).subscribeOn(Schedulers.io()).subscribe(
