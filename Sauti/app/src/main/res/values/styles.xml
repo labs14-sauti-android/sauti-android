@@ -86,6 +86,7 @@
     <style name="spinnerStyle">
         <item name="android:clickable">true</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:popupBackground">@color/colorSpinnerPopupBackground</item>
         <item name="android:textSize">@dimen/searchParamTextSize</item>
     </style>
     <style name="TradeInfoDetailsSubHeaderStyling">
