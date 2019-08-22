@@ -103,10 +103,13 @@
                                 android:minWidth="60dp">
 
                             <ImageView
+                                    android:backgroundTint="#f8c8c4"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/half_star"
+                                    android:paddingTop="8dp"
+                                    android:paddingBottom="8dp"
+                                    android:src="@drawable/ic_market_prices"
                                     android:background="@color/colorButtonHasGoodExperienceNotSelected"/>
 
                             <TextView
@@ -127,7 +130,7 @@
                             app:cardUseCompatPadding="true"
                             app:cardElevation="@dimen/dimenCardElevationDashboardNav"
                             app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
-                            app:cardBackgroundColor="@color/colorAccent"
+                            app:cardBackgroundColor="@color/colorExchange"
                             android:layout_weight="1"
                             android:layout_marginStart="5dp"
                             android:layout_marginEnd="5dp">
@@ -140,13 +143,18 @@
 
                             <ImageView
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:backgroundTint="#cdedef"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/half_star"
+                                    android:tint="@color/colorExchange"
+                                    android:src="@drawable/ic_exchange_rates"
+                                    android:paddingTop="6dp"
+                                    android:paddingBottom="6dp"
                                     android:background="@color/colorButtonHasGoodExperienceNotSelected"/>
 
                             <TextView
                                     android:layout_width="match_parent"
+
                                     android:layout_height="wrap_content"
                                     style="@style/DashboardCardNavStyling"
                                     android:text="Exchange\nRates"
@@ -163,12 +171,13 @@
                             app:cardUseCompatPadding="true"
                             app:cardElevation="@dimen/dimenCardElevationDashboardNav"
                             app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
-                            app:cardBackgroundColor="@color/colorAccent"
+                            app:cardBackgroundColor="@color/colorTradeInfo"
                             android:layout_weight="1"
                             android:layout_marginStart="5dp"
                             android:layout_marginEnd="5dp">
 
                         <LinearLayout
+                                android:backgroundTint="#d0daec"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
@@ -176,9 +185,13 @@
 
                             <ImageView
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:paddingTop="8dp"
+                                    android:backgroundTint="#d0daec"
+                                    android:paddingBottom="8dp"
+                                    android:tint="@color/colorTradeInfo"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/half_star"
+                                    android:src="@drawable/ic_trade_info"
                                     android:background="@color/colorButtonHasGoodExperienceNotSelected"/>
 
                             <TextView
@@ -199,7 +212,7 @@
                             app:cardUseCompatPadding="true"
                             app:cardElevation="@dimen/dimenCardElevationDashboardNav"
                             app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
-                            app:cardBackgroundColor="@color/colorAccent"
+                            app:cardBackgroundColor="@color/colorTaxCalculator"
                             android:layout_weight="1"
                             android:layout_marginStart="5dp">
 
@@ -210,10 +223,14 @@
                                 android:minWidth="60dp">
 
                             <ImageView
+                                    android:backgroundTint="#f7e8c4"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:tint="@color/colorTaxCalculator"
+                                    android:paddingTop="6dp"
+                                    android:paddingBottom="6dp"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/half_star"
+                                    android:src="@drawable/ic_tax_calculator"
                                     android:background="@color/colorButtonHasGoodExperienceNotSelected"/>
 
                             <TextView
