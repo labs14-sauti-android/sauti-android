@@ -9,12 +9,12 @@ import io.reactivex.schedulers.Schedulers
 class FavoriteMarketPriceSearchRoomCache(sautiRoomDatabase: SautiRoomDatabase): FavoriteMarketPriceSearchCache {
     private val dao = sautiRoomDatabase.favoriteMarketPriceSearchDao()
 
-    override fun isFavorite(country: String, market: String, category: String, product: String): Single<Boolean> {
-        return dao.contains(country, market, category, product)
+    override fun isFavorite(userId: Long, country: String, market: String, category: String, product: String): Single<Boolean> {
+        return dao.contains(userId, country, market, category, product)
             .map {
                 if (it > 0L) {
                     val favoriteMarketPriceSearch =
-                        dao.getBySearch(country, market, category, product).blockingGet()
+                        dao.getBySearch(userId, country, market, category, product).blockingGet()
                     if (favoriteMarketPriceSearch.shouldRemove == 0) return@map true
                 }
 
@@ -23,8 +23,9 @@ class FavoriteMarketPriceSearchRoomCache(sautiRoomDatabase: SautiRoomDatabase): 
             .subscribeOn(Schedulers.io())
     }
 
-    override fun addFavorite(favoriteMarketPriceSearch: FavoriteMarketPriceSearchData): Completable {
+    override fun addFavorite(userId: Long, favoriteMarketPriceSearch: FavoriteMarketPriceSearchData): Completable {
         return dao.contains(
+            userId,
             favoriteMarketPriceSearch.country!!,
             favoriteMarketPriceSearch.market!!,
             favoriteMarketPriceSearch.category!!,
@@ -34,6 +35,7 @@ class FavoriteMarketPriceSearchRoomCache(sautiRoomDatabase: SautiRoomDatabase): 
                 if (it > 0L) { // already favorite
                     val foundFavoriteMarketPriceSearch =
                         dao.getBySearch(
+                            userId,
                             favoriteMarketPriceSearch.country!!,
                             favoriteMarketPriceSearch.market!!,
                             favoriteMarketPriceSearch.category!!,
@@ -47,6 +49,7 @@ class FavoriteMarketPriceSearchRoomCache(sautiRoomDatabase: SautiRoomDatabase): 
                 } else {
                     dao.insert(
                         FavoriteMarketPriceSearchData(
+                            userId = favoriteMarketPriceSearch.userId,
                             favoriteMarketPriceSearchId = favoriteMarketPriceSearch.favoriteMarketPriceSearchId,
                             country = favoriteMarketPriceSearch.country,
                             market = favoriteMarketPriceSearch.market,
@@ -61,13 +64,13 @@ class FavoriteMarketPriceSearchRoomCache(sautiRoomDatabase: SautiRoomDatabase): 
             .subscribeOn(Schedulers.io())
     }
 
-    override fun removeFavoriteForced(country: String, market: String, category: String, product: String): Completable {
-        return dao.deleteBySearch(country, market, category, product)
+    override fun removeFavoriteForced(userId: Long, country: String, market: String, category: String, product: String): Completable {
+        return dao.deleteBySearch(userId, country, market, category, product)
             .subscribeOn(Schedulers.io())
     }
 
-    override fun removeFavorite(country: String, market: String, category: String, product: String): Completable {
-        return dao.getBySearch(country, market, category, product)
+    override fun removeFavorite(userId: Long, country: String, market: String, category: String, product: String): Completable {
+        return dao.getBySearch(userId, country, market, category, product)
             .flatMapCompletable {
                 if (it.favoriteMarketPriceSearchId != null) { // syched
                     it.shouldRemove = 1
@@ -86,32 +89,33 @@ class FavoriteMarketPriceSearchRoomCache(sautiRoomDatabase: SautiRoomDatabase): 
     }
 
     override fun getFavorite(
+        userId: Long,
         country: String,
         market: String,
         category: String,
         product: String
     ): Single<FavoriteMarketPriceSearchData> {
-        return dao.getBySearch(country, market, category, product)
+        return dao.getBySearch(userId, country, market, category, product)
             .subscribeOn(Schedulers.io())
     }
 
-    override fun getAll(): Single<MutableList<FavoriteMarketPriceSearchData>> {
-        return dao.findAll()
+    override fun getAll(userId: Long): Single<MutableList<FavoriteMarketPriceSearchData>> {
+        return dao.findAll(userId)
             .subscribeOn(Schedulers.io())
     }
 
-    override fun getAllNotSynced(): Single<MutableList<FavoriteMarketPriceSearchData>> {
-        return dao.findAllNotSynced()
+    override fun getAllNotSynced(userId: Long): Single<MutableList<FavoriteMarketPriceSearchData>> {
+        return dao.findAllNotSynced(userId)
             .subscribeOn(Schedulers.io())
     }
 
-    override fun getAllShouldDelete(): Single<MutableList<FavoriteMarketPriceSearchData>> {
-        return dao.findAllShouldDelete()
+    override fun getAllShouldDelete(userId: Long): Single<MutableList<FavoriteMarketPriceSearchData>> {
+        return dao.findAllShouldDelete(userId)
             .subscribeOn(Schedulers.io())
     }
 
-    override fun deleteAll(): Completable {
-        return dao.deleteAll()
+    override fun deleteAll(userId: Long): Completable {
+        return dao.deleteAll(userId)
             .subscribeOn(Schedulers.io())
     }
 }

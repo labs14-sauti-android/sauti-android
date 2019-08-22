@@ -10,6 +10,7 @@ import com.labs.sauti.repository.MarketPriceRepository
 import com.labs.sauti.repository.UserRepository
 import com.labs.sauti.view_state.authentication.SignedInUserViewState
 import com.labs.sauti.view_state.market_price.*
+import io.reactivex.Completable
 
 class MarketPriceViewModel(
     private val marketPriceRepository: MarketPriceRepository,
@@ -39,7 +40,14 @@ class MarketPriceViewModel(
     fun getIsFavoriteMarketPriceSearchViewState(): LiveData<IsFavoriteMarketPriceSearchViewState> = isFavoriteMarketPriceSearchViewState
 
     fun updateMarketPrices() {
-        addDisposable(marketPriceRepository.updateMarketPrices().subscribe())
+        addDisposable(marketPriceRepository.updateMarketPrices().subscribe(
+            {
+
+            },
+            {
+                errorLiveData.postValue("An error has occurred")
+            }
+        ))
     }
 
     fun getCountries() {
@@ -212,61 +220,103 @@ class MarketPriceViewModel(
         ))
     }
 
-    fun isFavoriteMarketPriceSearch(country: String, market: String, category: String, product: String) {
+    fun isFavoriteMarketPriceSearch(
+        shouldGetUserFromServer: Boolean,
+        country: String,
+        market: String,
+        category: String,
+        product: String
+    ) {
         isFavoriteMarketPriceSearchViewState.value = IsFavoriteMarketPriceSearchViewState(isLoading = true)
-        addDisposable(marketPriceRepository.isFavorite(country, market, category, product).subscribe(
-            {
-                isFavoriteMarketPriceSearchViewState.postValue(
-                    IsFavoriteMarketPriceSearchViewState(
-                    isLoading = false,
-                    isFavorite = it
-                ))
-            },
-            {
-                isFavoriteMarketPriceSearchViewState.postValue(
-                    IsFavoriteMarketPriceSearchViewState(
-                        isLoading = false,
-                        isFavorite = false
-                    ))
-                errorLiveData.postValue("An error has occurred")
+        addDisposable(userRepository.getSignedInUser(shouldGetUserFromServer)
+            .flatMap {
+                if (it.userId != null) {
+                    return@flatMap marketPriceRepository.isFavorite(it.userId!!, country, market, category, product)
+                }
+
+                throw Throwable("User not signed in")
             }
-        ))
+            .subscribe(
+                {
+                    isFavoriteMarketPriceSearchViewState.postValue(
+                        IsFavoriteMarketPriceSearchViewState(
+                            isLoading = false,
+                            isFavorite = it
+                        ))
+                },
+                {
+                    isFavoriteMarketPriceSearchViewState.postValue(
+                        IsFavoriteMarketPriceSearchViewState(
+                            isLoading = false,
+                            isFavorite = false
+                        ))
+                    errorLiveData.postValue("An error has occurred")
+                }
+            ))
     }
 
-    fun toggleFavorite(country: String, market: String, category: String, product: String) {
+    fun toggleFavorite(
+        shouldGetUserFromServer: Boolean,
+        country: String,
+        market: String,
+        category: String,
+        product: String
+    ) {
         isFavoriteMarketPriceSearchViewState.value = IsFavoriteMarketPriceSearchViewState(isLoading = true)
-        addDisposable(marketPriceRepository.isFavorite(country, market, category, product)
-            .doOnSuccess {
-                if (it) {
-                    marketPriceRepository.removeFromFavorite(country, market, category, product).blockingAwait()
-                } else {
-                    marketPriceRepository.addToFavorite(country, market, category, product).blockingAwait()
+        addDisposable(userRepository.getSignedInUser(shouldGetUserFromServer)
+            .flatMap {userData->
+                if (userData.userId != null) {
+                    return@flatMap marketPriceRepository.isFavorite(userData.userId!!, country, market, category, product)
+                        .doOnSuccess {
+                            if (it) {
+                                marketPriceRepository.removeFromFavorite(userData.userId!!, country, market, category, product).blockingAwait()
+                            } else {
+                                marketPriceRepository.addToFavorite(userData.userId!!, country, market, category, product).blockingAwait()
+                            }
+                        }
                 }
+
+                throw Throwable("User not signed in")
             }
             .map {
                 !it
             }
             .subscribe(
-            {
-                isFavoriteMarketPriceSearchViewState.postValue(
-                    IsFavoriteMarketPriceSearchViewState(
-                        isLoading = false,
-                        isFavorite = it
-                    ))
-            },
-            {
-                isFavoriteMarketPriceSearchViewState.postValue(
-                    IsFavoriteMarketPriceSearchViewState(
-                        isLoading = false,
-                        isFavorite = isFavoriteMarketPriceSearchViewState.value?.isFavorite ?: false
-                    ))
-                errorLiveData.postValue("An error has occurred")
-            }
-        ))
+                {
+                    isFavoriteMarketPriceSearchViewState.postValue(
+                        IsFavoriteMarketPriceSearchViewState(
+                            isLoading = false,
+                            isFavorite = it
+                        ))
+                },
+                {
+                    isFavoriteMarketPriceSearchViewState.postValue(
+                        IsFavoriteMarketPriceSearchViewState(
+                            isLoading = false,
+                            isFavorite = isFavoriteMarketPriceSearchViewState.value?.isFavorite ?: false
+                        ))
+                    errorLiveData.postValue("An error has occurred")
+                }
+            ))
     }
 
     fun syncFavoriteMarketPriceSearches() {
-        addDisposable(marketPriceRepository.syncFavoriteMarketPriceSearches().subscribe())
+        addDisposable(userRepository.getSignedInUser(true)
+            .flatMapCompletable {
+                if (it.userId != null) {
+                    return@flatMapCompletable marketPriceRepository.syncFavoriteMarketPriceSearches(it.userId!!)
+                }
+
+                Completable.complete()
+            }
+            .subscribe(
+            {
+
+            },
+            {
+                errorLiveData.postValue("An error has occurred")
+            }
+        ))
     }
 
     class Factory(

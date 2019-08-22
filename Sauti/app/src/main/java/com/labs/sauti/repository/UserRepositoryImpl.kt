@@ -43,6 +43,7 @@ class UserRepositoryImpl(
         }
     }
 
+    /** @param shouldGetFromServer only check online, disregard local user*/
     override fun getSignedInUser(shouldGetFromServer: Boolean): Single<UserData> {
         if (!sessionSp.isAccessTokenValid()) return Single.just(UserData()) // userId null
 
@@ -60,5 +61,21 @@ class UserRepositoryImpl(
         user ?: return Single.just(UserData()) // userId null
 
         return Single.just(user)
+    }
+
+    /** Check online if session is still valid, if not then clear the session*/
+    override fun updateSession(): Completable {
+        if (sessionSp.isAccessTokenValid()) {
+            return sautiApiService.getCurrentUser("Bearer ${sessionSp.getAccessToken()}")
+                .flatMapCompletable { Completable.complete() }
+                .onErrorResumeNext {
+                    sessionSp.invalidateToken()
+                    sessionSp.setUser(null)
+                    Completable.complete()
+                }
+                .subscribeOn(Schedulers.io())
+        }
+
+        return Completable.complete()
     }
 }

@@ -9,6 +9,9 @@ data class FavoriteMarketPriceSearchData(
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null,
 
+    @Expose(serialize = false)
+    var userId: Long? = null,
+
     @Expose
     var favoriteMarketPriceSearchId: Long? = null,
 

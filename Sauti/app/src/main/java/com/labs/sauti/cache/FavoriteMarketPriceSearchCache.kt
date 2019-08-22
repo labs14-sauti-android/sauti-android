@@ -6,15 +6,15 @@ import io.reactivex.Single
 
 interface FavoriteMarketPriceSearchCache {
 
-    fun isFavorite(country: String, market: String, category: String, product: String): Single<Boolean>
-    fun addFavorite(favoriteMarketPriceSearch: FavoriteMarketPriceSearchData): Completable
-    fun removeFavoriteForced(country: String, market: String, category: String, product: String): Completable
-    fun removeFavorite(country: String, market: String, category: String, product: String): Completable
+    fun isFavorite(userId: Long, country: String, market: String, category: String, product: String): Single<Boolean>
+    fun addFavorite(userId: Long, favoriteMarketPriceSearch: FavoriteMarketPriceSearchData): Completable
+    fun removeFavoriteForced(userId: Long, country: String, market: String, category: String, product: String): Completable
+    fun removeFavorite(userId: Long, country: String, market: String, category: String, product: String): Completable
     fun saveAll(favoriteMarketPriceSearches: MutableList<FavoriteMarketPriceSearchData>): Completable
-    fun getFavorite(country: String, market: String, category: String, product: String): Single<FavoriteMarketPriceSearchData>
-    fun getAll(): Single<MutableList<FavoriteMarketPriceSearchData>>
-    fun getAllNotSynced(): Single<MutableList<FavoriteMarketPriceSearchData>>
-    fun getAllShouldDelete(): Single<MutableList<FavoriteMarketPriceSearchData>>
-    fun deleteAll(): Completable
+    fun getFavorite(userId: Long, country: String, market: String, category: String, product: String): Single<FavoriteMarketPriceSearchData>
+    fun getAll(userId: Long): Single<MutableList<FavoriteMarketPriceSearchData>>
+    fun getAllNotSynced(userId: Long): Single<MutableList<FavoriteMarketPriceSearchData>>
+    fun getAllShouldDelete(userId: Long): Single<MutableList<FavoriteMarketPriceSearchData>>
+    fun deleteAll(userId: Long): Completable
 
 }

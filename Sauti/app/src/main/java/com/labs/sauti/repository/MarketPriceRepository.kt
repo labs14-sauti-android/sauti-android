@@ -18,8 +18,8 @@ interface MarketPriceRepository {
     fun searchRecentMarketPrices(): Single<MutableList<MarketPriceData>>
     fun searchRecentMarketPriceInCache(): Single<MutableList<MarketPriceData>>
 
-    fun syncFavoriteMarketPriceSearches(): Completable
-    fun isFavorite(country: String, market: String, category: String, product: String): Single<Boolean>
-    fun addToFavorite(country: String, market: String, category: String, product: String): Completable
-    fun removeFromFavorite(country: String, market: String, category: String, product: String): Completable
+    fun syncFavoriteMarketPriceSearches(userId: Long): Completable
+    fun isFavorite(userId: Long, country: String, market: String, category: String, product: String): Single<Boolean>
+    fun addToFavorite(userId: Long, country: String, market: String, category: String, product: String): Completable
+    fun removeFromFavorite(userId: Long, country: String, market: String, category: String, product: String): Completable
 }

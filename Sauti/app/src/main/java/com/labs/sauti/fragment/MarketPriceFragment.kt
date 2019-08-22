@@ -213,15 +213,19 @@ OnFragmentFullScreenStateChangedListener {
             setLength(max(0, length - 2))
         }
 
-        marketPriceViewModel.isFavoriteMarketPriceSearch(
-            marketPrice.country ?: "",
-            marketPrice.market ?: "",
-            marketPrice.productCat ?: "",
-            marketPrice.product ?: ""
-        )
+        if (ll_favorite.visibility == View.VISIBLE) {
+            marketPriceViewModel.isFavoriteMarketPriceSearch(
+                NetworkHelper.hasNetworkConnection(context!!),
+                marketPrice.country ?: "",
+                marketPrice.market ?: "",
+                marketPrice.productCat ?: "",
+                marketPrice.product ?: ""
+            )
+        }
 
         ll_favorite.setOnClickListener {
             marketPriceViewModel.toggleFavorite(
+                NetworkHelper.hasNetworkConnection(context!!),
                 marketPrice.country ?: "",
                 marketPrice.market ?: "",
                 marketPrice.productCat ?: "",
