@@ -34,7 +34,6 @@ class SearchSpinnerCustomView @JvmOverloads constructor(
         val alteredList = list.toMutableList()
         alteredList.add(0, "")
         ArrayAdapter(context, R.layout.multi_line_drodown, R.id.text1,  alteredList).also { adapter->
-//            adapter.setDropDownViewResource(R.layout.multi_line_drodown)
             s_search_param.adapter = adapter
         }
 

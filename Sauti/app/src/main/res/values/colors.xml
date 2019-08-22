@@ -24,5 +24,6 @@
     <color name="colorExchange">#267276</color>
     <color name="colorTradeInfo">#4770b3</color>
     <color name="colorTaxCalculator">#e4b031</color>
-    <color name="colorCardViewCategory">#fefefe"</color>
+    <color name="colorCardViewCategory">#fefefe</color>
+    <color name="colorSpinnerPopupBackground">#d9d6d6</color>
 </resources>

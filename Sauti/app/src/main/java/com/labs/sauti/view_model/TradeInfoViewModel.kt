@@ -68,9 +68,9 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
         addDisposable(tradeInfoRepository.searchTradeInfoBorderProcedures(language, category, product, origin, dest, value)
             .map {
                 TradeInfo("Border Procedures",
-                    "Border Procedures",
-                    tradeInfoProcedure = it,
-                    tradeInfoCountry = destChoice)
+                    """To $destChoice""",
+                    tradeInfoProcedure = it
+                )
             }
             .subscribe(
                 {
@@ -91,7 +91,7 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
                     docsList.add(doc)
                 }
 
-                TradeInfo(tradeinfoTopic = "Required Documents", tradeinfoTopicExpanded = "Required Documents", tradeInfoDocs = docsList)
+                TradeInfo(tradeinfoTopic = "Required Documents", tradeinfoTopicExpanded = "Push to View More Information About The Document", tradeInfoDocs = docsList)
             }
             .subscribe(
                 {

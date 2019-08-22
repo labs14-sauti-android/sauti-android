@@ -119,7 +119,6 @@
                     <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="What is the approximate value of your good in UGX?"
                             android:textSize="14sp"
                             android:textColor="@color/colorText"
                             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"

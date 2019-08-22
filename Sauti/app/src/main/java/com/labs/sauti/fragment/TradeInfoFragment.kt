@@ -98,8 +98,7 @@ OnFragmentFullScreenStateChangedListener{
     }
 
     fun addTIDetailsLL(tradeInfo: TradeInfo) {
-        //Present for all.
-        t_trade_info_header.text = tradeInfo.tradeinfoTopicExpanded
+
 
         //Border Procedures
         rv_trade_info_border_procedures.visibility = View.GONE
@@ -116,6 +115,9 @@ OnFragmentFullScreenStateChangedListener{
 
         when(tradeInfo.tradeinfoTopic) {
             "Border Procedures"->{
+                t_trade_info_header.text = tradeInfo.tradeinfoTopic
+                t_trade_info_sub_header.text = tradeInfo.tradeinfoTopicExpanded
+
                 t_trade_info_sub_header.visibility = View.VISIBLE
                 rv_trade_info_border_procedures.visibility = View.VISIBLE
                 t_trade_info_sub_header.text = """To ${tradeInfo.tradeInfoCountry}"""
@@ -124,10 +126,12 @@ OnFragmentFullScreenStateChangedListener{
 
             }
             "Required Documents"->{
+                t_trade_info_header.text = tradeInfo.tradeinfoTopic
+                t_trade_info_sub_header.text = tradeInfo.tradeinfoTopicExpanded
+
                 i_trade_info_divider_top.visibility = View.VISIBLE
                 i_trade_info_divider_bottom.visibility = View.VISIBLE
                 t_trade_info_sub_header.visibility = View.VISIBLE
-                t_trade_info_sub_header.text = "Push to View More Information About The Document"
 
                 rv_trade_info_required_documents.visibility = View.VISIBLE
                 documentsAdapter = DocumentsAdapter(tradeInfo.tradeInfoDocs!!) {
