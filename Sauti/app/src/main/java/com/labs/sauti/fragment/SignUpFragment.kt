@@ -10,12 +10,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.snackbar.Snackbar
 
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
-import com.labs.sauti.model.SignUpRequest
+import com.labs.sauti.model.authentication.SignUpRequest
 import com.labs.sauti.view_model.AuthenticationViewModel
-import kotlinx.android.synthetic.main.fragment_sign_in.*
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import kotlinx.android.synthetic.main.fragment_sign_up.et_password
 import kotlinx.android.synthetic.main.fragment_sign_up.et_username
@@ -48,26 +48,31 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        authenticationViewModel.getSignUpResponseLiveData().observe(this, Observer{
-            Toast.makeText(context, "Sign up successful", Toast.LENGTH_LONG).show()
-
-            activity!!.supportFragmentManager.popBackStack()
-
-            vs_sign_up.displayedChild = 0
-        })
-
+        // error
         authenticationViewModel.getErrorLiveData().observe(this, Observer {
-            // TODO better error showing
-            Toast.makeText(context, "Sign up failed ${it.errorDescription}", Toast.LENGTH_LONG).show()
-
-            vs_sign_up.displayedChild = 0
+            Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
         })
 
+        // sign up
+        authenticationViewModel.getSignUpViewState().observe(this, Observer {
+            if (it.isLoading) {
+                vs_sign_up_loading.displayedChild = 1
+            } else {
+                vs_sign_up_loading.displayedChild = 0
+
+                if (it.isSuccess) {
+                    Snackbar.make(view, "Sign up successful", Snackbar.LENGTH_SHORT).show()
+                    activity!!.supportFragmentManager.popBackStack()
+                }
+            }
+        })
+
+        // sign up click
         b_sign_up.setOnClickListener {
-            vs_sign_up.displayedChild = 1
             signUp()
         }
 
+        // sign in click
         t_sign_in.setOnClickListener {
             activity!!.supportFragmentManager.popBackStack()
             openSignInListener?.openSignIn()
@@ -75,7 +80,11 @@ class SignUpFragment : Fragment() {
     }
 
     private fun signUp() {
-        // TODO check validity
+        val usernameStr = et_username.text.toString()
+        if (usernameStr.length < 8 || usernameStr.length > 64) {
+            et_username.error = "Username must be 8-64 characters long"
+            return
+        }
 
         val passwordStr = et_password.text.toString()
         val confirmPasswordStr = et_confirm_password.text.toString()
@@ -86,8 +95,18 @@ class SignUpFragment : Fragment() {
             return
         }
 
-        // TODO not completed yet, eg. Role
-        authenticationViewModel.signUp(SignUpRequest(et_name.text.toString(), et_username.text.toString(), passwordStr))
+        if (passwordStr.length < 8 || passwordStr.length > 64) {
+            et_password.error = "Password must be 8-64 characters long"
+            return
+        }
+
+        authenticationViewModel.signUp(
+            SignUpRequest(
+                et_username.text.toString(),
+                passwordStr,
+                et_phone_number.text.toString()
+            )
+        )
     }
 
     override fun onAttach(context: Context?) {

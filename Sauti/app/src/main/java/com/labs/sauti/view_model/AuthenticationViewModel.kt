@@ -4,78 +4,112 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.labs.sauti.model.*
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonSyntaxException
+import com.labs.sauti.model.authentication.SignUpRequest
+import com.labs.sauti.model.authentication.User
+import com.labs.sauti.model.error.ErrorDetailData
 import com.labs.sauti.repository.UserRepository
+import com.labs.sauti.view_state.authentication.*
+import retrofit2.HttpException
+
+const val ERROR_CODE_INVALID_USERNAME = 1
+const val ERROR_CODE_INVALID_PASSWORD = 2
+const val ERROR_CODE_USERNAME_TAKEN = 3
 
 class AuthenticationViewModel(private val userRepository: UserRepository) : BaseViewModel() {
 
-    // TODO lazy. view state
+    private val errorLiveData by lazy { MutableLiveData<String>() }
+    private val signUpViewState by lazy { MutableLiveData<SignUpViewState>() }
+    private val signInViewState by lazy { MutableLiveData<SignInViewState>() }
+    private val signOutViewState by lazy { MutableLiveData<SignOutViewState>() }
+    private val signedInUserViewState by lazy { MutableLiveData<SignedInUserViewState>() }
 
-    private val signUpResponseLiveData by lazy { MutableLiveData<SignUpResponse>() }
-    private val signInResponseLiveData = MutableLiveData<SignInResponse>()
-    private val signOutLiveData = MutableLiveData<Any?>()
-    private val isSignedInLiveData = MutableLiveData<Boolean>()
-    private val userLiveData = MutableLiveData<User>()
-    private val errorLiveData = MutableLiveData<SautiApiError>()
+    fun getErrorLiveData(): LiveData<String> = errorLiveData
+    fun getSignUpViewState(): LiveData<SignUpViewState> = signUpViewState
+    fun getSignInViewState(): LiveData<SignInViewState> = signInViewState
+    fun getSignOutViewState(): LiveData<SignOutViewState> = signOutViewState
 
-    fun getSignUpResponseLiveData(): LiveData<SignUpResponse> = signUpResponseLiveData
-    fun getSignInResponseLiveData(): LiveData<SignInResponse> = signInResponseLiveData
-    fun getSignOutLiveData(): LiveData<Any?> = signOutLiveData
-    fun getIsSignedInLiveData(): LiveData<Boolean> = isSignedInLiveData
-    fun getUserLiveData(): LiveData<User> = userLiveData
-    fun getErrorLiveData(): LiveData<SautiApiError> = errorLiveData
+    /** No signed in user if userId is null*/
+    fun getSignedInUserViewState(): LiveData<SignedInUserViewState> = signedInUserViewState
 
     fun signUp(signUpRequest: SignUpRequest) {
+        signUpViewState.value = SignUpViewState(isLoading = true)
         addDisposable(userRepository.signUp(signUpRequest).subscribe(
             {
-                signUpResponseLiveData.postValue(it)
+                signUpViewState.postValue(SignUpViewState(isLoading = false, isSuccess = true))
             },
             {
-                errorLiveData.postValue(SautiApiError.fromThrowable(it))
+                signUpViewState.postValue(SignUpViewState(isLoading = false, isSuccess = false))
+                if (it is HttpException) {
+                    try {
+                        val errorDetail = GsonBuilder().create()
+                            .fromJson(it.response()?.errorBody()?.string(), ErrorDetailData::class.java)
+
+                        val errorMessage = when (errorDetail.errorCode) {
+                            ERROR_CODE_INVALID_USERNAME -> "Invalid username"
+                            ERROR_CODE_INVALID_PASSWORD -> "Invalid password"
+                            ERROR_CODE_USERNAME_TAKEN -> "Username taken"
+                            else -> "An unknown error has occurred"
+                        }
+
+                        errorLiveData.postValue(errorMessage)
+
+                    } catch (e: JsonSyntaxException) {
+                        errorLiveData.postValue("An unknown error has occurred")
+                    }
+                }
             }
         ))
     }
 
     fun signIn(username: String, password: String) {
+        signInViewState.value = SignInViewState(isLoading = true)
         addDisposable(userRepository.signIn(username, password).subscribe(
             {
-                signInResponseLiveData.postValue(it)
+                signInViewState.postValue(SignInViewState(isLoading = false, isSuccess = true))
             },
             {
-                errorLiveData.postValue(SautiApiError.fromThrowable(it))
+                signInViewState.postValue(SignInViewState(isLoading = false, isSuccess = false))
+                errorLiveData.postValue("Failed to sign in")
             }
         ))
     }
 
     fun signOut() {
+        signOutViewState.value = SignOutViewState(isLoading = true)
         addDisposable(userRepository.signOut().subscribe(
             {
-                signOutLiveData.postValue(null)
+                signOutViewState.postValue(SignOutViewState(isLoading = false, isSuccess = true))
             },
             {
-                errorLiveData.postValue(SautiApiError.fromThrowable(it))
+                signOutViewState.postValue(SignOutViewState(isLoading = false, isSuccess = false))
+                errorLiveData.postValue("Failed to sign out")
             }
         ))
     }
 
-    fun isSignedIn() {
-        addDisposable(userRepository.isAccessTokenValid().subscribe(
-            {
-                isSignedInLiveData.postValue(it)
-            },
-            {
-                errorLiveData.postValue(SautiApiError.fromThrowable(it))
+    fun getSignedInUser() {
+        signedInUserViewState.value = SignedInUserViewState(isLoading = true)
+        addDisposable(userRepository.getSignedInUser()
+            .map {
+                User(
+                    it.userId,
+                    it.username,
+                    it.phoneNumber,
+                    it.firstName,
+                    it.lastName,
+                    it.location,
+                    it.gender
+                )
             }
-        ))
-    }
-
-    fun getCurrentUser() {
-        addDisposable(userRepository.getCurrentUser().subscribe(
+            .subscribe(
             {
-                userLiveData.postValue(it)
+                signedInUserViewState.postValue(SignedInUserViewState(isLoading = false, user = it))
             },
             {
-                errorLiveData.postValue(SautiApiError.fromThrowable(it))
+                signedInUserViewState.postValue(SignedInUserViewState(isLoading = false))
+                errorLiveData.postValue("An unknown error has occurred")
             }
         ))
     }

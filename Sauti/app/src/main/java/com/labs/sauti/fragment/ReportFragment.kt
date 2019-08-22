@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.helper.LocaleHelper
-import com.labs.sauti.model.ReportForm
+import com.labs.sauti.model.report.ReportForm
 import com.labs.sauti.view_model.ReportViewModel
 import kotlinx.android.synthetic.main.fragment_report.*
 import javax.inject.Inject
@@ -93,7 +93,12 @@ class ReportFragment : Fragment() {
 
         b_submit.setOnClickListener {
             if (s_borders.selectedItem is String && hasGoodExperience != null) {
-                reportViewModel.submitReportForm(ReportForm(s_borders.selectedItem as String, hasGoodExperience!!))
+                reportViewModel.submitReportForm(
+                    ReportForm(
+                        s_borders.selectedItem as String,
+                        hasGoodExperience!!
+                    )
+                )
             }
         }
     }

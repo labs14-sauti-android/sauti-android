@@ -3,7 +3,7 @@ package com.labs.sauti.repository
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.labs.sauti.api.SautiApiService
-import com.labs.sauti.model.ReportForm
+import com.labs.sauti.model.report.ReportForm
 import com.labs.sauti.model.report.Border
 import io.reactivex.Completable
 import io.reactivex.Single

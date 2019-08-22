@@ -1,10 +1,9 @@
 package com.labs.sauti.repository
 
 import com.labs.sauti.api.SautiApiService
-import com.labs.sauti.model.SignInResponse
-import com.labs.sauti.model.SignUpRequest
-import com.labs.sauti.model.SignUpResponse
-import com.labs.sauti.model.User
+import com.labs.sauti.model.authentication.SignInResponse
+import com.labs.sauti.model.authentication.SignUpRequest
+import com.labs.sauti.model.authentication.UserData
 import com.labs.sauti.sp.SessionSp
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -14,7 +13,7 @@ class UserRepositoryImpl(
     private val sessionSp: SessionSp,
     private val sautiAuthorization: String
 ): UserRepository {
-    override fun signUp(signUpRequest: SignUpRequest): Single<SignUpResponse> {
+    override fun signUp(signUpRequest: SignUpRequest): Single<Long> {
         return sautiApiService.signUp(signUpRequest)
     }
 
@@ -24,6 +23,9 @@ class UserRepositoryImpl(
                 sessionSp.setAccessToken(it.accessToken ?: "")
                 sessionSp.setExpiresIn(it.expiresIn ?: 0)
                 sessionSp.setLoggedInAt(System.currentTimeMillis() / 1000L)
+
+                val userData = sautiApiService.getCurrentUser("Bearer ${it.accessToken}").blockingGet()
+                sessionSp.setUser(userData)
             }
     }
 
@@ -39,11 +41,7 @@ class UserRepositoryImpl(
         }
     }
 
-    override fun isAccessTokenValid(): Single<Boolean> {
-        return Single.just(sessionSp.isAccessTokenValid())
-    }
-
-    override fun getCurrentUser(): Single<User> {
+    override fun getSignedInUser(): Single<UserData> {
         if (sessionSp.isAccessTokenValid()) {
             val user = sessionSp.getUser()
             if (user != null) return Single.just(user)
@@ -51,10 +49,11 @@ class UserRepositoryImpl(
             return sautiApiService.getCurrentUser("Bearer ${sessionSp.getAccessToken()}")
                 .doOnSuccess {
                     sessionSp.setUser(it)
+                }.onErrorResumeNext { // token expired in the server
+                    Single.just(UserData()) // userId null
                 }
         }
 
-        // TODO test this and see if it actually does what I think it does
-        return Single.error(Throwable())
+        return Single.just(UserData()) // userId null
     }
 }

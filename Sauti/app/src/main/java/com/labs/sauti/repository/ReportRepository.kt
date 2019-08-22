@@ -1,6 +1,6 @@
 package com.labs.sauti.repository
 
-import com.labs.sauti.model.ReportForm
+import com.labs.sauti.model.report.ReportForm
 import io.reactivex.Completable
 import io.reactivex.Single
 
