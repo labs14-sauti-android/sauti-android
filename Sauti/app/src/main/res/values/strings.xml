@@ -22,7 +22,6 @@
     <string name="menu_dashboard" translatable="false">Dashboard</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="push_to_view" translatable="false">Push To View</string>
     <string name="menu_about" translatable="false">About</string>
     <string name="menu_settings" translatable="false">Settings</string>

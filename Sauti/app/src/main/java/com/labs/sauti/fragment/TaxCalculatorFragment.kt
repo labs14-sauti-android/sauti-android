@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.labs.sauti.R
 import com.labs.sauti.model.TaxCalculationData
+import com.labs.sauti.model.trade_info.TradeInfo
 import kotlinx.android.synthetic.main.fragment_tax_calculator.*
 
 class TaxCalculatorFragment : Fragment(), TaxCalculatorSearchFragment.OnTaxCalculatorSearchCompletedListener,
@@ -63,6 +64,10 @@ OnFragmentFullScreenStateChangedListener {
 
     override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
         onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(isFullScreen)
+    }
+
+    fun displayTaxInfoCardDetails(tradeInfo: TradeInfo){
+
     }
 
     companion object {

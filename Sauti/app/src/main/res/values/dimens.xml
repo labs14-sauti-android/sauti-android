@@ -10,4 +10,5 @@
     <dimen name="cardViewContentTextSize">12sp</dimen>
     <dimen name="cardViewHeaderTextSize">16sp</dimen>
     <dimen name="searchParamTextSize">14sp</dimen>
+    <dimen name="tradeinfodetailsFragmentHeaderSize">27sp</dimen>
 </resources>
