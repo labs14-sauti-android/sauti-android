@@ -6,7 +6,9 @@ import com.labs.sauti.model.authentication.SignUpRequest
 import com.labs.sauti.model.authentication.UserData
 import com.labs.sauti.sp.SessionSp
 import io.reactivex.Completable
+import io.reactivex.Scheduler
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 
 class UserRepositoryImpl(
     private val sautiApiService: SautiApiService,
@@ -41,19 +43,22 @@ class UserRepositoryImpl(
         }
     }
 
-    override fun getSignedInUser(): Single<UserData> {
-        if (sessionSp.isAccessTokenValid()) {
-            val user = sessionSp.getUser()
-            if (user != null) return Single.just(user)
+    override fun getSignedInUser(shouldGetFromServer: Boolean): Single<UserData> {
+        if (!sessionSp.isAccessTokenValid()) return Single.just(UserData()) // userId null
 
+        if (shouldGetFromServer) {
             return sautiApiService.getCurrentUser("Bearer ${sessionSp.getAccessToken()}")
                 .doOnSuccess {
                     sessionSp.setUser(it)
                 }.onErrorResumeNext { // token expired in the server
                     Single.just(UserData()) // userId null
                 }
+                .subscribeOn(Schedulers.io())
         }
 
-        return Single.just(UserData()) // userId null
+        val user = sessionSp.getUser()
+        user ?: return Single.just(UserData()) // userId null
+
+        return Single.just(user)
     }
 }

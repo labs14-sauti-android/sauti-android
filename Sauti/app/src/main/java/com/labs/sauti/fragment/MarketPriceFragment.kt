@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Color
 import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.text.SpannableString
@@ -17,6 +18,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
@@ -96,6 +98,11 @@ OnFragmentFullScreenStateChangedListener {
         r_recent_market_prices.layoutManager = GridLayoutManager(context, 2)
         r_recent_market_prices.adapter = recentMarketPriceAdapter
 
+        // error
+        marketPriceViewModel.getErrorLiveData().observe(this, Observer {
+            Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
+        })
+
         // recent market prices
         marketPriceViewModel.getRecentMarketPricesViewState().observe(this, Observer {
             if (it.isLoading) {
@@ -126,6 +133,29 @@ OnFragmentFullScreenStateChangedListener {
         })
         marketPriceViewModel.getRecentMarketPrices()
 
+        // signed in user
+        marketPriceViewModel.getSignedInUserViewState().observe(this, Observer {
+            if (!it.isLoading) {
+                if (it.user?.userId != null) {
+                    ll_favorite.visibility = View.VISIBLE
+                } else{
+                    ll_favorite.visibility = View.GONE
+                }
+            }
+        })
+        marketPriceViewModel.getSignedInUser(NetworkHelper.hasNetworkConnection(context!!))
+
+        marketPriceViewModel.getIsFavoriteMarketPriceSearchViewState().observe(this, Observer {
+            if (!it.isLoading) {
+                i_favorite.setBackgroundColor(
+                    if (it.isFavorite)
+                        Color.rgb(255,0,0)
+                    else
+                        Color.rgb(255, 255, 255)
+                )
+            }
+        })
+
         // search click
         b_search.setOnClickListener {
             openMarketPriceSearchFragment()
@@ -149,6 +179,7 @@ OnFragmentFullScreenStateChangedListener {
     }
 
     private fun setMarketPriceDetails(marketPrice: MarketPrice) {
+
         val productAtMarketSStr = SpannableString("${marketPrice.product} at ${marketPrice.market}")
         productAtMarketSStr.setSpan(UnderlineSpan(), 0, productAtMarketSStr.length, 0)
         t_details_product_at_market.text = productAtMarketSStr
@@ -178,6 +209,22 @@ OnFragmentFullScreenStateChangedListener {
             }
             setLength(max(0, length - 2))
         }
+
+        marketPriceViewModel.isFavoriteMarketPriceSearch(
+            marketPrice.country ?: "",
+            marketPrice.market ?: "",
+            marketPrice.productCat ?: "",
+            marketPrice.product ?: ""
+        )
+
+        ll_favorite.setOnClickListener {
+            marketPriceViewModel.toggleFavorite(
+                marketPrice.country ?: "",
+                marketPrice.market ?: "",
+                marketPrice.productCat ?: "",
+                marketPrice.product ?: ""
+            )
+        }
     }
 
     private fun handleRecentMarketPrices(recentMarketPrices: List<MarketPrice>) {
@@ -188,23 +235,23 @@ OnFragmentFullScreenStateChangedListener {
         if (selectedRecentMarketPricesPosition == -1) { // nothing was selected
             setMarketPriceDetails(recentMarketPrice)
             TransitionManager.beginDelayedTransition(fl_fragment_container)
-            ll_details.visibility = View.VISIBLE
+            cl_details.visibility = View.VISIBLE
             selectedRecentMarketPricesPosition = position
             return
         }
 
         if (position == selectedRecentMarketPricesPosition) { // selected was clicked
             TransitionManager.beginDelayedTransition(fl_fragment_container)
-            if (ll_details.visibility == View.VISIBLE) {
-                ll_details.visibility = View.GONE
+            if (cl_details.visibility == View.VISIBLE) {
+                cl_details.visibility = View.GONE
             } else {
-                ll_details.visibility = View.VISIBLE
+                cl_details.visibility = View.VISIBLE
             }
         } else { // other item was clicked
             setMarketPriceDetails(recentMarketPrice)
-            if (ll_details.visibility == View.GONE) {
+            if (cl_details.visibility == View.GONE) {
                 TransitionManager.beginDelayedTransition(fl_fragment_container)
-                ll_details.visibility = View.VISIBLE
+                cl_details.visibility = View.VISIBLE
             }
         }
 
@@ -212,7 +259,7 @@ OnFragmentFullScreenStateChangedListener {
     }
 
     override fun onMarketPriceSearchCompleted(marketPrice: MarketPrice) {
-        ll_details.visibility = View.VISIBLE
+        cl_details.visibility = View.VISIBLE
         setMarketPriceDetails(marketPrice)
 
         marketPriceViewModel.getRecentMarketPricesInCache()

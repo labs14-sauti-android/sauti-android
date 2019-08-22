@@ -4,11 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.labs.sauti.model.authentication.User
 import com.labs.sauti.model.market_price.MarketPrice
 import com.labs.sauti.repository.MarketPriceRepository
+import com.labs.sauti.repository.UserRepository
+import com.labs.sauti.view_state.authentication.SignedInUserViewState
 import com.labs.sauti.view_state.market_price.*
 
-class MarketPriceViewModel(private val marketPriceRepository: MarketPriceRepository): BaseViewModel() {
+class MarketPriceViewModel(
+    private val marketPriceRepository: MarketPriceRepository,
+    private val userRepository: UserRepository
+): BaseViewModel() {
 
     private val errorLiveData by lazy { MutableLiveData<String>() }
     private val countriesViewState by lazy { MutableLiveData<CountriesViewState>() }
@@ -18,6 +24,9 @@ class MarketPriceViewModel(private val marketPriceRepository: MarketPriceReposit
     private val searchMarketPriceViewState by lazy { MutableLiveData<SearchMarketPriceViewState>() }
     private val recentMarketPricesViewState by lazy { MutableLiveData<RecentMarketPricesViewState>() }
 
+    private val signedInUserViewState by lazy { MutableLiveData<SignedInUserViewState>() }
+    private val isFavoriteMarketPriceSearchViewState by lazy { MutableLiveData<IsFavoriteMarketPriceSearchViewState>() }
+
     fun getErrorLiveData(): LiveData<String> = errorLiveData
     fun getCountriesViewState(): LiveData<CountriesViewState> = countriesViewState
     fun getMarketsViewState(): LiveData<MarketsViewState> = marketsViewState
@@ -25,6 +34,9 @@ class MarketPriceViewModel(private val marketPriceRepository: MarketPriceReposit
     fun getProductsViewState(): LiveData<ProductsViewState> = productsViewState
     fun getSearchMarketPriceViewState(): LiveData<SearchMarketPriceViewState> = searchMarketPriceViewState
     fun getRecentMarketPricesViewState(): LiveData<RecentMarketPricesViewState> = recentMarketPricesViewState
+
+    fun getSignedInUserViewState(): LiveData<SignedInUserViewState> = signedInUserViewState
+    fun getIsFavoriteMarketPriceSearchViewState(): LiveData<IsFavoriteMarketPriceSearchViewState> = isFavoriteMarketPriceSearchViewState
 
     fun updateMarketPrices() {
         addDisposable(marketPriceRepository.updateMarketPrices().subscribe())
@@ -175,10 +187,91 @@ class MarketPriceViewModel(private val marketPriceRepository: MarketPriceReposit
             ))
     }
 
-    class Factory(private val marketPriceRepository: MarketPriceRepository): ViewModelProvider.Factory {
+    fun getSignedInUser(shouldGetFromServer: Boolean) {
+        signedInUserViewState.value = SignedInUserViewState(isLoading = true)
+        addDisposable(userRepository.getSignedInUser(shouldGetFromServer)
+            .map {
+                User(
+                    it.userId,
+                    it.username,
+                    it.phoneNumber,
+                    it.firstName,
+                    it.lastName,
+                    it.location,
+                    it.gender
+                )
+            }
+            .subscribe(
+            {
+                signedInUserViewState.postValue(SignedInUserViewState(isLoading = false, user = it))
+            },
+            {
+                signedInUserViewState.postValue(SignedInUserViewState(isLoading = false))
+                errorLiveData.postValue("An error has occurred")
+            }
+        ))
+    }
+
+    fun isFavoriteMarketPriceSearch(country: String, market: String, category: String, product: String) {
+        isFavoriteMarketPriceSearchViewState.value = IsFavoriteMarketPriceSearchViewState(isLoading = true)
+        addDisposable(marketPriceRepository.isFavorite(country, market, category, product).subscribe(
+            {
+                isFavoriteMarketPriceSearchViewState.postValue(
+                    IsFavoriteMarketPriceSearchViewState(
+                    isLoading = false,
+                    isFavorite = it
+                ))
+            },
+            {
+                isFavoriteMarketPriceSearchViewState.postValue(
+                    IsFavoriteMarketPriceSearchViewState(
+                        isLoading = false,
+                        isFavorite = false
+                    ))
+                errorLiveData.postValue("An error has occurred")
+            }
+        ))
+    }
+
+    fun toggleFavorite(country: String, market: String, category: String, product: String) {
+        isFavoriteMarketPriceSearchViewState.value = IsFavoriteMarketPriceSearchViewState(isLoading = true)
+        addDisposable(marketPriceRepository.isFavorite(country, market, category, product)
+            .doOnSuccess {
+                if (it) {
+                    marketPriceRepository.removeFromFavorite(country, market, category, product).blockingAwait()
+                } else {
+                    marketPriceRepository.addToFavorite(country, market, category, product).blockingAwait()
+                }
+            }
+            .map {
+                !it
+            }
+            .subscribe(
+            {
+                isFavoriteMarketPriceSearchViewState.postValue(
+                    IsFavoriteMarketPriceSearchViewState(
+                        isLoading = false,
+                        isFavorite = it
+                    ))
+            },
+            {
+                isFavoriteMarketPriceSearchViewState.postValue(
+                    IsFavoriteMarketPriceSearchViewState(
+                        isLoading = false,
+                        isFavorite = isFavoriteMarketPriceSearchViewState.value?.isFavorite ?: false
+                    ))
+                errorLiveData.postValue("An error has occurred")
+            }
+        ))
+    }
+
+    class Factory(
+        private val marketPriceRepository: MarketPriceRepository,
+        private val userRepository: UserRepository
+    ): ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return MarketPriceViewModel(marketPriceRepository) as T
+            return MarketPriceViewModel(marketPriceRepository, userRepository) as T
         }
     }
 
