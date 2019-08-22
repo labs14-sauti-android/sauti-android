@@ -12,20 +12,26 @@ class FavoriteMarketPriceSearchRoomCache(sautiRoomDatabase: SautiRoomDatabase): 
     override fun isFavorite(country: String, market: String, category: String, product: String): Single<Boolean> {
         return dao.contains(country, market, category, product)
             .map {
-                it > 0L
+                if (it > 0L) {
+                    val favoriteMarketPriceSearch =
+                        dao.getBySearch(country, market, category, product).blockingGet()
+                    if (favoriteMarketPriceSearch.shouldRemove == 0) return@map true
+                }
+
+                return@map false
             }
             .subscribeOn(Schedulers.io())
     }
 
     override fun addFavorite(favoriteMarketPriceSearch: FavoriteMarketPriceSearchData): Completable {
-        return isFavorite(
+        return dao.contains(
             favoriteMarketPriceSearch.country!!,
             favoriteMarketPriceSearch.market!!,
             favoriteMarketPriceSearch.category!!,
             favoriteMarketPriceSearch.product!!
         )
             .flatMapCompletable {
-                if (it) { // already favorite
+                if (it > 0L) { // already favorite
                     val foundFavoriteMarketPriceSearch =
                         dao.getBySearch(
                             favoriteMarketPriceSearch.country!!,
@@ -35,7 +41,6 @@ class FavoriteMarketPriceSearchRoomCache(sautiRoomDatabase: SautiRoomDatabase): 
                         ).blockingGet()
 
                     if (foundFavoriteMarketPriceSearch.shouldRemove == 1) { // not really
-                        foundFavoriteMarketPriceSearch.favoriteMarketPriceSearchId = favoriteMarketPriceSearch.favoriteMarketPriceSearchId
                         foundFavoriteMarketPriceSearch.shouldRemove = 0
                         dao.update(foundFavoriteMarketPriceSearch).blockingAwait()
                     }
@@ -87,6 +92,11 @@ class FavoriteMarketPriceSearchRoomCache(sautiRoomDatabase: SautiRoomDatabase): 
         product: String
     ): Single<FavoriteMarketPriceSearchData> {
         return dao.getBySearch(country, market, category, product)
+            .subscribeOn(Schedulers.io())
+    }
+
+    override fun getAll(): Single<MutableList<FavoriteMarketPriceSearchData>> {
+        return dao.findAll()
             .subscribeOn(Schedulers.io())
     }
 

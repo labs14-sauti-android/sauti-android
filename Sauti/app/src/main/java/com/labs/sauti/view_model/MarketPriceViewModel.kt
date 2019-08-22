@@ -265,6 +265,10 @@ class MarketPriceViewModel(
         ))
     }
 
+    fun syncFavoriteMarketPriceSearches() {
+        addDisposable(marketPriceRepository.syncFavoriteMarketPriceSearches().subscribe())
+    }
+
     class Factory(
         private val marketPriceRepository: MarketPriceRepository,
         private val userRepository: UserRepository

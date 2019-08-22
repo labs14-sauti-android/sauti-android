@@ -21,7 +21,10 @@ interface FavoriteMarketPriceSearchDao : BaseDao<FavoriteMarketPriceSearchData> 
     @Query("SELECT COUNT(*) FROM favorite_market_price_searches WHERE country=:country AND market=:market AND category=:category AND product=:product LIMIT 1")
     fun contains(country: String, market: String, category: String, product: String): Single<Long>
 
-    @Query("SELECT * FROM favorite_market_price_searches WHERE favoriteMarketPriceSearchId=NULL")
+    @Query("SELECT * FROM favorite_market_price_searches")
+    fun findAll(): Single<MutableList<FavoriteMarketPriceSearchData>>
+
+    @Query("SELECT * FROM favorite_market_price_searches WHERE favoriteMarketPriceSearchId IS NULL")
     fun findAllNotSynced(): Single<MutableList<FavoriteMarketPriceSearchData>>
 
     @Query("SELECT * FROM favorite_market_price_searches WHERE shouldRemove=1")

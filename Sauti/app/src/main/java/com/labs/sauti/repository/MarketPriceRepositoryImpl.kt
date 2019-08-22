@@ -200,7 +200,7 @@ class MarketPriceRepositoryImpl(
                 val favoriteMarketPriceSearches =
                     sautiApiService.getFavoriteMarketPriceSearches(authorization).blockingGet()
                 favoriteMarketPriceSearchRoomCache.deleteAll().blockingAwait()
-                favoriteMarketPriceSearchRoomCache.saveAll(favoriteMarketPriceSearches)
+                favoriteMarketPriceSearchRoomCache.saveAll(favoriteMarketPriceSearches).blockingAwait()
             }
         }
     }
@@ -239,15 +239,22 @@ class MarketPriceRepositoryImpl(
     override fun removeFromFavorite(country: String, market: String, category: String, product: String): Completable {
         return favoriteMarketPriceSearchRoomCache.getFavorite(country, market, category, product)
             .flatMapCompletable {
-                val accessToken = sessionSp.getAccessToken()
-                val authorization = "Bearer $accessToken"
-                sautiApiService.deleteAllFavoriteMarketPriceSearchesById(authorization, mutableListOf(it.favoriteMarketPriceSearchId!!))
-                    .doOnComplete {
-                        favoriteMarketPriceSearchRoomCache.removeFavoriteForced(country, market, category, product).blockingAwait()
-                    }
-                    .doOnError {
-                        favoriteMarketPriceSearchRoomCache.removeFavorite(country, market, category, product).blockingAwait()
-                    }
+                if (it.favoriteMarketPriceSearchId != null) { // synched
+                    val accessToken = sessionSp.getAccessToken()
+                    val authorization = "Bearer $accessToken"
+                    return@flatMapCompletable sautiApiService.deleteAllFavoriteMarketPriceSearchesById(authorization, mutableListOf(it.favoriteMarketPriceSearchId!!))
+                        .doOnComplete {
+                            // completely remove
+                            favoriteMarketPriceSearchRoomCache.removeFavoriteForced(country, market, category, product).blockingAwait()
+                        }
+                        .onErrorResumeNext {
+                            // mark for removal
+                            favoriteMarketPriceSearchRoomCache.removeFavorite(country, market, category, product)
+                        }
+                } else {
+                    // completely remove
+                    return@flatMapCompletable favoriteMarketPriceSearchRoomCache.removeFavoriteForced(country, market, category, product)
+                }
             }
             .subscribeOn(Schedulers.io())
     }

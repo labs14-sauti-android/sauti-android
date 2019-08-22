@@ -12,6 +12,7 @@ interface FavoriteMarketPriceSearchCache {
     fun removeFavorite(country: String, market: String, category: String, product: String): Completable
     fun saveAll(favoriteMarketPriceSearches: MutableList<FavoriteMarketPriceSearchData>): Completable
     fun getFavorite(country: String, market: String, category: String, product: String): Single<FavoriteMarketPriceSearchData>
+    fun getAll(): Single<MutableList<FavoriteMarketPriceSearchData>>
     fun getAllNotSynced(): Single<MutableList<FavoriteMarketPriceSearchData>>
     fun getAllShouldDelete(): Single<MutableList<FavoriteMarketPriceSearchData>>
     fun deleteAll(): Completable

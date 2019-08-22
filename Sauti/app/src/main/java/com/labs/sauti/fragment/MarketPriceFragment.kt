@@ -52,6 +52,8 @@ OnFragmentFullScreenStateChangedListener {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (NetworkHelper.hasNetworkConnection(context!!)) {
                 t_warning_no_network_connection.visibility = View.GONE
+
+                onNetworkConnected(context)
             } else {
                 t_warning_no_network_connection.visibility = View.VISIBLE
             }
@@ -84,8 +86,6 @@ OnFragmentFullScreenStateChangedListener {
         context!!.registerReceiver(networkChangedReceiver, IntentFilter().also {
             it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
         })
-
-        tryUpdatingMarketPrices()
 
         recentMarketPriceAdapter = RecentMarketPriceAdapter(mutableListOf(),
             object: RecentMarketPriceAdapter.OnRecentMarketPriceClickedListener {
@@ -162,12 +162,15 @@ OnFragmentFullScreenStateChangedListener {
         }
     }
 
-    private fun tryUpdatingMarketPrices() {
-        if (NetworkHelper.hasNetworkConnection(context!!) &&
-            (NetworkHelper.hasTransport(context!!, NetworkCapabilities.TRANSPORT_WIFI) ||
-                    NetworkHelper.getNetworkClass(context!!) == NetworkHelper.CLASS_4G)) {
+    private fun onNetworkConnected(context: Context) {
+        // update market prices if connected to wifi or has 4g
+        if (NetworkHelper.hasNetworkConnection(context) &&
+            (NetworkHelper.hasTransport(context, NetworkCapabilities.TRANSPORT_WIFI) ||
+                    NetworkHelper.getNetworkClass(context) == NetworkHelper.CLASS_4G)) {
             marketPriceViewModel.updateMarketPrices()
         }
+
+        marketPriceViewModel.syncFavoriteMarketPriceSearches()
     }
 
     private fun openMarketPriceSearchFragment() {
