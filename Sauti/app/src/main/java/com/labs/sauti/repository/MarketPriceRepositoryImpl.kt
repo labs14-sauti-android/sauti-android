@@ -21,10 +21,10 @@ import java.lang.NumberFormatException
 
 class MarketPriceRepositoryImpl(
     private val sautiApiService: SautiApiService,
+    private val sessionSp: SessionSp,
     private val marketPriceRoomCache: MarketPriceCache,
     private val marketPriceSearchRoomCache: MarketPriceSearchCache,
-    private val favoriteMarketPriceSearchRoomCache: FavoriteMarketPriceSearchCache,
-    private val sessionSp: SessionSp
+    private val favoriteMarketPriceSearchRoomCache: FavoriteMarketPriceSearchCache
 ) : MarketPriceRepository {
 
     override fun updateMarketPrices(): Completable {
@@ -225,14 +225,14 @@ class MarketPriceRepositoryImpl(
             .flatMapCompletable {
                 if (it.isNotEmpty()) { // added to the server
                     // add locally with id
-                    return@flatMapCompletable favoriteMarketPriceSearchRoomCache.addFavorite(userId, it[0])
+                    return@flatMapCompletable favoriteMarketPriceSearchRoomCache.addFavorite(it[0])
                 }
 
                 Completable.complete()
             }
             .onErrorResumeNext {
                 // add locally
-                favoriteMarketPriceSearchRoomCache.addFavorite(userId, favoriteMarketPriceSearchData)
+                favoriteMarketPriceSearchRoomCache.addFavorite(favoriteMarketPriceSearchData)
             }
             .subscribeOn(Schedulers.io())
     }

@@ -23,9 +23,9 @@ class FavoriteMarketPriceSearchRoomCache(sautiRoomDatabase: SautiRoomDatabase): 
             .subscribeOn(Schedulers.io())
     }
 
-    override fun addFavorite(userId: Long, favoriteMarketPriceSearch: FavoriteMarketPriceSearchData): Completable {
+    override fun addFavorite(favoriteMarketPriceSearch: FavoriteMarketPriceSearchData): Completable {
         return dao.contains(
-            userId,
+            favoriteMarketPriceSearch.userId!!,
             favoriteMarketPriceSearch.country!!,
             favoriteMarketPriceSearch.market!!,
             favoriteMarketPriceSearch.category!!,
@@ -35,7 +35,7 @@ class FavoriteMarketPriceSearchRoomCache(sautiRoomDatabase: SautiRoomDatabase): 
                 if (it > 0L) { // already favorite
                     val foundFavoriteMarketPriceSearch =
                         dao.getBySearch(
-                            userId,
+                            favoriteMarketPriceSearch.userId!!,
                             favoriteMarketPriceSearch.country!!,
                             favoriteMarketPriceSearch.market!!,
                             favoriteMarketPriceSearch.category!!,

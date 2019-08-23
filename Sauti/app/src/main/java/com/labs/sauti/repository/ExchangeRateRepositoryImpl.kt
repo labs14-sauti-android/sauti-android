@@ -3,16 +3,22 @@ package com.labs.sauti.repository
 import com.labs.sauti.api.SautiApiService
 import com.labs.sauti.cache.ExchangeRateCache
 import com.labs.sauti.cache.ExchangeRateConversionCache
+import com.labs.sauti.cache.FavoriteExchangeRateConversionCache
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionData
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResultData
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
+import com.labs.sauti.model.exchange_rate.FavoriteExchangeRateConversionData
+import com.labs.sauti.sp.SessionSp
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
 class ExchangeRateRepositoryImpl(
     private val sautiApiService: SautiApiService,
+    private val sessionSp: SessionSp,
     private val exchangeRateRoomCache: ExchangeRateCache,
-    private val exchangeRateConversionRoomCache: ExchangeRateConversionCache
+    private val exchangeRateConversionRoomCache: ExchangeRateConversionCache,
+    private val favoriteExchangeRateConversionRoomCache: FavoriteExchangeRateConversionCache
 ) : ExchangeRateRepository {
 
     override fun getExchangeRates(): Single<MutableList<ExchangeRateData>> {
@@ -130,6 +136,92 @@ class ExchangeRateRepositoryImpl(
             }
             conversionResults
         }
+            .subscribeOn(Schedulers.io())
+    }
+
+    override fun syncFavoriteExchangeRateConversions(userId: Long): Completable {
+        return Completable.fromCallable {
+            if (sessionSp.isAccessTokenValid()) {
+                val accessToken = sessionSp.getAccessToken()
+                val authorization = "Bearer $accessToken"
+
+                // add all not-synced to server
+                val notSyncedList =
+                    favoriteExchangeRateConversionRoomCache.getAllNotSynced(userId).blockingGet()
+                sautiApiService.addAllFavoriteExchangeRateConversions(authorization, notSyncedList).blockingGet()
+
+                // delete all shouldRemove in the server
+                val shouldDeleteList =
+                    favoriteExchangeRateConversionRoomCache.getAllShouldDelete(userId).blockingGet()
+                val shouldDeleteIdList = shouldDeleteList.mapNotNull {it.favoriteExchangeRateConversionId}
+                sautiApiService.deleteAllFavoriteExchangeRateConversions(authorization, shouldDeleteIdList).blockingAwait()
+
+                // refresh favorites
+                val favoriteExchangeRateConversions =
+                    sautiApiService.getAllFavoriteExchangeRateConversions(authorization).blockingGet()
+                favoriteExchangeRateConversionRoomCache.deleteAll(userId).blockingAwait()
+                favoriteExchangeRateConversionRoomCache.saveAll(favoriteExchangeRateConversions).blockingAwait()
+            }
+        }
+    }
+
+    override fun isFavorite(userId: Long, fromCurrency: String, toCurrency: String, amount: Double): Single<Boolean> {
+        return favoriteExchangeRateConversionRoomCache.isFavorite(userId, fromCurrency, toCurrency, amount)
+    }
+
+    override fun addToFavorite(userId: Long, fromCurrency: String, toCurrency: String, amount: Double): Completable {
+        val favoriteExchangeRateConversionData = FavoriteExchangeRateConversionData(
+            userId = userId,
+            fromCurrency = fromCurrency,
+            toCurrency = toCurrency,
+            amount = amount,
+            shouldRemove = 0
+        )
+        val accessToken = sessionSp.getAccessToken()
+        val authorization = "Bearer $accessToken"
+
+        return sautiApiService.addAllFavoriteExchangeRateConversions(authorization, mutableListOf(favoriteExchangeRateConversionData))
+            .flatMapCompletable {
+                if (it.isNotEmpty()) { // added to the server
+                    // add locally with id
+                    return@flatMapCompletable favoriteExchangeRateConversionRoomCache.addFavorite(it[0])
+                }
+
+                Completable.complete()
+            }
+            .onErrorResumeNext {
+                // add locally
+                favoriteExchangeRateConversionRoomCache.addFavorite(favoriteExchangeRateConversionData)
+            }
+            .subscribeOn(Schedulers.io())
+    }
+
+    override fun removeFromFavorite(
+        userId: Long,
+        fromCurrency: String,
+        toCurrency: String,
+        amount: Double
+    ): Completable {
+        return favoriteExchangeRateConversionRoomCache.getFavorite(userId, fromCurrency, toCurrency, amount)
+            .flatMapCompletable {
+                if (it.favoriteExchangeRateConversionId != null) { // synced
+                    val accessToken = sessionSp.getAccessToken()
+                    val authorization = "Bearer $accessToken"
+
+                    return@flatMapCompletable sautiApiService.deleteAllFavoriteExchangeRateConversions(authorization, mutableListOf(it.favoriteExchangeRateConversionId!!))
+                        .doOnComplete {
+                            // completely remove
+                            favoriteExchangeRateConversionRoomCache.removeFavoriteForced(userId, fromCurrency, toCurrency, amount).blockingAwait()
+                        }
+                        .onErrorResumeNext {
+                            // mark for removal
+                            favoriteExchangeRateConversionRoomCache.removeFavorite(userId, fromCurrency, toCurrency, amount)
+                        }
+                } else {
+                    // completely remove
+                    return@flatMapCompletable favoriteExchangeRateConversionRoomCache.removeFavoriteForced(userId, fromCurrency, toCurrency, amount)
+                }
+            }
             .subscribeOn(Schedulers.io())
     }
 }

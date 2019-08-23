@@ -49,6 +49,8 @@ OnFragmentFullScreenStateChangedListener{
         override fun onReceive(context: Context?, intent: Intent?) {
             if (NetworkHelper.hasNetworkConnection(context!!)) {
                 t_warning_no_network_connection.visibility = View.GONE
+
+                onNetworkConnected()
             } else {
                 t_warning_no_network_connection.visibility = View.VISIBLE
             }
@@ -117,12 +119,41 @@ OnFragmentFullScreenStateChangedListener{
                 }
             }
         })
-
         exchangeRateViewModel.getRecentConversionResults()
+
+        // signed in user
+        exchangeRateViewModel.getSignedInUserViewState().observe(this, Observer {
+            if (!it.isLoading) {
+                if (it.user?.userId != null) {
+                    ll_favorite.visibility = View.VISIBLE
+                } else{
+                    ll_favorite.visibility = View.GONE
+                }
+            }
+        })
+        exchangeRateViewModel.getSignedInUser(NetworkHelper.hasNetworkConnection(context!!))
+
+        // favorite
+        exchangeRateViewModel.getIsFavoriteExchangeRateConversionViewState().observe(this, Observer {
+            if (it.isLoading) {
+                ll_favorite.isEnabled = false
+            } else {
+                ll_favorite.isEnabled = true
+                if (it.isFavorite) {
+                    i_favorite.setImageResource(R.drawable.ic_star_filled)
+                } else {
+                    i_favorite.setImageResource(R.drawable.ic_star_empty)
+                }
+            }
+        })
 
         b_convert.setOnClickListener {
             openExchangeRateConvertFragment()
         }
+    }
+
+    private fun onNetworkConnected() {
+        exchangeRateViewModel.syncFavoriteConversions()
     }
 
     private fun setTranslatableTexts() {
@@ -141,6 +172,24 @@ OnFragmentFullScreenStateChangedListener{
         t_details_result.text = "$amountStr ${exchangeRateConversionResult.fromCurrency} is $resultStr ${exchangeRateConversionResult.toCurrency}"
         val toPerFromStr = decimalFormat.format(exchangeRateConversionResult.toPerFrom)
         t_details_to_per_from.text = "(1${exchangeRateConversionResult.fromCurrency} = $toPerFromStr ${exchangeRateConversionResult.toCurrency})"
+
+        ll_favorite.setOnClickListener {
+            exchangeRateViewModel.toggleFavorite(
+                NetworkHelper.hasNetworkConnection(context!!),
+                exchangeRateConversionResult.fromCurrency,
+                exchangeRateConversionResult.toCurrency,
+                exchangeRateConversionResult.amount
+            )
+        }
+
+        if (ll_favorite.visibility == View.VISIBLE) {
+            exchangeRateViewModel.isFavoriteConversion(
+                NetworkHelper.hasNetworkConnection(context!!),
+                exchangeRateConversionResult.fromCurrency,
+                exchangeRateConversionResult.toCurrency,
+                exchangeRateConversionResult.amount
+            )
+        }
     }
 
     private fun handleRecentConversionResults(conversionResults: List<ExchangeRateConversionResult>) {
@@ -151,23 +200,23 @@ OnFragmentFullScreenStateChangedListener{
         if (selectedConversionResultPosition == -1) {
             setConversionResultDetails(conversionResult)
             TransitionManager.beginDelayedTransition(fl_fragment_container)
-            ll_details.visibility = View.VISIBLE
+            cl_details.visibility = View.VISIBLE
             selectedConversionResultPosition = position
             return
         }
 
         if (position == selectedConversionResultPosition) {
             TransitionManager.beginDelayedTransition(fl_fragment_container)
-            if (ll_details.visibility == View.VISIBLE) {
-                ll_details.visibility = View.GONE
+            if (cl_details.visibility == View.VISIBLE) {
+                cl_details.visibility = View.GONE
             } else {
-                ll_details.visibility = View.VISIBLE
+                cl_details.visibility = View.VISIBLE
             }
         } else {
             setConversionResultDetails(conversionResult)
-            if (ll_details.visibility == View.GONE) {
+            if (cl_details.visibility == View.GONE) {
                 TransitionManager.beginDelayedTransition(fl_fragment_container)
-                ll_details.visibility = View.VISIBLE
+                cl_details.visibility = View.VISIBLE
             }
         }
 
@@ -183,7 +232,7 @@ OnFragmentFullScreenStateChangedListener{
     }
 
     override fun onConversionCompleted(exchangeRateConversionResult: ExchangeRateConversionResult) {
-        ll_details.visibility = View.VISIBLE
+        cl_details.visibility = View.VISIBLE
         setConversionResultDetails(exchangeRateConversionResult)
 
         // update recents from cache only

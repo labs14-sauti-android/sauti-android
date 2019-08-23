@@ -5,6 +5,7 @@ import com.labs.sauti.model.authentication.SignInResponse
 import com.labs.sauti.model.authentication.SignUpRequest
 import com.labs.sauti.model.authentication.UserData
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
+import com.labs.sauti.model.exchange_rate.FavoriteExchangeRateConversionData
 import com.labs.sauti.model.market_price.FavoriteMarketPriceSearchData
 import com.labs.sauti.model.trade_info.*
 import io.reactivex.Completable
@@ -78,6 +79,22 @@ interface SautiApiService {
     @GET("/exchange-rate/all")
     fun getExchangeRates(): Single<MutableList<ExchangeRateData>>
 
+    @POST("/favorite-exchange-rate-conversions/all")
+    fun addAllFavoriteExchangeRateConversions(
+        @Header("Authorization") authorization: String,
+        @Body favoriteExchangeRateConversions: MutableList<FavoriteExchangeRateConversionData>
+    ): Single<MutableList<FavoriteExchangeRateConversionData>>
+
+    @HTTP(method = "DELETE", hasBody = true, path = "/favorite-exchange-rate-conversions")
+    fun deleteAllFavoriteExchangeRateConversions(
+        @Header("Authorization") authorization: String,
+        @Body favoriteExchangeRateConversionIds: List<Long>
+    ): Completable
+
+    @GET("/favorite-exchange-rate-conversions")
+    fun getAllFavoriteExchangeRateConversions(
+        @Header("Authorization") authorization: String
+    ): Single<MutableList<FavoriteExchangeRateConversionData>>
 
     @GET("/trade-info/categories")
     fun getTradeInfoCategories(

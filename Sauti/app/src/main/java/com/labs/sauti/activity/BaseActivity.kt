@@ -100,6 +100,10 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
                     Snackbar.make(findViewById(android.R.id.content), "Signed out", Snackbar.LENGTH_SHORT).show()
                     nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_in)
                     setUserNavInfoAsLoggedOut()
+
+                    // restart activity
+                    finish()
+                    startActivity(intent)
                 }
             }
         })
@@ -266,7 +270,9 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
     override fun onSignInCompleted() {
         authenticationViewModel.getSignedInUser(NetworkHelper.hasNetworkConnection(this))
 
-        // TODO refresh activity
+        // restart activity
+        finish()
+        startActivity(intent)
     }
 
     override fun openSignUp() {
