@@ -5,6 +5,7 @@ import com.labs.sauti.model.authentication.SignInResponse
 import com.labs.sauti.model.authentication.SignUpRequest
 import com.labs.sauti.model.authentication.UserData
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
+import com.labs.sauti.model.market_price.FavoriteMarketPriceSearchData
 import com.labs.sauti.model.trade_info.*
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -56,6 +57,23 @@ interface SautiApiService {
         @Query("category") category: String,
         @Query("product") product: String
     ): Single<MarketPriceData>
+
+    @POST("/favorite-market-price-searches/all")
+    fun addAllFavoriteMarketPriceSearches(
+        @Header("Authorization") authorization: String,
+        @Body favoriteMarketPricesSearches: List<FavoriteMarketPriceSearchData>
+    ): Single<MutableList<FavoriteMarketPriceSearchData>>
+
+    @HTTP(method = "DELETE", hasBody = true, path = "/favorite-market-price-searches")
+    fun deleteAllFavoriteMarketPriceSearchesById(
+        @Header("Authorization") authorization: String,
+        @Body favoriteMarketPricesSearchIds: List<Long>
+    ): Completable
+
+    @GET("/favorite-market-price-searches")
+    fun getFavoriteMarketPriceSearches(
+        @Header("Authorization") authorization: String
+    ): Single<MutableList<FavoriteMarketPriceSearchData>>
 
     @GET("/exchange-rate/all")
     fun getExchangeRates(): Single<MutableList<ExchangeRateData>>

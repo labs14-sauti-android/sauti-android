@@ -84,15 +84,25 @@ class DataModule(private val sautiAuthorization: String) {
 
     @Provides
     @Singleton
+    fun provideFavoriteMarketPriceRoomCache(sautiRoomDatabase: SautiRoomDatabase): FavoriteMarketPriceSearchRoomCache {
+        return FavoriteMarketPriceSearchRoomCache(sautiRoomDatabase)
+    }
+
+    @Provides
+    @Singleton
     fun provideMarketPriceRepository(
         sautiApiService: SautiApiService,
         marketPriceRoomCache: MarketPriceRoomCache,
-        marketPriceSearchRoomCache: MarketPriceSearchRoomCache
+        marketPriceSearchRoomCache: MarketPriceSearchRoomCache,
+        sessionSp: SessionSp,
+        favoriteMarketPriceSearchRoomCache: FavoriteMarketPriceSearchRoomCache
     ): MarketPriceRepository {
         return MarketPriceRepositoryImpl(
             sautiApiService,
             marketPriceRoomCache,
-            marketPriceSearchRoomCache
+            marketPriceSearchRoomCache,
+            favoriteMarketPriceSearchRoomCache,
+            sessionSp
         )
     }
 
