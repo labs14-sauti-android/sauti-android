@@ -105,7 +105,7 @@ class FavoriteExchangeRateConversionRoomCache(private val sautiRoomDatabase: Sau
             .subscribeOn(Schedulers.io())
     }
 
-    override fun getAllnotSynced(userId: Long): Single<MutableList<FavoriteExchangeRateConversionData>> {
+    override fun getAllNotSynced(userId: Long): Single<MutableList<FavoriteExchangeRateConversionData>> {
         return dao.findAllNotSynced(userId)
             .subscribeOn(Schedulers.io())
     }

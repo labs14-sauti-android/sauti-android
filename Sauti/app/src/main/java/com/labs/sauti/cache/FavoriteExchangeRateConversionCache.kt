@@ -13,7 +13,7 @@ interface FavoriteExchangeRateConversionCache {
     fun saveAll(favoriteExchangeRateConversions: List<FavoriteExchangeRateConversionData>): Completable
     fun getFavorite(userId: Long, fromCurrency: String, toCurrency: String, amount: Double): Single<FavoriteExchangeRateConversionData>
     fun getAll(userId: Long): Single<MutableList<FavoriteExchangeRateConversionData>>
-    fun getAllnotSynced(userId: Long): Single<MutableList<FavoriteExchangeRateConversionData>>
+    fun getAllNotSynced(userId: Long): Single<MutableList<FavoriteExchangeRateConversionData>>
     fun getAllShouldDelete(userId: Long): Single<MutableList<FavoriteExchangeRateConversionData>>
     fun deleteAll(userId: Long): Completable
 }
