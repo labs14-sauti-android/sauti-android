@@ -7,7 +7,7 @@ import io.reactivex.Single
 interface FavoriteMarketPriceSearchCache {
 
     fun isFavorite(userId: Long, country: String, market: String, category: String, product: String): Single<Boolean>
-    fun addFavorite(userId: Long, favoriteMarketPriceSearch: FavoriteMarketPriceSearchData): Completable
+    fun addFavorite(favoriteMarketPriceSearch: FavoriteMarketPriceSearchData): Completable
     fun removeFavoriteForced(userId: Long, country: String, market: String, category: String, product: String): Completable
     fun removeFavorite(userId: Long, country: String, market: String, category: String, product: String): Completable
     fun saveAll(favoriteMarketPriceSearches: MutableList<FavoriteMarketPriceSearchData>): Completable

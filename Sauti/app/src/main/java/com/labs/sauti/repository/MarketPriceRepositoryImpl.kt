@@ -225,14 +225,14 @@ class MarketPriceRepositoryImpl(
             .flatMapCompletable {
                 if (it.isNotEmpty()) { // added to the server
                     // add locally with id
-                    return@flatMapCompletable favoriteMarketPriceSearchRoomCache.addFavorite(userId, it[0])
+                    return@flatMapCompletable favoriteMarketPriceSearchRoomCache.addFavorite(it[0])
                 }
 
                 Completable.complete()
             }
             .onErrorResumeNext {
                 // add locally
-                favoriteMarketPriceSearchRoomCache.addFavorite(userId, favoriteMarketPriceSearchData)
+                favoriteMarketPriceSearchRoomCache.addFavorite(favoriteMarketPriceSearchData)
             }
             .subscribeOn(Schedulers.io())
     }
