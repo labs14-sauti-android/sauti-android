@@ -135,11 +135,12 @@ OnFragmentFullScreenStateChangedListener{
                 t_trade_info_sub_header.visibility = View.VISIBLE
                 rv_trade_info_required_documents.visibility = View.VISIBLE
 
-                
+
                 documentsAdapter = DocumentsAdapter(tradeInfo.tradeInfoDocs!!) {
                     val tradeInfoDetailsFragment = TradeInfoDetailsFragment.newInstance(it.docTitle, it.docDescription)
                     tradeInfoDetailsFragment.show(childFragmentManager, "reqDocs")
                 }
+
                 if(rv_trade_info_required_documents.itemDecorationCount == 0) {
                     rv_trade_info_required_documents.addItemDecoration(SimpleDividerItemDecoration(context!!))
 
