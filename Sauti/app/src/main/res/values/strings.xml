@@ -1,4 +1,10 @@
 <resources>
+
+    <!-- TODO: Must remove this version before uploading-->
+    <string name="sauti_api_base_url" translatable="false">https://labs-sauti.herokuapp.com/</string>
+    <string name="sauti_login_authorization" translatable="false">Basic bGFicy1zYXV0aS1jbGllbnQtaWQtMTpsYWJzLXNhdXRpLXNlY3JldC0y</string>
+
+
     <string name="app_name" translatable="false">Sauti</string>
 
     <string name="navigation_drawer_open" translatable="false">Open</string>
@@ -6,10 +12,7 @@
     <string name="nav_header_desc" translatable="false">Navigation header</string>
 
     <string name="language_activity_text" translatable="false">
-        <b>Sauti</b>
-        <font fgcolor='#e84c3d'>
-            <b>.</b>
-        </font>
+        <b>Sauti</b><font fgcolor='#e84c3d'><b>.</b></font>
     </string>
     <string name="menu_market_prices" translatable="false">Market Prices</string>
     <string name="menu_tax_calculator" translatable="false">Tax Calculator</string>
@@ -34,24 +37,6 @@
     <string name="sauti_sign_in" translatable="false"><b>Sauti<font fgcolor='#e84c3d'>.</font></b> Sign In</string>
     <string name="sauti_sign_up" translatable="false"><b>Sauti<font fgcolor='#e84c3d'>.</font></b> Sign Up</string>
     <string name="already_have_an_account_sign_in" translatable="false"><font fgcolor='#6e83f3'>Already have an account?</font> Sign In</string>
-    <string name="don_t_have_an_account_sign_up" translatable="false"><font fgcolor='#6e83f3'>Don\'t have an
-        account?</font>Sign up
-    </string>
-    <string name="sauti_sign_in" translatable="false">
-        <b>Sauti
-            <font fgcolor='#e84c3d'>.</font>
-        </b>
-        Sign In
-    </string>
-    <string name="sauti_sign_up" translatable="false">
-        <b>Sauti
-            <font fgcolor='#e84c3d'>.</font>
-        </b>
-        Sign Up
-    </string>
-    <string name="already_have_an_account_sign_in" translatable="false"><font fgcolor='#6e83f3'>Already have an
-        account?</font>Sign In
-    </string>
 
     <string name="about_sauti" translatable="false">Sauti
         <font fgcolor='#e84c3d'>.</font>

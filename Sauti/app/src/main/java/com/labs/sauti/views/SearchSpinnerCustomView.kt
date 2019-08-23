@@ -29,7 +29,6 @@ class SearchSpinnerCustomView @JvmOverloads constructor(
 
     fun addSpinnerContents(list : List<String>) {
 
-        p_search_param.visibility = View.VISIBLE
 
         val alteredList = list.toMutableList()
         alteredList.add(0, "")

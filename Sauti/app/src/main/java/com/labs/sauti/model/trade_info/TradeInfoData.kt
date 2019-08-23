@@ -66,8 +66,20 @@ data class TradeInfoData(
     fun getDateFromTimestamp() = timestamp?.let { Date(it) }
 }
 
-fun TradeInfoData.toBorderAgencyTI() {
+fun TradeInfoData.toBorderProcedures(procedure: List<Procedure>) {
 
+
+}
+
+fun TradeInfoData.toRequiredDocuments(){
+
+}
+
+fun TradeInfoData.toRelatedGoods() {
+
+}
+
+fun TradeInfoData.toTaxes(){
 
 }
 

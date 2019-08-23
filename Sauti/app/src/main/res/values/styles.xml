@@ -47,7 +47,7 @@
         <item name="android:textStyle">bold</item>
         <item name="android:breakStrategy">simple</item>
         <item name="android:textSize">@dimen/cardViewHeaderTextSize</item>
-        <item name="android:textColor">@color/colorCardText</item>
+        <item name="android:textColor">@color/colorWarningText</item>
     </style>
     <style name="CardViewRecentDetailsListTextStyling">
         <item name="android:gravity">left</item>

@@ -21,14 +21,12 @@ import com.labs.sauti.SautiApp
 import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.model.TaxCalculationData
 import com.labs.sauti.sp.SettingsSp
-import com.labs.sauti.view_model.TaxCalculatorViewModel
 import com.labs.sauti.view_model.TradeInfoViewModel
 import com.labs.sauti.views.SearchSpinnerCustomView
-import kotlinx.android.synthetic.main.fragment_tax_calculator.*
 import kotlinx.android.synthetic.main.fragment_tax_calculator_search.*
 import javax.inject.Inject
 
-// TODO fullscreen
+
 class TaxCalculatorSearchFragment : Fragment() {
 
     private var onTaxCalculatorSearchCompletedListener: OnTaxCalculatorSearchCompletedListener? = null
@@ -94,24 +92,23 @@ class TaxCalculatorSearchFragment : Fragment() {
         tradeInfoViewModel.setLanguage(language)
         tradeInfoViewModel.setFirstSpinnerContent("Taxes")
 
+        setTaxTradeInfoQuestions()
+
         tradeInfoViewModel.getTradeInfoFirstSpinnerContent().observe(this, Observer {
             if(it != null) {
-                loadFirstSpinner(sscv_tax_calculator_q_1, it,"What is your commodity category?" )
+                sscv_tax_calculator_q_1.addSpinnerContents(it)
             }
         })
 
         //TODO: Extract String resources
         tradeInfoViewModel.getTradeInfoSecondSpinnerContent().observe(this, Observer{
-            loadSecondSpinner(sscv_tax_calculator_q_2, it, "Select your product")
 
         })
 
         tradeInfoViewModel.getTradeInfoThirdSpinnerContent().observe(this, Observer {
-            loadThirdSpinner(sscv_tax_calculator_q_3, it, "Select your product origin")
         })
 
         tradeInfoViewModel.getTradeInfoFourthSpinnerContent().observe(this, Observer {
-            loadFourthSpinner(sscv_tax_calculator_q_4, it, "Select where you're going")
         })
 
         b_tax_calculator_search.setOnClickListener {
@@ -125,6 +122,15 @@ class TaxCalculatorSearchFragment : Fragment() {
                 //Get TaxCalculator search.
             }
         }
+    }
+
+    //TODO: Translate the hardcoded text
+    fun setTaxTradeInfoQuestions() {
+        sscv_tax_calculator_q_1.addSearchHeader("What category of commodities are you trading?")
+        sscv_tax_calculator_q_2.addSearchHeader("What commodity are you trading?")
+        sscv_tax_calculator_q_3.addSearchHeader("Where are you selling your goods?")
+        sscv_tax_calculator_q_4.addSearchHeader("Where was your product made/originate?")
+        sscv_tax_calculator_q_5.addSearchHeader("What is your currency?")
     }
 
     fun loadFirstSpinner(next: SearchSpinnerCustomView, spinnerList : List<String>, headerString : String) {

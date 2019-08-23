@@ -7,7 +7,7 @@
     <color name="colorInformation">#1a1e23</color>
     <color name="colorTextInformation">#f8c8c4</color>
     <color name="colorCardBackground">#fdf2f1</color>
-    <color name="colorCardText">#000000</color>
+    <color name="colorCardText">#68050505</color>
     <color name="colorButtonResponse">#f8c8c4</color>
     <color name="colorButtonHasGoodExperienceNotSelected">#f8c8c4</color>
     <color name="colorButtonHasGoodExperienceSelected">#b4827e</color>
