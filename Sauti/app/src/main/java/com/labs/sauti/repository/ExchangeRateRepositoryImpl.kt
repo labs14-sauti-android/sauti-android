@@ -208,7 +208,7 @@ class ExchangeRateRepositoryImpl(
                     val accessToken = sessionSp.getAccessToken()
                     val authorization = "Bearer $accessToken"
 
-                    return@flatMapCompletable sautiApiService.deleteAllFavoriteMarketPriceSearchesById(authorization, mutableListOf(it.favoriteExchangeRateConversionId!!))
+                    return@flatMapCompletable sautiApiService.deleteAllFavoriteExchangeRateConversions(authorization, mutableListOf(it.favoriteExchangeRateConversionId!!))
                         .doOnComplete {
                             // completely remove
                             favoriteExchangeRateConversionRoomCache.removeFavoriteForced(userId, fromCurrency, toCurrency, amount).blockingAwait()

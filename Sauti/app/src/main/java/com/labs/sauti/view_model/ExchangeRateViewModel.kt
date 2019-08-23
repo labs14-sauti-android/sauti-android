@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.labs.sauti.model.authentication.User
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResult
 import com.labs.sauti.repository.ExchangeRateRepository
 import com.labs.sauti.repository.UserRepository
+import com.labs.sauti.view_state.authentication.SignedInUserViewState
 import com.labs.sauti.view_state.exchange_rate.ConversionViewState
 import com.labs.sauti.view_state.exchange_rate.CurrenciesViewState
 import com.labs.sauti.view_state.exchange_rate.IsFavoriteExchangeRateConversionViewState
@@ -22,12 +24,16 @@ class ExchangeRateViewModel(
     private val currenciesViewState by lazy { MutableLiveData<CurrenciesViewState>() }
     private val conversionViewState by lazy { MutableLiveData<ConversionViewState>() }
     private val recentConversionResultsViewState by lazy { MutableLiveData<RecentConversionResultsViewState>() }
+
+    private val signedInUserViewState by lazy { MutableLiveData<SignedInUserViewState>() }
     private val isFavoriteExchangeRateConversionViewState by lazy { MutableLiveData<IsFavoriteExchangeRateConversionViewState>() }
 
     fun getErrorLiveData(): LiveData<String> = errorLiveData
     fun getCurrenciesViewState(): LiveData<CurrenciesViewState> = currenciesViewState
     fun getConversionViewState(): LiveData<ConversionViewState> = conversionViewState
     fun getRecentConversionResultsViewState(): LiveData<RecentConversionResultsViewState> = recentConversionResultsViewState
+
+    fun getSignedInUserViewState(): LiveData<SignedInUserViewState> = signedInUserViewState
     fun getIsFavoriteExchangeRateConversionViewState(): LiveData<IsFavoriteExchangeRateConversionViewState> = isFavoriteExchangeRateConversionViewState
 
     fun getCurrencies() {
@@ -133,6 +139,31 @@ class ExchangeRateViewModel(
             ))
     }
 
+    fun getSignedInUser(shouldGetFromServer: Boolean) {
+        signedInUserViewState.value = SignedInUserViewState(isLoading = true)
+        addDisposable(userRepository.getSignedInUser(shouldGetFromServer)
+            .map {
+                User(
+                    it.userId,
+                    it.username,
+                    it.phoneNumber,
+                    it.firstName,
+                    it.lastName,
+                    it.location,
+                    it.gender
+                )
+            }
+            .subscribe(
+                {
+                    signedInUserViewState.postValue(SignedInUserViewState(isLoading = false, user = it))
+                },
+                {
+                    signedInUserViewState.postValue(SignedInUserViewState(isLoading = false))
+                    errorLiveData.postValue("An error has occurred")
+                }
+            ))
+    }
+
     fun syncFavoriteConversions() {
         addDisposable(userRepository.getSignedInUser(true)
             .flatMapCompletable {
@@ -196,7 +227,7 @@ class ExchangeRateViewModel(
         toCurrency: String,
         amount: Double
     ) {
-        isFavoriteExchangeRateConversionViewState.value = IsFavoriteExchangeRateConversionViewState(isFavorite = true)
+        isFavoriteExchangeRateConversionViewState.value = IsFavoriteExchangeRateConversionViewState(isLoading = true)
         addDisposable(userRepository.getSignedInUser(shouldGetUserFromServer)
             .flatMap {userData->
                 if (userData.userId != null) {

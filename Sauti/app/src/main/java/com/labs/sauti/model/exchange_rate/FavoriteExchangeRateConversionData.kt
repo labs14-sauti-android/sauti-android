@@ -3,6 +3,7 @@ package com.labs.sauti.model.exchange_rate
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "favorite_exchange_rate_conversions")
 data class FavoriteExchangeRateConversionData(
@@ -21,6 +22,7 @@ data class FavoriteExchangeRateConversionData(
     @Expose
     var toCurrency: String? = null,
 
+    @SerializedName("value")
     @Expose
     var amount: Double? = null,
 

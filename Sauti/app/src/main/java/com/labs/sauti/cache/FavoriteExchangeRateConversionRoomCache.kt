@@ -48,12 +48,13 @@ class FavoriteExchangeRateConversionRoomCache(private val sautiRoomDatabase: Sau
                     dao.insert(
                         FavoriteExchangeRateConversionData(
                             userId = favoriteExchangeRateConversion.userId,
+                            favoriteExchangeRateConversionId = favoriteExchangeRateConversion.favoriteExchangeRateConversionId,
                             fromCurrency = favoriteExchangeRateConversion.fromCurrency,
                             toCurrency = favoriteExchangeRateConversion.toCurrency,
                             amount = favoriteExchangeRateConversion.amount,
                             shouldRemove = 0
                         )
-                    )
+                    ).blockingGet()
                 }
 
                 Completable.complete()
