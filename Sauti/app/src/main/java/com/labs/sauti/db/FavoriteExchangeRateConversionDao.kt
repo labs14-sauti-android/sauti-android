@@ -17,7 +17,7 @@ interface FavoriteExchangeRateConversionDao : BaseDao<FavoriteExchangeRateConver
     @Query("SELECT * FROM favorite_exchange_rate_conversions WHERE userId=:userId AND fromCurrency=:fromCurrency AND toCurrency=:toCurrency AND amount=:amount")
     fun getBySearch(userId: Long, fromCurrency: String, toCurrency: String, amount: Double): Single<FavoriteExchangeRateConversionData>
 
-    @Query("SELECT COUNT(*) FROM favorite_exchange_rate_conversions WHERE userId=:userId AND fromCurrency=:fromCurrency AND amount=:amount LIMIT 1")
+    @Query("SELECT COUNT(*) FROM favorite_exchange_rate_conversions WHERE userId=:userId AND fromCurrency=:fromCurrency AND toCurrency=:toCurrency AND amount=:amount LIMIT 1")
     fun contains(userId: Long, fromCurrency: String, toCurrency: String, amount: Double): Single<Long>
 
     @Query("SELECT * FROM favorite_exchange_rate_conversions WHERE userId=:userId")
@@ -26,7 +26,7 @@ interface FavoriteExchangeRateConversionDao : BaseDao<FavoriteExchangeRateConver
     @Query("SELECT * FROM favorite_exchange_rate_conversions WHERE userId=:userId AND favoriteExchangeRateConversionId IS NULL")
     fun findAllNotSynced(userId: Long): Single<MutableList<FavoriteExchangeRateConversionData>>
 
-    @Query("SELECT * FROM favorite_exchange_rate_conversions WHERE userId=userId AND shouldRemove=1")
+    @Query("SELECT * FROM favorite_exchange_rate_conversions WHERE userId=:userId AND shouldRemove=1")
     fun findAllShouldDelete(userId: Long): Single<MutableList<FavoriteExchangeRateConversionData>>
 
     @Query("DELETE FROM favorite_exchange_rate_conversions WHERE userId=:userId AND fromCurrency=:fromCurrency AND toCurrency=:toCurrency AND amount=:amount")
