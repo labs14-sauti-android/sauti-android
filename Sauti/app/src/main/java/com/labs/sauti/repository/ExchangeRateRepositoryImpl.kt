@@ -3,16 +3,20 @@ package com.labs.sauti.repository
 import com.labs.sauti.api.SautiApiService
 import com.labs.sauti.cache.ExchangeRateCache
 import com.labs.sauti.cache.ExchangeRateConversionCache
+import com.labs.sauti.cache.FavoriteExchangeRateConversionCache
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionData
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResultData
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
+import com.labs.sauti.sp.SessionSp
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
 class ExchangeRateRepositoryImpl(
     private val sautiApiService: SautiApiService,
+    private val sessionSp: SessionSp,
     private val exchangeRateRoomCache: ExchangeRateCache,
-    private val exchangeRateConversionRoomCache: ExchangeRateConversionCache
+    private val exchangeRateConversionRoomCache: ExchangeRateConversionCache,
+    private val favoriteExchangeRateConversionRoomCache: FavoriteExchangeRateConversionCache
 ) : ExchangeRateRepository {
 
     override fun getExchangeRates(): Single<MutableList<ExchangeRateData>> {

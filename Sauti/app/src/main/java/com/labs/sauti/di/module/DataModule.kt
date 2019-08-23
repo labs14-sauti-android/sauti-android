@@ -90,19 +90,25 @@ class DataModule(private val sautiAuthorization: String) {
 
     @Provides
     @Singleton
+    fun provideFavoriteExchangeRateConversionRoomCache(sautiRoomDatabase: SautiRoomDatabase): FavoriteExchangeRateConversionRoomCache {
+        return FavoriteExchangeRateConversionRoomCache(sautiRoomDatabase)
+    }
+
+    @Provides
+    @Singleton
     fun provideMarketPriceRepository(
         sautiApiService: SautiApiService,
+        sessionSp: SessionSp,
         marketPriceRoomCache: MarketPriceRoomCache,
         marketPriceSearchRoomCache: MarketPriceSearchRoomCache,
-        sessionSp: SessionSp,
         favoriteMarketPriceSearchRoomCache: FavoriteMarketPriceSearchRoomCache
     ): MarketPriceRepository {
         return MarketPriceRepositoryImpl(
             sautiApiService,
+            sessionSp,
             marketPriceRoomCache,
             marketPriceSearchRoomCache,
-            favoriteMarketPriceSearchRoomCache,
-            sessionSp
+            favoriteMarketPriceSearchRoomCache
         )
     }
 
@@ -110,13 +116,17 @@ class DataModule(private val sautiAuthorization: String) {
     @Singleton
     fun provideExchangeRateRepository(
         sautiApiService: SautiApiService,
+        sessionSp: SessionSp,
         exchangeRateRoomCache: ExchangeRateRoomCache,
-        exchangeRateConversionRoomCache: ExchangeRateConversionRoomCache
+        exchangeRateConversionRoomCache: ExchangeRateConversionRoomCache,
+        favoriteExchangeRateConversionRoomCache: FavoriteExchangeRateConversionRoomCache
     ): ExchangeRateRepository {
         return ExchangeRateRepositoryImpl(
             sautiApiService,
+            sessionSp,
             exchangeRateRoomCache,
-            exchangeRateConversionRoomCache
+            exchangeRateConversionRoomCache,
+            favoriteExchangeRateConversionRoomCache
         )
     }
 

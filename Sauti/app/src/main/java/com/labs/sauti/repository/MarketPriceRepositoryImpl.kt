@@ -21,10 +21,10 @@ import java.lang.NumberFormatException
 
 class MarketPriceRepositoryImpl(
     private val sautiApiService: SautiApiService,
+    private val sessionSp: SessionSp,
     private val marketPriceRoomCache: MarketPriceCache,
     private val marketPriceSearchRoomCache: MarketPriceSearchCache,
-    private val favoriteMarketPriceSearchRoomCache: FavoriteMarketPriceSearchCache,
-    private val sessionSp: SessionSp
+    private val favoriteMarketPriceSearchRoomCache: FavoriteMarketPriceSearchCache
 ) : MarketPriceRepository {
 
     override fun updateMarketPrices(): Completable {
