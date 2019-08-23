@@ -3,12 +3,15 @@ package com.labs.sauti.repository
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.labs.sauti.api.SautiApiService
+import com.labs.sauti.cache.FavoriteMarketPriceSearchCache
 import com.labs.sauti.cache.MarketPriceCache
 import com.labs.sauti.cache.MarketPriceSearchCache
 import com.labs.sauti.math.LatLon
+import com.labs.sauti.model.market_price.FavoriteMarketPriceSearchData
 import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.model.market_price.MarketPriceSearchData
 import com.labs.sauti.model.market_price.MarketplaceData
+import com.labs.sauti.sp.SessionSp
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -19,7 +22,9 @@ import java.lang.NumberFormatException
 class MarketPriceRepositoryImpl(
     private val sautiApiService: SautiApiService,
     private val marketPriceRoomCache: MarketPriceCache,
-    private val marketPriceSearchRoomCache: MarketPriceSearchCache
+    private val marketPriceSearchRoomCache: MarketPriceSearchCache,
+    private val favoriteMarketPriceSearchRoomCache: FavoriteMarketPriceSearchCache,
+    private val sessionSp: SessionSp
 ) : MarketPriceRepository {
 
     override fun updateMarketPrices(): Completable {
@@ -172,5 +177,86 @@ class MarketPriceRepositoryImpl(
                     recentMarketPriceInCache
                 }
             }
+    }
+
+    override fun syncFavoriteMarketPriceSearches(userId: Long): Completable {
+        return Completable.fromCallable {
+            if (sessionSp.isAccessTokenValid()) {
+                val accessToken = sessionSp.getAccessToken()
+                val authorization = "Bearer $accessToken"
+
+                // add all not-synced to server
+                val notSyncedList =
+                    favoriteMarketPriceSearchRoomCache.getAllNotSynced(userId).blockingGet()
+                sautiApiService.addAllFavoriteMarketPriceSearches(authorization, notSyncedList).blockingGet()
+
+                // delete all shouldRemove in the server
+                val shouldDeleteList =
+                    favoriteMarketPriceSearchRoomCache.getAllShouldDelete(userId).blockingGet()
+                val shouldDeleteIdList = shouldDeleteList.mapNotNull {it.favoriteMarketPriceSearchId}
+                sautiApiService.deleteAllFavoriteMarketPriceSearchesById(authorization, shouldDeleteIdList).blockingAwait()
+
+                // refresh favorites
+                val favoriteMarketPriceSearches =
+                    sautiApiService.getFavoriteMarketPriceSearches(authorization).blockingGet()
+                favoriteMarketPriceSearchRoomCache.deleteAll(userId).blockingAwait()
+                favoriteMarketPriceSearchRoomCache.saveAll(favoriteMarketPriceSearches).blockingAwait()
+            }
+        }
+    }
+
+    override fun isFavorite(userId: Long, country: String, market: String, category: String, product: String): Single<Boolean> {
+        return favoriteMarketPriceSearchRoomCache.isFavorite(userId, country, market, category, product)
+    }
+
+    override fun addToFavorite(userId: Long, country: String, market: String, category: String, product: String): Completable {
+        val favoriteMarketPriceSearchData = FavoriteMarketPriceSearchData(
+            userId = userId,
+            country = country,
+            market = market,
+            category = category,
+            product = product,
+            shouldRemove = 0
+        )
+        val accessToken = sessionSp.getAccessToken()
+        val authorization = "Bearer $accessToken"
+
+        return sautiApiService.addAllFavoriteMarketPriceSearches(authorization, mutableListOf(favoriteMarketPriceSearchData))
+            .flatMapCompletable {
+                if (it.isNotEmpty()) { // added to the server
+                    // add locally with id
+                    return@flatMapCompletable favoriteMarketPriceSearchRoomCache.addFavorite(userId, it[0])
+                }
+
+                Completable.complete()
+            }
+            .onErrorResumeNext {
+                // add locally
+                favoriteMarketPriceSearchRoomCache.addFavorite(userId, favoriteMarketPriceSearchData)
+            }
+            .subscribeOn(Schedulers.io())
+    }
+
+    override fun removeFromFavorite(userId: Long, country: String, market: String, category: String, product: String): Completable {
+        return favoriteMarketPriceSearchRoomCache.getFavorite(userId, country, market, category, product)
+            .flatMapCompletable {
+                if (it.favoriteMarketPriceSearchId != null) { // synched
+                    val accessToken = sessionSp.getAccessToken()
+                    val authorization = "Bearer $accessToken"
+                    return@flatMapCompletable sautiApiService.deleteAllFavoriteMarketPriceSearchesById(authorization, mutableListOf(it.favoriteMarketPriceSearchId!!))
+                        .doOnComplete {
+                            // completely remove
+                            favoriteMarketPriceSearchRoomCache.removeFavoriteForced(userId, country, market, category, product).blockingAwait()
+                        }
+                        .onErrorResumeNext {
+                            // mark for removal
+                            favoriteMarketPriceSearchRoomCache.removeFavorite(userId, country, market, category, product)
+                        }
+                } else {
+                    // completely remove
+                    return@flatMapCompletable favoriteMarketPriceSearchRoomCache.removeFavoriteForced(userId, country, market, category, product)
+                }
+            }
+            .subscribeOn(Schedulers.io())
     }
 }

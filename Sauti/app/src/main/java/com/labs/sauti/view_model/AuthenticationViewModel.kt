@@ -89,9 +89,9 @@ class AuthenticationViewModel(private val userRepository: UserRepository) : Base
         ))
     }
 
-    fun getSignedInUser() {
+    fun getSignedInUser(shouldGetFromServer: Boolean) {
         signedInUserViewState.value = SignedInUserViewState(isLoading = true)
-        addDisposable(userRepository.getSignedInUser()
+        addDisposable(userRepository.getSignedInUser(shouldGetFromServer)
             .map {
                 User(
                     it.userId,

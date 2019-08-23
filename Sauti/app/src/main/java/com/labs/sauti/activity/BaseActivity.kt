@@ -21,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.fragment.*
+import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.view_model.AuthenticationViewModel
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -106,7 +107,7 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
     override fun onResume() {
         super.onResume()
 
-        authenticationViewModel.getSignedInUser()
+        authenticationViewModel.getSignedInUser(NetworkHelper.hasNetworkConnection(this))
     }
 
     override fun onDestroy() {
@@ -262,7 +263,7 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
     }
 
     override fun onSignInCompleted() {
-        authenticationViewModel.getSignedInUser()
+        authenticationViewModel.getSignedInUser(NetworkHelper.hasNetworkConnection(this))
 
         // TODO refresh activity
     }
