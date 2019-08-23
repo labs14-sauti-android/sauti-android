@@ -146,13 +146,15 @@ OnFragmentFullScreenStateChangedListener {
         marketPriceViewModel.getSignedInUser(NetworkHelper.hasNetworkConnection(context!!))
 
         marketPriceViewModel.getIsFavoriteMarketPriceSearchViewState().observe(this, Observer {
-            if (!it.isLoading) {
-                i_favorite.setBackgroundColor(
-                    if (it.isFavorite)
-                        Color.rgb(255,0,0)
-                    else
-                        Color.rgb(255, 255, 255)
-                )
+            if (it.isLoading) {
+                ll_favorite.isEnabled = false
+            } else {
+                ll_favorite.isEnabled = true
+                if (it.isFavorite) {
+                    i_favorite.setImageResource(R.drawable.ic_star_filled)
+                } else {
+                    i_favorite.setImageResource(R.drawable.ic_star_empty)
+                }
             }
         })
 
