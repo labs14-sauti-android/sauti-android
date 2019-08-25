@@ -57,6 +57,8 @@ data class TradeInfoData(
     @Expose
     val value: String,
 
+    val approximateValue: Long? = null,
+
     var timestamp: Long? = null
 ) {
     fun setTimestamp(){
@@ -79,9 +81,12 @@ fun TradeInfoData.toRelatedGoods() {
 
 }
 
-fun TradeInfoData.toTaxes(){
-
-}
+/*fun TradeInfoData.toTaxes(): TradeInfoTaxes {
+    return TradeInfoTaxes(
+        taxProduct = product
+        currentCurrency = currency
+    )
+}*/
 
 
 

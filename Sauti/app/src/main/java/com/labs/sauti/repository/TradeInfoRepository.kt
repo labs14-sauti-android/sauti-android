@@ -13,6 +13,7 @@ interface TradeInfoRepository {
     fun getTradeInfoProductProducts (language: String, category: String): Single<MutableList<String>>
     fun getTradeInfoOrigin          (language: String, category: String, product: String): Single<MutableList<String>>
     fun getTradeInfoDestination     (language: String, category: String, product: String, origin: String): Single<MutableList<String>>
+
     fun searchTradeInfoBorderProcedures
                 (language: String,
                  category: String,

@@ -1,7 +1,7 @@
 package com.labs.sauti.model.trade_info
 
 data class TradeInfoTaxes(
-    var product: String,
+    var taxProduct: String,
     var currentCurrency: String,
 
     var initialAmount: Double,

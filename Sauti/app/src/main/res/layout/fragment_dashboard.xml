@@ -92,7 +92,7 @@
                             app:cardUseCompatPadding="true"
                             app:cardElevation="@dimen/dimenCardElevationDashboardNav"
                             app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
-                            app:cardBackgroundColor="@color/colorAccent"
+                            app:cardBackgroundColor="#fdf2f1"
                             android:layout_weight="1"
                             android:layout_marginEnd="5dp">
 
@@ -103,7 +103,7 @@
                                 android:minWidth="60dp">
 
                             <ImageView
-                                    android:backgroundTint="#f8c8c4"
+                                    android:backgroundTint="#fdf2f1"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_gravity="center"
@@ -130,7 +130,7 @@
                             app:cardUseCompatPadding="true"
                             app:cardElevation="@dimen/dimenCardElevationDashboardNav"
                             app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
-                            app:cardBackgroundColor="@color/colorExchange"
+                            app:cardBackgroundColor="#fdf2f1"
                             android:layout_weight="1"
                             android:layout_marginStart="5dp"
                             android:layout_marginEnd="5dp">
@@ -144,7 +144,7 @@
                             <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:backgroundTint="#cdedef"
+                                    android:backgroundTint="#fdf2f1"
                                     android:layout_gravity="center"
                                     android:tint="@color/colorExchange"
                                     android:src="@drawable/ic_exchange_rates"
@@ -171,7 +171,6 @@
                             app:cardUseCompatPadding="true"
                             app:cardElevation="@dimen/dimenCardElevationDashboardNav"
                             app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
-                            app:cardBackgroundColor="@color/colorTradeInfo"
                             android:layout_weight="1"
                             android:layout_marginStart="5dp"
                             android:layout_marginEnd="5dp">
@@ -187,7 +186,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:paddingTop="8dp"
-                                    android:backgroundTint="#d0daec"
+                                    android:backgroundTint="#fdf2f1"
                                     android:paddingBottom="8dp"
                                     android:tint="@color/colorTradeInfo"
                                     android:layout_gravity="center"
@@ -212,7 +211,7 @@
                             app:cardUseCompatPadding="true"
                             app:cardElevation="@dimen/dimenCardElevationDashboardNav"
                             app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
-                            app:cardBackgroundColor="@color/colorTaxCalculator"
+                            app:cardBackgroundColor="#fdf2f1"
                             android:layout_weight="1"
                             android:layout_marginStart="5dp">
 
@@ -223,7 +222,7 @@
                                 android:minWidth="60dp">
 
                             <ImageView
-                                    android:backgroundTint="#f7e8c4"
+                                    android:backgroundTint="#fdf2f1"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:tint="@color/colorTaxCalculator"

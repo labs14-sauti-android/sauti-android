@@ -23,6 +23,7 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     private val tradeInfoThirdSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
     private val tradeInfoFourthSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
     private val tradeInfoFifthSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
+    private val taxCalcCurrencySpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
 
 
     private val searchRegulatedGoodLiveData by lazy { MutableLiveData<TradeInfo>() }
@@ -269,6 +270,11 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
 
         val itemValue = listOf("Greater than USD 2000 \n(approx KES 206540/UGX 7390200)", "Less than USD 2000 \n(approx KES 206540/UGX 7390200)")
         tradeInfoFifthSpinnerContent.postValue(itemValue)
+
+    }
+
+    fun  setTaxCalcCurrencySpinnerContent(){
+//        addDisposable()
 
     }
 

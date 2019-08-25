@@ -96,19 +96,21 @@ class TaxCalculatorSearchFragment : Fragment() {
 
         tradeInfoViewModel.getTradeInfoFirstSpinnerContent().observe(this, Observer {
             if(it != null) {
-                sscv_tax_calculator_q_1.addSpinnerContents(it)
+                loadFirstSpinner(sscv_tax_calculator_q_1, it)
             }
         })
 
         //TODO: Extract String resources
         tradeInfoViewModel.getTradeInfoSecondSpinnerContent().observe(this, Observer{
-
+            loadSecondSpinner(sscv_tax_calculator_q_2, it)
         })
 
         tradeInfoViewModel.getTradeInfoThirdSpinnerContent().observe(this, Observer {
+            loadThirdSpinner(sscv_tax_calculator_q_3, it)
         })
 
         tradeInfoViewModel.getTradeInfoFourthSpinnerContent().observe(this, Observer {
+            loadFourthSpinner(sscv_tax_calculator_q_4, it)
         })
 
         b_tax_calculator_search.setOnClickListener {
@@ -128,12 +130,12 @@ class TaxCalculatorSearchFragment : Fragment() {
     fun setTaxTradeInfoQuestions() {
         sscv_tax_calculator_q_1.addSearchHeader("What category of commodities are you trading?")
         sscv_tax_calculator_q_2.addSearchHeader("What commodity are you trading?")
-        sscv_tax_calculator_q_3.addSearchHeader("Where are you selling your goods?")
-        sscv_tax_calculator_q_4.addSearchHeader("Where was your product made/originate?")
+        sscv_tax_calculator_q_3.addSearchHeader("Where was your product made/originate?")
+        sscv_tax_calculator_q_4.addSearchHeader("Where are you selling your goods?")
         sscv_tax_calculator_q_5.addSearchHeader("What is your currency?")
     }
 
-    fun loadFirstSpinner(next: SearchSpinnerCustomView, spinnerList : List<String>, headerString : String) {
+    fun loadFirstSpinner(next: SearchSpinnerCustomView, spinnerList : List<String>) {
         next.visibility = View.VISIBLE
 
 
@@ -156,10 +158,10 @@ class TaxCalculatorSearchFragment : Fragment() {
 
         }
         next.setSpinnerListener(listener)
-        next.addSearchHeader(headerString)
+
     }
 
-    fun loadSecondSpinner(second: SearchSpinnerCustomView, spinnerList : List<String>, headerString : String) {
+    fun loadSecondSpinner(second: SearchSpinnerCustomView, spinnerList : List<String>) {
         second.visibility = View.VISIBLE
             second.addSpinnerContents(spinnerList)
 
@@ -177,10 +179,9 @@ class TaxCalculatorSearchFragment : Fragment() {
         }
 
         second.setSpinnerListener(listener)
-        second.addSearchHeader(headerString)
     }
 
-    fun loadThirdSpinner(third: SearchSpinnerCustomView, spinnerList : List<String>, headerString : String) {
+    fun loadThirdSpinner(third: SearchSpinnerCustomView, spinnerList : List<String>) {
         third.visibility = View.VISIBLE
 
 
@@ -201,10 +202,9 @@ class TaxCalculatorSearchFragment : Fragment() {
         }
 
         third.setSpinnerListener(thirdListener)
-        third.addSearchHeader(headerString)
     }
 
-    private fun loadFourthSpinner(fourth: SearchSpinnerCustomView, spinnerList: List<String>, headerString: String) {
+    private fun loadFourthSpinner(fourth: SearchSpinnerCustomView, spinnerList: List<String>) {
         fourth.visibility = View.VISIBLE
         val conversion = convertCountryNames(spinnerList)
         fourth.addSpinnerContents(conversion)
@@ -217,13 +217,13 @@ class TaxCalculatorSearchFragment : Fragment() {
                 dest = parent.getItemAtPosition(position) as String
 
                 if(dest.isNotEmpty()){
+                    //TODO: Set Currency Spinner
                     tradeInfoViewModel.setFifthSpinnerContent()
                 }
             }
         }
 
         fourth.setSpinnerListener(fourthListener)
-        fourth.addSearchHeader(headerString)
     }
 
 

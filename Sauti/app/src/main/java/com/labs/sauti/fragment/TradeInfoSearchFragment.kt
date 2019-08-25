@@ -97,7 +97,6 @@ class TradeInfoSearchFragment : Fragment() {
         language = SettingsSp(context!!).getSelectedLanguage().toUpperCase()
         tradeInfoViewModel.setLanguage(language)
 
-//        tradeInfoViewModel.setFirstSpinnerContent()
 
         //TODO: Extract String resources
         tradeInfoViewModel.getTradeInfoFirstSpinnerContent().observe(this, Observer {
