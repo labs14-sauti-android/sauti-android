@@ -21,4 +21,6 @@
     <color name="colorTextEditText">#000000</color>
     <color name="colorTIDetailsSubheaderText">#c7c2c2</color>
     <color name="colorCardTextSecondary">#a3050505</color>
+    <color name="colorExchangeRate">#267276</color>
+    <color name="colorMarketPrice">#e84c3d</color>
 </resources>
