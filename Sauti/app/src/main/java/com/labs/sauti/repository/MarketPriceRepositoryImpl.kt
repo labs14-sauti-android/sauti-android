@@ -151,6 +151,7 @@ class MarketPriceRepositoryImpl(
             .flatMap {
                 Single.fromCallable {
                     val recentMarketPrices = mutableListOf<MarketPriceData>()
+                    // TODO create a single call to backend
                     it.forEach {
                         try {
                             val marketPrice = searchMarketPrice(it.country, it.market, it.category, it.product).blockingGet()
@@ -256,6 +257,35 @@ class MarketPriceRepositoryImpl(
                     // completely remove
                     return@flatMapCompletable favoriteMarketPriceSearchRoomCache.removeFavoriteForced(userId, country, market, category, product)
                 }
+            }
+            .subscribeOn(Schedulers.io())
+    }
+
+    override fun getFavoriteMarketPrices(userId: Long): Single<MutableList<MarketPriceData>> {
+        val accessToken = sessionSp.getAccessToken()
+        val authorization = "Bearer $accessToken"
+
+        return sautiApiService.getFavoriteMarketPriceSearches(authorization)
+            .onErrorResumeNext {
+                favoriteMarketPriceSearchRoomCache.getAll(userId)
+            }
+            .map {
+                val favoriteMarketPrices = mutableListOf<MarketPriceData>()
+
+                // TODO create a single call to backend
+                it.forEach {favoriteMarketPriceSearchData ->
+                    try {
+                        val marketPrice = searchMarketPrice(
+                            favoriteMarketPriceSearchData.country!!,
+                            favoriteMarketPriceSearchData.market!!,
+                            favoriteMarketPriceSearchData.category!!,
+                            favoriteMarketPriceSearchData.product!!
+                        ).blockingGet()
+                        favoriteMarketPrices.add(marketPrice)
+                    } catch (e: Exception) {}
+                }
+
+                favoriteMarketPrices
             }
             .subscribeOn(Schedulers.io())
     }

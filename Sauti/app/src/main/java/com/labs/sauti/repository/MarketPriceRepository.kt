@@ -1,5 +1,6 @@
 package com.labs.sauti.repository
 
+import com.labs.sauti.model.market_price.FavoriteMarketPriceSearchData
 import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.model.market_price.MarketPriceSearchData
 import io.reactivex.Completable
@@ -22,4 +23,5 @@ interface MarketPriceRepository {
     fun isFavorite(userId: Long, country: String, market: String, category: String, product: String): Single<Boolean>
     fun addToFavorite(userId: Long, country: String, market: String, category: String, product: String): Completable
     fun removeFromFavorite(userId: Long, country: String, market: String, category: String, product: String): Completable
+    fun getFavoriteMarketPrices(userId: Long): Single<MutableList<MarketPriceData>>
 }

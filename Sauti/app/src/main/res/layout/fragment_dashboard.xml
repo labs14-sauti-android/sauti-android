@@ -43,10 +43,10 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                    <androidx.viewpager.widget.ViewPager
+                    <com.labs.sauti.views.NonSwipeableViewPager
                             android:id="@+id/view_pager"
                             android:layout_width="match_parent"
-                            android:layout_height="170dp"/>
+                            android:layout_height="220dp"/>
 
                     <View
                             android:layout_width="match_parent"
