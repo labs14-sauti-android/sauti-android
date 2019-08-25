@@ -217,6 +217,7 @@ class MarketPriceRepositoryImpl(
             market = market,
             category = category,
             product = product,
+            timestamp = System.currentTimeMillis(),
             shouldRemove = 0
         )
         val accessToken = sessionSp.getAccessToken()
