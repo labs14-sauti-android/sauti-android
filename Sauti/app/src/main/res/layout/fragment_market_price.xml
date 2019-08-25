@@ -168,7 +168,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
                                 android:text="@string/your_recent_searches"
-                                android:textColor="@color/colorText"/>
+                                android:textColor="@color/colorText"
+                                android:textSize="14sp"/>
 
                         <ViewSwitcher
                                 android:id="@+id/vs_recent_market_prices_loading"
@@ -201,7 +202,8 @@
                                             android:layout_height="wrap_content"
                                             android:text="@string/push_to_view"
                                             android:gravity="center"
-                                            android:textColor="@color/colorText"/>
+                                            android:textColor="@color/colorText"
+                                            android:textSize="14sp"/>
 
                                 </LinearLayout>
 

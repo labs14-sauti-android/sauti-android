@@ -110,7 +110,7 @@ class MarketPriceRepositoryImpl(
                                     val lon2 = marketplace.lon?.toDouble() ?: return@forEach
 
                                     val d = LatLon.distance(lat1, lon1, lat2, lon2)
-                                    if (d <= 50.0) marketPrice.nearbyMarketplaceNames
+                                    if (d <= 100.0) marketPrice.nearbyMarketplaceNames
                                         .add(marketplace.name ?: return@forEach)
 
                                     // Busia is 450 km from Arusha

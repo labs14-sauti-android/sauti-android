@@ -188,8 +188,8 @@ OnFragmentFullScreenStateChangedListener {
         val productAtMarketSStr = SpannableString("${marketPrice.product} at ${marketPrice.market}")
         productAtMarketSStr.setSpan(UnderlineSpan(), 0, productAtMarketSStr.length, 0)
         t_details_product_at_market.text = productAtMarketSStr
-        val decimalFormat = DecimalFormat("#,##0.00")
-        val wholesaleStr = decimalFormat.format(marketPrice.wholesale)
+        val decimalFormat = DecimalFormat("#,##0")
+        val wholesaleStr = decimalFormat.format(marketPrice.wholesale ?: 0.0)
         t_details_wholesale.text = "Wholesale: $wholesaleStr ${marketPrice.currency}/1Kg"
         if (marketPrice.retail != null && marketPrice.retail!! > 0.0) {
             t_details_retail.visibility = View.VISIBLE
