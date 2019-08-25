@@ -15,4 +15,5 @@ interface ExchangeRateRepository {
     fun isFavorite(userId: Long, fromCurrency: String, toCurrency: String, amount: Double): Single<Boolean>
     fun addToFavorite(userId: Long, fromCurrency: String, toCurrency: String, amount: Double): Completable
     fun removeFromFavorite(userId: Long, fromCurrency: String, toCurrency: String, amount: Double): Completable
+    fun getFavoriteExchangeRateConversionResults(userId: Long): Single<HashMap<ExchangeRateConversionResultData, Long>>
 }

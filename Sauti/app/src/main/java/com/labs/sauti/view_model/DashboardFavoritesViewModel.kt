@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.labs.sauti.model.authentication.User
+import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResult
 import com.labs.sauti.model.market_price.MarketPrice
+import com.labs.sauti.repository.ExchangeRateRepository
 import com.labs.sauti.repository.MarketPriceRepository
 import com.labs.sauti.repository.UserRepository
 import com.labs.sauti.view_state.authentication.SignedInUserViewState
@@ -13,7 +15,8 @@ import com.labs.sauti.view_state.dashboard.FavoritesViewState
 
 class DashboardFavoritesViewModel(
     private val userRepository: UserRepository,
-    private val marketPriceRepository: MarketPriceRepository
+    private val marketPriceRepository: MarketPriceRepository,
+    private val exchangeRateRepository: ExchangeRateRepository
 ) : BaseViewModel() {
 
     private val errorLiveData by lazy { MutableLiveData<String>() }
@@ -66,8 +69,6 @@ class DashboardFavoritesViewModel(
                     // TODO exchange rate, and trade info favorites
                     // TODO sort by timeFavorited
 
-                    val favoriteTimestampMap = hashMapOf<Any, Long>()
-                    val favoriteTimestampList = mutableListOf<Pair<Any, Long>>()
                     val favoriteMarketPriceDataTimestampMap =
                         marketPriceRepository.getFavoriteMarketPrices(it.userId!!).blockingGet()
                             .mapKeys {pair ->
@@ -85,10 +86,25 @@ class DashboardFavoritesViewModel(
                                 )
                             }
 
+                    val favoriteExchangeRateConversionResultDataTimestampMap =
+                        exchangeRateRepository.getFavoriteExchangeRateConversionResults(it.userId!!).blockingGet()
+                            .mapKeys {pair ->
+                                ExchangeRateConversionResult(
+                                    pair.key.fromCurrency,
+                                    pair.key.toCurrency,
+                                    pair.key.toPerFrom,
+                                    pair.key.amount,
+                                    pair.key.result
+                                )
+                            }
+
+                    val favoriteTimestampMap = hashMapOf<Any, Long>()
                     favoriteTimestampMap.putAll(favoriteMarketPriceDataTimestampMap)
+                    favoriteTimestampMap.putAll(favoriteExchangeRateConversionResultDataTimestampMap)
                     // TODO Patrick, use .putAll(favoriteTradeInfoTimestampMap)
 
                     // insert sort, more recent on lower index
+                    val favoriteTimestampList = mutableListOf<Pair<Any, Long>>()
                     favoriteTimestampMap.forEach {favoriteTimestampPairFromMap ->
                         var isInserted = false
                         for ((i, favoriteTimestampPairFromList) in favoriteTimestampList.withIndex()) {
@@ -124,11 +140,12 @@ class DashboardFavoritesViewModel(
 
     class Factory(
         private val userRepository: UserRepository,
-        private val marketPriceRepository: MarketPriceRepository
+        private val marketPriceRepository: MarketPriceRepository,
+        private val exchangeRateRepository: ExchangeRateRepository
     ): ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return DashboardFavoritesViewModel(userRepository, marketPriceRepository) as T
+            return DashboardFavoritesViewModel(userRepository, marketPriceRepository, exchangeRateRepository) as T
         }
     }
 }

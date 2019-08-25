@@ -1,11 +1,15 @@
 package com.labs.sauti.adapter
 
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.labs.sauti.R
+import com.labs.sauti.helper.LocaleHelper
+import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResult
 import com.labs.sauti.model.market_price.MarketPrice
+import kotlinx.android.synthetic.main.item_recent_exchange_rate.view.*
 import kotlinx.android.synthetic.main.item_recent_market_price.view.*
 import java.text.DecimalFormat
 
@@ -16,12 +20,15 @@ class DashboardFavoritesAdapter(
 
     companion object {
         private const val TYPE_MARKET_PRICE = 0
+        private const val TYPE_EXCHANGE_RATE = 1
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             TYPE_MARKET_PRICE -> MarketPriceViewHolder(LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_recent_market_price, parent, false))
+            TYPE_EXCHANGE_RATE -> ExchangeRateConversionResultViewHolder(LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_recent_exchange_rate, parent, false))
             else -> throw RuntimeException("Invalid type")
         }
     }
@@ -33,6 +40,7 @@ class DashboardFavoritesAdapter(
     override fun getItemViewType(position: Int): Int {
         return when (favorites[position]) {
             is MarketPrice -> TYPE_MARKET_PRICE
+            is ExchangeRateConversionResult -> TYPE_EXCHANGE_RATE
             else -> throw RuntimeException("Invalid type")
         }
     }
@@ -41,6 +49,7 @@ class DashboardFavoritesAdapter(
         val favorite = favorites[position]
         when (holder) {
             is MarketPriceViewHolder -> holder.bind(favorite as MarketPrice, onItemClickListener)
+            is ExchangeRateConversionResultViewHolder -> holder.bind(favorite as ExchangeRateConversionResult, onItemClickListener)
         }
     }
 
@@ -74,6 +83,29 @@ class DashboardFavoritesAdapter(
             }
             itemView.t_recent_updated.text = "Updated: ${marketPrice.date?.substring(0, 10)}"
             itemView.t_recent_source.text = "Source: EAGC-RATIN" // TODO
+        }
+    }
+
+    class ExchangeRateConversionResultViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        init {
+            itemView.layoutParams.width = itemView.context.resources.getDimension(R.dimen.cardWidth).toInt()
+        }
+
+        fun bind(exchangeRateConversionResult: ExchangeRateConversionResult, onItemClickListener: (Any) -> Unit) {
+            itemView.setOnClickListener {
+                onItemClickListener(exchangeRateConversionResult)
+            }
+
+            val localeCtx = LocaleHelper.createContext(itemView.context)
+            itemView.t_recent_todays_intl_exchange_rates.text = localeCtx.getString(R.string.today_s_intl_exchange_rates)
+            itemView.t_recent_todays_intl_exchange_rates.typeface = Typeface.DEFAULT_BOLD
+
+            val decimalFormat = DecimalFormat("#,##0.00")
+            val amountStr = decimalFormat.format(exchangeRateConversionResult.amount)
+            val resultStr = decimalFormat.format(exchangeRateConversionResult.result)
+            itemView.t_recent_result.text = "$amountStr ${exchangeRateConversionResult.fromCurrency} is $resultStr ${exchangeRateConversionResult.toCurrency}"
+            val toPerFromStr = decimalFormat.format(exchangeRateConversionResult.toPerFrom)
+            itemView.t_recent_to_per_from.text = "(1${exchangeRateConversionResult.fromCurrency} = $toPerFromStr ${exchangeRateConversionResult.toCurrency})"
         }
     }
 
