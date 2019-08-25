@@ -42,6 +42,7 @@ class FavoriteExchangeRateConversionRoomCache(private val sautiRoomDatabase: Sau
 
                     if (foundFavoriteExchangeRateConversion.shouldRemove == 1) { // not really
                         foundFavoriteExchangeRateConversion.shouldRemove = 0
+                        foundFavoriteExchangeRateConversion.timestamp = favoriteExchangeRateConversion.timestamp
                         dao.update(foundFavoriteExchangeRateConversion).blockingAwait()
                     }
                 } else {
@@ -52,6 +53,7 @@ class FavoriteExchangeRateConversionRoomCache(private val sautiRoomDatabase: Sau
                             fromCurrency = favoriteExchangeRateConversion.fromCurrency,
                             toCurrency = favoriteExchangeRateConversion.toCurrency,
                             amount = favoriteExchangeRateConversion.amount,
+                            timestamp = favoriteExchangeRateConversion.timestamp,
                             shouldRemove = 0
                         )
                     ).blockingGet()

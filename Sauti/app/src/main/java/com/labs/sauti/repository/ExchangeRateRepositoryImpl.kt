@@ -175,6 +175,7 @@ class ExchangeRateRepositoryImpl(
             fromCurrency = fromCurrency,
             toCurrency = toCurrency,
             amount = amount,
+            timestamp = System.currentTimeMillis(),
             shouldRemove = 0
         )
         val accessToken = sessionSp.getAccessToken()
