@@ -262,7 +262,7 @@ class MarketPriceRepositoryImpl(
             .subscribeOn(Schedulers.io())
     }
 
-    override fun getFavoriteMarketPrices(userId: Long): Single<MutableList<MarketPriceData>> {
+    override fun getFavoriteMarketPrices(userId: Long): Single<HashMap<MarketPriceData, Long>> {
         val accessToken = sessionSp.getAccessToken()
         val authorization = "Bearer $accessToken"
 
@@ -271,7 +271,7 @@ class MarketPriceRepositoryImpl(
                 favoriteMarketPriceSearchRoomCache.getAll(userId)
             }
             .map {
-                val favoriteMarketPrices = mutableListOf<MarketPriceData>()
+                val favoriteMarketPrices = hashMapOf<MarketPriceData, Long>()
 
                 // TODO create a single call to backend
                 it.forEach {favoriteMarketPriceSearchData ->
@@ -282,7 +282,7 @@ class MarketPriceRepositoryImpl(
                             favoriteMarketPriceSearchData.category!!,
                             favoriteMarketPriceSearchData.product!!
                         ).blockingGet()
-                        favoriteMarketPrices.add(marketPrice)
+                        favoriteMarketPrices[marketPrice] = favoriteMarketPriceSearchData.timestamp ?: 0L
                     } catch (e: Exception) {}
                 }
 

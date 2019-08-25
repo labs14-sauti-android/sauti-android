@@ -63,31 +63,49 @@ class DashboardFavoritesViewModel(
         addDisposable(userRepository.getSignedInUser(hasNetworkConnection)
             .map {
                 if (it.userId != null) {
-                    val favorites = mutableListOf<Any>()
-                    val favoriteMarketPriceDataList =
-                        marketPriceRepository.getFavoriteMarketPrices(it.userId!!).blockingGet()
-
-                    val favoriteMarketPrices = favoriteMarketPriceDataList.map {marketPriceData ->
-                        MarketPrice(
-                            marketPriceData.country,
-                            marketPriceData.market,
-                            marketPriceData.productAgg,
-                            marketPriceData.productCat,
-                            marketPriceData.product,
-                            marketPriceData.wholesale,
-                            marketPriceData.retail,
-                            marketPriceData.currency,
-                            marketPriceData.date,
-                            marketPriceData.nearbyMarketplaceNames
-                        )
-                    }
-
                     // TODO exchange rate, and trade info favorites
                     // TODO sort by timeFavorited
 
-                    favorites.addAll(favoriteMarketPrices as MutableList<Any>)
+                    val favoriteTimestampMap = hashMapOf<Any, Long>()
+                    val favoriteTimestampList = mutableListOf<Pair<Any, Long>>()
+                    val favoriteMarketPriceDataTimestampMap =
+                        marketPriceRepository.getFavoriteMarketPrices(it.userId!!).blockingGet()
+                            .mapKeys {pair ->
+                                MarketPrice(
+                                    pair.key.country,
+                                    pair.key.market,
+                                    pair.key.productAgg,
+                                    pair.key.productCat,
+                                    pair.key.product,
+                                    pair.key.wholesale,
+                                    pair.key.retail,
+                                    pair.key.currency,
+                                    pair.key.date,
+                                    pair.key.nearbyMarketplaceNames
+                                )
+                            }
 
-                    return@map favorites
+                    favoriteTimestampMap.putAll(favoriteMarketPriceDataTimestampMap)
+                    // TODO Patrick, use .putAll(favoriteTradeInfoTimestampMap)
+
+                    // insert sort, more recent on lower index
+                    favoriteTimestampMap.forEach {favoriteTimestampPairFromMap ->
+                        var isInserted = false
+                        for ((i, favoriteTimestampPairFromList) in favoriteTimestampList.withIndex()) {
+                            if (favoriteTimestampPairFromMap.value > favoriteTimestampPairFromList.second) {
+                                favoriteTimestampList.add(i, Pair(favoriteTimestampPairFromMap.key, favoriteTimestampPairFromMap.value))
+                                isInserted = true
+                                break
+                            }
+                        }
+                        if (!isInserted) {
+                            favoriteTimestampList.add(Pair(favoriteTimestampPairFromMap.key, favoriteTimestampPairFromMap.value))
+                        }
+                    }
+
+                    return@map favoriteTimestampList.map {pair ->
+                        pair.first
+                    }.toMutableList()
                 }
 
                 mutableListOf<Any>()

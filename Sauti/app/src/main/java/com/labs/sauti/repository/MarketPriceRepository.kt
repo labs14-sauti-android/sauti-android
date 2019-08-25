@@ -23,5 +23,5 @@ interface MarketPriceRepository {
     fun isFavorite(userId: Long, country: String, market: String, category: String, product: String): Single<Boolean>
     fun addToFavorite(userId: Long, country: String, market: String, category: String, product: String): Completable
     fun removeFromFavorite(userId: Long, country: String, market: String, category: String, product: String): Completable
-    fun getFavoriteMarketPrices(userId: Long): Single<MutableList<MarketPriceData>>
+    fun getFavoriteMarketPrices(userId: Long): Single<HashMap<MarketPriceData, Long>>
 }
