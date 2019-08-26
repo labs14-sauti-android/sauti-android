@@ -57,7 +57,14 @@ data class TradeInfoData(
     @Expose
     val value: String,
 
+    //Taxes
     val userCurrency: String? = null,
+
+    //Taxes
+    val destination: String? = null,
+
+    //Taxes
+    val userToDestRate: Double? = null,
 
     val approximateValue: Long? = null,
 

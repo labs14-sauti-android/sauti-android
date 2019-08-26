@@ -20,6 +20,8 @@ import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.model.TaxCalculationData
+import com.labs.sauti.model.exchange_rate.ExchangeRateData
+import com.labs.sauti.model.trade_info.TradeInfoTaxes
 import com.labs.sauti.sp.SettingsSp
 import com.labs.sauti.view_model.TradeInfoViewModel
 import com.labs.sauti.views.SearchSpinnerCustomView
@@ -42,10 +44,12 @@ class TaxCalculatorSearchFragment : Fragment() {
     lateinit var category: String
     lateinit var product : String
     lateinit var dest : String
+    lateinit var destChoice: String
     lateinit var origin : String
     lateinit var currencyTo: String
     lateinit var currencyFrom: String
-    var value:  Double? = 0.0
+    var currencyFromToRate : Double = 1.0
+    lateinit var currencyConversions : MutableList<ExchangeRateData>
 
 
 
@@ -116,31 +120,65 @@ class TaxCalculatorSearchFragment : Fragment() {
         })
 
         tradeInfoViewModel.getTaxCalcCurrentSpinnerContent().observe(this, Observer {
-            loadFifthSpinner(sscv_tax_calculator_q_5, it)
+            if(it != null) {
+                currencyConversions = it
+                val currencyStrings = mutableListOf<String>()
+                it.forEach{currencyString ->
+                    currencyStrings.add((currencyString.currency as String))
+                }
+                loadFifthSpinner(sscv_tax_calculator_q_5, currencyStrings)
+            }
         })
 
         tradeInfoViewModel.getTaxCalcConversionTextConent().observe(this, Observer {
-            if(it == "") {
-                sscv_tax_calculator_q_6.visibility = View.INVISIBLE
-            } else {
-                sscv_tax_calculator_q_6.visibility = View.VISIBLE
-                t_tax_calculator_value.text = "What is the approximate value of your goods in " + currencyFrom + "?"
+
+            sscv_tax_calculator_q_6.visibility = View.VISIBLE
+            t_tax_calculator_value.text = "What is the approximate value of your goods in " + currencyFrom + "?"
+
+        })
+
+        tradeInfoViewModel.getSearchTaxCalculations().observe(this, Observer {
+            if(it != null) {
+                onTaxCalculatorSearchCompletedListener?.onTaxCalculatorSearchCompleted(it)
+                onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
+
+                fragmentManager!!.popBackStack()
             }
         })
+
 
 
 
 
         b_tax_calculator_search.setOnClickListener {
 
-            val amountS = et_tax_calculator.text.toString()
-            val amount = if(amountS.isEmpty()) 0.0 else amountS.toDouble()
+            if(sscv_tax_calculator_q_6.visibility == View.VISIBLE) {
+                val amountS = et_tax_calculator.text.toString()
+                val amount = if(amountS.isEmpty()) 0.0 else amountS.toDouble()
 
-            if(amount <= 0) {
-                Toast.makeText(context!!, "Please input an amount greater than 0", Toast.LENGTH_LONG).show()
-            } else {
-                //Get TaxCalculator search.
+                if(amount <= 0 || sscv_tax_calculator_q_6.visibility == View.INVISIBLE) {
+                    Toast.makeText(context!!, "Please input an amount greater than 0", Toast.LENGTH_LONG).show()
+                } else {
+                    var currencyFromRate: Double = 1.0
+                    var currencyToRate: Double = 1.0
+
+                    currencyConversions.forEach{from ->
+                        if(from.currency == currencyFrom) {
+                            currencyFromRate = from.rate as Double
+                        }
+                    }
+
+                    currencyConversions.forEach{to ->
+                        if(to.currency == currencyTo) {
+                            currencyToRate = to.rate as Double
+                        }
+                    }
+
+                    currencyFromToRate = currencyToRate / currencyFromRate
+                    tradeInfoViewModel.searchTaxCalculations(language, category, product, origin, dest, amount, currencyFrom, currencyTo, currencyFromToRate)
+                }
             }
+
         }
     }
 
@@ -168,6 +206,8 @@ class TaxCalculatorSearchFragment : Fragment() {
                 if(!category.isNullOrEmpty()){
                     tradeInfoViewModel.setSecondSpinnerContent(category)
 
+                } else {
+                    sscv_tax_calculator_q_6.visibility = View.INVISIBLE
                 }
             }
 
@@ -188,6 +228,8 @@ class TaxCalculatorSearchFragment : Fragment() {
 
                 if(!product.isNullOrEmpty()){
                     tradeInfoViewModel.setThirdSpinnerContent(language, category, product)
+                } else {
+                    sscv_tax_calculator_q_6.visibility = View.INVISIBLE
                 }
             }
         }
@@ -207,6 +249,8 @@ class TaxCalculatorSearchFragment : Fragment() {
 
                 if(!origin.isNullOrEmpty()){
                     tradeInfoViewModel.setFourthSpinnerContent(language, category, product, origin)
+                } else {
+                    sscv_tax_calculator_q_6.visibility = View.INVISIBLE
                 }
 
             }
@@ -224,15 +268,18 @@ class TaxCalculatorSearchFragment : Fragment() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                dest = parent.getItemAtPosition(position) as String
+                destChoice = parent.getItemAtPosition(position) as String
 
-                if(dest.isNotEmpty()){
+                if(destChoice.isNotEmpty()){
                     //TODO: Set Currency Spinner
+                    dest = convertCountrytoCountryCode(destChoice)
                     tradeInfoViewModel.setTaxCalcCurrencySpinnerContent()
                     when(dest) {
-                        "Kenya"-> {currencyFrom = "KES"}
-                        "Uganda"-> {currencyFrom = "UGX"}
+                        "KEN"-> {currencyFrom = "KES" }
+                        "UGA"-> {currencyFrom = "UGX"}
                     }
+                } else {
+                    sscv_tax_calculator_q_6.visibility = View.INVISIBLE
                 }
             }
         }
@@ -249,8 +296,12 @@ class TaxCalculatorSearchFragment : Fragment() {
 
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 currencyTo = parent.getItemAtPosition(position) as String
-                tradeInfoViewModel.setTaxCalcConversionTextConent(currencyTo)
 
+                if(currencyTo.isNotEmpty()) {
+                    tradeInfoViewModel.setTaxCalcConversionTextConent(currencyTo)
+                } else {
+                    sscv_tax_calculator_q_6.visibility = View.INVISIBLE
+                }
             }
         }
 
@@ -313,8 +364,22 @@ class TaxCalculatorSearchFragment : Fragment() {
         return countryNames
     }
 
+    fun convertCountrytoCountryCode(countryName : String) : String {
+
+        when(countryName) {
+            "Kenya" -> (return "KEN")
+            "Burundi"-> (return "BDI")
+            "Democratic Republic of the Congo"-> (return "DRC")
+            "Malawi"-> (return "MWI")
+            "Rwanda"-> (return "RWA")
+            "Tanzania"-> (return "TZA")
+            "Uganda"-> (return "UGA")
+            else -> return ""
+        }
+    }
+
     interface OnTaxCalculatorSearchCompletedListener {
-        fun onTaxCalculatorSearchCompleted(taxCalculationData: TaxCalculationData)
+        fun onTaxCalculatorSearchCompleted(tradeInfoTaxes: TradeInfoTaxes)
     }
 
 }

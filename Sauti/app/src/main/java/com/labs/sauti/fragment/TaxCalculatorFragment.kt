@@ -1,6 +1,7 @@
 package com.labs.sauti.fragment
 
 import android.content.Context
+import android.graphics.Paint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import com.labs.sauti.R
 import com.labs.sauti.model.TaxCalculationData
 import com.labs.sauti.model.trade_info.TradeInfo
+import com.labs.sauti.model.trade_info.TradeInfoTaxes
 import kotlinx.android.synthetic.main.fragment_tax_calculator.*
 
 class TaxCalculatorFragment : Fragment(), TaxCalculatorSearchFragment.OnTaxCalculatorSearchCompletedListener,
@@ -58,8 +60,15 @@ OnFragmentFullScreenStateChangedListener {
         onFragmentFullScreenStateChangedListener = null
     }
 
-    override fun onTaxCalculatorSearchCompleted(taxCalculationData: TaxCalculationData) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onTaxCalculatorSearchCompleted(tradeInfoTaxes: TradeInfoTaxes) {
+        cl_expanded_tax_calculator.visibility = View.VISIBLE
+        t_tax_calculator_header.text = "Taxes for " +
+                tradeInfoTaxes.initialAmount +
+                " " +
+                tradeInfoTaxes.currentCurrency +
+                " of " +
+                tradeInfoTaxes.taxProduct
+        t_tax_calculator_header.paintFlags = Paint.UNDERLINE_TEXT_FLAG
     }
 
     override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
