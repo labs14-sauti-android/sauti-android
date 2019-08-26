@@ -13,7 +13,13 @@ interface MarketPriceRepository {
     fun getMarketPriceMarkets(country: String): Single<MutableList<String>>
     fun getMarketPriceCategories(country: String, market: String): Single<MutableList<String>>
     fun getMarketPriceProducts(country: String, market: String, category: String): Single<MutableList<String>>
-    fun searchMarketPrice(country: String, market: String, category: String, product: String): Single<MarketPriceData>
+    fun searchMarketPrice(
+        shouldSaveSearch: Boolean,
+        country: String,
+        market: String,
+        category: String,
+        product: String
+    ): Single<MarketPriceData>
 
     fun getRecentMarketPriceSearches(): Single<MutableList<MarketPriceSearchData>>
     fun searchRecentMarketPrices(): Single<MutableList<MarketPriceData>>

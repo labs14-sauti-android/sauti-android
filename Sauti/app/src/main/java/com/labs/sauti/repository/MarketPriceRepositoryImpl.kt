@@ -77,7 +77,13 @@ class MarketPriceRepositoryImpl(
             .subscribeOn(Schedulers.io())
     }
 
-    override fun searchMarketPrice(country: String, market: String, category: String, product: String): Single<MarketPriceData> {
+    override fun searchMarketPrice(
+        shouldSaveSearch: Boolean,
+        country: String,
+        market: String,
+        category: String,
+        product: String
+    ): Single<MarketPriceData> {
         return sautiApiService.searchMarketPrice(country, market, category, product)
             .doOnSuccess {marketPrice ->
                 // TODO test only
@@ -129,14 +135,16 @@ class MarketPriceRepositoryImpl(
                 marketPriceRoomCache.search(country, market, category, product)
             }
             .doOnSuccess {
-                marketPriceSearchRoomCache.save(
-                    MarketPriceSearchData(
-                        country = country,
-                        market = market,
-                        category = category,
-                        product = product
-                    )
-                ).blockingAwait()
+                if (shouldSaveSearch) {
+                    marketPriceSearchRoomCache.save(
+                        MarketPriceSearchData(
+                            country = country,
+                            market = market,
+                            category = category,
+                            product = product
+                        )
+                    ).blockingAwait()
+                }
             }
             .subscribeOn(Schedulers.io())
     }
@@ -154,7 +162,13 @@ class MarketPriceRepositoryImpl(
                     // TODO create a single call to backend
                     it.forEach {
                         try {
-                            val marketPrice = searchMarketPrice(it.country, it.market, it.category, it.product).blockingGet()
+                            val marketPrice = searchMarketPrice(
+                                false,
+                                it.country,
+                                it.market,
+                                it.category,
+                                it.product
+                            ).blockingGet()
                             recentMarketPrices.add(marketPrice)
                         } catch (e: Exception) {}
                     }
@@ -277,6 +291,7 @@ class MarketPriceRepositoryImpl(
                 it.forEach {favoriteMarketPriceSearchData ->
                     try {
                         val marketPrice = searchMarketPrice(
+                            false,
                             favoriteMarketPriceSearchData.country!!,
                             favoriteMarketPriceSearchData.market!!,
                             favoriteMarketPriceSearchData.category!!,
