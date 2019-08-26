@@ -8,6 +8,7 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
+import android.transition.Explode
 import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
@@ -45,6 +46,8 @@ OnFragmentFullScreenStateChangedListener{
     private var shouldSelectMostRecentExchangeRateView = false
     private var selectedConversionResultPosition = -1
 
+    private var detailConversionResult: ExchangeRateConversionResult? = null
+
     private val networkChangedReceiver = object: BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (NetworkHelper.hasNetworkConnection(context!!)) {
@@ -59,6 +62,9 @@ OnFragmentFullScreenStateChangedListener{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.let {
+            detailConversionResult = it.getParcelable(ARG_EXCHANGE_RATE_CONVERSION_RESULT)
+        }
 
         (context!!.applicationContext as SautiApp).getExchangeRateComponent().inject(this)
         exchangeRateViewModel = ViewModelProviders.of(this, exchangeRateViewModelFactory).get(ExchangeRateViewModel::class.java)
@@ -74,6 +80,13 @@ OnFragmentFullScreenStateChangedListener{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // initial detail
+        detailConversionResult?.let {
+            setConversionResultDetails(it)
+            TransitionManager.beginDelayedTransition(fl_fragment_container)
+            cl_details.visibility = View.VISIBLE
+        }
 
         context!!.registerReceiver(networkChangedReceiver, IntentFilter().also {
             it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
@@ -126,6 +139,14 @@ OnFragmentFullScreenStateChangedListener{
             if (!it.isLoading) {
                 if (it.user?.userId != null) {
                     ll_favorite.visibility = View.VISIBLE
+                    detailConversionResult?.let {conversionResult ->
+                        exchangeRateViewModel.isFavoriteConversion(
+                            NetworkHelper.hasNetworkConnection(context!!),
+                            conversionResult.fromCurrency,
+                            conversionResult.toCurrency,
+                            conversionResult.amount
+                        )
+                    }
                 } else{
                     ll_favorite.visibility = View.GONE
                 }
@@ -166,6 +187,8 @@ OnFragmentFullScreenStateChangedListener{
     }
 
     private fun setConversionResultDetails(exchangeRateConversionResult: ExchangeRateConversionResult) {
+        detailConversionResult = exchangeRateConversionResult
+
         val decimalFormat = DecimalFormat("#,##0.00")
         val amountStr = decimalFormat.format(exchangeRateConversionResult.amount)
         val resultStr = decimalFormat.format(exchangeRateConversionResult.result)
@@ -173,17 +196,22 @@ OnFragmentFullScreenStateChangedListener{
         val toPerFromStr = decimalFormat.format(exchangeRateConversionResult.toPerFrom)
         t_details_to_per_from.text = "(1${exchangeRateConversionResult.fromCurrency} = $toPerFromStr ${exchangeRateConversionResult.toCurrency})"
 
-        ll_favorite.setOnClickListener {
-            exchangeRateViewModel.toggleFavorite(
-                NetworkHelper.hasNetworkConnection(context!!),
-                exchangeRateConversionResult.fromCurrency,
-                exchangeRateConversionResult.toCurrency,
-                exchangeRateConversionResult.amount
-            )
+        val signedInUserViewState = exchangeRateViewModel.getSignedInUserViewState().value
+        signedInUserViewState?.let {
+            if (it.user?.userId != null) {
+                exchangeRateViewModel.isFavoriteConversion(
+                    NetworkHelper.hasNetworkConnection(context!!),
+                    exchangeRateConversionResult.fromCurrency,
+                    exchangeRateConversionResult.toCurrency,
+                    exchangeRateConversionResult.amount
+                )
+            } else {
+                ll_favorite.visibility = View.GONE
+            }
         }
 
-        if (ll_favorite.visibility == View.VISIBLE) {
-            exchangeRateViewModel.isFavoriteConversion(
+        ll_favorite.setOnClickListener {
+            exchangeRateViewModel.toggleFavorite(
                 NetworkHelper.hasNetworkConnection(context!!),
                 exchangeRateConversionResult.fromCurrency,
                 exchangeRateConversionResult.toCurrency,
@@ -213,9 +241,9 @@ OnFragmentFullScreenStateChangedListener{
                 cl_details.visibility = View.VISIBLE
             }
         } else {
-            setConversionResultDetails(conversionResult)
             TransitionManager.beginDelayedTransition(fl_fragment_container)
             cl_details.visibility = View.VISIBLE
+            setConversionResultDetails(conversionResult)
         }
 
         selectedConversionResultPosition = position
@@ -265,8 +293,16 @@ OnFragmentFullScreenStateChangedListener{
     }
 
     companion object {
+        private const val ARG_EXCHANGE_RATE_CONVERSION_RESULT = "arg_exchange_rate_conversion_result"
+
         @JvmStatic
-        fun newInstance() =
-            ExchangeRateFragment()
+        fun newInstance(exchangeRateConversionResult: ExchangeRateConversionResult?) =
+            ExchangeRateFragment().apply {
+                arguments = Bundle().apply {
+                    exchangeRateConversionResult?.let {
+                        putParcelable(ARG_EXCHANGE_RATE_CONVERSION_RESULT, it)
+                    }
+                }
+            }
     }
 }

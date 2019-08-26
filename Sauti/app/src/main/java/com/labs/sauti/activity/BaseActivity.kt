@@ -22,6 +22,7 @@ import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.fragment.*
 import com.labs.sauti.helper.NetworkHelper
+import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResult
 import com.labs.sauti.model.market_price.MarketPrice
 import com.labs.sauti.view_model.AuthenticationViewModel
 import io.reactivex.Completable
@@ -368,7 +369,7 @@ DashboardFavoritesFragment.OnFavoriteClickListener{
             c.isAssignableFrom(ExchangeRateFragment::class.java) -> {
                 if (baseFragment !is ExchangeRateFragment) {
                     shouldReplace = true
-                    baseFragment = ExchangeRateFragment.newInstance()
+                    baseFragment = ExchangeRateFragment.newInstance(data as ExchangeRateConversionResult?)
                     toolbar.title = "Exchange Rates"
                     nav_view.menu.findItem(R.id.nav_exchange_rates).isChecked = true
                 }
@@ -418,6 +419,7 @@ DashboardFavoritesFragment.OnFavoriteClickListener{
     override fun onFavoriteClick(favorite: Any) {
         when (favorite) {
             is MarketPrice -> replaceFragment(MarketPriceFragment::class.java, favorite)
+            is ExchangeRateConversionResult -> replaceFragment(ExchangeRateFragment::class.java, favorite)
             else -> throw RuntimeException("Unhandled favorite type")
         }
     }

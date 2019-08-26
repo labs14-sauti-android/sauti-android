@@ -94,7 +94,7 @@
 
                         <TextView
                                 android:id="@+id/t_details_result"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 tools:text="50 KES is 1809 UGX"
                                 android:textColor="@color/colorText"
@@ -104,7 +104,7 @@
 
                         <TextView
                                 android:id="@+id/t_details_to_per_from"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 tools:text="(1KES = 36.1804 UGX)"
                                 android:textColor="@color/colorText"
