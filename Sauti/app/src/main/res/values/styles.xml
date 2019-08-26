@@ -100,6 +100,11 @@
         <item name="android:textColor">@color/colorText</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="TaxCalculatorDetailsListStyling">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textSize">@dimen/taxCalcListTextSize</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
 
     <!-- TODO: Navigation Drawer Styling. -->

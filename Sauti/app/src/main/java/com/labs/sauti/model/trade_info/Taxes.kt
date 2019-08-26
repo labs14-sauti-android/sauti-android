@@ -2,11 +2,18 @@ package com.labs.sauti.model.trade_info
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "taxes")
 data class Taxes(
 
-    val taxPerc: String,
+    @SerializedName("taxPerc")
+    @Expose
+    var taxPerc: String,
+
+    @SerializedName("taxTitle")
+    @Expose
     @PrimaryKey
-    val taxTitle: String
+    var taxTitle: String
 )

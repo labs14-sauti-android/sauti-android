@@ -12,4 +12,5 @@
     <dimen name="searchParamTextSize">14sp</dimen>
     <dimen name="tradeinfodetailsFragmentHeaderSize">27sp</dimen>
     <dimen name="cardWidth">170dp</dimen>
+    <dimen name="taxCalcListTextSize">18sp</dimen>
 </resources>

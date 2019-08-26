@@ -174,8 +174,17 @@ class TaxCalculatorSearchFragment : Fragment() {
                         }
                     }
 
-                    currencyFromToRate = currencyToRate / currencyFromRate
-                    tradeInfoViewModel.searchTaxCalculations(language, category, product, origin, dest, amount, currencyFrom, currencyTo, currencyFromToRate)
+                    currencyFromToRate = currencyFromRate / currencyToRate
+
+                    val usdAmount = amount * currencyToRate
+
+                    if(usdAmount < 2000) {
+                        tradeInfoViewModel.searchTaxCalculations(language, category, product, origin, dest, amount, currencyTo, currencyFrom, currencyFromToRate, 1.0)
+
+                    } else {
+                        tradeInfoViewModel.searchTaxCalculations(language, category, product, origin, dest, amount, currencyTo, currencyFrom, currencyFromToRate, 2001.0)
+                    }
+
                 }
             }
 

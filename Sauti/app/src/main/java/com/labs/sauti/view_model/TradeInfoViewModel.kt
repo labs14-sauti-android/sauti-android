@@ -50,8 +50,11 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     fun getSearchTradeInfoAgencies(): LiveData<TradeInfo> = searchTradeInfoAgencies
     fun getSearchTaxCalculations(): LiveData<TradeInfoTaxes> = searchTaxCalculator
 
-    fun searchTaxCalculations(language: String, category: String, product: String, origin: String, dest: String, value: Double, currencyFrom: String, currencyTo: String, rate: Double) {
-        addDisposable(tradeInfoRepository.searchTradeInfoTaxes(language, category, product, origin, dest, value)
+    fun searchTaxCalculations(language: String, category: String, product: String, origin: String, dest: String, value: Double, currencyFrom: String, currencyTo: String, rate: Double, valueCheck: Double) {
+
+
+
+        addDisposable(tradeInfoRepository.searchTradeInfoTaxes(language, category, product, origin, dest, valueCheck)
             .map {
                 TradeInfoTaxes(product,
                     currencyFrom,
