@@ -9,11 +9,12 @@ import com.labs.sauti.model.market_price.MarketPriceData
 import com.labs.sauti.model.market_price.MarketPriceSearchData
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionData
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
+import com.labs.sauti.model.exchange_rate.FavoriteExchangeRateConversionData
 import com.labs.sauti.model.market_price.FavoriteMarketPriceSearchData
 import com.labs.sauti.model.trade_info.*
 
 
-const val DATABASE_SCHEMA_VERSION = 20
+const val DATABASE_SCHEMA_VERSION = 21
 const val DB_NAME = "local-db"
 
 
@@ -30,7 +31,8 @@ const val DB_NAME = "local-db"
         MarketPriceSearchData::class,
         FavoriteMarketPriceSearchData::class,
         ExchangeRateData::class,
-        ExchangeRateConversionData::class],
+        ExchangeRateConversionData::class,
+        FavoriteExchangeRateConversionData::class],
     version = DATABASE_SCHEMA_VERSION,
     exportSchema = false
 )
@@ -57,6 +59,7 @@ abstract class SautiRoomDatabase : RoomDatabase() {
 
     abstract fun exchangeRateDao(): ExchangeRateDao
     abstract fun exchangeRateConversionDao(): ExchangeRateConversionDao
+    abstract fun favoriteExchangeRateConversionDao(): FavoriteExchangeRateConversionDao
 
     companion object {
         @Volatile

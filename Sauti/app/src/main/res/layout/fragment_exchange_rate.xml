@@ -23,8 +23,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                <LinearLayout
-                        android:id="@+id/ll_details"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_details"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -35,13 +35,46 @@
 
                     <TextView
                             android:id="@+id/t_details_todays_intl_exchange_rates"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="@string/today_s_intl_exchange_rates"
                             android:textColor="@color/colorTextInformation"
                             android:textSize="18sp"
                             android:layout_marginBottom="30dp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/ll_favorite"/>
+
+                    <LinearLayout
+                            android:id="@+id/ll_favorite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            tools:visibility="visible"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:orientation="vertical">
+
+                        <ImageView
+                                android:id="@+id/i_favorite"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/ic_star_empty"/>
+
+                        <TextView
+                                android:id="@+id/t_favorite"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Favorite"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/colorText"
+                                app:layout_constraintTop_toBottomOf="@id/i_favorite"
+                                app:layout_constraintEnd_toEndOf="parent"/>
+
+                    </LinearLayout>
 
                     <LinearLayout
                             android:layout_width="wrap_content"
@@ -52,12 +85,16 @@
                             android:paddingTop="21dp"
                             android:paddingBottom="21dp"
                             android:background="@drawable/s_exchange_rate_result_border"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginBottom="30dp">
+                            android:layout_marginTop="30dp"
+                            android:layout_marginBottom="20dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/t_details_todays_intl_exchange_rates"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent">
 
                         <TextView
                                 android:id="@+id/t_details_result"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 tools:text="50 KES is 1809 UGX"
                                 android:textColor="@color/colorText"
@@ -67,7 +104,7 @@
 
                         <TextView
                                 android:id="@+id/t_details_to_per_from"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 tools:text="(1KES = 36.1804 UGX)"
                                 android:textColor="@color/colorText"
@@ -75,7 +112,7 @@
 
                     </LinearLayout>
 
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -91,7 +128,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:text="@string/your_recent_conversions"
-                            android:textColor="@color/colorText"/>
+                            android:textColor="@color/colorText"
+                            android:textSize="14sp"/>
 
                     <ViewSwitcher
                             android:id="@+id/vs_recent_exchange_rates_loading"
@@ -124,7 +162,8 @@
                                         android:layout_height="wrap_content"
                                         android:text="@string/push_to_view"
                                         android:gravity="center"
-                                        android:textColor="@color/colorText"/>
+                                        android:textColor="@color/colorText"
+                                        android:textSize="14sp"/>
 
                             </LinearLayout>
 

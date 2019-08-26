@@ -104,7 +104,7 @@ class MarketPriceViewModel(
 
     fun searchMarketPrice(country: String, market: String, category: String, product: String) {
         searchMarketPriceViewState.value = SearchMarketPriceViewState(isLoading = true)
-        addDisposable(marketPriceRepository.searchMarketPrice(country, market, category, product)
+        addDisposable(marketPriceRepository.searchMarketPrice(true, country, market, category, product)
             .map { marketPriceData ->
                 MarketPrice(
                     marketPriceData.country,

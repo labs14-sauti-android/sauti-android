@@ -1,5 +1,9 @@
 package com.labs.sauti.model.market_price
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 class MarketPrice(
     var country: String? = null,
     var market: String? = null,
@@ -11,4 +15,4 @@ class MarketPrice(
     var currency: String? = null,
     var date: String? = null,
     var nearbyMarketplaceNames: MutableList<String> = mutableListOf()
-)
+): Parcelable

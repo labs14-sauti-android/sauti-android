@@ -16,39 +16,58 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="170dp"
-            android:paddingTop="7dp"
-            android:paddingBottom="5dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
             android:orientation="vertical">
 
         <TextView
-                android:id="@+id/t_recent_todays_intl_exchange_rates"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/today_s_intl_exchange_rates"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:gravity="center"
-                android:textColor="@color/colorCardText"
-                android:layout_marginBottom="15dp"/>
+                android:text="Exchange"
+                android:textSize="9sp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:layout_gravity="end"
+                android:textColor="@color/colorText"
+                android:background="@color/colorExchangeRate"/>
 
-        <TextView
-                android:id="@+id/t_recent_result"
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="50 KES is 1809 UGX"
-                android:textColor="@color/colorCardText"
-                android:textSize="14sp"
-                android:layout_marginBottom="29dp"/>
+                android:layout_height="match_parent"
+                android:paddingTop="7dp"
+                android:paddingBottom="5dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:orientation="vertical">
 
-        <TextView
-                android:id="@+id/t_recent_to_per_from"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="(1KES = 36.1804 UGX)"
-                android:textColor="@color/colorCardText"
-                android:textSize="12sp"/>
+            <TextView
+                    android:id="@+id/t_recent_todays_intl_exchange_rates"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/today_s_intl_exchange_rates"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorCardText"/>
+
+            <TextView
+                    android:id="@+id/t_recent_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="50 KES is 1809 UGX"
+                    android:textColor="@color/colorCardText"
+                    android:textSize="10sp"
+                    android:layout_marginTop="12dp"/>
+
+            <TextView
+                    android:id="@+id/t_recent_to_per_from"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="(1KES = 36.1804 UGX)"
+                    android:textColor="@color/colorCardText"
+                    android:textSize="9sp"
+                    android:layout_marginTop="33dp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

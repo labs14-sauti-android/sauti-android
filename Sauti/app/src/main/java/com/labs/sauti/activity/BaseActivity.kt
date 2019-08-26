@@ -22,6 +22,8 @@ import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.fragment.*
 import com.labs.sauti.helper.NetworkHelper
+import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResult
+import com.labs.sauti.model.market_price.MarketPrice
 import com.labs.sauti.view_model.AuthenticationViewModel
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -29,14 +31,15 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.app_bar_base.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
-import java.lang.RuntimeException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.RuntimeException
 
 class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
 SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListener,
 SignInFragment.OpenSignUpListener, SignUpFragment.OpenSignInListener,
-DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedListener{
+DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedListener,
+DashboardFavoritesFragment.OnFavoriteClickListener{
 
     @Inject
     lateinit var authenticationViewModelFactory: AuthenticationViewModel.Factory
@@ -99,6 +102,10 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
                     Snackbar.make(findViewById(android.R.id.content), "Signed out", Snackbar.LENGTH_SHORT).show()
                     nav_view.menu.findItem(R.id.nav_sign_in_out).title = getString(R.string.menu_sign_in)
                     setUserNavInfoAsLoggedOut()
+
+                    // restart activity
+                    finish()
+                    startActivity(intent)
                 }
             }
         })
@@ -120,42 +127,42 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_dashboard -> {
-                if (replaceFragment(DashboardFragment::class.java)) {
+                if (replaceFragment(DashboardFragment::class.java, null)) {
                     drawer_layout.closeDrawer(GravityCompat.START)
                 }
 
                 return true
             }
             R.id.nav_market_prices -> {
-                if (replaceFragment(MarketPriceFragment::class.java)) {
+                if (replaceFragment(MarketPriceFragment::class.java, null)) {
                     drawer_layout.closeDrawer(GravityCompat.START)
                 }
 
                 return true
             }
             R.id.nav_tax_calculator-> {
-                if (replaceFragment(TaxCalculatorFragment::class.java)) {
+                if (replaceFragment(TaxCalculatorFragment::class.java, null)) {
                     drawer_layout.closeDrawer(GravityCompat.START)
                 }
 
                 return true
             }
             R.id.nav_trade_info -> {
-                if (replaceFragment(TradeInfoFragment::class.java)) {
+                if (replaceFragment(TradeInfoFragment::class.java, null)) {
                     drawer_layout.closeDrawer(GravityCompat.START)
                 }
 
                 return true
             }
             R.id.nav_exchange_rates -> {
-                if (replaceFragment(ExchangeRateFragment::class.java)) {
+                if (replaceFragment(ExchangeRateFragment::class.java, null)) {
                     drawer_layout.closeDrawer(GravityCompat.START)
                 }
 
                 return true
             }
             R.id.nav_marketplace -> {
-                if (replaceFragment(MarketplaceFragment::class.java)) {
+                if (replaceFragment(MarketplaceFragment::class.java, null)) {
                     drawer_layout.closeDrawer(GravityCompat.START)
                 }
 
@@ -178,14 +185,14 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
                 return true
             }
             R.id.nav_report -> {
-                if (replaceFragment(ReportFragment::class.java)) {
+                if (replaceFragment(ReportFragment::class.java, null)) {
                     drawer_layout.closeDrawer(GravityCompat.START)
                 }
 
                 return true
             }
             R.id.nav_help -> {
-                if (replaceFragment(HelpFragment::class.java)) {
+                if (replaceFragment(HelpFragment::class.java, null)) {
                     drawer_layout.closeDrawer(GravityCompat.START)
                 }
 
@@ -265,7 +272,9 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
     override fun onSignInCompleted() {
         authenticationViewModel.getSignedInUser(NetworkHelper.hasNetworkConnection(this))
 
-        // TODO refresh activity
+        // restart activity
+        finish()
+        startActivity(intent)
     }
 
     override fun openSignUp() {
@@ -317,10 +326,10 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
     }
 
     override fun <T : Fragment> onReplaceFragment(c: Class<T>) {
-        replaceFragment(c)
+        replaceFragment(c, null)
     }
 
-    private fun <T : Fragment> replaceFragment(c: Class<T>): Boolean {
+    private fun <T : Fragment> replaceFragment(c: Class<T>, data: Any?): Boolean {
         var shouldReplace = false
         when {
             c.isAssignableFrom(Fragment::class.java) -> throw RuntimeException("Invalid Fragment")
@@ -335,7 +344,7 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
             c.isAssignableFrom(MarketPriceFragment::class.java) -> {
                 if (baseFragment !is MarketPriceFragment) {
                     shouldReplace = true
-                    baseFragment = MarketPriceFragment.newInstance()
+                    baseFragment = MarketPriceFragment.newInstance(data as MarketPrice?)
                     toolbar.title = "Market Price"
                     nav_view.menu.findItem(R.id.nav_market_prices).isChecked = true
                 }
@@ -359,7 +368,7 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
             c.isAssignableFrom(ExchangeRateFragment::class.java) -> {
                 if (baseFragment !is ExchangeRateFragment) {
                     shouldReplace = true
-                    baseFragment = ExchangeRateFragment.newInstance()
+                    baseFragment = ExchangeRateFragment.newInstance(data as ExchangeRateConversionResult?)
                     toolbar.title = "Exchange Rates"
                     nav_view.menu.findItem(R.id.nav_exchange_rates).isChecked = true
                 }
@@ -404,5 +413,13 @@ DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedL
     override fun onLanguageChanged() {
         finish()
         startActivity(intent)
+    }
+
+    override fun onFavoriteClick(favorite: Any) {
+        when (favorite) {
+            is MarketPrice -> replaceFragment(MarketPriceFragment::class.java, favorite)
+            is ExchangeRateConversionResult -> replaceFragment(ExchangeRateFragment::class.java, favorite)
+            else -> throw RuntimeException("Unhandled favorite type")
+        }
     }
 }

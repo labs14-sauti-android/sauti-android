@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Color
 import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.text.SpannableString
@@ -48,6 +47,8 @@ OnFragmentFullScreenStateChangedListener {
     private var shouldSelectMostRecentMarketPriceView = false
     private var selectedRecentMarketPricesPosition = -1
 
+    private var detailMarketPrice: MarketPrice? = null
+
     private val networkChangedReceiver = object: BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (NetworkHelper.hasNetworkConnection(context!!)) {
@@ -62,6 +63,9 @@ OnFragmentFullScreenStateChangedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.let {
+            detailMarketPrice = it.getParcelable(ARG_MARKET_PRICE)
+        }
 
         // inject
         (context!!.applicationContext as SautiApp).getMarketPriceComponent().inject(this)
@@ -82,6 +86,13 @@ OnFragmentFullScreenStateChangedListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // set initial market price details
+        detailMarketPrice?.let {
+            setMarketPriceDetails(it)
+            TransitionManager.beginDelayedTransition(fl_fragment_container)
+            cl_details.visibility = View.VISIBLE
+        }
 
         context!!.registerReceiver(networkChangedReceiver, IntentFilter().also {
             it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
@@ -138,6 +149,15 @@ OnFragmentFullScreenStateChangedListener {
             if (!it.isLoading) {
                 if (it.user?.userId != null) {
                     ll_favorite.visibility = View.VISIBLE
+                    detailMarketPrice?.let { marketPrice->
+                        marketPriceViewModel.isFavoriteMarketPriceSearch(
+                            NetworkHelper.hasNetworkConnection(context!!),
+                            marketPrice.country!!,
+                            marketPrice.market!!,
+                            marketPrice.productCat!!,
+                            marketPrice.product!!
+                        )
+                    }
                 } else{
                     ll_favorite.visibility = View.GONE
                 }
@@ -146,13 +166,15 @@ OnFragmentFullScreenStateChangedListener {
         marketPriceViewModel.getSignedInUser(NetworkHelper.hasNetworkConnection(context!!))
 
         marketPriceViewModel.getIsFavoriteMarketPriceSearchViewState().observe(this, Observer {
-            if (!it.isLoading) {
-                i_favorite.setBackgroundColor(
-                    if (it.isFavorite)
-                        Color.rgb(255,0,0)
-                    else
-                        Color.rgb(255, 255, 255)
-                )
+            if (it.isLoading) {
+                ll_favorite.isEnabled = false
+            } else {
+                ll_favorite.isEnabled = true
+                if (it.isFavorite) {
+                    i_favorite.setImageResource(R.drawable.ic_star_filled)
+                } else {
+                    i_favorite.setImageResource(R.drawable.ic_star_empty)
+                }
             }
         })
 
@@ -182,12 +204,13 @@ OnFragmentFullScreenStateChangedListener {
     }
 
     private fun setMarketPriceDetails(marketPrice: MarketPrice) {
+        detailMarketPrice = marketPrice
 
         val productAtMarketSStr = SpannableString("${marketPrice.product} at ${marketPrice.market}")
         productAtMarketSStr.setSpan(UnderlineSpan(), 0, productAtMarketSStr.length, 0)
         t_details_product_at_market.text = productAtMarketSStr
-        val decimalFormat = DecimalFormat("#,##0.00")
-        val wholesaleStr = decimalFormat.format(marketPrice.wholesale)
+        val decimalFormat = DecimalFormat("#,##0")
+        val wholesaleStr = decimalFormat.format(marketPrice.wholesale ?: 0.0)
         t_details_wholesale.text = "Wholesale: $wholesaleStr ${marketPrice.currency}/1Kg"
         if (marketPrice.retail != null && marketPrice.retail!! > 0.0) {
             t_details_retail.visibility = View.VISIBLE
@@ -213,14 +236,19 @@ OnFragmentFullScreenStateChangedListener {
             setLength(max(0, length - 2))
         }
 
-        if (ll_favorite.visibility == View.VISIBLE) {
-            marketPriceViewModel.isFavoriteMarketPriceSearch(
-                NetworkHelper.hasNetworkConnection(context!!),
-                marketPrice.country ?: "",
-                marketPrice.market ?: "",
-                marketPrice.productCat ?: "",
-                marketPrice.product ?: ""
-            )
+        val signedInUserViewState = marketPriceViewModel.getSignedInUserViewState().value
+        signedInUserViewState?.let {
+            if (it.user?.userId != null) {
+                marketPriceViewModel.isFavoriteMarketPriceSearch(
+                    NetworkHelper.hasNetworkConnection(context!!),
+                    marketPrice.country ?: "",
+                    marketPrice.market ?: "",
+                    marketPrice.productCat ?: "",
+                    marketPrice.product ?: ""
+                )
+            } else {
+                ll_favorite.visibility = View.GONE
+            }
         }
 
         ll_favorite.setOnClickListener {
@@ -256,10 +284,8 @@ OnFragmentFullScreenStateChangedListener {
             }
         } else { // other item was clicked
             setMarketPriceDetails(recentMarketPrice)
-            if (cl_details.visibility == View.GONE) {
-                TransitionManager.beginDelayedTransition(fl_fragment_container)
-                cl_details.visibility = View.VISIBLE
-            }
+            TransitionManager.beginDelayedTransition(fl_fragment_container)
+            cl_details.visibility = View.VISIBLE
         }
 
         selectedRecentMarketPricesPosition = position
@@ -301,8 +327,16 @@ OnFragmentFullScreenStateChangedListener {
     }
 
     companion object {
+        private const val ARG_MARKET_PRICE = "arg_market_price"
+
         @JvmStatic
-        fun newInstance() =
-            MarketPriceFragment()
+        fun newInstance(marketPrice: MarketPrice?) =
+            MarketPriceFragment().apply {
+                arguments = Bundle().apply {
+                    marketPrice?.let {
+                        putParcelable(ARG_MARKET_PRICE, it)
+                    }
+                }
+            }
     }
 }

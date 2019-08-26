@@ -26,4 +26,6 @@
     <color name="colorTaxCalculator">#e4b031</color>
     <color name="colorCardViewCategory">#fefefe</color>
     <color name="colorSpinnerPopupBackground">#d9d6d6</color>
+    <color name="colorCardTextSecondary">#a3050505</color>
+    <color name="colorExchangeRate">#267276</color>
 </resources>
