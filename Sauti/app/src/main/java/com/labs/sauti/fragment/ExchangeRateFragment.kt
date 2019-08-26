@@ -214,10 +214,8 @@ OnFragmentFullScreenStateChangedListener{
             }
         } else {
             setConversionResultDetails(conversionResult)
-            if (cl_details.visibility == View.GONE) {
-                TransitionManager.beginDelayedTransition(fl_fragment_container)
-                cl_details.visibility = View.VISIBLE
-            }
+            TransitionManager.beginDelayedTransition(fl_fragment_container)
+            cl_details.visibility = View.VISIBLE
         }
 
         selectedConversionResultPosition = position

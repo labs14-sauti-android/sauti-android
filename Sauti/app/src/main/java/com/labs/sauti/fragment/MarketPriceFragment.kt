@@ -284,10 +284,8 @@ OnFragmentFullScreenStateChangedListener {
             }
         } else { // other item was clicked
             setMarketPriceDetails(recentMarketPrice)
-            if (cl_details.visibility == View.GONE) {
-                TransitionManager.beginDelayedTransition(fl_fragment_container)
-                cl_details.visibility = View.VISIBLE
-            }
+            TransitionManager.beginDelayedTransition(fl_fragment_container)
+            cl_details.visibility = View.VISIBLE
         }
 
         selectedRecentMarketPricesPosition = position
