@@ -1,6 +1,7 @@
 package com.labs.sauti.fragment
 
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,6 +21,8 @@ import kotlinx.android.synthetic.main.fragment_dashboard_favorites.*
 import javax.inject.Inject
 
 class DashboardFavoritesFragment : Fragment() {
+
+    private var onFavoriteClickListener: OnFavoriteClickListener? = null
 
     @Inject
     lateinit var dashboardFavoritesViewModelFactory: DashboardFavoritesViewModel.Factory
@@ -48,7 +51,7 @@ class DashboardFavoritesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         dashboardFavoritesAdapter = DashboardFavoritesAdapter(mutableListOf()) {
-            // TODO
+            onFavoriteClickListener?.onFavoriteClick(it)
         }
         r_favorites.layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.HORIZONTAL, false)
         r_favorites.adapter = dashboardFavoritesAdapter
@@ -86,9 +89,29 @@ class DashboardFavoritesFragment : Fragment() {
         dashboardFavoritesViewModel.getSignedInUser(NetworkHelper.hasNetworkConnection(context!!))
     }
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        if (context is OnFavoriteClickListener) {
+            onFavoriteClickListener = context
+        } else {
+            throw RuntimeException("Context must implement OnFavoriteClickListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+
+        onFavoriteClickListener = null
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() =
             DashboardFavoritesFragment()
+    }
+
+    interface OnFavoriteClickListener {
+        fun onFavoriteClick(favorite: Any)
     }
 }

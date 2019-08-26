@@ -30,10 +30,26 @@
     <string name="trade_info_search_header" translatable="false">Trade Info Search</string>
     <string name="search_button_text" translatable="false">Search</string>
 
-    <string name="don_t_have_an_account_sign_up" translatable="false"><font fgcolor='#6e83f3'>Don\'t have an account?</font> Sign up</string>
-    <string name="sauti_sign_in" translatable="false"><b>Sauti<font fgcolor='#e84c3d'>.</font></b> Sign In</string>
-    <string name="sauti_sign_up" translatable="false"><b>Sauti<font fgcolor='#e84c3d'>.</font></b> Sign Up</string>
-    <string name="already_have_an_account_sign_in" translatable="false"><font fgcolor='#6e83f3'>Already have an account?</font> Sign In</string>
+    <string name="don_t_have_an_account_sign_up" translatable="false">
+        <font fgcolor='#6e83f3'>Don\'t have an account?</font>
+        Sign up
+    </string>
+    <string name="sauti_sign_in" translatable="false">
+        <b>Sauti
+            <font fgcolor='#e84c3d'>.</font>
+        </b>
+        Sign In
+    </string>
+    <string name="sauti_sign_up" translatable="false">
+        <b>Sauti
+            <font fgcolor='#e84c3d'>.</font>
+        </b>
+        Sign Up
+    </string>
+    <string name="already_have_an_account_sign_in" translatable="false">
+        <font fgcolor='#6e83f3'>Already have an account?</font>
+        Sign In
+    </string>
 
     <string name="about_sauti" translatable="false">Sauti
         <font fgcolor='#e84c3d'>.</font>
@@ -97,5 +113,8 @@
     <string name="b_trade_info_regulated_goods_text">Regulated Goods</string>
     <string name="b_trade_info_required_documents_text">Required Documents</string>
     <string name="b_trade_info_border_agencies_text">Border Agencies</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
