@@ -66,9 +66,6 @@ class DashboardFavoritesViewModel(
         addDisposable(userRepository.getSignedInUser(hasNetworkConnection)
             .map {
                 if (it.userId != null) {
-                    // TODO exchange rate, and trade info favorites
-                    // TODO sort by timeFavorited
-
                     val favoriteMarketPriceDataTimestampMap =
                         marketPriceRepository.getFavoriteMarketPrices(it.userId!!).blockingGet()
                             .mapKeys {pair ->
@@ -101,6 +98,7 @@ class DashboardFavoritesViewModel(
                     val favoriteTimestampMap = hashMapOf<Any, Long>()
                     favoriteTimestampMap.putAll(favoriteMarketPriceDataTimestampMap)
                     favoriteTimestampMap.putAll(favoriteExchangeRateConversionResultDataTimestampMap)
+                    // TODO trade info favorites
                     // TODO Patrick, use .putAll(favoriteTradeInfoTimestampMap)
 
                     // insert sort, more recent on lower index
