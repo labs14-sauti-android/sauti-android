@@ -43,6 +43,8 @@ class TaxCalculatorSearchFragment : Fragment() {
     lateinit var product : String
     lateinit var dest : String
     lateinit var origin : String
+    lateinit var currencyTo: String
+    lateinit var currencyFrom: String
     var value:  Double? = 0.0
 
 
@@ -113,6 +115,22 @@ class TaxCalculatorSearchFragment : Fragment() {
             loadFourthSpinner(sscv_tax_calculator_q_4, it)
         })
 
+        tradeInfoViewModel.getTaxCalcCurrentSpinnerContent().observe(this, Observer {
+            loadFifthSpinner(sscv_tax_calculator_q_5, it)
+        })
+
+        tradeInfoViewModel.getTaxCalcConversionTextConent().observe(this, Observer {
+            if(it == "") {
+                sscv_tax_calculator_q_6.visibility = View.INVISIBLE
+            } else {
+                sscv_tax_calculator_q_6.visibility = View.VISIBLE
+                t_tax_calculator_value.text = "What is the approximate value of your goods in " + currencyFrom + "?"
+            }
+        })
+
+
+
+
         b_tax_calculator_search.setOnClickListener {
 
             val amountS = et_tax_calculator.text.toString()
@@ -136,11 +154,8 @@ class TaxCalculatorSearchFragment : Fragment() {
     }
 
     fun loadFirstSpinner(next: SearchSpinnerCustomView, spinnerList : List<String>) {
-        next.visibility = View.VISIBLE
 
-
-        val countryNames = convertCountryNames(spinnerList)
-        next.addSpinnerContents(countryNames)
+        next.addSpinnerContents(spinnerList)
 
         val listener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -162,8 +177,7 @@ class TaxCalculatorSearchFragment : Fragment() {
     }
 
     fun loadSecondSpinner(second: SearchSpinnerCustomView, spinnerList : List<String>) {
-        second.visibility = View.VISIBLE
-            second.addSpinnerContents(spinnerList)
+        second.addSpinnerContents(spinnerList)
 
         val listener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -182,9 +196,6 @@ class TaxCalculatorSearchFragment : Fragment() {
     }
 
     fun loadThirdSpinner(third: SearchSpinnerCustomView, spinnerList : List<String>) {
-        third.visibility = View.VISIBLE
-
-
         third.addSpinnerContents(spinnerList)
 
         val thirdListener = object : AdapterView.OnItemSelectedListener {
@@ -205,7 +216,6 @@ class TaxCalculatorSearchFragment : Fragment() {
     }
 
     private fun loadFourthSpinner(fourth: SearchSpinnerCustomView, spinnerList: List<String>) {
-        fourth.visibility = View.VISIBLE
         val conversion = convertCountryNames(spinnerList)
         fourth.addSpinnerContents(conversion)
 
@@ -218,12 +228,33 @@ class TaxCalculatorSearchFragment : Fragment() {
 
                 if(dest.isNotEmpty()){
                     //TODO: Set Currency Spinner
-                    tradeInfoViewModel.setFifthSpinnerContent()
+                    tradeInfoViewModel.setTaxCalcCurrencySpinnerContent()
+                    when(dest) {
+                        "Kenya"-> {currencyFrom = "KES"}
+                        "Uganda"-> {currencyFrom = "UGX"}
+                    }
                 }
             }
         }
 
         fourth.setSpinnerListener(fourthListener)
+    }
+
+    private fun loadFifthSpinner(fifth: SearchSpinnerCustomView, spinnerList: List<String>) {
+        fifth.addSpinnerContents(spinnerList)
+
+        val fifthListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                currencyTo = parent.getItemAtPosition(position) as String
+                tradeInfoViewModel.setTaxCalcConversionTextConent(currencyTo)
+
+            }
+        }
+
+        fifth.setSpinnerListener(fifthListener)
     }
 
 

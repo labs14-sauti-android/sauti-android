@@ -2,6 +2,7 @@ package com.labs.sauti.repository
 
 import com.labs.sauti.api.SautiApiService
 import com.labs.sauti.cache.*
+import com.labs.sauti.model.exchange_rate.ExchangeRateData
 import com.labs.sauti.model.trade_info.*
 import com.labs.sauti.sp.SettingsSp
 import io.reactivex.Completable
@@ -61,6 +62,11 @@ class TradeInfoRepositoryImpl(
         origin: String
     ): Single<MutableList<String>> {
         return sautiApiService.getTradeInfoDests(language, category, product, origin)
+            .subscribeOn(Schedulers.io())
+    }
+
+    override fun getTaxInfoCurrency() : Single<MutableList<ExchangeRateData>> {
+        return sautiApiService.getExchangeRates()
             .subscribeOn(Schedulers.io())
     }
 

@@ -4,13 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.labs.sauti.model.trade_info.BorderAgency
-import com.labs.sauti.model.trade_info.Procedure
 import com.labs.sauti.model.trade_info.RequiredDocument
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.repository.TradeInfoRepository
 import io.reactivex.schedulers.Schedulers
-import java.time.LocalDateTime
 
 
 class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository): BaseViewModel() {
@@ -24,6 +21,7 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     private val tradeInfoFourthSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
     private val tradeInfoFifthSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
     private val taxCalcCurrencySpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
+    private val taxCalcConversionTextContent: MutableLiveData<String> = MutableLiveData()
 
 
     private val searchRegulatedGoodLiveData by lazy { MutableLiveData<TradeInfo>() }
@@ -39,6 +37,8 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     fun getTradeInfoThirdSpinnerContent() : LiveData<List<String>> = tradeInfoThirdSpinnerContent
     fun getTradeInfoFourthSpinnerContent() : LiveData<List<String>> = tradeInfoFourthSpinnerContent
     fun getTradeInfoFifthSpinnerContent() : LiveData<List<String>> = tradeInfoFifthSpinnerContent
+    fun getTaxCalcCurrentSpinnerContent(): LiveData<List<String>> = taxCalcCurrencySpinnerContent
+    fun getTaxCalcConversionTextConent(): LiveData<String> = taxCalcConversionTextContent
 
 
     fun getSearchRegulatedGoodsLiveData(): LiveData<TradeInfo> = searchRegulatedGoodLiveData
@@ -274,7 +274,26 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     }
 
     fun  setTaxCalcCurrencySpinnerContent(){
-//        addDisposable()
+        addDisposable(tradeInfoRepository.getTaxInfoCurrency()
+            .map {
+                val currencies = mutableListOf<String>()
+                it.forEach{ cur ->
+                    currencies.add(cur.currency as String)
+                }
+                currencies
+            }
+            .subscribe(
+                {
+                    taxCalcCurrencySpinnerContent.postValue(it)
+                },
+                {
+                    errorLiveData.postValue(it)
+                })
+        )
+    }
+
+    fun setTaxCalcConversionTextConent(currencyTo: String) {
+        taxCalcConversionTextContent.postValue(currencyTo)
 
     }
 

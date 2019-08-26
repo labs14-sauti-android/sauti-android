@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.sql.Date
-
+import java.util.*
 
 
 //This will be the class that is stored into room
@@ -56,6 +56,8 @@ data class TradeInfoData(
     @SerializedName("value")
     @Expose
     val value: String,
+
+    val userCurrency: String? = null,
 
     val approximateValue: Long? = null,
 

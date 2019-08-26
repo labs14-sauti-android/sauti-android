@@ -1,5 +1,6 @@
 package com.labs.sauti.repository
 
+import com.labs.sauti.model.exchange_rate.ExchangeRateData
 import com.labs.sauti.model.trade_info.*
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -13,7 +14,7 @@ interface TradeInfoRepository {
     fun getTradeInfoProductProducts (language: String, category: String): Single<MutableList<String>>
     fun getTradeInfoOrigin          (language: String, category: String, product: String): Single<MutableList<String>>
     fun getTradeInfoDestination     (language: String, category: String, product: String, origin: String): Single<MutableList<String>>
-
+    fun getTaxInfoCurrency() :Single<MutableList<ExchangeRateData>>
     fun searchTradeInfoBorderProcedures
                 (language: String,
                  category: String,
