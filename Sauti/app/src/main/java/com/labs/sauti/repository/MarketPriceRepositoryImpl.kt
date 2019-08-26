@@ -77,7 +77,13 @@ class MarketPriceRepositoryImpl(
             .subscribeOn(Schedulers.io())
     }
 
-    override fun searchMarketPrice(country: String, market: String, category: String, product: String): Single<MarketPriceData> {
+    override fun searchMarketPrice(
+        shouldSaveSearch: Boolean,
+        country: String,
+        market: String,
+        category: String,
+        product: String
+    ): Single<MarketPriceData> {
         return sautiApiService.searchMarketPrice(country, market, category, product)
             .doOnSuccess {marketPrice ->
                 // TODO test only
@@ -110,7 +116,7 @@ class MarketPriceRepositoryImpl(
                                     val lon2 = marketplace.lon?.toDouble() ?: return@forEach
 
                                     val d = LatLon.distance(lat1, lon1, lat2, lon2)
-                                    if (d <= 50.0) marketPrice.nearbyMarketplaceNames
+                                    if (d <= 100.0) marketPrice.nearbyMarketplaceNames
                                         .add(marketplace.name ?: return@forEach)
 
                                     // Busia is 450 km from Arusha
@@ -129,14 +135,16 @@ class MarketPriceRepositoryImpl(
                 marketPriceRoomCache.search(country, market, category, product)
             }
             .doOnSuccess {
-                marketPriceSearchRoomCache.save(
-                    MarketPriceSearchData(
-                        country = country,
-                        market = market,
-                        category = category,
-                        product = product
-                    )
-                ).blockingAwait()
+                if (shouldSaveSearch) {
+                    marketPriceSearchRoomCache.save(
+                        MarketPriceSearchData(
+                            country = country,
+                            market = market,
+                            category = category,
+                            product = product
+                        )
+                    ).blockingAwait()
+                }
             }
             .subscribeOn(Schedulers.io())
     }
@@ -151,9 +159,16 @@ class MarketPriceRepositoryImpl(
             .flatMap {
                 Single.fromCallable {
                     val recentMarketPrices = mutableListOf<MarketPriceData>()
+                    // TODO create a single call to backend
                     it.forEach {
                         try {
-                            val marketPrice = searchMarketPrice(it.country, it.market, it.category, it.product).blockingGet()
+                            val marketPrice = searchMarketPrice(
+                                false,
+                                it.country,
+                                it.market,
+                                it.category,
+                                it.product
+                            ).blockingGet()
                             recentMarketPrices.add(marketPrice)
                         } catch (e: Exception) {}
                     }
@@ -216,6 +231,7 @@ class MarketPriceRepositoryImpl(
             market = market,
             category = category,
             product = product,
+            timestamp = System.currentTimeMillis(),
             shouldRemove = 0
         )
         val accessToken = sessionSp.getAccessToken()
@@ -256,6 +272,36 @@ class MarketPriceRepositoryImpl(
                     // completely remove
                     return@flatMapCompletable favoriteMarketPriceSearchRoomCache.removeFavoriteForced(userId, country, market, category, product)
                 }
+            }
+            .subscribeOn(Schedulers.io())
+    }
+
+    override fun getFavoriteMarketPrices(userId: Long): Single<HashMap<MarketPriceData, Long>> {
+        val accessToken = sessionSp.getAccessToken()
+        val authorization = "Bearer $accessToken"
+
+        return sautiApiService.getFavoriteMarketPriceSearches(authorization)
+            .onErrorResumeNext {
+                favoriteMarketPriceSearchRoomCache.getAll(userId)
+            }
+            .map {
+                val favoriteMarketPrices = hashMapOf<MarketPriceData, Long>()
+
+                // TODO create a single call to backend
+                it.forEach {favoriteMarketPriceSearchData ->
+                    try {
+                        val marketPrice = searchMarketPrice(
+                            false,
+                            favoriteMarketPriceSearchData.country!!,
+                            favoriteMarketPriceSearchData.market!!,
+                            favoriteMarketPriceSearchData.category!!,
+                            favoriteMarketPriceSearchData.product!!
+                        ).blockingGet()
+                        favoriteMarketPrices[marketPrice] = favoriteMarketPriceSearchData.timestamp ?: 0L
+                    } catch (e: Exception) {}
+                }
+
+                favoriteMarketPrices
             }
             .subscribeOn(Schedulers.io())
     }

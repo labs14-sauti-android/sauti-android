@@ -38,6 +38,7 @@ class ExchangeRateRepositoryImpl(
     }
 
     override fun convertCurrency(
+        shouldSaveConversion: Boolean,
         fromCurrency: String,
         toCurrency: String,
         amount: Double
@@ -61,13 +62,15 @@ class ExchangeRateRepositoryImpl(
             )
         }
             .doOnSuccess {
-                exchangeRateConversionRoomCache.save(
-                    ExchangeRateConversionData(
-                        fromCurrency = fromCurrency,
-                        toCurrency = toCurrency,
-                        amount = amount
-                    )
-                ).blockingAwait()
+                if (shouldSaveConversion) {
+                    exchangeRateConversionRoomCache.save(
+                        ExchangeRateConversionData(
+                            fromCurrency = fromCurrency,
+                            toCurrency = toCurrency,
+                            amount = amount
+                        )
+                    ).blockingAwait()
+                }
             }
             .subscribeOn(Schedulers.io())
     }
@@ -77,31 +80,7 @@ class ExchangeRateRepositoryImpl(
             .flatMap {
                 Single.fromCallable {
                     val conversions = exchangeRateConversionRoomCache.getAll().blockingGet()
-                    val conversionResults = mutableListOf<ExchangeRateConversionResultData>()
-                    conversions.forEach {
-                        try {
-                            val fromExchangeRate = exchangeRateRoomCache.get(it.fromCurrency).blockingGet()
-                            val toExchangeRate = exchangeRateRoomCache.get(it.toCurrency).blockingGet()
-                            val toPerFrom = if (toExchangeRate.rate == null || fromExchangeRate.rate == null) {
-                                0.0
-                            } else {
-                                toExchangeRate.rate!! / fromExchangeRate.rate!!
-                            }
-
-                            conversionResults.add(
-                                ExchangeRateConversionResultData(
-                                    it.fromCurrency,
-                                    it.toCurrency,
-                                    toPerFrom,
-                                    it.amount,
-                                    toPerFrom * it.amount
-                                )
-                            )
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                    }
-                    conversionResults
+                    getConversionResults(conversions)
                 }
             }
             .subscribeOn(Schedulers.io())
@@ -110,31 +89,7 @@ class ExchangeRateRepositoryImpl(
     override fun getRecentConversionResultsInCache(): Single<MutableList<ExchangeRateConversionResultData>> {
         return Single.fromCallable {
             val conversions = exchangeRateConversionRoomCache.getAll().blockingGet()
-            val conversionResults = mutableListOf<ExchangeRateConversionResultData>()
-            conversions.forEach {
-                try {
-                    val fromExchangeRate = exchangeRateRoomCache.get(it.fromCurrency).blockingGet()
-                    val toExchangeRate = exchangeRateRoomCache.get(it.toCurrency).blockingGet()
-                    val toPerFrom = if (toExchangeRate.rate == null || fromExchangeRate.rate == null) {
-                        0.0
-                    } else {
-                        toExchangeRate.rate!! / fromExchangeRate.rate!!
-                    }
-
-                    conversionResults.add(
-                        ExchangeRateConversionResultData(
-                            it.fromCurrency,
-                            it.toCurrency,
-                            toPerFrom,
-                            it.amount,
-                            toPerFrom * it.amount
-                        )
-                    )
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-            conversionResults
+            getConversionResults(conversions)
         }
             .subscribeOn(Schedulers.io())
     }
@@ -175,6 +130,7 @@ class ExchangeRateRepositoryImpl(
             fromCurrency = fromCurrency,
             toCurrency = toCurrency,
             amount = amount,
+            timestamp = System.currentTimeMillis(),
             shouldRemove = 0
         )
         val accessToken = sessionSp.getAccessToken()
@@ -223,5 +179,75 @@ class ExchangeRateRepositoryImpl(
                 }
             }
             .subscribeOn(Schedulers.io())
+    }
+
+    override fun getFavoriteExchangeRateConversionResults(userId: Long): Single<HashMap<ExchangeRateConversionResultData, Long>> {
+        val accessToken = sessionSp.getAccessToken()
+        val authorization = "Bearer $accessToken"
+
+        return sautiApiService.getAllFavoriteExchangeRateConversions(authorization)
+            .onErrorResumeNext {
+                favoriteExchangeRateConversionRoomCache.getAll(userId)
+            }
+            .map {favoriteExchangeRateConversions ->
+                // update local exchange rate if possible
+                getExchangeRates().blockingGet()
+
+                val favoriteConversionResultTimestampMap = hashMapOf<ExchangeRateConversionResultData, Long>()
+                favoriteExchangeRateConversions.forEach {
+                    try {
+                        val fromExchangeRate = exchangeRateRoomCache.get(it.fromCurrency ?: "").blockingGet()
+                        val toExchangeRate = exchangeRateRoomCache.get(it.toCurrency ?: "").blockingGet()
+                        val toPerFrom = if (toExchangeRate.rate == null || fromExchangeRate.rate == null) {
+                            0.0
+                        } else {
+                            toExchangeRate.rate!! / fromExchangeRate.rate!!
+                        }
+
+                        val exchangeRateConversionResultData = ExchangeRateConversionResultData(
+                            it.fromCurrency ?: "",
+                            it.toCurrency ?: "",
+                            toPerFrom,
+                            it.amount ?: 0.0,
+                            toPerFrom * (it.amount ?: 0.0)
+                        )
+
+                        favoriteConversionResultTimestampMap[exchangeRateConversionResultData] = it.timestamp ?: 0
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+                favoriteConversionResultTimestampMap
+            }
+            .subscribeOn(Schedulers.io())
+    }
+
+    private fun getConversionResults(conversions: List<ExchangeRateConversionData>): MutableList<ExchangeRateConversionResultData> {
+        val conversionResults = mutableListOf<ExchangeRateConversionResultData>()
+        conversions.forEach {
+            try {
+                val fromExchangeRate = exchangeRateRoomCache.get(it.fromCurrency).blockingGet()
+                val toExchangeRate = exchangeRateRoomCache.get(it.toCurrency).blockingGet()
+                val toPerFrom = if (toExchangeRate.rate == null || fromExchangeRate.rate == null) {
+                    0.0
+                } else {
+                    toExchangeRate.rate!! / fromExchangeRate.rate!!
+                }
+
+                conversionResults.add(
+                    ExchangeRateConversionResultData(
+                        it.fromCurrency,
+                        it.toCurrency,
+                        toPerFrom,
+                        it.amount,
+                        toPerFrom * it.amount
+                    )
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        return conversionResults
     }
 }

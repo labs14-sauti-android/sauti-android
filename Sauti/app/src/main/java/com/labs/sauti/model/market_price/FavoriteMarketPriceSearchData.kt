@@ -27,5 +27,8 @@ data class FavoriteMarketPriceSearchData(
     @Expose
     var product: String? = null,
 
+    @Expose
+    var timestamp: Long? = null,
+
     var shouldRemove: Int
 )

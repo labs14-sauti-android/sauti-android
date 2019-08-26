@@ -176,7 +176,7 @@ class MarketPriceSearchFragment : Fragment() {
     private fun setTranslatedTexts() {
         val ctx = LocaleHelper.createContext(context!!)
 
-        t_select_country_for_markets.text = ctx.resources.getString(R.string.select_category_for_commodity)
+        t_select_country_for_markets.text = ctx.resources.getString(R.string.select_country_for_markets)
         t_select_market.text = ctx.resources.getString(R.string.select_market)
         t_select_category_for_commodity.text = ctx.resources.getString(R.string.select_category_for_commodity)
         t_select_commodity.text = ctx.resources.getString(R.string.select_commodity)

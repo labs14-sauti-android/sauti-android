@@ -16,5 +16,6 @@ interface MainComponent {
     fun plus(tradeInfoModule: TradeInfoModule) : TradeInfoComponent
     fun plus(helpModule: HelpModule): HelpComponent
     fun plus(reportModule: ReportModule): ReportComponent
+    fun plus(dashboardModule: DashboardModule): DashboardComponent
     fun inject(languageActivity: LanguageActivity)
 }

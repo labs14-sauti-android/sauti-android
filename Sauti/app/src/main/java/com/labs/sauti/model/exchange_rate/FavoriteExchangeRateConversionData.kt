@@ -26,5 +26,8 @@ data class FavoriteExchangeRateConversionData(
     @Expose
     var amount: Double? = null,
 
+    @Expose
+    var timestamp: Long? = null,
+
     var shouldRemove: Int
 )

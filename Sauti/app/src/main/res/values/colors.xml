@@ -6,7 +6,7 @@
     <color name="colorText">#ffffff</color>
     <color name="colorInformation">#1a1e23</color>
     <color name="colorTextInformation">#f8c8c4</color>
-    <color name="colorCardBackground">#d9d6d6</color>
+    <color name="colorCardBackground">#fdf2f1</color>
     <color name="colorCardText">#000000</color>
     <color name="colorButtonResponse">#f8c8c4</color>
     <color name="colorButtonHasGoodExperienceNotSelected">#f8c8c4</color>
@@ -20,4 +20,7 @@
     <color name="colorAboutImage">#f8c8c4</color>
     <color name="colorTextEditText">#000000</color>
     <color name="colorTIDetailsSubheaderText">#c7c2c2</color>
+    <color name="colorCardTextSecondary">#a3050505</color>
+    <color name="colorExchangeRate">#267276</color>
+    <color name="colorMarketPrice">#e84c3d</color>
 </resources>

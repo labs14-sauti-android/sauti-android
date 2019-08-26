@@ -44,6 +44,7 @@ class FavoriteMarketPriceSearchRoomCache(sautiRoomDatabase: SautiRoomDatabase): 
 
                     if (foundFavoriteMarketPriceSearch.shouldRemove == 1) { // not really
                         foundFavoriteMarketPriceSearch.shouldRemove = 0
+                        foundFavoriteMarketPriceSearch.timestamp = favoriteMarketPriceSearch.timestamp
                         dao.update(foundFavoriteMarketPriceSearch).blockingAwait()
                     }
                 } else {
@@ -55,6 +56,7 @@ class FavoriteMarketPriceSearchRoomCache(sautiRoomDatabase: SautiRoomDatabase): 
                             market = favoriteMarketPriceSearch.market,
                             category = favoriteMarketPriceSearch.category,
                             product = favoriteMarketPriceSearch.product,
+                            timestamp = favoriteMarketPriceSearch.timestamp,
                             shouldRemove = 0
                     )).blockingGet()
                 }

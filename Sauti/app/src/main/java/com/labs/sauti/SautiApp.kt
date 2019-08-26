@@ -15,6 +15,7 @@ class SautiApp : Application() {
     private var tradeinfoComponent : TradeInfoComponent? = null
     private var helpComponent: HelpComponent? = null
     private var reportComponent: ReportComponent? = null
+    val dashboardComponent by lazy { mainComponent.plus(DashboardModule()) }
 
     override fun onCreate() {
         super.onCreate()

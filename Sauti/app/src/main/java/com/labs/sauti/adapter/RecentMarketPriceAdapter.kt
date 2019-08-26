@@ -42,17 +42,18 @@ class RecentMarketPriceAdapter(
                 onRecentMarketPriceClickedListener.onRecentMarketPriceClicked(layoutPosition, recentMarketPrice)
             }
 
-            itemView.t_recent_product_at_market.text = "${recentMarketPrice.product} at ${recentMarketPrice.market}"
-            val decimalFormat = DecimalFormat("#,##0.00")
-            val wholesaleStr = decimalFormat.format(recentMarketPrice.wholesale)
-            itemView.t_recent_wholesale.text = "Wholesale: $wholesaleStr ${recentMarketPrice.currency}/1Kg"
+            itemView.t_recent_product.text = "${recentMarketPrice.product}"
+            itemView.t_recent_market.text = "${recentMarketPrice.market}"
+            val decimalFormat = DecimalFormat("#,##0")
+            val wholesaleStr = decimalFormat.format(recentMarketPrice.wholesale ?: 0.0)
+            itemView.t_recent_wholesale.text = "$wholesaleStr ${recentMarketPrice.currency}/1Kg"
             if (recentMarketPrice.retail != null && recentMarketPrice.retail!! > 0.0) {
-                itemView.t_recent_retail.visibility = View.VISIBLE
+                itemView.ll_recent_retail.visibility = View.VISIBLE
 
                 val retailStr = decimalFormat.format(recentMarketPrice.retail!!)
-                itemView.t_recent_retail.text = "Retail: $retailStr ${recentMarketPrice.currency}/1Kg"
+                itemView.t_recent_retail.text = "$retailStr ${recentMarketPrice.currency}/1Kg"
             } else {
-                itemView.t_recent_retail.visibility = View.GONE
+                itemView.ll_recent_retail.visibility = View.GONE
             }
             itemView.t_recent_updated.text = "Updated: ${recentMarketPrice.date?.substring(0, 10)}"
             itemView.t_recent_source.text = "Source: EAGC-RATIN" // TODO

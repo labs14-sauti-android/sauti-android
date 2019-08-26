@@ -35,7 +35,10 @@ class DashboardFragment : Fragment() {
         tabs.setupWithViewPager(view_pager)
 
         // disable view pager swiping
-        view_pager.setOnTouchListener { _, _ -> true }
+        view_pager.setOnTouchListener { _, _ ->
+            view_pager.currentItem = view_pager.currentItem
+            true
+        }
 
         c_market_price.setOnClickListener {
             onReplaceFragmentListener?.onReplaceFragment(MarketPriceFragment::class.java)
