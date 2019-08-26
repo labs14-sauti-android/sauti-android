@@ -62,12 +62,8 @@ OnFragmentFullScreenStateChangedListener {
 
     override fun onTaxCalculatorSearchCompleted(tradeInfoTaxes: TradeInfoTaxes) {
         cl_expanded_tax_calculator.visibility = View.VISIBLE
-        t_tax_calculator_header.text = "Taxes for " +
-                tradeInfoTaxes.initialAmount +
-                " " +
-                tradeInfoTaxes.currentCurrency +
-                " of " +
-                tradeInfoTaxes.taxProduct
+        t_tax_calculator_header.text =
+            """Taxes for ${tradeInfoTaxes.initialAmount} ${tradeInfoTaxes.currentCurrency} of ${tradeInfoTaxes.taxProduct}"""
         t_tax_calculator_header.paintFlags = Paint.UNDERLINE_TEXT_FLAG
     }
 
