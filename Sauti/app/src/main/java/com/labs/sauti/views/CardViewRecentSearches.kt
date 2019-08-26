@@ -2,12 +2,16 @@ package com.labs.sauti.views
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.widget.TextViewCompat
 import com.labs.sauti.R
 import com.labs.sauti.model.trade_info.RequiredDocument
 import com.labs.sauti.model.trade_info.TradeInfo
+import com.labs.sauti.model.trade_info.TradeInfoTaxes
 import kotlinx.android.synthetic.main.item_recent_card_view.view.*
+import java.text.DecimalFormat
 
 
 class CardViewRecentSearches @JvmOverloads constructor(
@@ -16,14 +20,44 @@ class CardViewRecentSearches @JvmOverloads constructor(
     defStyleAttr: Int = R.style.AppTheme
 ) : CardView(context, attrs, defStyleAttr) {
 
-    //TODO: Remove just for presentation
     private var focusObject : Any? = null
+    val df by lazy { DecimalFormat("#,###.##") }
 
     init {
         inflate(getContext(), R.layout.item_recent_card_view, this)
     }
 
     fun consumeTradeInfo(tradeInfo: TradeInfo) {
+
+    }
+
+    fun consumeTITaxes(tradeInfoTaxes: TradeInfoTaxes) {
+
+        if(t_taxcalc_total.visibility == View.VISIBLE){
+            t_taxcalc_total.visibility = View.GONE
+        }
+
+        t_card_view_category.text = "Tax Calculator"
+        t_card_view_category.setBackgroundResource(R.color.colorTaxCalculator)
+
+        t_card_view_header.text =
+            """Taxes for ${df.format(tradeInfoTaxes.initialAmount)} ${tradeInfoTaxes.currentCurrency} ${tradeInfoTaxes.taxProduct}"""
+
+        tradeInfoTaxes.taxList.forEach{
+            val textview = TextView(context)
+            TextViewCompat.setTextAppearance(textview, R.style.CardViewTaxCalcListTextStyling)
+            textview.text = it.taxTitle
+            ll_card_list.addView(textview)
+        }
+
+        if(ll_card_list.childCount == 0) {
+            val textview = TextView(context)
+            TextViewCompat.setTextAppearance(textview, R.style.CardViewTaxCalcListTextStyling)
+            textview.text = "There are no taxes for this product"
+        } else {
+            t_taxcalc_total.text = "Total: " + df.format(tradeInfoTaxes.totalAmount) + tradeInfoTaxes.endCurrency
+            t_taxcalc_total.visibility = View.VISIBLE
+        }
 
     }
 

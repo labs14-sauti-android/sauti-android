@@ -76,12 +76,10 @@ OnFragmentFullScreenStateChangedListener {
         t_tax_calculator_header.paintFlags = Paint.UNDERLINE_TEXT_FLAG
 
         tradeInfoTaxes.taxList.forEach{
-            if(it.taxPerc != "0") {
-                val textview = TextView(context)
-                TextViewCompat.setTextAppearance(textview, R.style.TaxCalculatorDetailsListStyling)
-                textview.text = it.taxTitle
-                l_tax_calculator_list.addView(textview)
-            }
+            val textview = TextView(context)
+            TextViewCompat.setTextAppearance(textview, R.style.TaxCalculatorDetailsListStyling)
+            textview.text = it.taxTitle
+            l_tax_calculator_list.addView(textview)
         }
 
         if(l_tax_calculator_list.childCount == 0) {
@@ -93,12 +91,14 @@ OnFragmentFullScreenStateChangedListener {
             t_tax_calculator_total.visibility = View.INVISIBLE
         } else {
             t_tax_calculator_total.setTextAppearance(R.style.TradeInfoDetailsSubHeaderStyling)
-            t_tax_calculator_total.text = "Total: " + tradeInfoTaxes.totalAmount + tradeInfoTaxes.endCurrency
+            t_tax_calculator_total.text = "Total: " + df.format(tradeInfoTaxes.totalAmount) + tradeInfoTaxes.endCurrency
             t_tax_calculator_total.visibility = View.VISIBLE
         }
 
+        tiv_tax_calculator_recent_first.consumeTITaxes(tradeInfoTaxes)
 
     }
+
 
     override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
         onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(isFullScreen)

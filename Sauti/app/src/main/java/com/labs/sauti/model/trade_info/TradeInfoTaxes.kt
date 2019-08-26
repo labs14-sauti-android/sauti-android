@@ -18,18 +18,20 @@ data class TradeInfoTaxes(
     fun getTaxesConversions() {
         val df = DecimalFormat("#,###.##")
 
-        taxList.forEach{
-            val percent = it.taxPerc.toDouble()
-            if (percent > 0) {
-                val preConvertTax = percent / 100
-                val preConvertTaxAmt = initialAmount * preConvertTax
-                val postConvertTaxAmt = preConvertTaxAmt * rate
-                it.taxTitle += """($percent%): ${df.format(postConvertTaxAmt)} $endCurrency"""
-                totalAmount += postConvertTaxAmt
-            }
-
+        taxList.removeIf {
+            it.taxPerc == "0"
         }
 
+        taxList.forEach {
+            val percent = it.taxPerc.toDouble()
+
+            val preConvertTax = percent / 100
+            val preConvertTaxAmt = initialAmount * preConvertTax
+            val postConvertTaxAmt = preConvertTaxAmt * rate
+            it.taxTitle += """($percent%): ${df.format(postConvertTaxAmt)} $endCurrency"""
+            totalAmount += postConvertTaxAmt
+
+        }
     }
 
 

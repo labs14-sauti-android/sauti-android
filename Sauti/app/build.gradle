@@ -7,7 +7,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.labs.sauti"
-        minSdkVersion 23
+        minSdkVersion 24
         targetSdkVersion 28
         versionCode 7
         versionName "1.0"
