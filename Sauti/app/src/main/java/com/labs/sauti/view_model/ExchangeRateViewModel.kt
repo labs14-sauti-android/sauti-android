@@ -56,7 +56,7 @@ class ExchangeRateViewModel(
 
     fun convert(fromCurrency: String, toCurrency: String, amount: Double) {
         conversionViewState.value = ConversionViewState(true)
-        addDisposable(exchangeRateRepository.convertCurrency(fromCurrency, toCurrency, amount)
+        addDisposable(exchangeRateRepository.convertCurrency(true, fromCurrency, toCurrency, amount)
             .map {
                 ExchangeRateConversionResult(
                     it.fromCurrency,

@@ -38,6 +38,7 @@ class ExchangeRateRepositoryImpl(
     }
 
     override fun convertCurrency(
+        shouldSaveConversion: Boolean,
         fromCurrency: String,
         toCurrency: String,
         amount: Double
@@ -61,13 +62,15 @@ class ExchangeRateRepositoryImpl(
             )
         }
             .doOnSuccess {
-                exchangeRateConversionRoomCache.save(
-                    ExchangeRateConversionData(
-                        fromCurrency = fromCurrency,
-                        toCurrency = toCurrency,
-                        amount = amount
-                    )
-                ).blockingAwait()
+                if (shouldSaveConversion) {
+                    exchangeRateConversionRoomCache.save(
+                        ExchangeRateConversionData(
+                            fromCurrency = fromCurrency,
+                            toCurrency = toCurrency,
+                            amount = amount
+                        )
+                    ).blockingAwait()
+                }
             }
             .subscribeOn(Schedulers.io())
     }
@@ -187,6 +190,9 @@ class ExchangeRateRepositoryImpl(
                 favoriteExchangeRateConversionRoomCache.getAll(userId)
             }
             .map {favoriteExchangeRateConversions ->
+                // update local exchange rate if possible
+                getExchangeRates().blockingGet()
+
                 val favoriteConversionResultTimestampMap = hashMapOf<ExchangeRateConversionResultData, Long>()
                 favoriteExchangeRateConversions.forEach {
                     try {
