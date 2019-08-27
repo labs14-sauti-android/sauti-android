@@ -1,6 +1,7 @@
 package com.labs.sauti.fragment
 
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -19,6 +20,8 @@ import kotlinx.android.synthetic.main.fragment_dashboard_recent_searches.*
 import javax.inject.Inject
 
 class DashboardRecentSearchesFragment : Fragment() {
+
+    private var onRecentSearchClickListener: OnRecentSearchClickListener? = null
 
     @Inject
     lateinit var dashboardRecentSearchesViewModelFactory: DashboardRecentSearchesViewModel.Factory
@@ -47,7 +50,7 @@ class DashboardRecentSearchesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         dashboardFavoritesAdapter = DashboardFavoritesAdapter(mutableListOf()) {
-            // TODO
+            onRecentSearchClickListener?.onRecentSearchClick(it)
         }
 
         r_recent_searches.layoutManager = LinearLayoutManager(context!!, RecyclerView.HORIZONTAL, false)
@@ -66,11 +69,30 @@ class DashboardRecentSearchesFragment : Fragment() {
         dashboardRecentSearchesViewModel.getRecentSearches()
     }
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        if (context is OnRecentSearchClickListener) {
+            onRecentSearchClickListener = context
+        } else {
+            throw RuntimeException("Context must implement OnRecentSearchClickListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+
+        onRecentSearchClickListener = null
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() =
             DashboardRecentSearchesFragment()
     }
 
+    interface OnRecentSearchClickListener {
+        fun onRecentSearchClick(recentSearch: Any)
+    }
 
 }

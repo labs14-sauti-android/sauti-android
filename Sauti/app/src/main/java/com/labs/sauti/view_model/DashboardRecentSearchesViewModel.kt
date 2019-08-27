@@ -6,15 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.labs.sauti.mapper.ExchangeRateConversionResultDataToExchangeRateConversionResultMapper
 import com.labs.sauti.mapper.MarketPriceDataToMarketPriceMapper
-import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResult
-import com.labs.sauti.model.market_price.MarketPrice
 import com.labs.sauti.repository.ExchangeRateRepository
 import com.labs.sauti.repository.MarketPriceRepository
 import com.labs.sauti.repository.TradeInfoRepository
 import com.labs.sauti.view_state.dashboard.RecentSearchesViewState
-import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 
 class DashboardRecentSearchesViewModel(

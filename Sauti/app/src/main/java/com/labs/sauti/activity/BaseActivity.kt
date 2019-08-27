@@ -39,7 +39,8 @@ class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListener,
 SignInFragment.OpenSignUpListener, SignUpFragment.OpenSignInListener,
 DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedListener,
-DashboardFavoritesFragment.OnFavoriteClickListener{
+DashboardFavoritesFragment.OnFavoriteClickListener,
+DashboardRecentSearchesFragment.OnRecentSearchClickListener{
 
     @Inject
     lateinit var authenticationViewModelFactory: AuthenticationViewModel.Factory
@@ -417,9 +418,17 @@ DashboardFavoritesFragment.OnFavoriteClickListener{
     }
 
     override fun onFavoriteClick(favorite: Any) {
-        when (favorite) {
-            is MarketPrice -> replaceFragment(MarketPriceFragment::class.java, favorite)
-            is ExchangeRateConversionResult -> replaceFragment(ExchangeRateFragment::class.java, favorite)
+        replaceFragmentByDataType(favorite)
+    }
+
+    override fun onRecentSearchClick(recentSearch: Any) {
+        replaceFragmentByDataType(recentSearch)
+    }
+
+    private fun replaceFragmentByDataType(data: Any) {
+        when (data) {
+            is MarketPrice -> replaceFragment(MarketPriceFragment::class.java, data)
+            is ExchangeRateConversionResult -> replaceFragment(ExchangeRateFragment::class.java, data)
             else -> throw RuntimeException("Unhandled favorite type")
         }
     }
