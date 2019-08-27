@@ -40,7 +40,8 @@ SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListen
 SignInFragment.OpenSignUpListener, SignUpFragment.OpenSignInListener,
 DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedListener,
 DashboardFavoritesFragment.OnFavoriteClickListener,
-DashboardRecentSearchesFragment.OnRecentSearchClickListener{
+DashboardRecentSearchesFragment.OnRecentSearchClickListener,
+DashboardFavoritesFragment.OnSignUpClickListener{
 
     @Inject
     lateinit var authenticationViewModelFactory: AuthenticationViewModel.Factory
@@ -280,12 +281,7 @@ DashboardRecentSearchesFragment.OnRecentSearchClickListener{
     }
 
     override fun openSignUp() {
-        val signUpFragment = SignUpFragment.newInstance()
-
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, signUpFragment)
-            .addToBackStack(null)
-            .commit()
+        openSignUpFragment()
     }
 
     override fun openSignIn() {
@@ -293,6 +289,19 @@ DashboardRecentSearchesFragment.OnRecentSearchClickListener{
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, signInFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun onSignUpClick() {
+        openSignUpFragment()
+    }
+
+    private fun openSignUpFragment() {
+        val signUpFragment = SignUpFragment.newInstance()
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, signUpFragment)
             .addToBackStack(null)
             .commit()
     }
