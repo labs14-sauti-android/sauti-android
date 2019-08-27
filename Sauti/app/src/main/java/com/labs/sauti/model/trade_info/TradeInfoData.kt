@@ -3,8 +3,10 @@ package com.labs.sauti.model.trade_info
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.labs.sauti.helper.ProcedureConverter
 import java.sql.Date
 import java.util.*
 
@@ -12,6 +14,7 @@ import java.util.*
 //This will be the class that is stored into room
 
 @Entity(tableName = "trade_info")
+@TypeConverters(ProcedureConverter::class)
 data class TradeInfoData(
     @PrimaryKey
     @ColumnInfo(name = "trade_info_id")

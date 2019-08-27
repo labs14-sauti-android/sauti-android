@@ -140,7 +140,7 @@ interface SautiApiService {
         @Query("origin") origin: String,
         @Query("dest") dest: String,
         @Query("value") value: Double
-    ): Single<MutableList<Procedure>>
+    ): Single<List<Procedure>>
 
     @GET("/trade-info/search/required-documents")
     fun searchTradeInfoRequiredDocuments(

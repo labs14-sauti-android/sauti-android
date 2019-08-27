@@ -74,9 +74,26 @@ class TradeInfoRoomCache(private val sautiRoomDatabase: SautiRoomDatabase) : Tra
         value: Double
     ): Single<TradeInfoData> {
         val valueString = if (value < 2000) "under2000USD" else "over2000USD"
-        return sautiRoomDatabase.tradeInfoDao().getTradeInfoProcedures(language, category, product, origin, dest, valueString)
+        return sautiRoomDatabase.tradeInfoDao().getTradeInfoProceduresList(language, category, product, origin, dest, valueString)
+            .map {
+                TradeInfoData(
+                    language = language,
+                    productCat =  category,
+                    product =  product,
+                    origin =  origin,
+                    dest = dest,
+                    value = valueString,
+                    procedures = it
+                )
+            }
+            .doOnError{
+                val x = 1
+                val y = it
+            }
             .subscribeOn(Schedulers.io())
     }
+
+    //sautiRoomDatabase.tradeInfoDao().getTradeInfoProcedures(language, category, product, origin, dest, valueString)
 
 
 }
