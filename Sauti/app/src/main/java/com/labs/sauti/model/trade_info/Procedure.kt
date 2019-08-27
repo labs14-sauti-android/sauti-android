@@ -10,9 +10,9 @@ data class Procedure(
 
     @SerializedName("description")
     @Expose
-    val description: String,
+    val description: String?= null,
 
     @SerializedName("step")
     @Expose
-    val step: Int
+    val step: Int?= null
 )

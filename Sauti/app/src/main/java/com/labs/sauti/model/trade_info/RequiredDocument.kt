@@ -10,9 +10,9 @@ data class RequiredDocument(
 
     @SerializedName("docDescription")
     @Expose
-    val docDescription: String,
+    val docDescription: String? = null,
 
     @SerializedName("docTitle")
     @Expose
-    val docTitle: String
+    val docTitle: String? = null
 )

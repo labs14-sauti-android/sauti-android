@@ -8,13 +8,13 @@ import com.labs.sauti.model.trade_info.Taxes
 class TaxesConverter {
 
     @TypeConverter
-    fun toTaxes(taxes: String): List<Taxes> {
+    fun toTaxes(taxes: String?): List<Taxes> {
         val type = object : TypeToken<List<Taxes>>(){}.type
         return Gson().fromJson(taxes, type)
     }
 
     @TypeConverter
-    fun toTaxesJson(taxes: List<Taxes>): String {
+    fun toTaxesJson(taxes: List<Taxes>?): String {
         val type = object : TypeToken<List<Taxes>>(){}.type
         return Gson().toJson(taxes, type)
     }

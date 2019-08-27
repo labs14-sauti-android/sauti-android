@@ -137,7 +137,7 @@ OnFragmentFullScreenStateChangedListener{
 
 
                 documentsAdapter = DocumentsAdapter(tradeInfo.tradeInfoDocs!!) {
-                    val tradeInfoDetailsFragment = TradeInfoDetailsFragment.newInstance(it.docTitle, it.docDescription)
+                    val tradeInfoDetailsFragment = TradeInfoDetailsFragment.newInstance(it.docTitle!!, it.docDescription!!)
                     tradeInfoDetailsFragment.show(childFragmentManager, "reqDocs")
                 }
 

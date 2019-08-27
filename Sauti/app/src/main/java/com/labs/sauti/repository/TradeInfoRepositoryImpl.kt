@@ -44,6 +44,12 @@ class TradeInfoRepositoryImpl(
     //TODO: Room
     override fun getTradeInfoProductProducts(language: String, category: String): Single<MutableList<String>> {
         return sautiApiService.getTradeInfoProducts(language, category)
+            .onErrorResumeNext {
+                tradeInfoRoomCache.getTIProductProducts(language, category)
+            }
+            .doOnSuccess {
+                it.sort()
+            }
             .subscribeOn(Schedulers.io())
     }
 
@@ -51,6 +57,10 @@ class TradeInfoRepositoryImpl(
 
     override fun getTradeInfoOrigin(language: String, category: String, product: String): Single<MutableList<String>> {
         return sautiApiService.getTradeInfoOrigins(language, category, product)
+            .onErrorResumeNext {
+                tradeInfoRoomCache.getTIProductOrigin(language, category, product)
+            }
+            .doOnSuccess { it.sort() }
             .subscribeOn(Schedulers.io())
     }
 
@@ -62,6 +72,10 @@ class TradeInfoRepositoryImpl(
         origin: String
     ): Single<MutableList<String>> {
         return sautiApiService.getTradeInfoDests(language, category, product, origin)
+            .onErrorResumeNext {
+                tradeInfoRoomCache.getTIDests(language, category, product, origin)
+            }
+            .doOnSuccess { it.sort() }
             .subscribeOn(Schedulers.io())
     }
 
@@ -97,9 +111,6 @@ class TradeInfoRepositoryImpl(
             }
             .onErrorResumeNext {
                 tradeInfoRoomCache.searchTIProcedures(language, category, product, origin, dest, value)
-            }
-            .doOnSuccess {
-                tradeInfoRoomCache.saveTIProcedures(it).blockingAwait()
             }
             .subscribeOn(Schedulers.io())
     }

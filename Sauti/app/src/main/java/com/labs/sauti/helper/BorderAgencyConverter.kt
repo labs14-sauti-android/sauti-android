@@ -8,7 +8,7 @@ import com.labs.sauti.model.trade_info.BorderAgency
 class BorderAgencyConverter {
 
     @TypeConverter
-    fun toBorderAgency(borderAgency: String) :List<BorderAgency> {
+    fun toBorderAgency(borderAgency: String?) :List<BorderAgency> {
         val type = object : TypeToken<List<BorderAgency>>(){}.type
         return Gson().fromJson(borderAgency, type)
     }

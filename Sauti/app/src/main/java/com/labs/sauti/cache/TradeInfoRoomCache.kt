@@ -23,7 +23,8 @@ class TradeInfoRoomCache(private val sautiRoomDatabase: SautiRoomDatabase) : Tra
         language: String,
         category: String
     ): Single<MutableList<String>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return sautiRoomDatabase.tradeInfoDao().getTradeInfoProducts(language,category)
+            .subscribeOn(Schedulers.io())
     }
 
     override fun getTIProductOrigin(
@@ -31,7 +32,8 @@ class TradeInfoRoomCache(private val sautiRoomDatabase: SautiRoomDatabase) : Tra
         category: String,
         product: String
     ): Single<MutableList<String>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return sautiRoomDatabase.tradeInfoDao().getTradeInfoOrigin(language, category, product)
+            .subscribeOn(Schedulers.io())
     }
 
     override fun getTIDests(
@@ -40,18 +42,19 @@ class TradeInfoRoomCache(private val sautiRoomDatabase: SautiRoomDatabase) : Tra
         product: String,
         origin: String
     ): Single<MutableList<String>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return sautiRoomDatabase.tradeInfoDao().getTradeInfoDestination(language, category, product, origin)
+            .subscribeOn(Schedulers.io())
     }
 
     override fun saveTIProcedures(borderProcedure: TradeInfoData): Completable {
 
         return sautiRoomDatabase.tradeInfoDao().getTradeInfoProcedures(
-            borderProcedure.language,
+            borderProcedure.language!!,
             borderProcedure.productCat!!,
             borderProcedure.product!!,
             borderProcedure.origin!!,
-            borderProcedure.dest,
-            borderProcedure.value)
+            borderProcedure.dest!!,
+            borderProcedure.value!!)
             .doOnSuccess{
                 Completable.fromCallable { sautiRoomDatabase.tradeInfoDao().insertThenDeleteProcedures(it, borderProcedure) }.blockingAwait()
             }.onErrorResumeNext{

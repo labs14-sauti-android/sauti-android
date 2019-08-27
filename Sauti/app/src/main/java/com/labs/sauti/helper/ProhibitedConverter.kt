@@ -8,7 +8,7 @@ import com.labs.sauti.model.trade_info.Prohibited
 class ProhibitedConverter {
 
     @TypeConverter
-    fun toProhibited(prohibited: String) :List<Prohibited> {
+    fun toProhibited(prohibited: String?) :List<Prohibited> {
         val type = object : TypeToken<List<Prohibited>>(){}.type
         return Gson().fromJson(prohibited, type)
     }

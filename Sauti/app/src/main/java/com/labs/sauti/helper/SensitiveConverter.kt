@@ -8,7 +8,7 @@ import com.labs.sauti.model.trade_info.Sensitive
 class SensitiveConverter {
 
     @TypeConverter
-    fun toSensitive(Sensitive: String) :List<Sensitive> {
+    fun toSensitive(Sensitive: String?) :List<Sensitive> {
         val type = object : TypeToken<List<Sensitive>>(){}.type
         return Gson().fromJson(Sensitive, type)
     }

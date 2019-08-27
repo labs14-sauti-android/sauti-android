@@ -8,7 +8,7 @@ import com.labs.sauti.model.trade_info.Procedure
 class ProcedureConverter {
 
     @TypeConverter
-    fun toProcedure(procedure: String): List<Procedure> {
+    fun toProcedure(procedure: String?): List<Procedure> {
         val type = object : TypeToken<List<Procedure>>(){}.type
         return Gson().fromJson(procedure, type)
     }

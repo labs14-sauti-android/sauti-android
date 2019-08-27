@@ -19,11 +19,11 @@ data class TradeInfoData(
 
     @SerializedName("dest")
     @Expose
-    val dest: String,
+    val dest: String? = null,
 
     @SerializedName("language")
     @Expose
-    val language: String,
+    val language: String?= null,
 
     @SerializedName("origin")
     @Expose
@@ -55,7 +55,7 @@ data class TradeInfoData(
 
     @SerializedName("value")
     @Expose
-    val value: String,
+    val value: String?= null,
 
     //Regulated Goods
     val prohibiteds: List<Prohibited>? = null,
