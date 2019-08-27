@@ -78,8 +78,29 @@ class TradeInfoRepositoryImpl(
         origin: String,
         dest: String,
         value: Double
-    ): Single<MutableList<Procedure>> {
+    ): Single<TradeInfoData> {
         return sautiApiService.searchTradeInfoBorderProcedures(language, category, product, origin, dest, value)
+            .map {
+                val valueString = if (value < 2000) "under2000USD" else "over2000USD"
+                TradeInfoData(System.currentTimeMillis(),
+                language = language,
+                productCat =  category,
+                product =  product,
+                origin =  origin,
+                dest = dest,
+                value = valueString,
+                procedures = it)
+            }
+            .doOnSuccess{
+                tradeInfoRoomCache.saveTIProcedures(it).blockingAwait()
+
+            }
+            .onErrorResumeNext {
+                tradeInfoRoomCache.searchTIProcedures(language, category, product, origin, dest, value)
+            }
+            .doOnSuccess {
+                tradeInfoRoomCache.saveTIProcedures(it).blockingAwait()
+            }
             .subscribeOn(Schedulers.io())
     }
 
@@ -124,9 +145,8 @@ class TradeInfoRepositoryImpl(
 
     override fun getRegulatedGoodsCountries(language: String): Single<MutableList<String>> {
         return sautiApiService.getRegulatedGoodsCountries(language)
-            .onErrorResumeNext(
-                tradeInfoRoomCache.getTIRegulatedGoodsCountries(language)
-            )
+            .subscribeOn(Schedulers.io())
+
     }
 
     //TODO: Save in room and error cases when not online

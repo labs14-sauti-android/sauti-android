@@ -21,7 +21,7 @@ interface TradeInfoRepository {
                  product: String,
                  origin: String,
                  dest: String,
-                 value: Double): Single<MutableList<Procedure>>
+                 value: Double): Single<TradeInfoData>
 
     fun searchTradeInfoRequiredDocuments
                 (language: String,

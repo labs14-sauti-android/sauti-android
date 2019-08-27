@@ -1,7 +1,10 @@
 package com.labs.sauti.db
 
+import android.app.VoiceInteractor
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.Transaction
+import com.labs.sauti.model.trade_info.Procedure
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.model.trade_info.TradeInfoData
 import io.reactivex.Completable
@@ -30,8 +33,17 @@ interface TradeInfoDao : BaseDao<TradeInfoData> {
     @Query("SELECT DISTINCT dest FROM trade_info WHERE language=:language AND productCat=:productCat AND product=:product AND origin=:origin")
     fun getTradeInfoDestination(language : String, productCat: String, product: String, origin: String) : Single<MutableList<String>>
 
-    @Query("SELECT DISTINCT * FROM trade_info WHERE language=:language AND productCat=:productCat AND product=:product AND origin=:origin AND dest=:dest AND value=:value AND procedures IS NOT NULL")
-    fun getTradeInfoProcedures(language : String, productCat: String, product: String, origin: String, dest: String, value: String) : Single<TradeInfoData>
+    @Transaction
+    fun insertThenDeleteProcedures(old: TradeInfoData?, new: TradeInfoData) {
+        insert(new)
+        old?.let { delete(it) }
+    }
+
+    @Query("SELECT * FROM trade_info WHERE language=:language AND productCat=:productCat AND product=:product AND origin=:origin AND dest=:dest AND value=:value AND procedures=:procedures")
+    fun getTradeInfoProcedures(language : String, productCat: String, product: String, origin: String, dest: String, value: String, procedures: List<Procedure>) : Single<TradeInfoData>
+
+//    @Query("SELECT procedures FROM trade_info WHERE language=:language AND productCat=:productCat AND product=:product AND origin=:origin AND dest=:dest AND value=:value AND procedures IS NOT NULL")
+//    fun getTradeInfoProceduresList(language : String, productCat: String, product: String, origin: String, dest: String, value: String) : Single<List<Procedure>>
 
     @Query("SELECT DISTINCT * FROM trade_info WHERE language=:language AND productCat=:productCat AND product=:product AND origin=:origin AND dest=:dest AND value=:value AND relevantAgencyData IS NOT NULL")
     fun getTradeInfoBorderAgencies(language : String, productCat: String, product: String, origin: String, dest: String, value: String) : Single<TradeInfoData>
@@ -44,6 +56,5 @@ interface TradeInfoDao : BaseDao<TradeInfoData> {
 
     @Query("SELECT * FROM trade_info WHERE language=:language AND dest=:country AND procedures!=NULL")
     fun getTradeInfoRegulatedGoodsProhibited(language: String, country: String): Single<TradeInfoData>
-
 
 }

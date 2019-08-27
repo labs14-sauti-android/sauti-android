@@ -1,8 +1,12 @@
 package com.labs.sauti.cache
 
 import com.labs.sauti.db.SautiRoomDatabase
+import com.labs.sauti.model.trade_info.Procedure
 import com.labs.sauti.model.trade_info.TradeInfo
+import com.labs.sauti.model.trade_info.TradeInfoData
 import com.labs.sauti.model.trade_info.TradeInfoTaxes
+import io.reactivex.Completable
+import io.reactivex.CompletableSource
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
@@ -14,33 +18,6 @@ class TradeInfoRoomCache(private val sautiRoomDatabase: SautiRoomDatabase) : Tra
         return sautiRoomDatabase.tradeInfoDao().getTradeInfoProductCategories(language)
             .subscribeOn(Schedulers.io())
     }
-
-    override fun getTIRegulatedGoodsCountries(language: String): Single<MutableList<String>> {
-        return sautiRoomDatabase.regulatedGoodDao().getRegulatedGoodsCountries(language)
-            .subscribeOn(Schedulers.io())
-    }
-
-    override fun getTIRegulatedGoodsProhibited(
-        language: String,
-        country: String
-    ): Single<TradeInfo> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getTIRegulatedGoodsRestricted(
-        language: String,
-        country: String
-    ): Single<TradeInfo> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getTIRegulatedGoodsSensitive(
-        language: String,
-        country: String
-    ): Single<TradeInfo> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
 
     override fun getTIProductProducts(
         language: String,
@@ -66,48 +43,37 @@ class TradeInfoRoomCache(private val sautiRoomDatabase: SautiRoomDatabase) : Tra
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun searchTradeInfoBorderProcedures(
-        language: String,
-        category: String,
-        product: String,
-        origin: String,
-        dest: String,
-        value: Double
-    ): Single<TradeInfo> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun saveTIProcedures(borderProcedure: TradeInfoData): Completable {
+
+        return sautiRoomDatabase.tradeInfoDao().getTradeInfoProcedures(
+            borderProcedure.language,
+            borderProcedure.productCat!!,
+            borderProcedure.product!!,
+            borderProcedure.origin!!,
+            borderProcedure.dest,
+            borderProcedure.value,
+            borderProcedure.procedures!!)
+            .doOnSuccess{
+                Completable.fromCallable { sautiRoomDatabase.tradeInfoDao().insertThenDeleteProcedures(it, borderProcedure) }.blockingAwait()
+            }.onErrorResumeNext{
+                sautiRoomDatabase.tradeInfoDao().insert(borderProcedure).flatMapSingle { Single.just(borderProcedure) }
+            }
+            .flatMapCompletable {
+                Completable.complete()
+            }
     }
 
-    override fun searchTradeInfoRequiredDocuments(
+    override fun searchTIProcedures(
         language: String,
         category: String,
         product: String,
         origin: String,
         dest: String,
         value: Double
-    ): Single<TradeInfo> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun searchTradeInfoBorderAgencies(
-        language: String,
-        category: String,
-        product: String,
-        origin: String,
-        dest: String,
-        value: Double
-    ): Single<TradeInfo> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun searchTradeInfoTaxCalculator(
-        language: String,
-        category: String,
-        product: String,
-        origin: String,
-        dest: String,
-        value: Double
-    ): Single<TradeInfoTaxes> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    ): Single<TradeInfoData> {
+        val valueString = if (value < 2000) "under2000USD" else "over2000USD"
+        return sautiRoomDatabase.tradeInfoDao().getTradeInfoProcedures(language, category, product, origin, dest, valueString)
+            .subscribeOn(Schedulers.io())
     }
 
 

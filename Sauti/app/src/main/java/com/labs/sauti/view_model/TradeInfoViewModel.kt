@@ -65,6 +65,7 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
             }
             .subscribe(
                 {
+
                     searchTaxCalculator.postValue(it)
                 },
                 {
@@ -97,7 +98,7 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
             .map {
                 TradeInfo("Border Procedures",
                     """To $destChoice""",
-                    tradeInfoProcedure = it
+                    tradeInfoProcedure = it.procedures?.toMutableList()
                 )
             }
             .subscribe(

@@ -13,7 +13,7 @@ import java.util.*
 
 @Entity(tableName = "trade_info")
 data class TradeInfoData(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @ColumnInfo(name = "trade_info_id")
     var id: Long? = null,
 
@@ -75,16 +75,17 @@ data class TradeInfoData(
     //Taxes
     val userToDestRate: Double? = null,
 
-    val approximateValue: Long? = null,
+    val approximateValue: Long? = null
 
-    var timestamp: Long? = null
-) {
+)
+
+/*{
     fun setTimestamp(){
         this.timestamp = System.currentTimeMillis()
     }
 
     fun getDateFromTimestamp() = timestamp?.let { Date(it) }
-}
+}*/
 
 fun TradeInfoData.toBorderProcedures(procedure: List<Procedure>) {
 
