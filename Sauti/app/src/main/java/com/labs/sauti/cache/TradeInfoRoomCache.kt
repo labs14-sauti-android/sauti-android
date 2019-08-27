@@ -51,8 +51,7 @@ class TradeInfoRoomCache(private val sautiRoomDatabase: SautiRoomDatabase) : Tra
             borderProcedure.product!!,
             borderProcedure.origin!!,
             borderProcedure.dest,
-            borderProcedure.value,
-            borderProcedure.procedures!!)
+            borderProcedure.value)
             .doOnSuccess{
                 Completable.fromCallable { sautiRoomDatabase.tradeInfoDao().insertThenDeleteProcedures(it, borderProcedure) }.blockingAwait()
             }.onErrorResumeNext{
