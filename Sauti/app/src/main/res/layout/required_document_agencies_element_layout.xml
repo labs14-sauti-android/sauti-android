@@ -8,21 +8,21 @@
               android:id="@+id/c_document_agency_parent" android:orientation="horizontal">
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            style="@style/CardViewRecentDetailsListTextStyling"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
             android:id="@+id/rv_tv_document_agency_name"
+            style="@style/CardViewRecentDetailsListTextStyling"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="11dp" android:layout_marginBottom="9dp"
-    />
+            android:layout_marginTop="11dp"
+            android:layout_marginBottom="9dp"
+            android:layout_weight="1" />
     <TextView
             android:text="@string/list_plus"
             style="@style/CardViewRecentDetailsListTextStyling"
             android:textSize="18sp"
             android:layout_weight="2"
-            android:layout_gravity="right|center_vertical|fill_horizontal"
+            android:layout_gravity="start|center_vertical"
             android:layout_width="0dp"
             android:id="@+id/rv_tv_plus"
             android:layout_marginBottom="8dp"

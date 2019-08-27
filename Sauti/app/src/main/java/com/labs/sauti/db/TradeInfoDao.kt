@@ -42,8 +42,8 @@ interface TradeInfoDao : BaseDao<TradeInfoData> {
     @Query("SELECT DISTINCT * FROM trade_info WHERE language=:language AND productCat=:productCat AND product=:product AND origin=:origin AND dest=:dest AND value=:value AND taxes IS NOT NULL")
     fun getTradeInfoTaxes(language : String, productCat: String, product: String, origin: String, dest: String, value: String) : Single<TradeInfoData>
 
-
-
+    @Query("SELECT * FROM trade_info WHERE language=:language AND dest=:country AND procedures!=NULL")
+    fun getTradeInfoRegulatedGoodsProhibited(language: String, country: String): Single<TradeInfoData>
 
 
 }

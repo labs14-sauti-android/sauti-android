@@ -125,7 +125,7 @@ class TradeInfoRepositoryImpl(
     override fun getRegulatedGoodsCountries(language: String): Single<MutableList<String>> {
         return sautiApiService.getRegulatedGoodsCountries(language)
             .onErrorResumeNext(
-                tradeInfoRoomCache.getRegulatedGoodsCountries(language)
+                tradeInfoRoomCache.getTIRegulatedGoodsCountries(language)
             )
     }
 

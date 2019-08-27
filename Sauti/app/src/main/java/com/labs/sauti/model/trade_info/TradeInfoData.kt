@@ -27,7 +27,7 @@ data class TradeInfoData(
 
     @SerializedName("origin")
     @Expose
-    val origin: String,
+    val origin: String? = null,
 
     @SerializedName("procedures")
     @Expose
@@ -35,11 +35,11 @@ data class TradeInfoData(
 
     @SerializedName("product")
     @Expose
-    val product: String,
+    val product: String? = null,
 
     @SerializedName("productCat")
     @Expose
-    val productCat: String,
+    val productCat: String? = null,
 
     @SerializedName("relevantAgencyData")
     @Expose
@@ -57,11 +57,20 @@ data class TradeInfoData(
     @Expose
     val value: String,
 
+    //Regulated Goods
+    val prohibiteds: List<Prohibited>? = null,
+
+    //Regulated Goods
+    val restricteds: List<Restricted>? = null,
+
+    //Regulated Goods
+    val sensitives: List<Sensitive>? = null,
+
     //Taxes
     val userCurrency: String? = null,
 
     //Taxes
-    val destination: String? = null,
+    val destinationCurrency: String? = null,
 
     //Taxes
     val userToDestRate: Double? = null,
