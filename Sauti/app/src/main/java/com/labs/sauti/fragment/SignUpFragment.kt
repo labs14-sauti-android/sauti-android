@@ -63,6 +63,7 @@ class SignUpFragment : Fragment() {
                 if (it.isSuccess) {
                     Snackbar.make(view, "Sign up successful", Snackbar.LENGTH_SHORT).show()
                     activity!!.supportFragmentManager.popBackStack()
+                    openSignInListener?.openSignIn()
                 }
             }
         })
