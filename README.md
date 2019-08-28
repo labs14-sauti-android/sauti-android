@@ -78,7 +78,7 @@ Volunteering your time; it pays you and your whole community fantastic dividends
 
 -   Android Minimum SDK Version 23
 -   Android Studio Version 3.5
--   Gradle 3.4.2
+-   Gradle 3.5
 
 ## Contributing
 
