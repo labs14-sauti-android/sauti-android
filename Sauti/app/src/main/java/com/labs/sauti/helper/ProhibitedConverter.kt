@@ -8,14 +8,20 @@ import com.labs.sauti.model.trade_info.Prohibited
 class ProhibitedConverter {
 
     @TypeConverter
-    fun toProhibited(prohibited: String?) :List<Prohibited> {
-        val type = object : TypeToken<List<Prohibited>>(){}.type
-        return Gson().fromJson(prohibited, type)
-    }
+    fun toProhibited(prohibited: String?) :MutableList<Prohibited>? =
+        if (prohibited == null) {
+            null
+        } else {
+            val type = object : TypeToken<MutableList<Prohibited>>(){}.type
+            Gson().fromJson(prohibited, type)
+        }
 
     @TypeConverter
-    fun toProhibitedJson(prohibited: List<Prohibited>?) :String {
-        val type = object : TypeToken<List<Prohibited>>(){}.type
-        return Gson().toJson(prohibited, type)
-    }
+    fun toProhibitedJson(prohibited: MutableList<Prohibited>?) :String? =
+        if (prohibited != null) {
+            val type = object : TypeToken<MutableList<Prohibited>>(){}.type
+            Gson().toJson(prohibited, type)
+        } else {
+            null
+        }
 }

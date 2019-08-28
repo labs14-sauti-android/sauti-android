@@ -39,11 +39,11 @@ interface TradeInfoDao : BaseDao<TradeInfoData> {
         delete(old)
     }
 
-    @Query("SELECT * FROM trade_info WHERE language=:language AND productCat=:productCat AND product=:product AND origin=:origin AND dest=:dest AND value=:value AND procedures IS NOT NULL")
+    @Query("SELECT * FROM trade_info WHERE language=:language AND productCat=:productCat AND product=:product AND origin=:origin AND dest=:dest AND value=:value")
     fun getTradeInfoProcedures(language : String, productCat: String, product: String, origin: String, dest: String, value: String) : Single<TradeInfoData>
 
-    @Query("SELECT procedures FROM trade_info WHERE language=:language AND productCat=:productCat AND product=:product AND origin=:origin AND dest=:dest AND value=:value")
-    fun getTradeInfoProceduresList(language : String, productCat: String, product: String, origin: String, dest: String, value: String) : Single<List<Procedure>>
+//    @Query("SELECT procedures FROM trade_info WHERE language=:language AND productCat=:productCat AND product=:product AND origin=:origin AND dest=:dest AND value=:value")
+//    fun getTradeInfoProceduresList(language : String, productCat: String, product: String, origin: String, dest: String, value: String) : Single<List<Procedure>>
 
 //    @Query("SELECT procedures FROM trade_info WHERE language=:language AND productCat=:productCat AND product=:product AND origin=:origin AND dest=:dest AND value=:value AND procedures IS NOT NULL")
 //    fun getTradeInfoProceduresList(language : String, productCat: String, product: String, origin: String, dest: String, value: String) : Single<List<Procedure>>

@@ -8,6 +8,8 @@ import com.labs.sauti.model.trade_info.TradeInfoTaxes
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Single
+import io.reactivex.SingleSource
+import io.reactivex.internal.operators.single.SingleJust
 import io.reactivex.schedulers.Schedulers
 
 
@@ -60,6 +62,11 @@ class TradeInfoRoomCache(private val sautiRoomDatabase: SautiRoomDatabase) : Tra
             }.onErrorResumeNext{
                 sautiRoomDatabase.tradeInfoDao().insert(borderProcedure).flatMapSingle { Single.just(borderProcedure) }
             }
+            .onErrorResumeNext{
+                val y = it
+                SingleSource { borderProcedure }
+            }
+
             .flatMapCompletable {
                 Completable.complete()
             }
@@ -74,18 +81,7 @@ class TradeInfoRoomCache(private val sautiRoomDatabase: SautiRoomDatabase) : Tra
         value: Double
     ): Single<TradeInfoData> {
         val valueString = if (value < 2000) "under2000USD" else "over2000USD"
-        return sautiRoomDatabase.tradeInfoDao().getTradeInfoProceduresList(language, category, product, origin, dest, valueString)
-            .map {
-                TradeInfoData(
-                    language = language,
-                    productCat =  category,
-                    product =  product,
-                    origin =  origin,
-                    dest = dest,
-                    value = valueString,
-                    procedures = it
-                )
-            }
+        return sautiRoomDatabase.tradeInfoDao().getTradeInfoProcedures(language, category, product, origin, dest, valueString)
             .doOnError{
                 val x = 1
                 val y = it

@@ -22,63 +22,63 @@ data class TradeInfoData(
 
     @SerializedName("dest")
     @Expose
-    val dest: String? = null,
+    var dest: String? = null,
 
     @SerializedName("language")
     @Expose
-    val language: String?= null,
+    var language: String?= null,
 
     @SerializedName("origin")
     @Expose
-    val origin: String? = null,
+    var origin: String? = null,
 
     @SerializedName("procedures")
     @Expose
-    val procedures: List<Procedure>? = null,
+    var procedures: MutableList<Procedure>? = null,
 
     @SerializedName("product")
     @Expose
-    val product: String? = null,
+    var product: String? = null,
 
     @SerializedName("productCat")
     @Expose
-    val productCat: String? = null,
+    var productCat: String? = null,
 
     @SerializedName("relevantAgencyData")
     @Expose
-    var relevantAgencyData: List<BorderAgency>? = null,
+    var relevantAgencyData: MutableList<BorderAgency>? = null,
 
     @SerializedName("requiredDocumentData")
     @Expose
-    val requiredDocumentData: List<RequiredDocument>? = null,
+    var requiredDocumentData: MutableList<RequiredDocument>? = null,
 
     @SerializedName("taxes")
     @Expose
-    val taxes: List<Taxes>? = null,
+    var taxes: MutableList<Taxes>? = null,
 
     @SerializedName("value")
     @Expose
-    val value: String?= null,
+    var value: String?= null,
 
     //Regulated Goods
-    val prohibiteds: List<Prohibited>? = null,
+    var prohibiteds: MutableList<Prohibited>? = null,
 
     //Regulated Goods
-    val restricteds: List<Restricted>? = null,
+    var restricteds: MutableList<Restricted>? = null,
 
     //Regulated Goods
-    val sensitives: List<Sensitive>? = null,
+    var sensitives: MutableList<Sensitive>? = null,
 
     //Taxes
-    val userCurrency: String? = null,
+    var userCurrency: String? = null,
 
     //Taxes
-    val destinationCurrency: String? = null,
+    var destinationCurrency: String? = null,
 
     //Taxes
-    val userToDestRate: Double? = null,
+    var userToDestRate: Double? = null,
 
-    val approximateValue: Long? = null
+    var approximateValue: Long? = null
 
 )
 

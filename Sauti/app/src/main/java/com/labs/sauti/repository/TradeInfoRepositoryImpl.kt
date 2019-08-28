@@ -103,7 +103,7 @@ class TradeInfoRepositoryImpl(
                 origin =  origin,
                 dest = dest,
                 value = valueString,
-                procedures = it)
+                procedures = it.toMutableList())
             }
             .doOnSuccess{
                 tradeInfoRoomCache.saveTIProcedures(it).blockingAwait()

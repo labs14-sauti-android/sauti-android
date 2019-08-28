@@ -8,15 +8,21 @@ import com.labs.sauti.model.trade_info.BorderAgency
 class BorderAgencyConverter {
 
     @TypeConverter
-    fun toBorderAgency(borderAgency: String?) :List<BorderAgency> {
-        val type = object : TypeToken<List<BorderAgency>>(){}.type
-        return Gson().fromJson(borderAgency, type)
-    }
+    fun toBorderAgency(data: String?) :MutableList<BorderAgency>? =
+        if(data == null) {
+            null
+        } else {
+            val type = object : TypeToken<MutableList<BorderAgency>>(){}.type
+            Gson().fromJson(data, type)
+        }
 
     @TypeConverter
-    fun toBorderAgencyJson(borderAgency: List<BorderAgency>?) :String {
-        val type = object : TypeToken<List<BorderAgency>>(){}.type
-        return Gson().toJson(borderAgency, type)
-    }
+    fun toBorderAgencyJson(borderAgency: List<BorderAgency>?) :String? =
+        if (borderAgency == null) {
+            null
+        } else {
+            val type = object : TypeToken<List<BorderAgency>>() {}.type
+            Gson().toJson(borderAgency, type)
+        }
 
 }
