@@ -23,6 +23,7 @@ import javax.inject.Inject
 class DashboardFavoritesFragment : Fragment() {
 
     private var onFavoriteClickListener: OnFavoriteClickListener? = null
+    private var onSignUpClickListener: OnSignUpClickListener? = null
 
     @Inject
     lateinit var dashboardFavoritesViewModelFactory: DashboardFavoritesViewModel.Factory
@@ -87,6 +88,10 @@ class DashboardFavoritesFragment : Fragment() {
         })
 
         dashboardFavoritesViewModel.getSignedInUser(NetworkHelper.hasNetworkConnection(context!!))
+
+        b_sign_up.setOnClickListener {
+            onSignUpClickListener?.onSignUpClick()
+        }
     }
 
     override fun onAttach(context: Context?) {
@@ -97,12 +102,19 @@ class DashboardFavoritesFragment : Fragment() {
         } else {
             throw RuntimeException("Context must implement OnFavoriteClickListener")
         }
+
+        if (context is OnSignUpClickListener) {
+            onSignUpClickListener = context
+        } else {
+            throw RuntimeException("Context must implement OnSignUpClickListener")
+        }
     }
 
     override fun onDetach() {
         super.onDetach()
 
         onFavoriteClickListener = null
+        onSignUpClickListener = null
     }
 
     companion object {
@@ -113,5 +125,9 @@ class DashboardFavoritesFragment : Fragment() {
 
     interface OnFavoriteClickListener {
         fun onFavoriteClick(favorite: Any)
+    }
+
+    interface OnSignUpClickListener {
+        fun onSignUpClick()
     }
 }
