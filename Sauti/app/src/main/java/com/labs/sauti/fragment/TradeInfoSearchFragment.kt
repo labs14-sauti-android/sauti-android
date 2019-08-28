@@ -103,13 +103,14 @@ class TradeInfoSearchFragment : Fragment() {
 
         //TODO: Extract String resources
         tradeInfoViewModel.getTradeInfoFirstSpinnerContent().observe(this, Observer {
-            if(it != null) {
-                if(tradeInfoCategory == "Regulated Goods") {
-                    loadFirstSpinner(sscv_trade_info_q_1, it, "Select where you're going")
-                } else {
-                    loadFirstSpinner(sscv_trade_info_q_1, it, "What is your commodity category?")
-                }
+
+            if(tradeInfoCategory != "Regulated Goods") {
+                loadFirstSpinner(sscv_trade_info_q_1, it, "What is your commodity category?")
+//                    loadFirstSpinner(sscv_trade_info_q_1, it, "Select where you're going")
+            } else {
+                sscv_trade_info_q_1.visibility = View.GONE
             }
+
 
         })
 
