@@ -48,6 +48,8 @@ class TradeInfoSearchFragment : Fragment() {
     private lateinit var regulatedType: String
 
     lateinit var product : String
+    lateinit var country: String
+    lateinit var countryCode: String
     lateinit var category: String
     lateinit var origin : String
     lateinit var dest : String
@@ -101,11 +103,14 @@ class TradeInfoSearchFragment : Fragment() {
 
         //TODO: Extract String resources
         tradeInfoViewModel.getTradeInfoFirstSpinnerContent().observe(this, Observer {
-            if(tradeInfoCategory == "Regulated Goods") {
-                loadFirstSpinner(sscv_trade_info_q_1, it, "Regulated Goods")
-            } else {
-                loadFirstSpinner(sscv_trade_info_q_1, it, "What is your commodity category?")
+            if(it != null) {
+                if(tradeInfoCategory == "Regulated Goods") {
+                    loadFirstSpinner(sscv_trade_info_q_1, it, "Select where you're going")
+                } else {
+                    loadFirstSpinner(sscv_trade_info_q_1, it, "What is your commodity category?")
+                }
             }
+
         })
 
 
@@ -181,18 +186,7 @@ class TradeInfoSearchFragment : Fragment() {
                 }
                 "Border Agencies"->{}
                 "Regulated Goods"->{
-                    if(!regulatedType.isNullOrEmpty()){
-                        var country = sscv_trade_info_q_1.getSpinnerSelected()
-                        lateinit var countryCode : String
-                        map.forEach mapBreak@{
-                            if(it.value == country) {
-                                countryCode = it.key
-                                return@mapBreak
-                            }
-                        }
-                        tradeInfoViewModel.searchRegulatedGoods(language.toUpperCase(), countryCode, regulatedType)
-                    }
-
+                    tradeInfoViewModel.searchRegulatedGoods(language, countryCode, regulatedType)
                 }
 
 
@@ -302,7 +296,7 @@ class TradeInfoSearchFragment : Fragment() {
     fun loadFirstSpinner(next: SearchSpinnerCustomView, spinnerList : List<String>, headerString : String) {
         next.visibility = View.VISIBLE
 
-        if(headerString == "Regulated Goods") {
+        if(headerString == "Select where you're going") {
             val countryNames = convertCountryNamesList(spinnerList)
             next.addSpinnerContents(countryNames)
 
@@ -311,16 +305,11 @@ class TradeInfoSearchFragment : Fragment() {
                 }
 
                 override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                    val country = parent.getItemAtPosition(position) as String
+                    country = parent.getItemAtPosition(position) as String
+                    countryCode = convertCountrytoCountryCode(country)
 
-                    if(!country.isNullOrEmpty()){
-                        map.forEach mapBreak@{
-                            if(it.value == country) {
-                                //firstSpinnerSelected = it.key
-                                tradeInfoViewModel.setSecondSpinnerContent(it.key)
-                                return@mapBreak
-                            }
-                        }
+                    if(countryCode.isNotEmpty()){
+                        tradeInfoViewModel.setSecondSpinnerContent(countryCode)
                     }
                 }
 
@@ -497,6 +486,19 @@ class TradeInfoSearchFragment : Fragment() {
             "Rwanda"-> (return "RWA")
             "Tanzania"-> (return "TZA")
             "Uganda"-> (return "UGA")
+            else -> return ""
+        }
+    }
+
+    fun convertCountryCodetoCountry(code: String): String {
+        when(code) {
+            "KEN" -> (return "Kenya")
+            "BDI"-> (return "Burundi")
+            "DRC"-> (return "Democratic Republic of the Congo")
+            "MWI"-> (return "Malawi")
+            "RWA"-> (return "Rwanda")
+            "TZA"-> (return "Tanzania")
+            "UGA"-> (return "Uganda")
             else -> return ""
         }
     }

@@ -39,7 +39,9 @@ class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 SignInFragment.OnSignInCompletedListener, OnFragmentFullScreenStateChangedListener,
 SignInFragment.OpenSignUpListener, SignUpFragment.OpenSignInListener,
 DashboardFragment.OnReplaceFragmentListener, SettingsFragment.OnLanguageChangedListener,
-DashboardFavoritesFragment.OnFavoriteClickListener{
+DashboardFavoritesFragment.OnFavoriteClickListener,
+DashboardRecentSearchesFragment.OnRecentSearchClickListener,
+DashboardFavoritesFragment.OnSignUpClickListener{
 
     @Inject
     lateinit var authenticationViewModelFactory: AuthenticationViewModel.Factory
@@ -278,12 +280,7 @@ DashboardFavoritesFragment.OnFavoriteClickListener{
     }
 
     override fun openSignUp() {
-        val signUpFragment = SignUpFragment.newInstance()
-
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, signUpFragment)
-            .addToBackStack(null)
-            .commit()
+        openSignUpFragment()
     }
 
     override fun openSignIn() {
@@ -291,6 +288,19 @@ DashboardFavoritesFragment.OnFavoriteClickListener{
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, signInFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun onSignUpClick() {
+        openSignUpFragment()
+    }
+
+    private fun openSignUpFragment() {
+        val signUpFragment = SignUpFragment.newInstance()
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, signUpFragment)
             .addToBackStack(null)
             .commit()
     }
@@ -416,9 +426,17 @@ DashboardFavoritesFragment.OnFavoriteClickListener{
     }
 
     override fun onFavoriteClick(favorite: Any) {
-        when (favorite) {
-            is MarketPrice -> replaceFragment(MarketPriceFragment::class.java, favorite)
-            is ExchangeRateConversionResult -> replaceFragment(ExchangeRateFragment::class.java, favorite)
+        replaceFragmentByDataType(favorite)
+    }
+
+    override fun onRecentSearchClick(recentSearch: Any) {
+        replaceFragmentByDataType(recentSearch)
+    }
+
+    private fun replaceFragmentByDataType(data: Any) {
+        when (data) {
+            is MarketPrice -> replaceFragment(MarketPriceFragment::class.java, data)
+            is ExchangeRateConversionResult -> replaceFragment(ExchangeRateFragment::class.java, data)
             else -> throw RuntimeException("Unhandled favorite type")
         }
     }

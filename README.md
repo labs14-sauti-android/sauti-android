@@ -11,26 +11,13 @@ You can find the deployed project at [Sauti](https://play.google.com/store/apps/
 ## Contributors
 
 
-|                                       [Israel Dela Cruz](https://github.com/kurochin143)                                        |                                       [Debi Jones](https://github.com/doc-jones)                                        |                                       [Patrick Martin](https://github.com/vespertineSiren)                                        |                                       [Troy Schennum](https://github.com/TroySchennum)                                        |                                       [Edwin Torres - TL](https://github.com/etorresm2)                                        |
+|                                       [Israel Dela Cruz - Android Dev](https://github.com/kurochin143)                                        |                                       [Patrick Martin - Android Dev](https://github.com/vespertineSiren)                                        |                                       [Troy Schennum - UX/UI Designer](https://github.com/TroySchennum)                                        |                                       [Edwin Torres - TL](https://github.com/etorresm2)                                        |
 | :-----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: |
-|                      [<img src="https://res.cloudinary.com/devfmbyvs/image/upload/v1562781329/Team/israel_jpk5jk.jpg" width = "200" />](https://github.com/)                       |                      [<img src="https://res.cloudinary.com/devfmbyvs/image/upload/v1562781329/Team/debi_l9lzw7.jpg" width = "200" />](https://github.com/)                       |                      [<img src="https://res.cloudinary.com/devfmbyvs/image/upload/v1562781329/Team/0_v35nki.jpg" width = "200" />](https://github.com/)                       |                      [<img src="https://res.cloudinary.com/devfmbyvs/image/upload/v1562781330/Team/troy_c5jrd4.jpg" width = "200" />](https://github.com/)                       |                      [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/)                       |
-|                 [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/kurochin143)                 |            [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/doc-jones)             |           [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/vespertineSiren)            |          [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/TroySchennum)           |            [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/etorresm2)             |
-| [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/israel-dela-cruz-179922177/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/mobilejones/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/patrick-martin-b7633942/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/troy-schennum/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/) |
-
-🚫 Optional examples of using badges with links for your tech stack, make sure to change these to fit your project
-
-[![Swift Version][swift-image]][swift-url]
-[![Build Status][travis-image]][travis-url]
-[![License][license-image]][license-url]
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/EZSwiftExtensions.svg)](https://img.shields.io/cocoapods/v/LFAlertController.svg)  
-[![Platform](https://img.shields.io/cocoapods/p/LFAlertController.svg?style=flat)](http://cocoapods.org/pods/LFAlertController)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-
-🚫 more info on using badges [here](https://github.com/badges/shields)
+|                      [<img src="https://res.cloudinary.com/devfmbyvs/image/upload/v1562781329/Team/israel_jpk5jk.jpg" width = "200" />](https://github.com/)                       |                      [<img src="https://res.cloudinary.com/devfmbyvs/image/upload/v1562781329/Team/0_v35nki.jpg" width = "200" />](https://github.com/)                       |                      [<img src="https://res.cloudinary.com/devfmbyvs/image/upload/v1562781330/Team/troy_c5jrd4.jpg" width = "200" />](https://github.com/)                       |                      [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/)                       |
+|                 [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/kurochin143)                 |           [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/vespertineSiren)            |          [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/TroySchennum)           |            [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/etorresm2)             |
+| [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/israel-dela-cruz-179922177/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/patrick-martin-b7633942/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/troy-schennum/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/) |
 
 ## 🚫 Project Overview
-
 
  [Trello Board](https://trello.com/b/enXrzu84/labs14-sauti-android)
 
@@ -47,37 +34,39 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-## 2️⃣ Features
+## Features
 
--    Feature 1
--    Feature 2
--    Feature 3
--    Feature 4
--    Feature 5
+- Convert Sauti Africa SMS app into an Android App
+    - Market Price page
+        - Nearby marketplace
+    - Exchange Rate page
+    - Trade Info page
+        - Border Procedures
+        - Relevant Agencies
+        - Required Documents
+        - Regulated Goods
+            - Prohibited
+            - Restricted
+            - Sensitive
+    - Tax Calculator page
+    - Report page
+    - Help page
+    - Dashboard page
+    - Settings page
+    - Translations to Swahili and Luganda
+- Allow user favorites
+    - User authorization
+    - User profile
+    - Favorite Market Price
+    - Favorite Exchange Rate Conversion
+    - Favorite Trade Info
+    - Favorite Tax Calculation
+    - Dashboard page favorites and recent searches
+- Marketplace for trading
 
-## 2️⃣Authentication API here
+## Sauti Api OAuth2
 
-🚫Replace text below with a description of the API
-
-Water's like me. It's laaazy ... Boy, it always looks for the easiest way to do things A little happy sunlight shining through there. Let all these little things happen. Don't fight them. Learn to use them. Even the worst thing we can do here is good.
-
-## 2️⃣Payment API here
-
-🚫Replace text below with a description of the API
-
-This is the way you take out your frustrations. Get away from those little Christmas tree things we used to make in school. Isn't it fantastic that you can change your mind and create all these happy things? Everything's not great in life, but we can still find beauty in it.
-
-## 3️⃣Misc API here
-
-🚫Replace text below with a description of the API
-
-You can do anything your heart can imagine. In life you need colors. This is where you take out all your hostilities and frustrations. It's better than kicking the puppy dog around and all that so. I'm sort of a softy, I couldn't shoot Bambi except with a camera. Trees get lonely too, so we'll give him a little friend. We'll lay all these little funky little things in there.
-
-## 3️⃣Misc API here
-
-🚫Replace text below with a description of the API
-
-When you do it your way you can go anywhere you choose. Let your heart take you to wherever you want to be. If I paint something, I don't want to have to explain what it is. A tree needs to be your friend if you're going to paint him. That's a son of a gun of a cloud. Even the worst thing we can do here is good.
+The app uses our backend's integration of OAuth2 Api for authorization
 
 ## 3️⃣Misc API here
 
@@ -87,11 +76,9 @@ Volunteering your time; it pays you and your whole community fantastic dividends
 
 ## 2️⃣Requirements
 
-🚫 These are examples, make sure this matches your project's requirements
-
--   Minimum version of Android here
--   Android Studio
--   Gradle
+-   Android Minimum SDK Version 23
+-   Android Studio Version 3.5
+-   Gradle 3.4.2
 
 ## Contributing
 
@@ -139,14 +126,4 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 ## Documentation
 
-See [Backend Documentation](_link to your backend readme here_) for details on the backend of our project.
-
-
-[swift-image]: https://img.shields.io/badge/swift-3.0-orange.svg
-[swift-url]: https://swift.org/
-[license-image]: https://img.shields.io/badge/License-MIT-blue.svg
-[license-url]: LICENSE
-[travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
-[codebeat-image]: https://codebeat.co/badges/c19b47ea-2f9d-45df-8458-b2d952fe9dad
-[codebeat-url]: https://codebeat.co/projects/github-com-vsouza-awesomeios-com
+See [Backend Documentation](https://github.com/labs14-sauti-android/sauti-backend) for details on the backend of our project.

@@ -2,7 +2,46 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".fragment.DashboardRecentSearchesFragment">
+             android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+             tools:context=".fragment.DashboardRecentSearchesFragment"
+             tools:layout_height="220dp"
+             tools:background="@color/colorInformation">
+
+    <ViewSwitcher
+            android:id="@+id/vs_recent_searches_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="18dp"
+            android:paddingBottom="10dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/r_recent_searches"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="horizontal"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/item_recent_market_price"/>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Push To View"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorText"
+                    android:gravity="center"/>
+
+        </LinearLayout>
+
+        <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+    </ViewSwitcher>
 
 </FrameLayout>

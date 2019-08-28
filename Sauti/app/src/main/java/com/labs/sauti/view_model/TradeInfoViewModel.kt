@@ -212,19 +212,17 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
 
     fun setFirstSpinnerContent(cat: String? = null) {
 
-        if (cat == null) {
-            tradeInfoCategory.value = "Border Procedures"
-        } else {
-            tradeInfoCategory.value = cat
-        }
+         tradeInfoCategory.value = cat
+
 
         val language = tradeInfoLanguage.value as String
 
 
         //TODO: String will not be hardcoded and turned into resource with translations
-        if(tradeInfoCategory.value == "Regulated Goods") {
+        if(cat == "Regulated Goods") {
             addDisposable(tradeInfoRepository.getRegulatedGoodsCountries(language).subscribeOn(Schedulers.io()).subscribe(
                 {
+                    //TODO: Setup a whole new obversable just for Regulated goods.
                     tradeInfoFirstSpinnerContent.postValue(it)
                 },
                 {
