@@ -52,8 +52,6 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
 
     fun searchTaxCalculations(language: String, category: String, product: String, origin: String, dest: String, value: Double, currencyFrom: String, currencyTo: String, rate: Double, valueCheck: Double) {
 
-
-
         addDisposable(tradeInfoRepository.searchTradeInfoTaxes(language, category, product, origin, dest, valueCheck)
             .map {
                 TradeInfoTaxes(product,

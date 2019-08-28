@@ -45,13 +45,14 @@ class TradeInfoSearchFragment : Fragment() {
     private lateinit var firstSpinnerSelected : String
     private lateinit var language : String
     private lateinit var tradeInfoCategory : String
+    private lateinit var regulatedType: String
 
     lateinit var product : String
     lateinit var category: String
     lateinit var origin : String
     lateinit var dest : String
     lateinit var destChoice: String
-    var value:  Double? = 0.0
+    var value:  Double = 0.0
 
     private val networkChangedReceiver = object: BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -137,30 +138,27 @@ class TradeInfoSearchFragment : Fragment() {
 
             if(it != null){
                 onTradeSearchCompletedListener?.OnTradeInfoSearchCompleted(it)
-                b_trade_info_search.isEnabled = true
-            } else {
-                b_trade_info_search.isEnabled = false
+                onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
+                fragmentManager!!.popBackStack()
             }
         })
 
         tradeInfoViewModel.getSearchTradeInfoDocuments().observe(this, Observer {
             if(it != null) {
                 onTradeSearchCompletedListener?.OnTradeInfoSearchCompleted(it)
-                b_trade_info_search.isEnabled = true
-            } else {
-                b_trade_info_search.isEnabled = false
+                onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
+                fragmentManager!!.popBackStack()
             }
         })
 
         tradeInfoViewModel.getSearchTradeInfoProcedure().observe(this, Observer{
             if(it != null) {
                 onTradeSearchCompletedListener?.OnTradeInfoSearchCompleted(it)
-                b_trade_info_search.isEnabled = true
-            } else {
-                b_trade_info_search.isEnabled = false
+                onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
+                fragmentManager!!.popBackStack()
             }
         })
-
+/*
         tradeInfoViewModel.getSearchTradeInfoAgencies().observe(this, Observer {
             if(it != null) {
                 onTradeSearchCompletedListener?.OnTradeInfoSearchCompleted(it)
@@ -168,16 +166,40 @@ class TradeInfoSearchFragment : Fragment() {
             } else {
                 b_trade_info_search.isEnabled = false
             }
-        })
+        })*/
 
 
 
         b_trade_info_search.setOnClickListener {
 
-            if(!(sscv_trade_info_q_2.getSpinnerSelected().isNullOrEmpty())){
-                onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
-                fragmentManager!!.popBackStack()
+            when (tradeInfoCategory) {
+                "Border Procedures"->{
+                    tradeInfoViewModel.searchBorderProcedures(language, category, product, origin, dest, value, destChoice)
+                }
+                "Required Documents"->{
+                    tradeInfoViewModel.searchRequiredDocuments(language, category, product, origin, dest, value)
+                }
+                "Border Agencies"->{}
+                "Regulated Goods"->{
+                    if(!regulatedType.isNullOrEmpty()){
+                        var country = sscv_trade_info_q_1.getSpinnerSelected()
+                        lateinit var countryCode : String
+                        map.forEach mapBreak@{
+                            if(it.value == country) {
+                                countryCode = it.key
+                                return@mapBreak
+                            }
+                        }
+                        tradeInfoViewModel.searchRegulatedGoods(language.toUpperCase(), countryCode, regulatedType)
+                    }
+
+                }
+
+
             }
+/*            if(!(sscv_trade_info_q_2.getSpinnerSelected().isNullOrEmpty())){
+
+            }*/
         }
 
     }
@@ -189,7 +211,7 @@ class TradeInfoSearchFragment : Fragment() {
 
         categoryListener = View.OnClickListener { v ->
             val b = v as Button
-
+            b_trade_info_search.isEnabled = false
             b.background.setTint(ContextCompat.getColor(context!!, R.color.colorAccent))
 
 
@@ -340,22 +362,13 @@ class TradeInfoSearchFragment : Fragment() {
                 }
 
                 override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-//                    val regulatedType = parent!!.selectedItem as String
-                    //val regulatedType = second.getSpinnerSelected()
-                    val regulatedType = parent.getItemAtPosition(position) as String
+                    regulatedType = parent.getItemAtPosition(position) as String
 
-                    if(!regulatedType.isNullOrEmpty()){
-                        var country = sscv_trade_info_q_1.getSpinnerSelected()
-                        lateinit var countryCode : String
-                        map.forEach mapBreak@{
-                            if(it.value == country) {
-                                countryCode = it.key
-                                return@mapBreak
-                            }
-                        }
-                        tradeInfoViewModel.searchRegulatedGoods(language.toUpperCase(), countryCode, regulatedType)
-
+                    if (position != 0) {
+                        b_trade_info_search.isEnabled = true
                     }
+
+
                 }
             }
 
@@ -442,20 +455,17 @@ class TradeInfoSearchFragment : Fragment() {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
+                when (position) {
+//                    0-> {b_trade_info_search.isEnabled = false}
+                    1-> {value = 2001.0
+                        b_trade_info_search.isEnabled = true
+                    }
+                    2-> {value = 1.0
+                        b_trade_info_search.isEnabled = true
+                    }
+                }
                 //TODO: Should check for button text instead of this.
                 when (tradeInfoCategory) {
-                    "Border Procedures" -> {
-                        when (position) {
-                            1 -> {tradeInfoViewModel.searchBorderProcedures(language, category, product, origin, dest, 2001.0, destChoice)}
-                            2 -> {tradeInfoViewModel.searchBorderProcedures(language, category, product, origin, dest, 1.0, destChoice)}
-                        }
-                    }
-                    "Required Documents" -> {
-                        when (position) {
-                            1 -> {tradeInfoViewModel.searchRequiredDocuments(language, category, product, origin, dest, 2001.0)}
-                            2 -> {tradeInfoViewModel.searchRequiredDocuments(language, category, product, origin, dest, 1.0)}
-                        }
-                    }
 
                     "Border Agencies" -> {
                         when (position) {

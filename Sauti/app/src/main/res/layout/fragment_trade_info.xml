@@ -81,7 +81,6 @@
             <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="0dp"
                     android:visibility="gone"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:layout_height="235dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"

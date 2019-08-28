@@ -7,11 +7,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import com.labs.sauti.R
 import com.labs.sauti.model.trade_info.TradeInfo
@@ -122,6 +124,8 @@ OnFragmentFullScreenStateChangedListener{
 
                 t_trade_info_sub_header.visibility = View.VISIBLE
                 rv_trade_info_border_procedures.visibility = View.VISIBLE
+                rv_trade_info_border_procedures.setHasFixedSize(true)
+                rv_trade_info_border_procedures.layoutManager = LinearLayoutManager(context)
                 proceduresAdapter = ProceduresAdapter(tradeInfo.tradeInfoProcedure!!)
                 rv_trade_info_border_procedures.adapter = proceduresAdapter
 
@@ -135,6 +139,7 @@ OnFragmentFullScreenStateChangedListener{
                 t_trade_info_sub_header.visibility = View.VISIBLE
                 rv_trade_info_required_documents.visibility = View.VISIBLE
 
+                rv_trade_info_required_documents.setHasFixedSize(true)
 
                 documentsAdapter = DocumentsAdapter(tradeInfo.tradeInfoDocs!!) {
                     val tradeInfoDetailsFragment = TradeInfoDetailsFragment.newInstance(it.docTitle!!, it.docDescription!!)
