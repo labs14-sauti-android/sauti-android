@@ -1,5 +1,11 @@
 <resources>
 
+    <!--Nav Menu-->
+    <string name="menu_market_prices">Bei za bidhaa</string>
+    <string name="menu_tax_calculator">Makadirio ya Ushuru</string>
+    <string name="menu_trade_info">Habari za Biashara</string>
+    <string name="menu_exchange_rates">Viwango vya ubadilinashaji wa pesa</string>
+
     <!--Market Price-->
     <string name="select_country_for_markets">Chagua nchi ili kuona masoko</string>
     <string name="select_market">Chagua Soko</string>

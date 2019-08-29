@@ -1,5 +1,11 @@
 <resources>
 
+    <!--Nav Menu-->
+    <string name="menu_market_prices">Emiwendo mu butale</string>
+    <string name="menu_tax_calculator">Okubala Omusolo</string>
+    <string name="menu_trade_info">Ebikwata ku butale</string>
+    <string name="menu_exchange_rates">Emiwendo gy\'ensimbi</string>
+
     <!--Market Price-->
     <string name="select_country_for_markets">Londa ensi awali akatale k\'ebintu byo</string>
     <string name="select_market">Londako akatale</string>

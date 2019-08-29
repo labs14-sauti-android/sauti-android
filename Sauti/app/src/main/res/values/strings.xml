@@ -8,10 +8,10 @@
     <string name="language_activity_text" translatable="false">
         <b>Sauti</b><font fgcolor='#e84c3d'><b>.</b></font>
     </string>
-    <string name="menu_market_prices" translatable="false">Market Prices</string>
-    <string name="menu_tax_calculator" translatable="false">Tax Calculator</string>
-    <string name="menu_trade_info" translatable="false">Trade Info</string>
-    <string name="menu_exchange_rates" translatable="false">Exchange Rates</string>
+    <string name="menu_market_prices">Market Prices</string>
+    <string name="menu_tax_calculator">Tax Calculator</string>
+    <string name="menu_trade_info">Trade Info</string>
+    <string name="menu_exchange_rates">Exchange Rates</string>
     <string name="menu_sign_in" translatable="false">Sign In</string>
     <string name="menu_sign_out" translatable="false">Sign Out</string>
     <string name="your_recent_searches" translatable="false">Your Recent Searches</string>

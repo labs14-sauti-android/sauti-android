@@ -1,5 +1,6 @@
 package com.labs.sauti.activity
 
+import android.content.Context
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -21,9 +22,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.fragment.*
+import com.labs.sauti.helper.LocaleHelper
 import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResult
 import com.labs.sauti.model.market_price.MarketPrice
+import com.labs.sauti.sp.SettingsSp
 import com.labs.sauti.view_model.AuthenticationViewModel
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -31,6 +34,7 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.app_bar_base.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.RuntimeException
@@ -49,6 +53,9 @@ DashboardFavoritesFragment.OnSignUpClickListener{
     private lateinit var authenticationViewModel: AuthenticationViewModel
     private lateinit var baseFragment: Fragment
     private var appCloseDoubleClickTimerDisposable: Disposable? = null
+
+    @Inject
+    lateinit var settingsSp: SettingsSp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,6 +118,17 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                 }
             }
         })
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        // set locale based on user selected locale
+        val locale = Locale(settingsSp.getSelectedLanguage())
+        Locale.setDefault(locale)
+        val config = resources.configuration
+        config.setLocale(locale)
+        config.setLayoutDirection(locale)
+
+        super.attachBaseContext(LocaleHelper.createContext(newBase!!))
     }
 
     override fun onResume() {
