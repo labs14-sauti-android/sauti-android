@@ -252,6 +252,10 @@ OnFragmentFullScreenStateChangedListener{
             tiv_trade_info_recent_first.consumeTIRequiredDocuments(tradeInfo)
         }
 
+        if(tradeInfo.tradeInfoProcedure != null) {
+            tiv_trade_info_recent_first.consumeTIBorderProcedures(tradeInfo)
+        }
+
 
         addTIDetailsLL(tradeInfo)
         cl_expanded_trade_info.visibility = View.VISIBLE

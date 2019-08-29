@@ -27,11 +27,13 @@ class CardViewRecentSearches @JvmOverloads constructor(
         inflate(getContext(), R.layout.item_recent_card_view, this)
     }
 
-    fun consumeTradeInfo(tradeInfo: TradeInfo) {
 
-    }
 
     fun consumeTITaxes(tradeInfoTaxes: TradeInfoTaxes) {
+
+        if(ll_card_list.childCount > 0) {
+            ll_card_list.removeAllViews()
+        }
 
         if(t_taxcalc_total.visibility == View.VISIBLE){
             t_taxcalc_total.visibility = View.GONE
@@ -61,7 +63,29 @@ class CardViewRecentSearches @JvmOverloads constructor(
 
     }
 
+    fun consumeTIBorderProcedures(tradeInfo: TradeInfo) {
+        if(ll_card_list.childCount > 0) {
+            ll_card_list.removeAllViews()
+        }
+
+        if(t_taxcalc_total.visibility == View.VISIBLE){
+            t_taxcalc_total.visibility = View.GONE
+        }
+
+
+
+
+    }
+
     fun consumeTIRequiredDocuments(tradeInfo: TradeInfo) {
+        if(ll_card_list.childCount > 0) {
+            ll_card_list.removeAllViews()
+        }
+
+        if(t_taxcalc_total.visibility == View.VISIBLE){
+            t_taxcalc_total.visibility = View.GONE
+        }
+
         t_card_view_header.text = tradeInfo.tradeinfoTopic
         //TODO:  Change to translatable.
         t_card_view_category.text = "Trade Info"
@@ -80,6 +104,14 @@ class CardViewRecentSearches @JvmOverloads constructor(
     }
 
     fun consumeTIRegulatedGood(tradeInfo: TradeInfo) {
+        if(ll_card_list.childCount > 0) {
+            ll_card_list.removeAllViews()
+        }
+
+        if(t_taxcalc_total.visibility == View.VISIBLE){
+            t_taxcalc_total.visibility = View.GONE
+        }
+
         t_card_view_header.text = tradeInfo.tradeinfoTopicExpanded
         //TODO:  Change to translatable.
         t_card_view_category.text = "Trade Info"

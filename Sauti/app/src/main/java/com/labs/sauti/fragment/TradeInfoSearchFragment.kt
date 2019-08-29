@@ -104,14 +104,24 @@ class TradeInfoSearchFragment : Fragment() {
         //TODO: Extract String resources
         tradeInfoViewModel.getTradeInfoFirstSpinnerContent().observe(this, Observer {
 
+
             if(tradeInfoCategory != "Regulated Goods") {
                 loadFirstSpinner(sscv_trade_info_q_1, it, "What is your commodity category?")
-//                    loadFirstSpinner(sscv_trade_info_q_1, it, "Select where you're going")
             } else {
                 sscv_trade_info_q_1.visibility = View.GONE
             }
 
+        })
 
+        tradeInfoViewModel.getTradeInfoBorderCountries().observe(this, Observer {
+
+            if(it.firstOrNull() == null) {
+                sscv_trade_info_q_1.visibility = View.GONE
+            } else {
+                if(tradeInfoCategory == "Regulated Goods") {
+                    loadFirstSpinner(sscv_trade_info_q_1, it, "Select where you're going")
+                }
+            }
         })
 
 
@@ -189,7 +199,6 @@ class TradeInfoSearchFragment : Fragment() {
                 "Regulated Goods"->{
                     tradeInfoViewModel.searchRegulatedGoods(language, countryCode, regulatedType)
                 }
-
 
             }
 /*            if(!(sscv_trade_info_q_2.getSpinnerSelected().isNullOrEmpty())){
@@ -306,10 +315,13 @@ class TradeInfoSearchFragment : Fragment() {
                 }
 
                 override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                    country = parent.getItemAtPosition(position) as String
-                    countryCode = convertCountrytoCountryCode(country)
 
-                    if(countryCode.isNotEmpty()){
+
+                    if(position != 0){
+                        country = parent.getItemAtPosition(position) as String
+                        val converted = convertCountrytoCountryCode(country)
+                        countryCode = converted
+
                         tradeInfoViewModel.setSecondSpinnerContent(countryCode)
                     }
                 }
@@ -326,11 +338,9 @@ class TradeInfoSearchFragment : Fragment() {
 
                 override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
 
-                    category = parent.getItemAtPosition(position) as String
-
-                    if(!category.isNullOrEmpty()){
+                    if(position != 0) {
+                        category = parent.getItemAtPosition(position) as String
                         tradeInfoViewModel.setSecondSpinnerContent(category)
-
                     }
                 }
             }
@@ -352,13 +362,11 @@ class TradeInfoSearchFragment : Fragment() {
                 }
 
                 override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                    regulatedType = parent.getItemAtPosition(position) as String
 
                     if (position != 0) {
+                        regulatedType = parent.getItemAtPosition(position) as String
                         b_trade_info_search.isEnabled = true
                     }
-
-
                 }
             }
 
@@ -397,9 +405,10 @@ class TradeInfoSearchFragment : Fragment() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                origin = parent.getItemAtPosition(position) as String
 
-                if(!origin.isNullOrEmpty()){
+
+                if(position != 0){
+                    origin = parent.getItemAtPosition(position) as String
                     tradeInfoViewModel.setFourthSpinnerContent(language, category, product, origin)
                 }
 
@@ -420,9 +429,8 @@ class TradeInfoSearchFragment : Fragment() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                destChoice = parent.getItemAtPosition(position) as String
-
-                if(destChoice.isNotEmpty()){
+                if(position != 0){
+                    destChoice = parent.getItemAtPosition(position) as String
                     dest = convertCountrytoCountryCode(destChoice)
                     tradeInfoViewModel.setFifthSpinnerContent()
                 }

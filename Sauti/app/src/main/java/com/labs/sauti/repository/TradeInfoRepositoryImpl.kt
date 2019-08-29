@@ -103,7 +103,7 @@ class TradeInfoRepositoryImpl(
                 origin =  origin,
                 dest = dest,
                 value = valueString,
-                procedures = it.toMutableList())
+                procedures = it)
             }
             .doOnSuccess{
                 tradeInfoRoomCache.saveTIProcedures(it).blockingAwait()
@@ -156,14 +156,82 @@ class TradeInfoRepositoryImpl(
 
     override fun getRegulatedGoodsCountries(language: String): Single<MutableList<String>> {
         return sautiApiService.getRegulatedGoodsCountries(language)
+            .onErrorResumeNext {
+                tradeInfoRoomCache.getRegulatedCountries(language)
+            }. doOnSuccess {
+                it.sort()
+            }
             .subscribeOn(Schedulers.io())
 
     }
 
     //TODO: Save in room and error cases when not online
-    override fun searchRegulatedGoods(language: String, country: String): Single<RegulatedGoodData> {
+    override fun searchRegulatedGoods(language: String, country: String, regulatedType: String): Single<RegulatedGoodData> {
+
         return sautiApiService.searchRegulatedData(language, country)
             .subscribeOn(Schedulers.io())
     }
 
+    override fun searchRegulatedProhibiteds(
+        language: String,
+        country: String
+    ): Single<TradeInfoData> {
+        return sautiApiService.searchRegulatedProhibiteds(language, country)
+            .map {
+                TradeInfoData(System.currentTimeMillis(),
+                    language = language,
+                    regulatedCountry = country,
+                    prohibiteds = it
+                )
+            }
+            .doOnSuccess {
+                tradeInfoRoomCache.saveRegulatedProhibiteds(it).blockingAwait()
+            }
+            .onErrorResumeNext {
+                tradeInfoRoomCache.searchRegulatedProhibiteds(language, country)
+            }
+            .subscribeOn(Schedulers.io())
+    }
+
+    override fun searchRegulatedRestricteds(
+        language: String,
+        country: String
+    ): Single<TradeInfoData> {
+        return sautiApiService.searchRegulatedRestricteds(language, country)
+            .map {
+                TradeInfoData(System.currentTimeMillis(),
+                    language = language,
+                    regulatedCountry = country,
+                    restricteds = it
+                )
+            }
+            .doOnSuccess {
+                tradeInfoRoomCache.saveRegulatedRestricteds(it).blockingAwait()
+            }
+            .onErrorResumeNext {
+                tradeInfoRoomCache.searchRegulatedRestricteds(language, country)
+            }
+            .subscribeOn(Schedulers.io())
+    }
+
+    override fun searchRegulatedSensitives(
+        language: String,
+        country: String
+    ): Single<TradeInfoData> {
+        return sautiApiService.searchRegulatedSensitives(language, country)
+            .map {
+                TradeInfoData(System.currentTimeMillis(),
+                    language = language,
+                    regulatedCountry = country,
+                    sensitives = it
+                )
+            }
+            .doOnSuccess {
+                tradeInfoRoomCache.saveRegulatedSensitives(it).blockingAwait()
+            }
+            .onErrorResumeNext {
+                tradeInfoRoomCache.searchRegulatedSensitives(language, country)
+            }
+            .subscribeOn(Schedulers.io())
+    }
 }

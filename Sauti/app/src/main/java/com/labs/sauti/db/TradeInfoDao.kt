@@ -21,7 +21,18 @@ interface TradeInfoDao : BaseDao<TradeInfoData> {
     @Query("DELETE FROM trade_info")
     fun deleteAll() : Completable
 
-    @Query("SELECT DISTINCT productCat from trade_info WHERE language=:language")
+    @Query("SELECT DISTINCT regulatedCountry FROM trade_info WHERE language=:language")
+    fun getRegulatedCountries(language: String): Single<MutableList<String>>
+
+    @Query("SELECT * from trade_info WHERE language=:language AND regulatedCountry=:regulatedCountry and prohibiteds IS NOT NULL")
+    fun getRegulatedProhibited(language: String, regulatedCountry: String): Single<TradeInfoData>
+
+    @Query("SELECT * from trade_info WHERE language=:language AND regulatedCountry=:regulatedCountry and restricteds IS NOT NULL")
+    fun getRegulatedRestricted(language: String, regulatedCountry: String): Single<TradeInfoData>
+    @Query("SELECT * from trade_info WHERE language=:language AND regulatedCountry=:regulatedCountry and sensitives IS NOT NULL")
+    fun getRegulatedSensitives(language: String, regulatedCountry: String): Single<TradeInfoData>
+
+    @Query("SELECT DISTINCT productCat FROM trade_info WHERE language=:language")
     fun getTradeInfoProductCategories(language : String) : Single<MutableList<String>>
 
     @Query("SELECT DISTINCT product FROM trade_info WHERE language=:language AND productCat=:productCat")
@@ -39,7 +50,7 @@ interface TradeInfoDao : BaseDao<TradeInfoData> {
         delete(old)
     }
 
-    @Query("SELECT * FROM trade_info WHERE language=:language AND productCat=:productCat AND product=:product AND origin=:origin AND dest=:dest AND value=:value")
+    @Query("SELECT * FROM trade_info WHERE language=:language AND productCat=:productCat AND product=:product AND origin=:origin AND dest=:dest AND value=:value and  procedures IS NOT NULL")
     fun getTradeInfoProcedures(language : String, productCat: String, product: String, origin: String, dest: String, value: String) : Single<TradeInfoData>
 
 //    @Query("SELECT procedures FROM trade_info WHERE language=:language AND productCat=:productCat AND product=:product AND origin=:origin AND dest=:dest AND value=:value")

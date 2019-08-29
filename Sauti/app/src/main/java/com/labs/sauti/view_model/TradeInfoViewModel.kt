@@ -17,6 +17,7 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     private val errorLiveData: MutableLiveData<Throwable> = MutableLiveData()
     private val tradeInfoLanguage: MutableLiveData<String> = MutableLiveData()
     private val tradeInfoCategory: MutableLiveData<String> = MutableLiveData()
+    private val tradeInfoBorderCountries : MutableLiveData<List<String>> = MutableLiveData()
     private val tradeInfoFirstSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
     private val tradeInfoSecondSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
     private val tradeInfoThirdSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
@@ -33,8 +34,7 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     private val searchTaxCalculator by lazy { MutableLiveData<TradeInfoTaxes>() }
 
     fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
-    fun getTradeInfoLangueLiveData() : LiveData<String> = tradeInfoLanguage
-    fun getTradeInfoCategory() : LiveData<String> = tradeInfoCategory
+    fun getTradeInfoBorderCountries() : LiveData<List<String>> = tradeInfoBorderCountries
     fun getTradeInfoFirstSpinnerContent(): LiveData<List<String>> = tradeInfoFirstSpinnerContent
     fun getTradeInfoSecondSpinnerContent() : LiveData<List<String>> = tradeInfoSecondSpinnerContent
     fun getTradeInfoThirdSpinnerContent() : LiveData<List<String>> = tradeInfoThirdSpinnerContent
@@ -134,11 +134,11 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
 
         when(regulatedType) {
             "Prohibited goods"->(
-                    addDisposable(tradeInfoRepository.searchRegulatedGoods(language, country)
+                    addDisposable(tradeInfoRepository.searchRegulatedProhibiteds(language, country)
                         .map
                         {
                             val list = mutableListOf<String>()
-                            it.prohibiteds.forEach { pro ->
+                            it.prohibiteds?.forEach { pro ->
                                 list.add(pro.name)
                             }
 
@@ -157,11 +157,11 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
                     )
 
             "Restricted goods"-> (
-                    addDisposable(tradeInfoRepository.searchRegulatedGoods(language, country)
+                    addDisposable(tradeInfoRepository.searchRegulatedRestricteds(language, country)
                         .map
                         {
                             val list = mutableListOf<String>()
-                            it.restricteds.forEach { rest ->
+                            it.restricteds?.forEach { rest ->
                                 list.add(rest.name)
                             }
 
@@ -180,11 +180,11 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
                         ))
                     )
             "Sensitive goods"->(
-                    addDisposable(tradeInfoRepository.searchRegulatedGoods(language, country)
+                    addDisposable(tradeInfoRepository.searchRegulatedSensitives(language, country)
                         .map
                         {
                             val list = mutableListOf<String>()
-                            it.sensitives.forEach { sensitive ->
+                            it.sensitives?.forEach { sensitive ->
                                 list.add(sensitive.name)
                             }
 
@@ -207,7 +207,7 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     }
 
     fun setLanguage(lang : String) {
-        tradeInfoLanguage.value = lang.toUpperCase()
+        tradeInfoLanguage.value = lang
     }
 
     fun setFirstSpinnerContent(cat: String? = null) {
@@ -223,7 +223,7 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
             addDisposable(tradeInfoRepository.getRegulatedGoodsCountries(language).subscribeOn(Schedulers.io()).subscribe(
                 {
                     //TODO: Setup a whole new obversable just for Regulated goods.
-                    tradeInfoFirstSpinnerContent.postValue(it)
+                    tradeInfoBorderCountries.postValue(it)
                 },
                 {
                     errorLiveData.postValue(it)
@@ -329,49 +329,3 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     }
 
 }
-
-
-
-
-//        when(tradeInfoCategory.value) {
-//            "Border Procedures" -> (
-//                addDisposable(tradeInfoRepository.getSelectedLanguage().subscribeOn(Schedulers.io()).subscribe(
-//                    { s ->
-//                        tradeInfoLanguage.postValue(s.toUpperCase())
-//                        tradeInfoRepository.getTradeInfoProductCategory(s.toUpperCase()).subscribe(
-//                            {tradeInfoFirstSpinnerContent.postValue(it)},
-//                            {errorLiveData.postValue(it)}
-//                        )
-//                    },
-//                    {
-//                        errorLiveData.postValue(it)
-//                    }
-//                ))
-//                    )
-//            "Required Documents"->( tradeInfoFirstSpinnerContent.postValue(listOf())
-//                    )
-//            "Border Agencies"->{}
-//            "Regulated Goods"->{}
-//        }
-
-
-
-//Check the tradeinfo
-//    fun loadFirstSpinnerContent() {
-//
-//        val lang = tradeInfoLanguage.value.toString()
-//        val cat = tradeInfoCategory.value.toString()
-//        when(tradeInfoCategory.value.toString()) {
-//            "Border Procedures" ->{ addDisposable(tradeInfoRepository.getTradeInfoProductCategory(tradeInfoLanguage.value.toString()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
-//                {tradeInfoFirstSpinnerContent.postValue(it)},
-//                {errorLiveData.postValue(it)}
-//            ))
-//            }
-//
-//
-//        }
-//    }
-
-//fun getFirstSpinnerContent()
-
-

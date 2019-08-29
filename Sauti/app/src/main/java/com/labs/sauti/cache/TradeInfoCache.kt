@@ -1,13 +1,21 @@
 package com.labs.sauti.cache
 
-import com.labs.sauti.model.trade_info.Procedure
-import com.labs.sauti.model.trade_info.TradeInfo
-import com.labs.sauti.model.trade_info.TradeInfoData
-import com.labs.sauti.model.trade_info.TradeInfoTaxes
+import com.labs.sauti.model.trade_info.*
 import io.reactivex.Completable
 import io.reactivex.Single
 
 interface TradeInfoCache {
+
+    fun getRegulatedCountries   (language: String) : Single<MutableList<String>>
+
+    fun saveRegulatedProhibiteds    (prohibited: TradeInfoData): Completable
+    fun searchRegulatedProhibiteds  (language: String, regulatedCountry: String): Single<TradeInfoData>
+
+    fun saveRegulatedRestricteds    (restricted: TradeInfoData): Completable
+    fun searchRegulatedRestricteds  (language: String, regulatedCountry: String): Single<TradeInfoData>
+
+    fun saveRegulatedSensitives    (sensitive: TradeInfoData): Completable
+    fun searchRegulatedSensitives  (language: String, regulatedCountry: String): Single<TradeInfoData>
 
     fun getTIProductCategories  (language: String) : Single<MutableList<String>>
     fun getTIProductProducts    (language: String, category: String) : Single<MutableList<String>>

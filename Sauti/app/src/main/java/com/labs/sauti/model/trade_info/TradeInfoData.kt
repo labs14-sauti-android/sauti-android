@@ -32,6 +32,8 @@ data class TradeInfoData(
     @Expose
     var origin: String? = null,
 
+
+
     @SerializedName("procedures")
     @Expose
     var procedures: MutableList<Procedure>? = null,
@@ -59,6 +61,9 @@ data class TradeInfoData(
     @SerializedName("value")
     @Expose
     var value: String?= null,
+
+    //Regulated
+    var regulatedCountry: String? = null,
 
     //Regulated Goods
     var prohibiteds: MutableList<Prohibited>? = null,
