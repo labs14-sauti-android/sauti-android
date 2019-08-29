@@ -6,7 +6,7 @@ import io.reactivex.Single
 
 interface TradeInfoCache {
 
-    fun getRegulatedCountries   (language: String) : Single<MutableList<String>>
+    fun getRegulatedCountries       (language: String) : Single<MutableList<String>>
 
     fun saveRegulatedProhibiteds    (prohibited: TradeInfoData): Completable
     fun searchRegulatedProhibiteds  (language: String, regulatedCountry: String): Single<TradeInfoData>
@@ -14,18 +14,23 @@ interface TradeInfoCache {
     fun saveRegulatedRestricteds    (restricted: TradeInfoData): Completable
     fun searchRegulatedRestricteds  (language: String, regulatedCountry: String): Single<TradeInfoData>
 
-    fun saveRegulatedSensitives    (sensitive: TradeInfoData): Completable
-    fun searchRegulatedSensitives  (language: String, regulatedCountry: String): Single<TradeInfoData>
+    fun saveRegulatedSensitives     (sensitive: TradeInfoData): Completable
+    fun searchRegulatedSensitives   (language: String, regulatedCountry: String): Single<TradeInfoData>
 
-    fun getTIProductCategories  (language: String) : Single<MutableList<String>>
-    fun getTIProductProducts    (language: String, category: String) : Single<MutableList<String>>
-    fun getTIProductOrigin      (language: String, category: String, product: String) : Single<MutableList<String>>
-    fun getTIDests              (language: String, category: String, product: String, origin: String) : Single<MutableList<String>>
+    //Search Terms for Procedures, Documents, Agencies
+    fun getTIProductCategories      (language: String) : Single<MutableList<String>>
+    fun getTIProductProducts        (language: String, category: String) : Single<MutableList<String>>
+    fun getTIProductOrigin          (language: String, category: String, product: String) : Single<MutableList<String>>
+    fun getTIDests                  (language: String, category: String, product: String, origin: String) : Single<MutableList<String>>
 
-    fun saveTIProcedures(borderProcedure: TradeInfoData):Completable
+    fun saveTIProcedures            (borderProcedure: TradeInfoData):Completable
+    fun searchTIProcedures          (language: String, category: String, product: String, origin: String, dest: String, value: Double): Single<TradeInfoData>
 
-    fun searchTIProcedures(language: String, category: String, product: String, origin: String, dest: String, value: Double): Single<TradeInfoData>
+    fun saveTIDocuments             (requiredDocument: TradeInfoData): Completable
+    fun searchTIDocuments           (language: String, category: String, product: String, origin: String, dest: String, value: Double): Single<TradeInfoData>
 
+    fun saveTIAgencies              (agencies: TradeInfoData): Completable
+    fun searchTIAgencies            (language: String, category: String, product: String, origin: String, dest: String, value: Double): Single<TradeInfoData>
 
 //    fun searchTradeInfoRequiredDocuments(language: String, category: String, product: String, origin: String, dest: String, value: Double): Single<TradeInfo>
 //    fun searchTradeInfoBorderAgencies(language: String, category: String, product: String, origin: String, dest: String, value: Double): Single<TradeInfo>

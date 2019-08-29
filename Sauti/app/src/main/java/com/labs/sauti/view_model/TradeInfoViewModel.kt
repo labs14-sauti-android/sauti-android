@@ -51,7 +51,6 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     fun getSearchTaxCalculations(): LiveData<TradeInfoTaxes> = searchTaxCalculator
 
     fun searchTaxCalculations(language: String, category: String, product: String, origin: String, dest: String, value: Double, currencyFrom: String, currencyTo: String, rate: Double, valueCheck: Double) {
-
         addDisposable(tradeInfoRepository.searchTradeInfoTaxes(language, category, product, origin, dest, valueCheck)
             .map {
                 TradeInfoTaxes(product,
@@ -77,8 +76,9 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
             .map {
                 TradeInfo("Border Agencies",
                     "Push to View More Information About The Agency",
-                    tradeInfoAgencies = it,
-                    tradeInfoCountry = destChoice
+                    tradeInfoAgencies = it.relevantAgencyData,
+                    tradeInfoCountry = destChoice,
+                    tradeInfoID = it.id
                     )
             }
             .subscribe(
@@ -96,7 +96,8 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
             .map {
                 TradeInfo("Border Procedures",
                     """To $destChoice""",
-                    tradeInfoProcedure = it.procedures?.toMutableList()
+                    tradeInfoProcedure = it.procedures,
+                    tradeInfoID =  it.id
                 )
             }
             .subscribe(
@@ -113,12 +114,11 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
         addDisposable(tradeInfoRepository.searchTradeInfoRequiredDocuments(language, category, product, origin, dest, value)
             .map
             {
-                val docsList = mutableListOf<RequiredDocument>()
-                it.forEach{doc ->
-                    docsList.add(doc)
-                }
-
-                TradeInfo(tradeinfoTopic = "Required Documents", tradeinfoTopicExpanded = "Push to View More Information About The Document", tradeInfoDocs = docsList)
+                TradeInfo(tradeinfoTopic = "Required Documents",
+                    tradeinfoTopicExpanded = "Push to View More Information About The Document",
+                    tradeInfoDocs = it.requiredDocumentData,
+                    tradeInfoID = it.id
+                )
             }
             .subscribe(
                 {

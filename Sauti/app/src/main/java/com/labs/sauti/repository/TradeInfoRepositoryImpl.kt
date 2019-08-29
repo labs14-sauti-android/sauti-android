@@ -107,7 +107,6 @@ class TradeInfoRepositoryImpl(
             }
             .doOnSuccess{
                 tradeInfoRoomCache.saveTIProcedures(it).blockingAwait()
-
             }
             .onErrorResumeNext {
                 tradeInfoRoomCache.searchTIProcedures(language, category, product, origin, dest, value)
@@ -123,8 +122,26 @@ class TradeInfoRepositoryImpl(
         origin: String,
         dest: String,
         value: Double
-    ): Single<MutableList<RequiredDocument>> {
+    ): Single<TradeInfoData> {
         return sautiApiService.searchTradeInfoRequiredDocuments(language, category, product, origin, dest, value)
+            .map {
+                val valueString = if (value < 2000) "under2000USD" else "over2000USD"
+                TradeInfoData(System.currentTimeMillis(),
+                    language = language,
+                    productCat =  category,
+                    product =  product,
+                    origin =  origin,
+                    dest = dest,
+                    value = valueString,
+                    requiredDocumentData = it
+                )
+            }
+            .doOnSuccess {
+                tradeInfoRoomCache.saveTIDocuments(it).blockingAwait()
+            }
+            .onErrorResumeNext {
+                tradeInfoRoomCache.searchTIDocuments(language, category, product, origin, dest, value)
+            }
             .subscribeOn(Schedulers.io())
     }
 
@@ -136,8 +153,25 @@ class TradeInfoRepositoryImpl(
         origin: String,
         dest: String,
         value: Double
-    ): Single<MutableList<BorderAgency>> {
+    ): Single<TradeInfoData> {
         return sautiApiService.searchTradeInfoBorderAgencies(language, category, product, origin, dest, value)
+            .map {
+                val valueString = if (value < 2000) "under2000USD" else "over2000USD"
+                TradeInfoData(System.currentTimeMillis(),
+                    language = language,
+                    productCat =  category,
+                    product =  product,
+                    origin =  origin,
+                    dest = dest,
+                    value = valueString,
+                    relevantAgencyData = it)
+            }
+            .doOnSuccess {
+                tradeInfoRoomCache.saveTIAgencies(it).blockingAwait()
+            }
+            .onErrorResumeNext {
+                tradeInfoRoomCache.searchTIAgencies(language, category, product, origin, dest, value)
+            }
             .subscribeOn(Schedulers.io())
     }
 
@@ -149,7 +183,14 @@ class TradeInfoRepositoryImpl(
         dest: String,
         value: Double
     ): Single<MutableList<Taxes>> {
-        return sautiApiService.searchTradeInfoTaxes(language, category, product, origin, dest, value)
+        return sautiApiService
+            .searchTradeInfoTaxes(
+                language,
+                category,
+                product,
+                origin,
+                dest,
+                value)
             .subscribeOn(Schedulers.io())
     }
 
@@ -165,9 +206,10 @@ class TradeInfoRepositoryImpl(
 
     }
 
-    //TODO: Save in room and error cases when not online
-    override fun searchRegulatedGoods(language: String, country: String, regulatedType: String): Single<RegulatedGoodData> {
-
+    override fun searchRegulatedGoods
+                (language: String,
+                 country: String,
+                 regulatedType: String): Single<RegulatedGoodData> {
         return sautiApiService.searchRegulatedData(language, country)
             .subscribeOn(Schedulers.io())
     }

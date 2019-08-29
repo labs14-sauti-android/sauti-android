@@ -1,13 +1,12 @@
 package com.labs.sauti.db
 
 import android.app.VoiceInteractor
-import androidx.room.Dao
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 import com.labs.sauti.model.trade_info.Procedure
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.model.trade_info.TradeInfoData
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Single
 
 //CAN BE REMOVED AND CONNECT DIRECTLY TO DAO
@@ -47,8 +46,11 @@ interface TradeInfoDao : BaseDao<TradeInfoData> {
     @Query("SELECT * FROM trade_info")
     fun getTwoMostRecentTradeInfo(): Single<MutableList<TradeInfoData>>
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertTradeInfo(newest: TradeInfoData): Completable
+
     @Transaction
-    fun insertThenDeleteProcedures(old: TradeInfoData, new: TradeInfoData) {
+    fun insertThenDeleteTradeInfo(old: TradeInfoData, new: TradeInfoData) {
         insert(new)
         delete(old)
     }

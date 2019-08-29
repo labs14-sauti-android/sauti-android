@@ -5,6 +5,9 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
     defaultConfig {
         applicationId "com.labs.sauti"
         minSdkVersion 24

@@ -49,10 +49,6 @@ OnFragmentFullScreenStateChangedListener{
 
     var tradeInfoRecent : TradeInfo? = null
 
-    //TO DELETE
-    lateinit var documentsAdapter : DocumentsAdapter
-    lateinit var agencyAdapter: AgencyAdapter
-
     lateinit var tradeInfoAdapter : TradeInfoAdapter
 
     lateinit var proceduresAdapter: ProceduresAdapter
@@ -214,12 +210,16 @@ OnFragmentFullScreenStateChangedListener{
 
                     tradeInfoAdapter = TradeInfoAdapter(list) {
                         if (it is RequiredDocument) {
-                            val tradeInfoDetailsFragment = TradeInfoDetailsFragment.newInstance(it.docTitle!!, it.docDescription!!)
+                            val tradeInfoDetailsFragment =
+                                TradeInfoDetailsFragment
+                                    .newInstance(it.docTitle, it.docDescription)
                             tradeInfoDetailsFragment.show(childFragmentManager, "reqDocs")
                         }
 
                         if(it is BorderAgency) {
-                            val tradeinfoDetailsFragment = TradeInfoDetailsFragment.newInstance(it.agencyName, it.agencyDescription)
+                            val tradeinfoDetailsFragment =
+                                TradeInfoDetailsFragment
+                                    .newInstance(it.agencyName, it.agencyDescription)
                             tradeinfoDetailsFragment.show(childFragmentManager, "bordAgencies")
                         }
                     }
@@ -228,7 +228,8 @@ OnFragmentFullScreenStateChangedListener{
                 }
 
                 if(rv_trade_info_required_documents.itemDecorationCount == 0) {
-                    rv_trade_info_required_documents.addItemDecoration(SimpleDividerItemDecoration(context!!))
+                    rv_trade_info_required_documents
+                        .addItemDecoration(SimpleDividerItemDecoration(context!!))
 
                 }
             }
@@ -256,12 +257,16 @@ OnFragmentFullScreenStateChangedListener{
 
                     tradeInfoAdapter = TradeInfoAdapter(list) {
                         if (it is RequiredDocument) {
-                            val tradeInfoDetailsFragment = TradeInfoDetailsFragment.newInstance(it.docTitle!!, it.docDescription!!)
+                            val tradeInfoDetailsFragment =
+                                TradeInfoDetailsFragment
+                                    .newInstance(it.docTitle, it.docDescription)
                             tradeInfoDetailsFragment.show(childFragmentManager, "reqDocs")
                         }
 
                         if(it is BorderAgency) {
-                            val tradeinfoDetailsFragment = TradeInfoDetailsFragment.newInstance(it.agencyName, it.agencyDescription)
+                            val tradeinfoDetailsFragment =
+                                TradeInfoDetailsFragment
+                                    .newInstance(it.agencyName, it.agencyDescription)
                             tradeinfoDetailsFragment.show(childFragmentManager, "bordAgencies")
                         }
                     }
@@ -270,7 +275,8 @@ OnFragmentFullScreenStateChangedListener{
                 }
 
                 if(rv_trade_info_required_documents.itemDecorationCount == 0) {
-                    rv_trade_info_required_documents.addItemDecoration(SimpleDividerItemDecoration(context!!))
+                    rv_trade_info_required_documents
+                        .addItemDecoration(SimpleDividerItemDecoration(context!!))
 
                 }
             }
@@ -323,7 +329,7 @@ OnFragmentFullScreenStateChangedListener{
             .addToBackStack(null)
             .commit()
     }
-    //TODO: Must remove - Testing to see layout. 
+
 }
 
 /* //TODO Reimplement animated views.

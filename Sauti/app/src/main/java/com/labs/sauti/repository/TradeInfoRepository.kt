@@ -29,7 +29,7 @@ interface TradeInfoRepository {
                  product: String,
                  origin: String,
                  dest: String,
-                 value: Double): Single<MutableList<RequiredDocument>>
+                 value: Double): Single<TradeInfoData>
 
     fun searchTradeInfoBorderAgencies
                 (language: String,
@@ -37,7 +37,7 @@ interface TradeInfoRepository {
                  product: String,
                  origin: String,
                  dest: String,
-                 value: Double): Single<MutableList<BorderAgency>>
+                 value: Double): Single<TradeInfoData>
 
     fun searchTradeInfoTaxes
                 (language: String,
