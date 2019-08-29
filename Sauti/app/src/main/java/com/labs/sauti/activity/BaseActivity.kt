@@ -54,9 +54,6 @@ DashboardFavoritesFragment.OnSignUpClickListener{
     private lateinit var baseFragment: Fragment
     private var appCloseDoubleClickTimerDisposable: Disposable? = null
 
-    @Inject
-    lateinit var settingsSp: SettingsSp
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
@@ -122,13 +119,14 @@ DashboardFavoritesFragment.OnSignUpClickListener{
 
     override fun attachBaseContext(newBase: Context?) {
         // set locale based on user selected locale
+        val settingsSp = SettingsSp(newBase!!)
         val locale = Locale(settingsSp.getSelectedLanguage())
         Locale.setDefault(locale)
-        val config = resources.configuration
+        val config = newBase.resources.configuration
         config.setLocale(locale)
         config.setLayoutDirection(locale)
 
-        super.attachBaseContext(LocaleHelper.createContext(newBase!!))
+        super.attachBaseContext(LocaleHelper.createContext(newBase))
     }
 
     override fun onResume() {

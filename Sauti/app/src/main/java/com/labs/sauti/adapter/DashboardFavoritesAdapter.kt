@@ -96,10 +96,6 @@ class DashboardFavoritesAdapter(
                 onItemClickListener(exchangeRateConversionResult)
             }
 
-            val localeCtx = LocaleHelper.createContext(itemView.context)
-            itemView.t_recent_todays_intl_exchange_rates.text = localeCtx.getString(R.string.today_s_intl_exchange_rates)
-            itemView.t_recent_todays_intl_exchange_rates.typeface = Typeface.DEFAULT_BOLD
-
             val decimalFormat = DecimalFormat("#,##0.00")
             val amountStr = decimalFormat.format(exchangeRateConversionResult.amount)
             val resultStr = decimalFormat.format(exchangeRateConversionResult.result)
