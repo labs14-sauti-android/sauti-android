@@ -1,7 +1,6 @@
 package com.labs.sauti.activity
 
 import android.content.Context
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -371,7 +370,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                 if (baseFragment !is MarketPriceFragment) {
                     shouldReplace = true
                     baseFragment = MarketPriceFragment.newInstance(data as MarketPrice?)
-                    toolbar.title = "Market Price"
+                    toolbar.title = resources.getString(R.string.menu_market_price)
                     nav_view.menu.findItem(R.id.nav_market_prices).isChecked = true
                 }
             }
@@ -379,7 +378,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                 if (baseFragment !is TaxCalculatorFragment) {
                     shouldReplace = true
                     baseFragment = TaxCalculatorFragment.newInstance()
-                    toolbar.title = "Tax Calculator"
+                    toolbar.title = resources.getString(R.string.menu_tax_calculator)
                     nav_view.menu.findItem(R.id.nav_tax_calculator).isChecked = true
                 }
             }
@@ -387,7 +386,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                 if (baseFragment !is TradeInfoFragment) {
                     shouldReplace = true
                     baseFragment = TradeInfoFragment.newInstance()
-                    toolbar.title = "Trade Info"
+                    toolbar.title = resources.getString(R.string.menu_trade_info)
                     nav_view.menu.findItem(R.id.nav_trade_info).isChecked = true
                 }
             }
@@ -395,7 +394,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                 if (baseFragment !is ExchangeRateFragment) {
                     shouldReplace = true
                     baseFragment = ExchangeRateFragment.newInstance(data as ExchangeRateConversionResult?)
-                    toolbar.title = "Exchange Rates"
+                    toolbar.title = resources.getString(R.string.menu_exchange_rates)
                     nav_view.menu.findItem(R.id.nav_exchange_rates).isChecked = true
                 }
             }
@@ -403,7 +402,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                 if (baseFragment !is MarketplaceFragment) {
                     shouldReplace = true
                     baseFragment = MarketplaceFragment.newInstance()
-                    toolbar.title = "Marketplace"
+                    toolbar.title = resources.getString(R.string.menu_marketplace)
                     nav_view.menu.findItem(R.id.nav_marketplace).isChecked = true
                 }
             }
@@ -411,7 +410,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                 if (baseFragment !is ReportFragment) {
                     shouldReplace = true
                     baseFragment = ReportFragment.newInstance()
-                    toolbar.title = "Report"
+                    toolbar.title = resources.getString(R.string.menu_report)
                     nav_view.menu.findItem(R.id.nav_report).isChecked = true
                 }
             }
@@ -419,7 +418,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                 if (baseFragment !is HelpFragment) {
                     shouldReplace = true
                     baseFragment = HelpFragment.newInstance()
-                    toolbar.title = "Help"
+                    toolbar.title = resources.getString(R.string.menu_help)
                     nav_view.menu.findItem(R.id.nav_help).isChecked = true
                 }
             }

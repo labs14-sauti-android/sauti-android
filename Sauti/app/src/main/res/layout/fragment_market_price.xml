@@ -211,7 +211,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="40dp"
-                                        android:text="You Have No Recent Searches"
+                                        android:text="@string/you_have_no_recent_searches"
                                         android:gravity="center"
                                         android:textColor="@color/colorText"/>
 

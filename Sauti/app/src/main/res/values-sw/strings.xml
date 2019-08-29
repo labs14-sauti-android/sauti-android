@@ -1,10 +1,17 @@
 <resources>
 
     <!--Nav Menu-->
-    <string name="menu_market_prices">Bei za bidhaa</string>
+    <string name="menu_market_price">Bei za bidhaa</string>
     <string name="menu_tax_calculator">Makadirio ya Ushuru</string>
     <string name="menu_trade_info">Habari za Biashara</string>
     <string name="menu_exchange_rates">Viwango vya ubadilinashaji wa pesa</string>
+    <string name="menu_marketplace">Soko</string>
+    <string name="menu_report">Toa ripoti</string>
+    <string name="menu_help">Usaidizi</string>
+
+    <!--Action Bar-->
+    <string name="menu_about">Kuhusu</string>
+    <string name="menu_settings">Mipangilio</string>
 
     <!--Market Price-->
     <string name="select_country_for_markets">Chagua nchi ili kuona masoko</string>
@@ -14,9 +21,12 @@
 
     <!--Exchange Rate-->
     <string name="today_s_intl_exchange_rates">Viwango vya kimataifa vya ubadilinishaji hii leo:</string>
-    <string name="from_which_currency_do_you_want_to_convert">From which currency do you want to convert?</string>
-    <string name="to_which_currency_do_you_want_to_convert">To which currency do you want to convert?</string>
+    <string name="from_which_currency_do_you_want_to_convert">Ungependa kubadilisha sarafu gani?</string>
+    <string name="to_which_currency_do_you_want_to_convert">Ungependa kupata sarafu gani?</string>
     <string name="how_much_do_you_want_to_exchange">Ni pesa ngapi ungependa kubadilisha kwa?</string>
+    <string name="enter_amount">Weka kiasi</string>
+    <string name="exchange_rate_is">ni</string>
+    <string name="your_recent_conversions">Hii ni orodha ya ubadilinishaji wako wa awali</string>
 
     <!--Report-->
     <string name="we_will_now_ask_some_questions_about_your_border_experience">Tutakuuliza maswali mengine kuhusu hali uliokumbana nayo mpakani.</string>
@@ -33,5 +43,10 @@
     <string name="b_trade_info_regulated_goods_text">Regulated Goods</string>
     <string name="b_trade_info_required_documents_text">Required Documents</string>
     <string name="b_trade_info_border_agencies_text">Border Agencies</string>
+
+    <string name="your_recent_searches">Hii ni orodha ya tafutio yako ya awali</string>
+    <string name="push_to_view">Songesha ili kutazama</string>
+    <string name="you_have_no_recent_searches">Hauna tafutio ya awali</string>
+    <string name="you_have_no_recent_conversions">Hauna ubadilinishaji wa awali</string>
 
 </resources>
