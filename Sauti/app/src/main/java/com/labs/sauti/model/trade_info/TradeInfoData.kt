@@ -3,73 +3,117 @@ package com.labs.sauti.model.trade_info
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.labs.sauti.helper.ProcedureConverter
 import java.sql.Date
-
+import java.util.*
 
 
 //This will be the class that is stored into room
 
 @Entity(tableName = "trade_info")
+@TypeConverters(ProcedureConverter::class)
 data class TradeInfoData(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @ColumnInfo(name = "trade_info_id")
     var id: Long? = null,
 
     @SerializedName("dest")
     @Expose
-    val dest: String,
+    var dest: String? = null,
 
     @SerializedName("language")
     @Expose
-    val language: String,
+    var language: String?= null,
 
     @SerializedName("origin")
     @Expose
-    val origin: String,
+    var origin: String? = null,
+
+
 
     @SerializedName("procedures")
     @Expose
-    val procedures: List<Procedure>? = null,
+    var procedures: MutableList<Procedure>? = null,
 
     @SerializedName("product")
     @Expose
-    val product: String,
+    var product: String? = null,
 
     @SerializedName("productCat")
     @Expose
-    val productCat: String,
+    var productCat: String? = null,
 
     @SerializedName("relevantAgencyData")
     @Expose
-    var relevantAgencyData: List<BorderAgency>? = null,
+    var relevantAgencyData: MutableList<BorderAgency>? = null,
 
     @SerializedName("requiredDocumentData")
     @Expose
-    val requiredDocumentData: List<RequiredDocument>? = null,
+    var requiredDocumentData: MutableList<RequiredDocument>? = null,
 
     @SerializedName("taxes")
     @Expose
-    val taxes: List<Taxes>? = null,
+    var taxes: MutableList<Taxes>? = null,
 
     @SerializedName("value")
     @Expose
-    val value: String,
+    var value: String?= null,
 
-    var timestamp: Long? = null
-) {
+    //Regulated
+    var regulatedCountry: String? = null,
+
+    //Regulated Goods
+    var prohibiteds: MutableList<Prohibited>? = null,
+
+    //Regulated Goods
+    var restricteds: MutableList<Restricted>? = null,
+
+    //Regulated Goods
+    var sensitives: MutableList<Sensitive>? = null,
+
+    //Taxes
+    var userCurrency: String? = null,
+
+    //Taxes
+    var destinationCurrency: String? = null,
+
+    //Taxes
+    var userToDestRate: Double? = null,
+
+    var approximateValue: Long? = null
+
+)
+
+/*{
     fun setTimestamp(){
         this.timestamp = System.currentTimeMillis()
     }
 
     fun getDateFromTimestamp() = timestamp?.let { Date(it) }
+}*/
+
+fun TradeInfoData.toBorderProcedures(procedure: List<Procedure>) {
+
+
 }
 
-fun TradeInfoData.toBorderAgencyTI() {
-
+fun TradeInfoData.toRequiredDocuments(){
 
 }
+
+fun TradeInfoData.toRelatedGoods() {
+
+}
+
+/*fun TradeInfoData.toTaxes(): TradeInfoTaxes {
+    return TradeInfoTaxes(
+        taxProduct = product
+        currentCurrency = currency
+    )
+}*/
 
 
 

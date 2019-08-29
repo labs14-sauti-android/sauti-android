@@ -8,14 +8,20 @@ import com.labs.sauti.model.trade_info.Sensitive
 class SensitiveConverter {
 
     @TypeConverter
-    fun toSensitive(Sensitive: String) :List<Sensitive> {
-        val type = object : TypeToken<List<Sensitive>>(){}.type
-        return Gson().fromJson(Sensitive, type)
-    }
+    fun toSensitive(sensitive: String?) :MutableList<Sensitive>? =
+        if(sensitive == null) {
+            null
+        } else {
+            val type = object : TypeToken<MutableList<Sensitive>>(){}.type
+            Gson().fromJson(sensitive, type)
+        }
 
     @TypeConverter
-    fun toSensitiveJson(Sensitive: List<Sensitive>?) :String {
-        val type = object : TypeToken<List<Sensitive>>(){}.type
-        return Gson().toJson(Sensitive, type)
-    }
+    fun toSensitiveJson(sensitive: MutableList<Sensitive>?) :String? =
+        if(sensitive == null ) {
+            null
+        } else {
+            val type = object : TypeToken<MutableList<Sensitive>>(){}.type
+            Gson().toJson(sensitive, type)
+        }
 }

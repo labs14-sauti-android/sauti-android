@@ -1,13 +1,18 @@
 package com.labs.sauti.adapter
 
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.labs.sauti.R
 import com.labs.sauti.model.trade_info.RequiredDocument
 import kotlinx.android.synthetic.main.required_document_agencies_element_layout.view.*
+
+
+
 
 class DocumentsAdapter(
     private val docs: MutableList<RequiredDocument> = mutableListOf(),
@@ -34,10 +39,15 @@ class DocumentsAdapter(
     class ViewHolder(view : View) : RecyclerView.ViewHolder(view) {
 
         private val docName : TextView = view.rv_tv_document_agency_name
+        private val plusSign : TextView = view.rv_tv_plus
 
 
         fun bind(data : RequiredDocument, listener: (RequiredDocument) -> Unit) = with(itemView) {
             docName.text = """${(adapterPosition + 1)}:${data.docTitle}"""
+            plusSign.text = context.getString(R.string.list_plus)
+            //plusSign.gravity = (Gravity.CENTER or Gravity.END)
+
+
             setOnClickListener { listener(data) }
         }
     }

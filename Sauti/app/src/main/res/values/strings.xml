@@ -1,4 +1,6 @@
 <resources>
+    <string name="sauti_api_base_url" translatable="false">https://labs-sauti.herokuapp.com/</string>
+    <string name="sauti_login_authorization" translatable="false">Basic bGFicy1zYXV0aS1jbGllbnQtaWQtMTpsYWJzLXNhdXRpLXNlY3JldC0y</string>
     <string name="app_name" translatable="false">Sauti</string>
 
     <string name="navigation_drawer_open" translatable="false">Open</string>
@@ -6,10 +8,7 @@
     <string name="nav_header_desc" translatable="false">Navigation header</string>
 
     <string name="language_activity_text" translatable="false">
-        <b>Sauti</b>
-        <font fgcolor='#e84c3d'>
-            <b>.</b>
-        </font>
+        <b>Sauti</b><font fgcolor='#e84c3d'><b>.</b></font>
     </string>
     <string name="menu_market_prices" translatable="false">Market Prices</string>
     <string name="menu_tax_calculator" translatable="false">Tax Calculator</string>
@@ -113,6 +112,7 @@
     <string name="b_trade_info_regulated_goods_text">Regulated Goods</string>
     <string name="b_trade_info_required_documents_text">Required Documents</string>
     <string name="b_trade_info_border_agencies_text">Border Agencies</string>
+    <string name="list_plus">+</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

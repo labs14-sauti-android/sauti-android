@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import com.labs.sauti.R
@@ -29,12 +28,10 @@ class SearchSpinnerCustomView @JvmOverloads constructor(
 
     fun addSpinnerContents(list : List<String>) {
 
-        p_search_param.visibility = View.VISIBLE
 
         val alteredList = list.toMutableList()
         alteredList.add(0, "")
         ArrayAdapter(context, R.layout.multi_line_drodown, R.id.text1,  alteredList).also { adapter->
-//            adapter.setDropDownViewResource(R.layout.multi_line_drodown)
             s_search_param.adapter = adapter
         }
 

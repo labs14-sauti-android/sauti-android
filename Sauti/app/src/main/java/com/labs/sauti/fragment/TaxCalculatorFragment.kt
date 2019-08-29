@@ -1,20 +1,27 @@
 package com.labs.sauti.fragment
 
 import android.content.Context
+import android.graphics.Paint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.widget.TextViewCompat
 import com.labs.sauti.R
 import com.labs.sauti.model.TaxCalculationData
 import com.labs.sauti.model.trade_info.TradeInfo
+import com.labs.sauti.model.trade_info.TradeInfoTaxes
 import kotlinx.android.synthetic.main.fragment_tax_calculator.*
+import java.text.DecimalFormat
 
 class TaxCalculatorFragment : Fragment(), TaxCalculatorSearchFragment.OnTaxCalculatorSearchCompletedListener,
 OnFragmentFullScreenStateChangedListener {
 
     private var onFragmentFullScreenStateChangedListener: OnFragmentFullScreenStateChangedListener? = null
+
+    val df by lazy { DecimalFormat("#,###.##") }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,9 +65,40 @@ OnFragmentFullScreenStateChangedListener {
         onFragmentFullScreenStateChangedListener = null
     }
 
-    override fun onTaxCalculatorSearchCompleted(taxCalculationData: TaxCalculationData) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onTaxCalculatorSearchCompleted(tradeInfoTaxes: TradeInfoTaxes) {
+        l_tax_calculator_list.removeAllViews()
+
+        tradeInfoTaxes.getTaxesConversions()
+
+        cl_expanded_tax_calculator.visibility = View.VISIBLE
+        t_tax_calculator_header.text =
+            """Taxes for ${df.format(tradeInfoTaxes.initialAmount)} ${tradeInfoTaxes.currentCurrency} of ${tradeInfoTaxes.taxProduct}"""
+        t_tax_calculator_header.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+
+        tradeInfoTaxes.taxList.forEach{
+            val textview = TextView(context)
+            TextViewCompat.setTextAppearance(textview, R.style.TaxCalculatorDetailsListStyling)
+            textview.text = it.taxTitle
+            l_tax_calculator_list.addView(textview)
+        }
+
+        if(l_tax_calculator_list.childCount == 0) {
+            val textview = TextView(context)
+            TextViewCompat.setTextAppearance(textview, R.style.TaxCalculatorDetailsListStyling)
+            textview.text = "There are no taxes for this product"
+            l_tax_calculator_list.addView(textview)
+
+            t_tax_calculator_total.visibility = View.INVISIBLE
+        } else {
+            t_tax_calculator_total.setTextAppearance(R.style.TradeInfoDetailsSubHeaderStyling)
+            t_tax_calculator_total.text = "Total: " + df.format(tradeInfoTaxes.totalAmount) + tradeInfoTaxes.endCurrency
+            t_tax_calculator_total.visibility = View.VISIBLE
+        }
+
+        tiv_tax_calculator_recent_first.consumeTITaxes(tradeInfoTaxes)
+
     }
+
 
     override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
         onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(isFullScreen)

@@ -3,15 +3,18 @@ package com.labs.sauti.fragment
 
 
 import android.content.Context
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import com.labs.sauti.R
 import com.labs.sauti.model.trade_info.TradeInfo
@@ -19,7 +22,11 @@ import com.labs.sauti.SautiApp
 import com.labs.sauti.adapter.AgencyAdapter
 import com.labs.sauti.adapter.DocumentsAdapter
 import com.labs.sauti.adapter.ProceduresAdapter
+import com.labs.sauti.adapter.TradeInfoAdapter
 import com.labs.sauti.helper.SimpleDividerItemDecoration
+import com.labs.sauti.model.report.Border
+import com.labs.sauti.model.trade_info.BorderAgency
+import com.labs.sauti.model.trade_info.RequiredDocument
 import com.labs.sauti.view_model.TradeInfoViewModel
 import kotlinx.android.synthetic.main.fragment_trade_info.*
 import javax.inject.Inject
@@ -42,10 +49,10 @@ OnFragmentFullScreenStateChangedListener{
 
     var tradeInfoRecent : TradeInfo? = null
 
-    lateinit var documentsAdapter : DocumentsAdapter
-    lateinit var agencyAdapter: AgencyAdapter
+    lateinit var tradeInfoAdapter : TradeInfoAdapter
     lateinit var proceduresAdapter: ProceduresAdapter
 
+    lateinit var recentTIList: List<TradeInfo>
 
 
 
@@ -97,95 +104,6 @@ OnFragmentFullScreenStateChangedListener{
 
     }
 
-    fun addTIDetailsLL(tradeInfo: TradeInfo) {
-        //Present for all.
-        t_trade_info_header.text = tradeInfo.tradeinfoTopicExpanded
-
-        //Border Procedures
-        rv_trade_info_border_procedures.visibility = View.GONE
-
-        //Regulated Goods
-        l_trade_info_left_list.visibility = View.GONE
-        l_trade_info_right_list.visibility = View.GONE
-
-        //Required Documents
-        t_trade_info_sub_header.visibility = View.GONE
-        rv_trade_info_required_documents.visibility = View.GONE
-        i_trade_info_divider_top.visibility = View.GONE
-        i_trade_info_divider_bottom.visibility = View.GONE
-
-        when(tradeInfo.tradeinfoTopic) {
-            "Border Procedures"->{
-                t_trade_info_sub_header.visibility = View.VISIBLE
-                rv_trade_info_border_procedures.visibility = View.VISIBLE
-                t_trade_info_sub_header.text = """To ${tradeInfo.tradeInfoCountry}"""
-                proceduresAdapter = ProceduresAdapter(tradeInfo.tradeInfoProcedure!!)
-                rv_trade_info_border_procedures.adapter = proceduresAdapter
-
-            }
-            "Required Documents"->{
-                i_trade_info_divider_top.visibility = View.VISIBLE
-                i_trade_info_divider_bottom.visibility = View.VISIBLE
-                t_trade_info_sub_header.visibility = View.VISIBLE
-                t_trade_info_sub_header.text = "Push to View More Information About The Document"
-
-                rv_trade_info_required_documents.visibility = View.VISIBLE
-                documentsAdapter = DocumentsAdapter(tradeInfo.tradeInfoDocs!!) {
-                    val tradeInfoDetailsFragment = TradeInfoDetailsFragment.newInstance(it.docTitle, it.docDescription)
-                    tradeInfoDetailsFragment.show(childFragmentManager, "reqDocs")
-                }
-                if(rv_trade_info_required_documents.itemDecorationCount == 0) {
-                    rv_trade_info_required_documents.addItemDecoration(SimpleDividerItemDecoration(context!!))
-
-                }
-                rv_trade_info_required_documents.adapter = documentsAdapter
-            }
-            "Border Agencies"->{
-                i_trade_info_divider_top.visibility = View.VISIBLE
-                i_trade_info_divider_bottom.visibility = View.VISIBLE
-                t_trade_info_sub_header.visibility = View.VISIBLE
-                t_trade_info_sub_header.text = tradeInfo.tradeinfoTopicExpanded
-
-                rv_trade_info_required_documents.visibility = View.VISIBLE
-                agencyAdapter = AgencyAdapter(tradeInfo.tradeInfoAgencies!!) {
-                    val tradeinfoDetailsFragment = TradeInfoDetailsFragment.newInstance(it.agencyName, it.agencyDescription)
-                    tradeinfoDetailsFragment.show(childFragmentManager, "bordAgencies")
-                }
-                if(rv_trade_info_required_documents.itemDecorationCount == 0) {
-                    rv_trade_info_required_documents.addItemDecoration(SimpleDividerItemDecoration(context!!))
-
-                }
-                rv_trade_info_required_documents.adapter = agencyAdapter
-            }
-            "Regulated Goods" ->{
-                l_trade_info_left_list.removeAllViews()
-                l_trade_info_right_list.removeAllViews()
-                l_trade_info_left_list.visibility = View.VISIBLE
-                l_trade_info_right_list.visibility = View.VISIBLE
-
-                val half = (tradeInfo.tradeinfoList!!.size) / 2
-
-
-                for (i in 0 until (tradeInfo.tradeinfoList!!.size)) {
-                    val textView = TextView(context)
-                    TextViewCompat.setTextAppearance(textView, R.style.CardViewRecentDetailsListTextStyling)
-                    textView.text = "- ${tradeInfo.tradeinfoList!![i]}"
-                    textView.setOnClickListener {
-                        //TODO: Add a child fragment explaining what that doc is when clicked.
-                    }
-
-                    when {
-                        i > half -> l_trade_info_right_list.addView(textView)
-                        i == half -> l_trade_info_left_list.addView(textView)
-                        else -> l_trade_info_left_list.addView(textView)
-                    }
-                }
-            }
-
-        }
-
-
-    }
 
 
     companion object {
@@ -219,8 +137,17 @@ OnFragmentFullScreenStateChangedListener{
         }
 
         if(tradeInfo.tradeInfoDocs != null) {
-//            tiv_trade_info_recent_first.consumeTIRegulatedGood(tradeInfo)
+            tiv_trade_info_recent_first.consumeTIRequiredDocuments(tradeInfo)
         }
+
+        if(tradeInfo.tradeInfoProcedure != null) {
+            tiv_trade_info_recent_first.consumeTIBorderProcedures(tradeInfo)
+        }
+
+        if(tradeInfo.tradeInfoAgencies != null) {
+            tiv_trade_info_recent_first.consumeTIBorderAgencies(tradeInfo)
+        }
+
 
 
         addTIDetailsLL(tradeInfo)
@@ -229,6 +156,166 @@ OnFragmentFullScreenStateChangedListener{
 
 
     }
+
+    fun addTIDetailsLL(tradeInfo: TradeInfo) {
+
+
+        //Border Procedures
+        rv_trade_info_border_procedures.visibility = View.GONE
+
+        //Regulated Goods
+        l_trade_info_left_list.visibility = View.GONE
+        l_trade_info_right_list.visibility = View.GONE
+
+        //Required Documents
+        t_trade_info_sub_header.visibility = View.GONE
+        rv_trade_info_required_documents.visibility = View.GONE
+        i_trade_info_divider_top.visibility = View.GONE
+        i_trade_info_divider_bottom.visibility = View.GONE
+
+        when(tradeInfo.tradeinfoTopic) {
+            "Border Procedures"->{
+                t_trade_info_header.text = tradeInfo.tradeinfoTopic
+                t_trade_info_header.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+                t_trade_info_sub_header.text = tradeInfo.tradeinfoTopicExpanded
+
+                t_trade_info_sub_header.visibility = View.VISIBLE
+                rv_trade_info_border_procedures.visibility = View.VISIBLE
+                rv_trade_info_border_procedures.setHasFixedSize(true)
+                rv_trade_info_border_procedures.layoutManager = LinearLayoutManager(context)
+                proceduresAdapter = ProceduresAdapter(tradeInfo.tradeInfoProcedure!!)
+                rv_trade_info_border_procedures.adapter = proceduresAdapter
+
+            }
+            "Required Documents"->{
+                t_trade_info_header.text = tradeInfo.tradeinfoTopic
+                t_trade_info_header.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+                t_trade_info_sub_header.text = tradeInfo.tradeinfoTopicExpanded
+
+                i_trade_info_divider_top.visibility = View.VISIBLE
+                i_trade_info_divider_bottom.visibility = View.VISIBLE
+                t_trade_info_sub_header.visibility = View.VISIBLE
+                rv_trade_info_required_documents.visibility = View.VISIBLE
+
+                rv_trade_info_required_documents.setHasFixedSize(true)
+
+                if(::tradeInfoAdapter.isInitialized) {
+                    val list = mutableListOf<Any>()
+                    list.addAll(tradeInfo.tradeInfoDocs!!)
+
+                    tradeInfoAdapter.updateContents(list)
+                } else {
+                    val list = mutableListOf<Any>()
+                    list.addAll(tradeInfo.tradeInfoDocs!!)
+
+                    tradeInfoAdapter = TradeInfoAdapter(list) {
+                        if (it is RequiredDocument) {
+                            val tradeInfoDetailsFragment =
+                                TradeInfoDetailsFragment
+                                    .newInstance(it.docTitle, it.docDescription)
+                            tradeInfoDetailsFragment.show(childFragmentManager, "reqDocs")
+                        }
+
+                        if(it is BorderAgency) {
+                            val tradeinfoDetailsFragment =
+                                TradeInfoDetailsFragment
+                                    .newInstance(it.agencyName, it.agencyDescription)
+                            tradeinfoDetailsFragment.show(childFragmentManager, "bordAgencies")
+                        }
+                    }
+
+                    rv_trade_info_required_documents.adapter = tradeInfoAdapter
+                }
+
+                if(rv_trade_info_required_documents.itemDecorationCount == 0) {
+                    rv_trade_info_required_documents
+                        .addItemDecoration(SimpleDividerItemDecoration(context!!))
+
+                }
+            }
+
+            "Border Agencies"->{
+                t_trade_info_header.text = tradeInfo.tradeinfoTopic
+                t_trade_info_header.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+                t_trade_info_sub_header.text = tradeInfo.tradeinfoTopicExpanded
+
+                i_trade_info_divider_top.visibility = View.VISIBLE
+                i_trade_info_divider_bottom.visibility = View.VISIBLE
+                t_trade_info_sub_header.visibility = View.VISIBLE
+                rv_trade_info_required_documents.visibility = View.VISIBLE
+
+                rv_trade_info_required_documents.setHasFixedSize(true)
+
+                if(::tradeInfoAdapter.isInitialized) {
+                    val list = mutableListOf<Any>()
+                    list.addAll(tradeInfo.tradeInfoAgencies!!)
+
+                    tradeInfoAdapter.updateContents(list)
+                } else {
+                    val list = mutableListOf<Any>()
+                    list.addAll(tradeInfo.tradeInfoAgencies!!)
+
+                    tradeInfoAdapter = TradeInfoAdapter(list) {
+                        if (it is RequiredDocument) {
+                            val tradeInfoDetailsFragment =
+                                TradeInfoDetailsFragment
+                                    .newInstance(it.docTitle, it.docDescription)
+                            tradeInfoDetailsFragment.show(childFragmentManager, "reqDocs")
+                        }
+
+                        if(it is BorderAgency) {
+                            val tradeinfoDetailsFragment =
+                                TradeInfoDetailsFragment
+                                    .newInstance(it.agencyName, it.agencyDescription)
+                            tradeinfoDetailsFragment.show(childFragmentManager, "bordAgencies")
+                        }
+                    }
+
+                    rv_trade_info_required_documents.adapter = tradeInfoAdapter
+                }
+
+                if(rv_trade_info_required_documents.itemDecorationCount == 0) {
+                    rv_trade_info_required_documents
+                        .addItemDecoration(SimpleDividerItemDecoration(context!!))
+
+                }
+            }
+
+            "Regulated Goods" ->{
+                l_trade_info_left_list.removeAllViews()
+                l_trade_info_right_list.removeAllViews()
+                l_trade_info_left_list.visibility = View.VISIBLE
+                l_trade_info_right_list.visibility = View.VISIBLE
+                t_trade_info_header.visibility = View.VISIBLE
+
+                t_trade_info_header.text = tradeInfo.tradeinfoTopicExpanded
+                t_trade_info_header.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+
+
+                val half = (tradeInfo.tradeinfoList!!.size) / 2
+
+
+                for (i in 0 until (tradeInfo.tradeinfoList!!.size)) {
+                    val textView = TextView(context)
+                    TextViewCompat.setTextAppearance(textView, R.style.CardViewRecentDetailsListTextStyling)
+                    textView.text = "- ${tradeInfo.tradeinfoList!![i]}"
+                    textView.setOnClickListener {
+                        //TODO: Add a child fragment explaining what that doc is when clicked.
+                    }
+
+                    when {
+                        i > half -> l_trade_info_right_list.addView(textView)
+                        i == half -> l_trade_info_left_list.addView(textView)
+                        else -> l_trade_info_left_list.addView(textView)
+                    }
+                }
+            }
+
+        }
+
+
+    }
+
 
     override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
         onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(isFullScreen)
@@ -242,7 +329,7 @@ OnFragmentFullScreenStateChangedListener{
             .addToBackStack(null)
             .commit()
     }
-    //TODO: Must remove - Testing to see layout. 
+
 }
 
 /* //TODO Reimplement animated views.

@@ -4,13 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.labs.sauti.model.trade_info.BorderAgency
-import com.labs.sauti.model.trade_info.Procedure
+import com.labs.sauti.model.exchange_rate.ExchangeRateData
 import com.labs.sauti.model.trade_info.RequiredDocument
 import com.labs.sauti.model.trade_info.TradeInfo
+import com.labs.sauti.model.trade_info.TradeInfoTaxes
 import com.labs.sauti.repository.TradeInfoRepository
 import io.reactivex.schedulers.Schedulers
-import java.time.LocalDateTime
 
 
 class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository): BaseViewModel() {
@@ -18,40 +17,74 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     private val errorLiveData: MutableLiveData<Throwable> = MutableLiveData()
     private val tradeInfoLanguage: MutableLiveData<String> = MutableLiveData()
     private val tradeInfoCategory: MutableLiveData<String> = MutableLiveData()
+    private val tradeInfoBorderCountries : MutableLiveData<List<String>> = MutableLiveData()
     private val tradeInfoFirstSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
     private val tradeInfoSecondSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
     private val tradeInfoThirdSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
     private val tradeInfoFourthSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
     private val tradeInfoFifthSpinnerContent: MutableLiveData<List<String>> = MutableLiveData()
+    private val taxCalcCurrencySpinnerContent: MutableLiveData<MutableList<ExchangeRateData>> = MutableLiveData()
+    private val taxCalcConversionTextContent: MutableLiveData<String> = MutableLiveData()
 
 
     private val searchRegulatedGoodLiveData by lazy { MutableLiveData<TradeInfo>() }
     private val searchTradeInfoProcedure by lazy { MutableLiveData<TradeInfo>() }
     private val searchTradeInfoDocuments by lazy { MutableLiveData<TradeInfo>() }
     private val searchTradeInfoAgencies by lazy { MutableLiveData<TradeInfo>() }
+    private val searchTaxCalculator by lazy { MutableLiveData<TradeInfoTaxes>() }
 
     fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
-    fun getTradeInfoLangueLiveData() : LiveData<String> = tradeInfoLanguage
-    fun getTradeInfoCategory() : LiveData<String> = tradeInfoCategory
+    fun getTradeInfoBorderCountries() : LiveData<List<String>> = tradeInfoBorderCountries
     fun getTradeInfoFirstSpinnerContent(): LiveData<List<String>> = tradeInfoFirstSpinnerContent
     fun getTradeInfoSecondSpinnerContent() : LiveData<List<String>> = tradeInfoSecondSpinnerContent
     fun getTradeInfoThirdSpinnerContent() : LiveData<List<String>> = tradeInfoThirdSpinnerContent
     fun getTradeInfoFourthSpinnerContent() : LiveData<List<String>> = tradeInfoFourthSpinnerContent
     fun getTradeInfoFifthSpinnerContent() : LiveData<List<String>> = tradeInfoFifthSpinnerContent
+    fun getTaxCalcCurrentSpinnerContent(): LiveData<MutableList<ExchangeRateData>> = taxCalcCurrencySpinnerContent
+    fun getTaxCalcConversionTextConent(): LiveData<String> = taxCalcConversionTextContent
 
 
     fun getSearchRegulatedGoodsLiveData(): LiveData<TradeInfo> = searchRegulatedGoodLiveData
     fun getSearchTradeInfoProcedure(): LiveData<TradeInfo> = searchTradeInfoProcedure
     fun getSearchTradeInfoDocuments(): LiveData<TradeInfo> = searchTradeInfoDocuments
     fun getSearchTradeInfoAgencies(): LiveData<TradeInfo> = searchTradeInfoAgencies
+    fun getSearchTaxCalculations(): LiveData<TradeInfoTaxes> = searchTaxCalculator
+
+    fun searchRecentTradeInfo(){
+
+
+    }
+
+    //TODO: Finish tax calc
+    fun searchTaxCalculations(language: String, category: String, product: String, origin: String, dest: String, value: Double, currencyFrom: String, currencyTo: String, rate: Double, valueCheck: Double) {
+        addDisposable(tradeInfoRepository.searchTradeInfoTaxes(language, category, product, origin, dest, valueCheck)
+            .map {
+                TradeInfoTaxes(product,
+                    currencyFrom,
+                    currencyTo,
+                    value,
+                    it.taxes!!,
+                    rate)
+            }
+            .subscribe(
+                {
+
+                    searchTaxCalculator.postValue(it)
+                },
+                {
+                    errorLiveData.postValue(it)
+                }
+            ))
+    }
 
     fun searchBorderAgencies(language: String, category: String, product: String, origin: String, dest: String, value: Double, destChoice: String){
         addDisposable(tradeInfoRepository.searchTradeInfoBorderAgencies(language, category, product, origin, dest, value)
             .map {
                 TradeInfo("Border Agencies",
                     "Push to View More Information About The Agency",
-                    tradeInfoAgencies = it,
-                    tradeInfoCountry = destChoice
+                    tradeInfoAgencies = it.relevantAgencyData,
+                    tradeInfoCountry = destChoice,
+                    tradeInfoID = it.id
                     )
             }
             .subscribe(
@@ -68,9 +101,10 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
         addDisposable(tradeInfoRepository.searchTradeInfoBorderProcedures(language, category, product, origin, dest, value)
             .map {
                 TradeInfo("Border Procedures",
-                    "Border Procedures",
-                    tradeInfoProcedure = it,
-                    tradeInfoCountry = destChoice)
+                    """To $destChoice""",
+                    tradeInfoProcedure = it.procedures,
+                    tradeInfoID =  it.id
+                )
             }
             .subscribe(
                 {
@@ -86,12 +120,11 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
         addDisposable(tradeInfoRepository.searchTradeInfoRequiredDocuments(language, category, product, origin, dest, value)
             .map
             {
-                val docsList = mutableListOf<RequiredDocument>()
-                it.forEach{doc ->
-                    docsList.add(doc)
-                }
-
-                TradeInfo(tradeinfoTopic = "Required Documents", tradeinfoTopicExpanded = "Required Documents", tradeInfoDocs = docsList)
+                TradeInfo(tradeinfoTopic = "Required Documents",
+                    tradeinfoTopicExpanded = "Push to View More Information About The Document",
+                    tradeInfoDocs = it.requiredDocumentData,
+                    tradeInfoID = it.id
+                )
             }
             .subscribe(
                 {
@@ -107,11 +140,11 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
 
         when(regulatedType) {
             "Prohibited goods"->(
-                    addDisposable(tradeInfoRepository.searchRegulatedGoods(language, country)
+                    addDisposable(tradeInfoRepository.searchRegulatedProhibiteds(language, country)
                         .map
                         {
                             val list = mutableListOf<String>()
-                            it.prohibiteds.forEach { pro ->
+                            it.prohibiteds?.forEach { pro ->
                                 list.add(pro.name)
                             }
 
@@ -130,11 +163,11 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
                     )
 
             "Restricted goods"-> (
-                    addDisposable(tradeInfoRepository.searchRegulatedGoods(language, country)
+                    addDisposable(tradeInfoRepository.searchRegulatedRestricteds(language, country)
                         .map
                         {
                             val list = mutableListOf<String>()
-                            it.restricteds.forEach { rest ->
+                            it.restricteds?.forEach { rest ->
                                 list.add(rest.name)
                             }
 
@@ -153,11 +186,11 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
                         ))
                     )
             "Sensitive goods"->(
-                    addDisposable(tradeInfoRepository.searchRegulatedGoods(language, country)
+                    addDisposable(tradeInfoRepository.searchRegulatedSensitives(language, country)
                         .map
                         {
                             val list = mutableListOf<String>()
-                            it.sensitives.forEach { sensitive ->
+                            it.sensitives?.forEach { sensitive ->
                                 list.add(sensitive.name)
                             }
 
@@ -180,25 +213,23 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     }
 
     fun setLanguage(lang : String) {
-        tradeInfoLanguage.value = lang.toUpperCase()
+        tradeInfoLanguage.value = lang
     }
 
     fun setFirstSpinnerContent(cat: String? = null) {
 
-        if (cat == null) {
-            tradeInfoCategory.value = "Border Procedures"
-        } else {
-            tradeInfoCategory.value = cat
-        }
+         tradeInfoCategory.value = cat
+
 
         val language = tradeInfoLanguage.value as String
 
 
         //TODO: String will not be hardcoded and turned into resource with translations
-        if(tradeInfoCategory.value == "Regulated Goods") {
+        if(cat == "Regulated Goods") {
             addDisposable(tradeInfoRepository.getRegulatedGoodsCountries(language).subscribeOn(Schedulers.io()).subscribe(
                 {
-                    tradeInfoFirstSpinnerContent.postValue(it)
+                    //TODO: Setup a whole new obversable just for Regulated goods.
+                    tradeInfoBorderCountries.postValue(it)
                 },
                 {
                     errorLiveData.postValue(it)
@@ -272,6 +303,30 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
 
     }
 
+    fun  setTaxCalcCurrencySpinnerContent(){
+        addDisposable(tradeInfoRepository.getTaxInfoCurrency()
+/*            .map {
+                val currencies = mutableListOf<String>()
+                it.forEach{ cur ->
+                    currencies.add(cur.currency as String)
+                }
+                currencies
+            }*/
+            .subscribe(
+                {
+                    taxCalcCurrencySpinnerContent.postValue(it)
+                },
+                {
+                    errorLiveData.postValue(it)
+                })
+        )
+    }
+
+    fun setTaxCalcConversionTextConent(currencyTo: String) {
+        taxCalcConversionTextContent.postValue(currencyTo)
+
+    }
+
     class Factory(private val tradeInfoRepository: TradeInfoRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
@@ -280,49 +335,3 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     }
 
 }
-
-
-
-
-//        when(tradeInfoCategory.value) {
-//            "Border Procedures" -> (
-//                addDisposable(tradeInfoRepository.getSelectedLanguage().subscribeOn(Schedulers.io()).subscribe(
-//                    { s ->
-//                        tradeInfoLanguage.postValue(s.toUpperCase())
-//                        tradeInfoRepository.getTradeInfoProductCategory(s.toUpperCase()).subscribe(
-//                            {tradeInfoFirstSpinnerContent.postValue(it)},
-//                            {errorLiveData.postValue(it)}
-//                        )
-//                    },
-//                    {
-//                        errorLiveData.postValue(it)
-//                    }
-//                ))
-//                    )
-//            "Required Documents"->( tradeInfoFirstSpinnerContent.postValue(listOf())
-//                    )
-//            "Border Agencies"->{}
-//            "Regulated Goods"->{}
-//        }
-
-
-
-//Check the tradeinfo
-//    fun loadFirstSpinnerContent() {
-//
-//        val lang = tradeInfoLanguage.value.toString()
-//        val cat = tradeInfoCategory.value.toString()
-//        when(tradeInfoCategory.value.toString()) {
-//            "Border Procedures" ->{ addDisposable(tradeInfoRepository.getTradeInfoProductCategory(tradeInfoLanguage.value.toString()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
-//                {tradeInfoFirstSpinnerContent.postValue(it)},
-//                {errorLiveData.postValue(it)}
-//            ))
-//            }
-//
-//
-//        }
-//    }
-
-//fun getFirstSpinnerContent()
-
-

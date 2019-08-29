@@ -14,6 +14,7 @@
             android:background="@color/colorPrimaryDark" android:id="@+id/cl_tax_calculator_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:background="@color/colorInformation"
+                tools:visibility="visible"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/cl_expanded_tax_calculator"
