@@ -47,8 +47,6 @@ class ReportFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setTranslatableTexts()
-
         b_yes.setOnClickListener {
             hasGoodExperience = true
             b_yes.background.setTint(ContextCompat.getColor(context!!, R.color.colorButtonHasGoodExperienceSelected))
@@ -101,19 +99,6 @@ class ReportFragment : Fragment() {
                 )
             }
         }
-    }
-
-    private fun setTranslatableTexts() {
-        val ctx = LocaleHelper.createContext(context!!)
-
-        t_we_will_now_ask_some_questions_about_your_border_experience.text = ctx.getString(R.string.we_will_now_ask_some_questions_about_your_border_experience)
-        t_we_will_now_ask_some_questions_about_your_border_experience.typeface = Typeface.DEFAULT_BOLD
-        t_which_border_did_you_cross.text = ctx.getString(R.string.which_border_did_you_cross)
-        t_did_you_have_a_good_experience.text = ctx.getString(R.string.did_you_have_a_good_experience)
-        b_yes.text = ctx.getString(R.string.yes)
-        b_yes.typeface = Typeface.DEFAULT_BOLD
-        b_no.text = ctx.getString(R.string.no)
-        b_no.typeface = Typeface.DEFAULT_BOLD
     }
 
     private fun handleBorders(borders: List<String>) {

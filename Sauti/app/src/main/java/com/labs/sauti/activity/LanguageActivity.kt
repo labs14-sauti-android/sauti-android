@@ -17,22 +17,9 @@ class LanguageActivity : AppCompatActivity() {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    @Inject
-    lateinit var settingsSp: SettingsSp
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_language)
-
-        (applicationContext as SautiApp).getMainComponent().inject(this)
-
-        // set locale based on user selected locale
-        val locale = Locale(settingsSp.getSelectedLanguage())
-        Locale.setDefault(locale)
-        val config = resources.configuration
-        config.setLocale(locale)
-        config.setLayoutDirection(locale)
-
 
 /*        ArrayAdapter.createFromResource(this,
             R.array.languages_array,

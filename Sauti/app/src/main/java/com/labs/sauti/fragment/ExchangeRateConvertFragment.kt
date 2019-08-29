@@ -66,8 +66,6 @@ class ExchangeRateConvertFragment : Fragment() {
             it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
         })
 
-        setTranslatableTexts()
-
         exchangeRateViewModel.getErrorLiveData().observe(this, Observer {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
 
@@ -110,12 +108,6 @@ class ExchangeRateConvertFragment : Fragment() {
         b_convert.setOnClickListener {
             convert()
         }
-    }
-
-    private fun setTranslatableTexts() {
-        val ctx = LocaleHelper.createContext(context!!)
-
-        t_how_much_do_you_want_to_exchange.text = ctx.getString(R.string.how_much_do_you_want_to_exchange)
     }
 
     private fun convert() {

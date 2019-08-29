@@ -1,6 +1,6 @@
 package com.labs.sauti.activity
 
-import android.graphics.Color
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -21,9 +21,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.fragment.*
+import com.labs.sauti.helper.LocaleHelper
 import com.labs.sauti.helper.NetworkHelper
 import com.labs.sauti.model.exchange_rate.ExchangeRateConversionResult
 import com.labs.sauti.model.market_price.MarketPrice
+import com.labs.sauti.sp.SettingsSp
 import com.labs.sauti.view_model.AuthenticationViewModel
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -31,6 +33,7 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.app_bar_base.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.RuntimeException
@@ -111,6 +114,18 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                 }
             }
         })
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        // set locale based on user selected locale
+        val settingsSp = SettingsSp(newBase!!)
+        val locale = Locale(settingsSp.getSelectedLanguage())
+        Locale.setDefault(locale)
+        val config = newBase.resources.configuration
+        config.setLocale(locale)
+        config.setLayoutDirection(locale)
+
+        super.attachBaseContext(LocaleHelper.createContext(newBase))
     }
 
     override fun onResume() {
@@ -355,7 +370,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                 if (baseFragment !is MarketPriceFragment) {
                     shouldReplace = true
                     baseFragment = MarketPriceFragment.newInstance(data as MarketPrice?)
-                    toolbar.title = "Market Price"
+                    toolbar.title = resources.getString(R.string.menu_market_price)
                     nav_view.menu.findItem(R.id.nav_market_prices).isChecked = true
                 }
             }
@@ -363,7 +378,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                 if (baseFragment !is TaxCalculatorFragment) {
                     shouldReplace = true
                     baseFragment = TaxCalculatorFragment.newInstance()
-                    toolbar.title = "Tax Calculator"
+                    toolbar.title = resources.getString(R.string.menu_tax_calculator)
                     nav_view.menu.findItem(R.id.nav_tax_calculator).isChecked = true
                 }
             }
@@ -371,7 +386,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                 if (baseFragment !is TradeInfoFragment) {
                     shouldReplace = true
                     baseFragment = TradeInfoFragment.newInstance()
-                    toolbar.title = "Trade Info"
+                    toolbar.title = resources.getString(R.string.menu_trade_info)
                     nav_view.menu.findItem(R.id.nav_trade_info).isChecked = true
                 }
             }
@@ -379,7 +394,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                 if (baseFragment !is ExchangeRateFragment) {
                     shouldReplace = true
                     baseFragment = ExchangeRateFragment.newInstance(data as ExchangeRateConversionResult?)
-                    toolbar.title = "Exchange Rates"
+                    toolbar.title = resources.getString(R.string.menu_exchange_rates)
                     nav_view.menu.findItem(R.id.nav_exchange_rates).isChecked = true
                 }
             }
@@ -387,7 +402,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                 if (baseFragment !is MarketplaceFragment) {
                     shouldReplace = true
                     baseFragment = MarketplaceFragment.newInstance()
-                    toolbar.title = "Marketplace"
+                    toolbar.title = resources.getString(R.string.menu_marketplace)
                     nav_view.menu.findItem(R.id.nav_marketplace).isChecked = true
                 }
             }
@@ -395,7 +410,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                 if (baseFragment !is ReportFragment) {
                     shouldReplace = true
                     baseFragment = ReportFragment.newInstance()
-                    toolbar.title = "Report"
+                    toolbar.title = resources.getString(R.string.menu_report)
                     nav_view.menu.findItem(R.id.nav_report).isChecked = true
                 }
             }
@@ -403,7 +418,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                 if (baseFragment !is HelpFragment) {
                     shouldReplace = true
                     baseFragment = HelpFragment.newInstance()
-                    toolbar.title = "Help"
+                    toolbar.title = resources.getString(R.string.menu_help)
                     nav_view.menu.findItem(R.id.nav_help).isChecked = true
                 }
             }

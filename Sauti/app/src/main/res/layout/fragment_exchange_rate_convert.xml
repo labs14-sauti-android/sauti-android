@@ -142,7 +142,7 @@
                         android:digits="0123456789."
                         android:inputType="numberDecimal"
                         android:maxLines="1"
-                        android:hint="Enter Amount"
+                        android:hint="@string/enter_amount"
                         android:background="#d9d6d6"
                         android:padding="10dp"/>
 

@@ -92,8 +92,6 @@ OnFragmentFullScreenStateChangedListener{
             it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
         })
 
-        setTranslatableTexts()
-
         recentExchangeRateConversionResultsAdapter = RecentExchangeRateConversionResultsAdapter(mutableListOf(),
             object: RecentExchangeRateConversionResultsAdapter.OnRecentExchangeRateConversionResultClickedListener {
                 override fun onRecentExchangeRateConversionResultClicked(
@@ -175,15 +173,6 @@ OnFragmentFullScreenStateChangedListener{
 
     private fun onNetworkConnected() {
         exchangeRateViewModel.syncFavoriteConversions()
-    }
-
-    private fun setTranslatableTexts() {
-        val ctx = LocaleHelper.createContext(context!!)
-
-        val todaysIntlExchangeRatesSR = SpannableString(ctx.getString(R.string.today_s_intl_exchange_rates))
-        todaysIntlExchangeRatesSR.setSpan(UnderlineSpan(), 0, todaysIntlExchangeRatesSR.length, 0)
-        t_details_todays_intl_exchange_rates.text = todaysIntlExchangeRatesSR
-        t_details_todays_intl_exchange_rates.typeface = Typeface.DEFAULT_BOLD
     }
 
     private fun setConversionResultDetails(exchangeRateConversionResult: ExchangeRateConversionResult) {

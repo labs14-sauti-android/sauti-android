@@ -46,14 +46,10 @@ class RecentExchangeRateConversionResultsAdapter(
                 onRecentExchangeRateConversionResultClickedListener.onRecentExchangeRateConversionResultClicked(layoutPosition, recentExchangeRateConversionResult)
             }
 
-            val localeCtx = LocaleHelper.createContext(itemView.context)
-            itemView.t_recent_todays_intl_exchange_rates.text = localeCtx.getString(R.string.today_s_intl_exchange_rates)
-            itemView.t_recent_todays_intl_exchange_rates.typeface = Typeface.DEFAULT_BOLD
-
             val decimalFormat = DecimalFormat("#,##0.00")
             val amountStr = decimalFormat.format(recentExchangeRateConversionResult.amount)
             val resultStr = decimalFormat.format(recentExchangeRateConversionResult.result)
-            itemView.t_recent_result.text = "$amountStr ${recentExchangeRateConversionResult.fromCurrency} is $resultStr ${recentExchangeRateConversionResult.toCurrency}"
+            itemView.t_recent_result.text = "$amountStr ${recentExchangeRateConversionResult.fromCurrency} ${itemView.context.resources.getString(R.string.exchange_rate_is)} $resultStr ${recentExchangeRateConversionResult.toCurrency}"
             val toPerFromStr = decimalFormat.format(recentExchangeRateConversionResult.toPerFrom)
             itemView.t_recent_to_per_from.text = "(1${recentExchangeRateConversionResult.fromCurrency} = $toPerFromStr ${recentExchangeRateConversionResult.toCurrency})"
         }

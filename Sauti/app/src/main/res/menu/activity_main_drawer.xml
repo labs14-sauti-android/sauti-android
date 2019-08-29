@@ -29,7 +29,7 @@
         <item
                 android:id="@+id/nav_market_prices"
                 android:icon="@drawable/ic_market_prices_nav_drawer"
-                android:title="@string/menu_market_prices"/>
+                android:title="@string/menu_market_price"/>
         <item
                 android:id="@+id/nav_exchange_rates"
                 android:icon="@drawable/ic_exchange_rates_nav_drawer"
