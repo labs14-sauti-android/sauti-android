@@ -44,6 +44,9 @@ interface TradeInfoDao : BaseDao<TradeInfoData> {
     @Query("SELECT DISTINCT dest FROM trade_info WHERE language=:language AND productCat=:productCat AND product=:product AND origin=:origin")
     fun getTradeInfoDestination(language : String, productCat: String, product: String, origin: String) : Single<MutableList<String>>
 
+    @Query("SELECT * FROM trade_info")
+    fun getTwoMostRecentTradeInfo(): Single<MutableList<TradeInfoData>>
+
     @Transaction
     fun insertThenDeleteProcedures(old: TradeInfoData, new: TradeInfoData) {
         insert(new)

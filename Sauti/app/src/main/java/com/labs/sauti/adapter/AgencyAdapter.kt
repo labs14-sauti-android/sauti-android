@@ -34,10 +34,12 @@ class AgencyAdapter(
     class ViewHolder(view : View) : RecyclerView.ViewHolder(view) {
 
         private val agencyName : TextView = view.rv_tv_document_agency_name
+        private val plusSign : TextView = view.rv_tv_plus
 
 
         fun bind(data : BorderAgency, listener: (BorderAgency) -> Unit) = with(itemView) {
             agencyName.text = """${(adapterPosition + 1)}:${data.agencyName}"""
+            plusSign.text = context.getString(R.string.list_plus)
             setOnClickListener { listener(data) }
         }
     }

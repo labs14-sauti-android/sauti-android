@@ -19,6 +19,7 @@
                 android:layout_height="360dp"
                 android:background="@color/colorInformation"
                 android:visibility="gone"
+                tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"

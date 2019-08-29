@@ -63,6 +63,31 @@ class CardViewRecentSearches @JvmOverloads constructor(
 
     }
 
+    fun consumeTIBorderAgencies(tradeInfo: TradeInfo) {
+        if(ll_card_list.childCount > 0) {
+            ll_card_list.removeAllViews()
+        }
+
+        if(t_taxcalc_total.visibility == View.VISIBLE){
+            t_taxcalc_total.visibility = View.GONE
+        }
+
+        t_card_view_header.text = tradeInfo.tradeinfoTopic
+        t_card_view_category.text = "Trade Info"
+        t_card_view_category.setBackgroundResource(R.color.colorTradeInfo)
+
+        if(tradeInfo.tradeInfoAgencies!!.size > 0) {
+            val agencyList = tradeInfo.tradeInfoAgencies as MutableList
+            for(i in 0..2) {
+                val textView = TextView(context, null, 0)
+                textView.setTextAppearance(R.style.CardViewTradeInfoContentTextStyling)
+                textView.text = (i + 1).toString() + ":  " + agencyList[i].agencyName
+                ll_card_list.addView(textView)
+            }
+        }
+
+    }
+
     fun consumeTIBorderProcedures(tradeInfo: TradeInfo) {
         if(ll_card_list.childCount > 0) {
             ll_card_list.removeAllViews()
@@ -70,6 +95,19 @@ class CardViewRecentSearches @JvmOverloads constructor(
 
         if(t_taxcalc_total.visibility == View.VISIBLE){
             t_taxcalc_total.visibility = View.GONE
+        }
+
+        t_card_view_header.text = tradeInfo.tradeinfoTopic
+        t_card_view_category.text = "Trade Info"
+        t_card_view_category.setBackgroundResource(R.color.colorTradeInfo)
+
+        if(tradeInfo.tradeInfoProcedure!!.size > 0) {
+
+            val textView = TextView(context, null, 0)
+            textView.setTextAppearance(R.style.CardViewTradeInfoContentTextStyling)
+            textView.text = "1: " + tradeInfo.tradeInfoProcedure?.get(0)?.description
+            ll_card_list.addView(textView)
+
         }
 
 

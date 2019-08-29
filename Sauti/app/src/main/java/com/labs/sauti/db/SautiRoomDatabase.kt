@@ -14,7 +14,7 @@ import com.labs.sauti.model.market_price.FavoriteMarketPriceSearchData
 import com.labs.sauti.model.trade_info.*
 
 
-const val DATABASE_SCHEMA_VERSION = 27
+const val DATABASE_SCHEMA_VERSION = 28
 const val DB_NAME = "local-db"
 
 

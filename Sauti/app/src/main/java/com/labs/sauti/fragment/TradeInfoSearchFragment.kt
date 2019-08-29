@@ -174,15 +174,14 @@ class TradeInfoSearchFragment : Fragment() {
                 fragmentManager!!.popBackStack()
             }
         })
-/*
+
         tradeInfoViewModel.getSearchTradeInfoAgencies().observe(this, Observer {
             if(it != null) {
                 onTradeSearchCompletedListener?.OnTradeInfoSearchCompleted(it)
-                b_trade_info_search.isEnabled = true
-            } else {
-                b_trade_info_search.isEnabled = false
+                onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(false)
+                fragmentManager!!.popBackStack()
             }
-        })*/
+        })
 
 
 
@@ -195,7 +194,9 @@ class TradeInfoSearchFragment : Fragment() {
                 "Required Documents"->{
                     tradeInfoViewModel.searchRequiredDocuments(language, category, product, origin, dest, value)
                 }
-                "Border Agencies"->{}
+                "Border Agencies"->{
+                    tradeInfoViewModel.searchBorderAgencies(language, category, product, origin, dest, value, destChoice)
+                }
                 "Regulated Goods"->{
                     tradeInfoViewModel.searchRegulatedGoods(language, countryCode, regulatedType)
                 }

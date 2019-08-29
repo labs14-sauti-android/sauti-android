@@ -45,7 +45,7 @@ class DocumentsAdapter(
         fun bind(data : RequiredDocument, listener: (RequiredDocument) -> Unit) = with(itemView) {
             docName.text = """${(adapterPosition + 1)}:${data.docTitle}"""
             plusSign.text = context.getString(R.string.list_plus)
-            plusSign.gravity = (Gravity.CENTER or Gravity.END)
+            //plusSign.gravity = (Gravity.CENTER or Gravity.END)
 
 
             setOnClickListener { listener(data) }
