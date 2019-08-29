@@ -36,7 +36,7 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
 
 ## Features
 
-- Convert Sauti Africa SMS app into an Android App
+1. Convert Sauti Africa SMS app into an Android App
     - Market Price page
         - Nearby marketplace
     - Exchange Rate page
@@ -54,7 +54,7 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
     - Dashboard page
     - Settings page
     - Translations to Swahili and Luganda
-- Allow user favorites
+2. Allow user favorites
     - User authorization
     - User profile
     - Favorite Market Price
@@ -62,7 +62,6 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
     - Favorite Trade Info
     - Favorite Tax Calculation
     - Dashboard page favorites and recent searches
-- Marketplace for trading
 
 ## Sauti Api OAuth2
 
