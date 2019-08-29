@@ -60,11 +60,11 @@ class SettingsFragment : Fragment() {
             // TODO refresh main fragments
 
             when (it) {
-                "en" -> {
+                LANG_EN -> {
                     fl_language_english.background.setTint(ContextCompat.getColor(context!!, R.color.colorSelectedLanguage))
                     t_language_english.setTextColor(ContextCompat.getColor(context!!, R.color.colorText))
                 }
-                "sw" -> {
+                LANG_SW -> {
                     fl_language_swahili.background.setTint(ContextCompat.getColor(context!!, R.color.colorSelectedLanguage))
                     t_language_swahili.setTextColor(ContextCompat.getColor(context!!, R.color.colorText))
                 }
@@ -81,17 +81,17 @@ class SettingsFragment : Fragment() {
 
         fl_language_english.setOnClickListener {
             shouldRestartActivity = true
-            settingsViewModel.setSelectedLanguage("en")
+            settingsViewModel.setSelectedLanguage(LANG_EN)
         }
 
         fl_language_swahili.setOnClickListener {
             shouldRestartActivity = true
-            settingsViewModel.setSelectedLanguage("sw")
+            settingsViewModel.setSelectedLanguage(LANG_SW)
         }
 
         fl_language_luganda.setOnClickListener {
             shouldRestartActivity = true
-            settingsViewModel.setSelectedLanguage("lu")
+            settingsViewModel.setSelectedLanguage(LANG_LG)
         }
     }
 
@@ -119,6 +119,10 @@ class SettingsFragment : Fragment() {
     }
 
     companion object {
+        private const val LANG_EN = "en" // english
+        private const val LANG_SW = "sw" // swahili
+        private const val LANG_LG = "lg" // lugandan
+
         @JvmStatic
         fun newInstance() =
             SettingsFragment()
