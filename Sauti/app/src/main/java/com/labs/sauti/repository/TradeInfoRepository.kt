@@ -7,6 +7,8 @@ import io.reactivex.Single
 
 interface TradeInfoRepository {
 
+    fun getTwoRecentTradeInfo(): Single<MutableList<TradeInfoData>>
+
     fun getSelectedLanguage(): Single<String>
     fun setSelectedLanguage(language: String): Completable
 

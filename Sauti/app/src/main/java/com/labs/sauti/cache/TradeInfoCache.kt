@@ -6,7 +6,7 @@ import io.reactivex.Single
 
 interface TradeInfoCache {
 
-
+    fun getRecentTradeInfoFragment  ():Single<MutableList<TradeInfoData>>
 
     fun getRegulatedCountries       (language: String) : Single<MutableList<String>>
 

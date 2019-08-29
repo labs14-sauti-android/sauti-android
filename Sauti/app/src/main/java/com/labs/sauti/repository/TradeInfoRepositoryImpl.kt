@@ -17,6 +17,10 @@ class TradeInfoRepositoryImpl(
     private val tradeInfoSearchRoomCache: TradeInfoSearchRoomCache
 ) : TradeInfoRepository {
 
+    override fun getTwoRecentTradeInfo(): Single<MutableList<TradeInfoData>> {
+        return tradeInfoRoomCache.getRecentTradeInfoFragment()
+            .subscribeOn(Schedulers.io())
+    }
 
     override fun getSelectedLanguage(): Single<String> {
         return Single.just(settingsSp.getSelectedLanguage())

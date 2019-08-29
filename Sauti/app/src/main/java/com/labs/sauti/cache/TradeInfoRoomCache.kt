@@ -10,9 +10,13 @@ import io.reactivex.schedulers.Schedulers
 //Access to the DAO
 class TradeInfoRoomCache(private val sautiRoomDatabase: SautiRoomDatabase) : TradeInfoCache {
 
+    override fun getRecentTradeInfoFragment(): Single<MutableList<TradeInfoData>> {
+        return sautiRoomDatabase.tradeInfoDao().getTwoMostRecentTradeInfo()
+            .subscribeOn(Schedulers.io())
+    }
+
     override fun getRegulatedCountries(language: String): Single<MutableList<String>> {
         return sautiRoomDatabase.tradeInfoDao().getRegulatedCountries(language)
-
             .subscribeOn(Schedulers.io())
     }
 
