@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
-import com.labs.sauti.model.trade_info.RequiredDocument
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.model.trade_info.TradeInfoTaxes
 import com.labs.sauti.repository.TradeInfoRepository
@@ -56,11 +55,11 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     }
 
     //TODO: Finish tax calc
-    fun searchTaxCalculations(language: String, category: String, product: String, origin: String, dest: String, value: Double, currencyFrom: String, currencyTo: String, rate: Double, valueCheck: Double) {
-        addDisposable(tradeInfoRepository.searchTradeInfoTaxes(language, category, product, origin, dest, valueCheck)
+    fun searchTaxCalculations(language: String, category: String, product: String, origin: String, dest: String, value: Double, currencyUser: String, currencyTo: String, rate: Double, valueCheck: Double) {
+        addDisposable(tradeInfoRepository.searchTradeInfoTaxes(language, category, product, origin, dest, valueCheck, currencyUser, currencyTo, rate, value)
             .map {
                 TradeInfoTaxes(product,
-                    currencyFrom,
+                    currencyUser,
                     currencyTo,
                     value,
                     it.taxes!!,
@@ -303,8 +302,8 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
 
     }
 
-    fun  setTaxCalcCurrencySpinnerContent(){
-        addDisposable(tradeInfoRepository.getTaxInfoCurrency()
+    fun  setTaxCalcCurrencySpinnerContent(language: String, category: String, product: String, origin: String, dest: String){
+        addDisposable(tradeInfoRepository.getTaxInfoCurrency(language, category, product, origin, dest)
 /*            .map {
                 val currencies = mutableListOf<String>()
                 it.forEach{ cur ->

@@ -83,7 +83,7 @@ data class TradeInfoData(
     //Taxes
     var userToDestRate: Double? = null,
 
-    var approximateValue: Long? = null
+    var approximateValue: Double? = null
 
 )
 
