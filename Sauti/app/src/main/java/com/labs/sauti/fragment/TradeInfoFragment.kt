@@ -50,9 +50,9 @@ OnFragmentFullScreenStateChangedListener{
     var tradeInfoRecent : TradeInfo? = null
 
     lateinit var tradeInfoAdapter : TradeInfoAdapter
-
     lateinit var proceduresAdapter: ProceduresAdapter
 
+    lateinit var recentTIList: List<TradeInfo>
 
 
 

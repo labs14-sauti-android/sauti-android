@@ -182,17 +182,31 @@ class TradeInfoRepositoryImpl(
         origin: String,
         dest: String,
         value: Double
-    ): Single<MutableList<Taxes>> {
-        return sautiApiService
-            .searchTradeInfoTaxes(
-                language,
-                category,
-                product,
-                origin,
-                dest,
-                value)
-            .subscribeOn(Schedulers.io())
+    ): Single<TradeInfoData> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    //    override fun searchTradeInfoTaxes(
+//        language: String,
+//        category: String,
+//        product: String,
+//        origin: String,
+//        dest: String,
+//        value: Double
+//    ): Single<TradeInfoData> {
+//        return sautiApiService
+//            .searchTradeInfoTaxes(
+//                language,
+//                category,
+//                product,
+//                origin,
+//                dest,
+//                value)
+//            .map {
+//
+//            }
+//            .subscribeOn(Schedulers.io())
+//    }
 
 
     override fun getRegulatedGoodsCountries(language: String): Single<MutableList<String>> {

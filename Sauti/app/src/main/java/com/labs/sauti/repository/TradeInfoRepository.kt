@@ -45,7 +45,7 @@ interface TradeInfoRepository {
                  product: String,
                  origin: String,
                  dest: String,
-                 value: Double): Single<MutableList<Taxes>>
+                 value: Double): Single<TradeInfoData>
 
     fun getRegulatedGoodsCountries  (language: String): Single<MutableList<String>>
     fun searchRegulatedGoods        (language: String, country: String, regulatedType: String) : Single<RegulatedGoodData>

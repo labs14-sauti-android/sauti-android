@@ -43,7 +43,7 @@ interface TradeInfoDao : BaseDao<TradeInfoData> {
     @Query("SELECT DISTINCT dest FROM trade_info WHERE language=:language AND productCat=:productCat AND product=:product AND origin=:origin")
     fun getTradeInfoDestination(language : String, productCat: String, product: String, origin: String) : Single<MutableList<String>>
 
-    @Query("SELECT * FROM trade_info")
+    @Query("SELECT * FROM trade_info WHERE taxes IS NULL ORDER BY trade_info_id DESC LIMIT 2")
     fun getTwoMostRecentTradeInfo(): Single<MutableList<TradeInfoData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -6,6 +6,8 @@ import io.reactivex.Single
 
 interface TradeInfoCache {
 
+
+
     fun getRegulatedCountries       (language: String) : Single<MutableList<String>>
 
     fun saveRegulatedProhibiteds    (prohibited: TradeInfoData): Completable
