@@ -1,5 +1,7 @@
 # Sauti
 
+Sauti provides trade and market information services that empower cross-border traders to trade legally, safely and profitably.  This market information app allows for real-time exchange rate updates, daily price updates and a way for users to give immediate feedback to improve the platform.
+
 You can find the deployed project at [Sauti](https://play.google.com/store/apps/details?id=com.labs.sauti).
 
 ## Contributors
@@ -12,8 +14,6 @@ You can find the deployed project at [Sauti](https://play.google.com/store/apps/
 | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/israel-dela-cruz-179922177/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/patrick-martin-b7633942/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/troy-schennum/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/) |
 
 ## Project Overview
-
-Sauti provides trade and market information services that empower cross-border traders to trade legally, safely and profitably.  This market information app allows for real-time exchange rate updates, daily price updates and a way for users to give immediate feedback to improve the platform.
 
  [Product Canvas](https://www.notion.so/Sauti-Africa-Android-App-e0323f45cde94f5b98d5c524eab3af23)
 
