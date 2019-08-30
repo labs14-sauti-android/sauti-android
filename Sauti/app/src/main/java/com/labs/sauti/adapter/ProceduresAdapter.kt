@@ -40,4 +40,10 @@ class ProceduresAdapter(
         }
     }
 
+    fun updateContents(newData: MutableList<Procedure>) {
+        procedures.clear()
+        procedures.addAll(newData)
+        notifyDataSetChanged()
+    }
+
 }

@@ -8,24 +8,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import com.labs.sauti.R
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.SautiApp
-import com.labs.sauti.adapter.AgencyAdapter
-import com.labs.sauti.adapter.DocumentsAdapter
 import com.labs.sauti.adapter.ProceduresAdapter
 import com.labs.sauti.adapter.TradeInfoAdapter
 import com.labs.sauti.helper.SimpleDividerItemDecoration
-import com.labs.sauti.model.report.Border
 import com.labs.sauti.model.trade_info.BorderAgency
+import com.labs.sauti.model.trade_info.Procedure
 import com.labs.sauti.model.trade_info.RequiredDocument
 import com.labs.sauti.view_model.TradeInfoViewModel
 import kotlinx.android.synthetic.main.fragment_trade_info.*
@@ -37,7 +34,6 @@ import javax.inject.Inject
 class TradeInfoFragment : Fragment(), TradeInfoSearchFragment.OnTradeInfoSearchCompletedListener,
 OnFragmentFullScreenStateChangedListener{
 
-
     private var onFragmentFullScreenStateChangedListener: OnFragmentFullScreenStateChangedListener? = null
 
     @Inject
@@ -45,14 +41,14 @@ OnFragmentFullScreenStateChangedListener{
 
     private lateinit var tradeInfoViewModel: TradeInfoViewModel
 
-    var tiDetailsIsVisible = false
-
-    var tradeInfoRecent : TradeInfo? = null
+    var tradeInfoFocus : TradeInfo? = null
+    lateinit var firstTradeInfo: TradeInfo
+    lateinit var secondTradeInfo: TradeInfo
 
     lateinit var tradeInfoAdapter : TradeInfoAdapter
     lateinit var proceduresAdapter: ProceduresAdapter
 
-    lateinit var recentTIList: List<TradeInfo>
+
 
 
 
@@ -69,34 +65,52 @@ OnFragmentFullScreenStateChangedListener{
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_trade_info, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tiv_trade_info_recent_first.setOnClickListener(object : View.OnClickListener {
+        tiv_trade_info_recent_first
 
-            override fun onClick(v: View) {
-                if(tradeInfoRecent != null) {
+        tradeInfoViewModel.getSearchTradeInfoRecents().observe(this, Observer {
 
-                    //1. Check if the view is visible
-                    //2. If not visibile make visible
-                    if(t_trade_info_header.text.toString() == tradeInfoRecent!!.tradeinfoTopicExpanded) {
-                        TransitionManager.beginDelayedTransition(fl_fragment_container_trade_info)
+            if(it.isNullOrEmpty()) {
+                t_push_to_view.visibility = View.GONE
+                tiv_trade_info_recent_first.visibility = View.GONE
+                tiv_trade_info_recent_second.visibility = View.GONE
+                t_trade_info_no_recent.visibility = View.VISIBLE
+            }
 
-                        if(cl_expanded_trade_info.visibility == View.VISIBLE) {
-                            cl_expanded_trade_info.visibility = View.GONE
-                        } else {
-                            cl_expanded_trade_info.visibility = View.VISIBLE
-                        }
-                    } else {
-                        addTIDetailsLL(tradeInfoRecent!!)
-                    }
-                }
+            if(it.size == 1){
+                t_push_to_view.visibility = View.VISIBLE
+                tiv_trade_info_recent_first.visibility = View.VISIBLE
+                tiv_trade_info_recent_second.visibility = View.INVISIBLE
+                t_trade_info_no_recent.visibility = View.GONE
+
+                tiv_trade_info_recent_first.consumeTradeInfo(it[0])
+                firstTradeInfo = it[0]
+                tiv_trade_info_recent_first.setOnClickListener(tradeClickListener)
+            }
+
+            if(it.size == 2) {
+                t_push_to_view.visibility = View.VISIBLE
+                tiv_trade_info_recent_first.visibility = View.VISIBLE
+                tiv_trade_info_recent_second.visibility = View.VISIBLE
+                t_trade_info_no_recent.visibility = View.GONE
+
+                tiv_trade_info_recent_first.consumeTradeInfo(it[0])
+                tiv_trade_info_recent_second.consumeTradeInfo(it[1])
+
+                firstTradeInfo = it[0]
+                secondTradeInfo = it[1]
+
+                tiv_trade_info_recent_first.setOnClickListener(tradeClickListener)
+                tiv_trade_info_recent_second.setOnClickListener(tradeClickListener)
             }
         })
+
+        tradeInfoViewModel.searchRecentTradeInfo()
 
         fab_trade_info_search.setOnClickListener{
             openTradeInfoSearchFragment()
@@ -104,11 +118,52 @@ OnFragmentFullScreenStateChangedListener{
 
     }
 
+    val tradeClickListener: View.OnClickListener = View.OnClickListener {
+        when(it.id) {
+            R.id.tiv_trade_info_recent_first->{
+                when (tradeInfoFocus) {
+                    null->{
+                        TransitionManager.beginDelayedTransition(fl_fragment_container_trade_info)
+                        addTIDetailsLL(firstTradeInfo)
+                        cl_expanded_trade_info.visibility = View.VISIBLE
+                        tradeInfoFocus = firstTradeInfo
 
+                    }
+                    firstTradeInfo->{
+                        TransitionManager.beginDelayedTransition(fl_fragment_container_trade_info)
+                        cl_expanded_trade_info.visibility = View.GONE
+                        tradeInfoFocus = null
+                    }
+                    secondTradeInfo->{
+                        addTIDetailsLL(firstTradeInfo)
+                        tradeInfoFocus = firstTradeInfo
+                    }
+                }
+            }
+            R.id.tiv_trade_info_recent_second->{
+                when (tradeInfoFocus) {
+                    null->{
+                        TransitionManager.beginDelayedTransition(fl_fragment_container_trade_info)
+                        addTIDetailsLL(secondTradeInfo)
+                        cl_expanded_trade_info.visibility = View.VISIBLE
+                        tradeInfoFocus = secondTradeInfo
+                    }
+                    firstTradeInfo->{
+                        addTIDetailsLL(secondTradeInfo)
+                        tradeInfoFocus = secondTradeInfo
+
+                    }
+                    secondTradeInfo->{
+                        TransitionManager.beginDelayedTransition(fl_fragment_container_trade_info)
+                        cl_expanded_trade_info.visibility = View.GONE
+                        tradeInfoFocus = null
+                    }
+                }
+            }
+        }
+    }
 
     companion object {
-
-        private const val MAX_RECENT_ITEMS = 2
 
         @JvmStatic
         fun newInstance() =
@@ -132,29 +187,11 @@ OnFragmentFullScreenStateChangedListener{
     }
 
     override fun OnTradeInfoSearchCompleted(tradeInfo: TradeInfo) {
-        if(tradeInfo.regulatedType != null) {
-            tiv_trade_info_recent_first.consumeTIRegulatedGood(tradeInfo)
-        }
-
-        if(tradeInfo.tradeInfoDocs != null) {
-            tiv_trade_info_recent_first.consumeTIRequiredDocuments(tradeInfo)
-        }
-
-        if(tradeInfo.tradeInfoProcedure != null) {
-            tiv_trade_info_recent_first.consumeTIBorderProcedures(tradeInfo)
-        }
-
-        if(tradeInfo.tradeInfoAgencies != null) {
-            tiv_trade_info_recent_first.consumeTIBorderAgencies(tradeInfo)
-        }
-
-
 
         addTIDetailsLL(tradeInfo)
         cl_expanded_trade_info.visibility = View.VISIBLE
-        tradeInfoRecent = tradeInfo
-
-
+        tradeInfoFocus = tradeInfo
+        tradeInfoViewModel.searchRecentTradeInfo()
     }
 
     fun addTIDetailsLL(tradeInfo: TradeInfo) {
@@ -183,8 +220,20 @@ OnFragmentFullScreenStateChangedListener{
                 rv_trade_info_border_procedures.visibility = View.VISIBLE
                 rv_trade_info_border_procedures.setHasFixedSize(true)
                 rv_trade_info_border_procedures.layoutManager = LinearLayoutManager(context)
-                proceduresAdapter = ProceduresAdapter(tradeInfo.tradeInfoProcedure!!)
-                rv_trade_info_border_procedures.adapter = proceduresAdapter
+
+                if(::proceduresAdapter.isInitialized){
+                    if(tradeInfo != tradeInfoFocus) {
+                        val list = mutableListOf<Procedure>()
+                        list.addAll(tradeInfo.tradeInfoProcedure!!)
+
+                        proceduresAdapter.updateContents(list)
+                    }
+
+                } else {
+                    proceduresAdapter = ProceduresAdapter(tradeInfo.tradeInfoProcedure!!)
+                    rv_trade_info_border_procedures.adapter = proceduresAdapter
+                }
+
 
             }
             "Required Documents"->{
@@ -200,10 +249,12 @@ OnFragmentFullScreenStateChangedListener{
                 rv_trade_info_required_documents.setHasFixedSize(true)
 
                 if(::tradeInfoAdapter.isInitialized) {
-                    val list = mutableListOf<Any>()
-                    list.addAll(tradeInfo.tradeInfoDocs!!)
+                    if(tradeInfo != tradeInfoFocus) {
+                        val list = mutableListOf<Any>()
+                        list.addAll(tradeInfo.tradeInfoAgencies!!)
 
-                    tradeInfoAdapter.updateContents(list)
+                        tradeInfoAdapter.updateContents(list)
+                    }
                 } else {
                     val list = mutableListOf<Any>()
                     list.addAll(tradeInfo.tradeInfoDocs!!)
@@ -247,10 +298,12 @@ OnFragmentFullScreenStateChangedListener{
                 rv_trade_info_required_documents.setHasFixedSize(true)
 
                 if(::tradeInfoAdapter.isInitialized) {
-                    val list = mutableListOf<Any>()
-                    list.addAll(tradeInfo.tradeInfoAgencies!!)
+                    if(tradeInfo != tradeInfoFocus) {
+                        val list = mutableListOf<Any>()
+                        list.addAll(tradeInfo.tradeInfoAgencies!!)
 
-                    tradeInfoAdapter.updateContents(list)
+                        tradeInfoAdapter.updateContents(list)
+                    }
                 } else {
                     val list = mutableListOf<Any>()
                     list.addAll(tradeInfo.tradeInfoAgencies!!)

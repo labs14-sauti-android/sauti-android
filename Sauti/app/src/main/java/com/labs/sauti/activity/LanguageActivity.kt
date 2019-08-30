@@ -1,45 +1,42 @@
 package com.labs.sauti.activity
 
 import android.content.Intent
+import android.graphics.drawable.AnimationDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
 import com.labs.sauti.R
-import com.labs.sauti.SautiApp
-import com.labs.sauti.sp.SettingsSp
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import java.util.*
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
 class LanguageActivity : AppCompatActivity() {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private lateinit var africaAnimation: AnimationDrawable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_language)
 
-/*        ArrayAdapter.createFromResource(this,
-            R.array.languages_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            select_language_spinner.adapter = adapter
+        val africa = findViewById<ImageView>(R.id.i_language_activity).apply {
+            setBackgroundResource(R.drawable.animated_africa)
+            africaAnimation = background as AnimationDrawable
         }
 
-        button.setOnClickListener {
-            // TODO save selected language
-            val intent = Intent(this@LanguageActivity, DashboardActivity::class.java)
-            startActivity(intent)
 
-            finish()
-        }*/
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        africaAnimation.start()
+
 
         val intent = Intent(this@LanguageActivity, BaseActivity::class.java)
 
-        compositeDisposable.add(Completable.timer(1500, TimeUnit.MILLISECONDS)
+        compositeDisposable.add(Completable.timer(2000, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 startActivity(intent)

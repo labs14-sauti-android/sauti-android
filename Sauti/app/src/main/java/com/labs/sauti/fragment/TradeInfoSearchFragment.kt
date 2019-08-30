@@ -106,7 +106,7 @@ class TradeInfoSearchFragment : Fragment() {
 
 
             if(tradeInfoCategory != "Regulated Goods") {
-                loadFirstSpinner(sscv_trade_info_q_1, it, "What is your commodity category?")
+                loadFirstSpinner(sscv_trade_info_q_1, it, getString(R.string.select_category_for_commodity))
             } else {
                 sscv_trade_info_q_1.visibility = View.GONE
             }
@@ -130,7 +130,7 @@ class TradeInfoSearchFragment : Fragment() {
             if(tradeInfoCategory == "Regulated Goods"){
                 loadSecondSpinner(sscv_trade_info_q_2, it, "Regulation Type")
             } else {
-                loadSecondSpinner(sscv_trade_info_q_2, it, "Select your product")
+                loadSecondSpinner(sscv_trade_info_q_2, it, getString(R.string.select_commodity))
             }
         })
 
@@ -318,6 +318,7 @@ class TradeInfoSearchFragment : Fragment() {
                 override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
 
 
+
                     if(position != 0){
                         country = parent.getItemAtPosition(position) as String
                         val converted = convertCountrytoCountryCode(country)
@@ -381,10 +382,10 @@ class TradeInfoSearchFragment : Fragment() {
                 }
 
                 override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                    product = parent.getItemAtPosition(position) as String
 
-                    if(!product.isNullOrEmpty()){
-                       tradeInfoViewModel.setThirdSpinnerContent(language, category, product)
+                    if(position != 0){
+                        product = parent.getItemAtPosition(position) as String
+                        tradeInfoViewModel.setThirdSpinnerContent(language, category, product)
                     }
                 }
             }

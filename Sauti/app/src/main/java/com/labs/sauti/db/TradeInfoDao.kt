@@ -21,7 +21,7 @@ interface TradeInfoDao : BaseDao<TradeInfoData> {
     @Query("DELETE FROM trade_info")
     fun deleteAll() : Completable
 
-    @Query("SELECT DISTINCT regulatedCountry FROM trade_info WHERE language=:language")
+    @Query("SELECT DISTINCT regulatedCountry FROM trade_info WHERE language=:language AND regulatedCountry IS NOT NULL")
     fun getRegulatedCountries(language: String): Single<MutableList<String>>
 
     @Query("SELECT * from trade_info WHERE language=:language AND regulatedCountry=:regulatedCountry and prohibiteds IS NOT NULL")
@@ -32,18 +32,18 @@ interface TradeInfoDao : BaseDao<TradeInfoData> {
     @Query("SELECT * from trade_info WHERE language=:language AND regulatedCountry=:regulatedCountry and sensitives IS NOT NULL")
     fun getRegulatedSensitives(language: String, regulatedCountry: String): Single<TradeInfoData>
 
-    @Query("SELECT DISTINCT productCat FROM trade_info WHERE language=:language")
+    @Query("SELECT DISTINCT productCat FROM trade_info WHERE language=:language and productCat IS NOT NULL")
     fun getTradeInfoProductCategories(language : String) : Single<MutableList<String>>
 
-    @Query("SELECT DISTINCT product FROM trade_info WHERE language=:language AND productCat=:productCat")
+    @Query("SELECT DISTINCT product FROM trade_info WHERE language=:language AND productCat=:productCat AND product IS NOT NULL")
     fun getTradeInfoProducts(language : String, productCat: String) : Single<MutableList<String>>
 
-    @Query("SELECT DISTINCT origin FROM trade_info WHERE language=:language AND productCat=:productCat AND product=:product")
+    @Query("SELECT DISTINCT origin FROM trade_info WHERE language=:language AND productCat=:productCat AND product=:product AND origin IS NOT NULL")
     fun getTradeInfoOrigin(language : String,
                            productCat: String,
                            product: String) : Single<MutableList<String>>
 
-    @Query("SELECT DISTINCT dest FROM trade_info WHERE language=:language AND productCat=:productCat AND product=:product AND origin=:origin")
+    @Query("SELECT DISTINCT dest FROM trade_info WHERE language=:language AND productCat=:productCat AND product=:product AND origin=:origin AND dest IS NOT NULL")
     fun getTradeInfoDestination(language : String,
                                 productCat: String,
                                 product: String,

@@ -7,7 +7,7 @@ import java.util.*
 
 interface TradeInfoCache {
 
-    fun getRecentTradeInfoFragment  ():Single<MutableList<TradeInfoData>>
+    fun getTwoRecentTradeInfoModels  ():Single<MutableList<TradeInfoData>>
 
     fun getRegulatedCountries       (language: String) : Single<MutableList<String>>
 
