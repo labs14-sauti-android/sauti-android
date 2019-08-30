@@ -1,42 +1,31 @@
-🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
-
-🚫 The numbers 1️⃣ through 5️⃣ next to each item represent the week that part of the docs needs to be comepleted by.  Make sure to delete the numbers by the end of Labs.
-
-🚫 Each student has a required minimum number of meaningful PRs each week per the rubric.  Contributing to docs does NOT count as a PR to meet your weekly requirements.
-
 # Sauti
+
+Sauti provides trade and market information services that empower cross-border traders to trade legally, safely and profitably.  This market information app allows for real-time exchange rate updates, daily price updates and a way for users to give immediate feedback to improve the platform.
 
 You can find the deployed project at [Sauti](https://play.google.com/store/apps/details?id=com.labs.sauti).
 
 ## Contributors
 
 
-|                                       [Israel Dela Cruz - Android Dev](https://github.com/kurochin143)                                        |                                       [Patrick Martin - Android Dev](https://github.com/vespertineSiren)                                        |                                       [Troy Schennum - UX/UI Designer](https://github.com/TroySchennum)                                        |                                       [Edwin Torres - TL](https://github.com/etorresm2)                                        |
-| :-----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: |
+|                                       [Israel Dela Cruz - Android And Backend Dev](https://github.com/kurochin143)                                        |                                       [Patrick Martin - Android Dev](https://github.com/vespertineSiren)                                        |                                       [Troy Schennum - UX/UI Designer](https://github.com/TroySchennum)                                        |                                       [Edwin Torres - TL](https://github.com/etorresm2)                                        |
+| :-----------------------------------------------------------------------------------------------------------: |  :-----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: |
 |                      [<img src="https://res.cloudinary.com/devfmbyvs/image/upload/v1562781329/Team/israel_jpk5jk.jpg" width = "200" />](https://github.com/)                       |                      [<img src="https://res.cloudinary.com/devfmbyvs/image/upload/v1562781329/Team/0_v35nki.jpg" width = "200" />](https://github.com/)                       |                      [<img src="https://res.cloudinary.com/devfmbyvs/image/upload/v1562781330/Team/troy_c5jrd4.jpg" width = "200" />](https://github.com/)                       |                      [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/)                       |
 |                 [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/kurochin143)                 |           [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/vespertineSiren)            |          [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/TroySchennum)           |            [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/etorresm2)             |
 | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/israel-dela-cruz-179922177/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/patrick-martin-b7633942/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/troy-schennum/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/) |
 
-## 🚫 Project Overview
+## Project Overview
+
+ [Product Canvas](https://www.notion.so/Sauti-Africa-Android-App-e0323f45cde94f5b98d5c524eab3af23)
 
  [Trello Board](https://trello.com/b/enXrzu84/labs14-sauti-android)
-
-1️⃣ [Product Canvas](🚫add link to product canvas here)
 
  [UX Design files](https://docs.google.com/document/d/1mUNYeXya164nLiz675752_pfIjYeEFqyk946wpw7NCw/edit) 
  
  [Zeplin Wireframes](https://zpl.io/VDKM1Dv) 
- 
-
-🚫 Replace lorem ipsum with a description of your project
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 ## Features
 
-1. Convert Sauti Africa SMS app into an Android App
+1. [Convert Sauti Africa SMS app into an Android App](https://www.notion.so/East-African-Border-Trader-Feature-Canvas-a3700fc9191c47bca625f2271b99f726)
     - Market Price page
         - Nearby marketplace
     - Exchange Rate page
@@ -54,7 +43,8 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
     - Dashboard page
     - Settings page
     - Translations to Swahili and Luganda
-2. Allow user favorites
+    - Search analytics
+2. [User favorites](https://www.notion.so/Admin-Feature-Canvas-c6434c82047646b1ae00f932e4bdd190)
     - User authorization
     - User profile
     - Favorite Market Price
@@ -63,21 +53,32 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
     - Favorite Tax Calculation
     - Dashboard page favorites and recent searches
 
-## Sauti Api OAuth2
+## Api
+
+### Sauti Api
+
+The app uses our own Web Api, [Sauti Api](https://labs-sauti.herokuapp.com/swagger-ui.html#/)
+
+### Sauti Api OAuth2
 
 The app uses our backend's integration of OAuth2 Api for authorization
 
-## 3️⃣Misc API here
+## Dependency
 
-🚫Replace text below with a description of the API
+### Library
+- RxJava2
+- Dagger2
+- Retrofit2
+- Room
+- Firebase
+- Mockito
 
-Volunteering your time; it pays you and your whole community fantastic dividends. Maybe there's a happy little waterfall happening over here. You can spend all day playing with mountains. We don't have to be committed. We are just playing here. You have freedom here. The only guide is your heart. It's cold, but it's beautiful.
+## Requirements
 
-## 2️⃣Requirements
-
--   Android Minimum SDK Version 23
--   Android Studio Version 3.5
--   Gradle 3.4.2
+- Android Minimum SDK Version 23
+- Android Studio Version 3.5
+- Gradle 3.4.2
+- Kotlin Version 1.3.41
 
 ## Contributing
 
