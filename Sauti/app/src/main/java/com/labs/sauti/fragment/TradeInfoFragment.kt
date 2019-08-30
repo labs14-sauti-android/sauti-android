@@ -251,7 +251,7 @@ OnFragmentFullScreenStateChangedListener{
                 if(::tradeInfoAdapter.isInitialized) {
                     if(tradeInfo != tradeInfoFocus) {
                         val list = mutableListOf<Any>()
-                        list.addAll(tradeInfo.tradeInfoAgencies!!)
+                        list.addAll(tradeInfo.tradeInfoDocs!!)
 
                         tradeInfoAdapter.updateContents(list)
                     }

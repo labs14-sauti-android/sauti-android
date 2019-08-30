@@ -9,22 +9,36 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.widget.TextViewCompat
+import androidx.lifecycle.ViewModelProviders
 import com.labs.sauti.R
+import com.labs.sauti.SautiApp
 import com.labs.sauti.model.TaxCalculationData
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.model.trade_info.TradeInfoTaxes
+import com.labs.sauti.view_model.TradeInfoViewModel
 import kotlinx.android.synthetic.main.fragment_tax_calculator.*
 import java.text.DecimalFormat
+import javax.inject.Inject
 
 class TaxCalculatorFragment : Fragment(), TaxCalculatorSearchFragment.OnTaxCalculatorSearchCompletedListener,
 OnFragmentFullScreenStateChangedListener {
 
     private var onFragmentFullScreenStateChangedListener: OnFragmentFullScreenStateChangedListener? = null
 
+    @Inject
+    lateinit var tradeInfoViewModelFactory: TradeInfoViewModel.Factory
+
+    private lateinit var tradeInfoViewModel: TradeInfoViewModel
+
     val df by lazy { DecimalFormat("#,###.##") }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        context?.let {
+            (it.applicationContext as SautiApp).getTaxCalculatorComponent().inject(this)
+            tradeInfoViewModel= ViewModelProviders.of(this, tradeInfoViewModelFactory).get(TradeInfoViewModel::class.java)
+        }
     }
 
     override fun onCreateView(
@@ -66,6 +80,8 @@ OnFragmentFullScreenStateChangedListener {
     }
 
     override fun onTaxCalculatorSearchCompleted(tradeInfoTaxes: TradeInfoTaxes) {
+        t_tax_calculator_no_recent.visibility = View.GONE
+
         l_tax_calculator_list.removeAllViews()
 
         tradeInfoTaxes.getTaxesConversions()
@@ -97,6 +113,9 @@ OnFragmentFullScreenStateChangedListener {
 
         tiv_tax_calculator_recent_first.consumeTITaxes(tradeInfoTaxes)
 
+        tiv_tax_calculator_recent_first.visibility = View.VISIBLE
+        tiv_tax_calculator_recent_second.visibility = View.INVISIBLE
+
     }
 
 
@@ -104,9 +123,7 @@ OnFragmentFullScreenStateChangedListener {
         onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(isFullScreen)
     }
 
-    fun displayTaxInfoCardDetails(tradeInfo: TradeInfo){
 
-    }
 
     companion object {
         @JvmStatic

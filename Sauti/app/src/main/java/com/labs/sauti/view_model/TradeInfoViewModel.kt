@@ -53,6 +53,10 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     fun getSearchTaxCalculations(): LiveData<TradeInfoTaxes> = searchTaxCalculator
     fun getSearchTradeInfoRecents(): LiveData<List<TradeInfo>> = searchTradeInfoRecents
 
+    fun searchRecentTaxCalculator(){
+
+    }
+
     fun searchRecentTradeInfo(){
         addDisposable(tradeInfoRepository.getTwoRecentTradeInfo()
             .map {
