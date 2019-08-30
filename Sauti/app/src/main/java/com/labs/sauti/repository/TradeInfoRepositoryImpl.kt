@@ -18,7 +18,7 @@ class TradeInfoRepositoryImpl(
 ) : TradeInfoRepository {
 
     override fun getTwoRecentTradeInfo(): Single<MutableList<TradeInfoData>> {
-        return tradeInfoRoomCache.getRecentTradeInfoFragment()
+        return tradeInfoRoomCache.getTwoRecentTradeInfoModels()
             .subscribeOn(Schedulers.io())
     }
 
@@ -37,9 +37,6 @@ class TradeInfoRepositoryImpl(
         return sautiApiService.getTradeInfoCategories(language)
             .onErrorResumeNext{
                 tradeInfoRoomCache.getTIProductCategories(language)
-            }
-            .doOnSuccess{
-                it.sort()
             }
             .subscribeOn(Schedulers.io())
     }

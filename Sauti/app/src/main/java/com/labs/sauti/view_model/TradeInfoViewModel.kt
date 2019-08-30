@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.model.trade_info.TradeInfoTaxes
+import com.labs.sauti.model.trade_info.toTradeInfo
 import com.labs.sauti.repository.TradeInfoRepository
 import io.reactivex.schedulers.Schedulers
 
@@ -31,6 +32,8 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     private val searchTradeInfoDocuments by lazy { MutableLiveData<TradeInfo>() }
     private val searchTradeInfoAgencies by lazy { MutableLiveData<TradeInfo>() }
     private val searchTaxCalculator by lazy { MutableLiveData<TradeInfoTaxes>() }
+    private val searchTradeInfoRecents by lazy {  MutableLiveData<List<TradeInfo>>() }
+
 
     fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
     fun getTradeInfoBorderCountries() : LiveData<List<String>> = tradeInfoBorderCountries
@@ -48,10 +51,26 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     fun getSearchTradeInfoDocuments(): LiveData<TradeInfo> = searchTradeInfoDocuments
     fun getSearchTradeInfoAgencies(): LiveData<TradeInfo> = searchTradeInfoAgencies
     fun getSearchTaxCalculations(): LiveData<TradeInfoTaxes> = searchTaxCalculator
+    fun getSearchTradeInfoRecents(): LiveData<List<TradeInfo>> = searchTradeInfoRecents
 
     fun searchRecentTradeInfo(){
-
-
+        addDisposable(tradeInfoRepository.getTwoRecentTradeInfo()
+            .map {
+                val uiList = mutableListOf<TradeInfo>()
+                it.forEach{tiData->
+                    val convert = tiData.toTradeInfo()
+                    uiList.add(convert)
+                }
+                uiList
+            }
+            .subscribe(
+                {
+                    searchTradeInfoRecents.postValue(it)
+                },
+                {
+                    errorLiveData.postValue(it)
+                }
+            ))
     }
 
     //TODO: Finish tax calc
@@ -148,7 +167,9 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
 
                             TradeInfo("Regulated Goods",
                                 "These commodities are prohibited",
-                                list, regulatedType = "Prohibited Goods")
+                                list,
+                                regulatedType = "Prohibited Goods",
+                                tradeInfoID = it.id)
                         }
                         .subscribe(
                             {
@@ -172,7 +193,8 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
                             TradeInfo("Regulated Goods",
                                 "These commodities are restricted",
                                 list,
-                                regulatedType = "Restricted Goods")
+                                regulatedType = "Restricted Goods",
+                                tradeInfoID = it.id)
                         }
                         .subscribe(
                             {
@@ -195,7 +217,8 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
                             TradeInfo("Regulated Goods",
                                 "These commodities are sensitive",
                                 list,
-                                regulatedType = "Sensitive Goods")
+                                regulatedType = "Sensitive Goods",
+                                tradeInfoID = it.id)
                         }
                         .subscribe(
                             {

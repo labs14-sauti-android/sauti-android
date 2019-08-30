@@ -10,7 +10,7 @@ import io.reactivex.schedulers.Schedulers
 //Access to the DAO
 class TradeInfoRoomCache(private val sautiRoomDatabase: SautiRoomDatabase) : TradeInfoCache {
 
-    override fun getRecentTradeInfoFragment(): Single<MutableList<TradeInfoData>> {
+    override fun getTwoRecentTradeInfoModels(): Single<MutableList<TradeInfoData>> {
         return sautiRoomDatabase.tradeInfoDao().getTwoMostRecentTradeInfo()
             .subscribeOn(Schedulers.io())
     }
