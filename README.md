@@ -13,6 +13,8 @@ You can find the deployed project at [Sauti](https://play.google.com/store/apps/
 
 ## Project Overview
 
+Sauti provides trade and market information services that empower cross-border traders to trade legally, safely and profitably.  This market information app allows for real-time exchange rate updates, daily price updates and a way for users to give immediate feedback to improve the platform.
+
  [Product Canvas](https://www.notion.so/Sauti-Africa-Android-App-e0323f45cde94f5b98d5c524eab3af23)
 
  [Trello Board](https://trello.com/b/enXrzu84/labs14-sauti-android)
