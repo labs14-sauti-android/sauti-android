@@ -83,22 +83,99 @@ data class TradeInfoData(
     //Taxes
     var userToDestRate: Double? = null,
 
-    var approximateValue: Long? = null
+    var approximateValue: Double? = null
 
-)
-
-/*{
-    fun setTimestamp(){
-        this.timestamp = System.currentTimeMillis()
+) {
+    fun convertCountryCodetoCountry(code: String): String {
+        when(code) {
+            "KEN" -> (return "Kenya")
+            "BDI"-> (return "Burundi")
+            "DRC"-> (return "Democratic Republic of the Congo")
+            "MWI"-> (return "Malawi")
+            "RWA"-> (return "Rwanda")
+            "TZA"-> (return "Tanzania")
+            "UGA"-> (return "Uganda")
+            else -> return ""
+        }
     }
-
-    fun getDateFromTimestamp() = timestamp?.let { Date(it) }
-}*/
-
-fun TradeInfoData.toBorderProcedures(procedure: List<Procedure>) {
-
-
 }
+
+
+//TODO: Must break down
+fun TradeInfoData.toTradeInfo() =
+    if (relevantAgencyData != null) TradeInfo(
+        tradeinfoTopic = "Border Agencies",
+        tradeinfoTopicExpanded = "Push to View More Information About The Agency",
+        tradeInfoAgencies = relevantAgencyData as MutableList<BorderAgency>,
+        tradeInfoID = id)
+    else if (requiredDocumentData != null) TradeInfo(tradeinfoTopic = "Required Documents",
+        tradeinfoTopicExpanded = "Push to View More Information About The Document",
+        tradeInfoDocs = requiredDocumentData as MutableList<RequiredDocument>,
+        tradeInfoID = id)
+    else if (procedures != null) {
+        val destChoice = convertCountryCodetoCountry(this.dest!!)
+        TradeInfo("Border Procedures",
+            """To $destChoice""",
+            tradeInfoProcedure = procedures as MutableList<Procedure>,
+            tradeInfoID = id)
+    }
+    else if (requiredDocumentData != null) TradeInfo(tradeinfoTopic = "Required Documents",
+        tradeinfoTopicExpanded = "Push to View More Information About The Document",
+        tradeInfoDocs = requiredDocumentData as MutableList<RequiredDocument>,
+        tradeInfoID = id
+    )
+    else if (prohibiteds != null) {
+        val list = mutableListOf<String>()
+        prohibiteds?.forEach { pro ->
+            list.add(pro.name)
+        }
+        TradeInfo("Regulated Goods",
+            "These commodities are prohibited",
+            list,
+            regulatedType = "Prohibited Goods",
+            tradeInfoID = id)
+    }
+    else if (sensitives != null) {
+        val list = mutableListOf<String>()
+        sensitives?.forEach { sensitive ->
+            list.add(sensitive.name)
+        }
+
+        TradeInfo("Regulated Goods",
+            "These commodities are sensitive",
+            list,
+            regulatedType = "Sensitive Goods",
+            tradeInfoID = id)
+    }
+    else if (restricteds != null) {
+        val list = mutableListOf<String>()
+        restricteds?.forEach { rest ->
+            list.add(rest.name)
+        }
+
+        TradeInfo("Regulated Goods",
+            "These commodities are restricted",
+            list,
+            regulatedType = "Restricted Goods",
+            tradeInfoID = id)
+    }
+    else TradeInfo("Nothing", "Nothing")
+
+
+/*    when {
+        relevantAgencyData != null -> tradeInfo = TradeInfo(
+            tradeinfoTopic = "BorderAgencies",
+            tradeinfoTopicExpanded = "Push to View More Information About The Agency",
+            tradeInfoAgencies = relevantAgencyData,
+            tradeInfoID = id
+        )
+        procedures != null -> tradeInfo = TradeInfo()
+        requiredDocumentData != null -> {
+
+        }
+        else -> return tradeInfo
+    }*/
+
 
 fun TradeInfoData.toRequiredDocuments(){
 
@@ -115,6 +192,14 @@ fun TradeInfoData.toRelatedGoods() {
     )
 }*/
 
+
+/*{
+    fun setTimestamp(){
+        this.timestamp = System.currentTimeMillis()
+    }
+
+    fun getDateFromTimestamp() = timestamp?.let { Date(it) }
+}*/
 
 
 

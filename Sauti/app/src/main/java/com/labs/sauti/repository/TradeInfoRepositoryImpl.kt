@@ -18,7 +18,7 @@ class TradeInfoRepositoryImpl(
 ) : TradeInfoRepository {
 
     override fun getTwoRecentTradeInfo(): Single<MutableList<TradeInfoData>> {
-        return tradeInfoRoomCache.getRecentTradeInfoFragment()
+        return tradeInfoRoomCache.getTwoRecentTradeInfoModels()
             .subscribeOn(Schedulers.io())
     }
 
@@ -37,9 +37,6 @@ class TradeInfoRepositoryImpl(
         return sautiApiService.getTradeInfoCategories(language)
             .onErrorResumeNext{
                 tradeInfoRoomCache.getTIProductCategories(language)
-            }
-            .doOnSuccess{
-                it.sort()
             }
             .subscribeOn(Schedulers.io())
     }
@@ -83,8 +80,27 @@ class TradeInfoRepositoryImpl(
             .subscribeOn(Schedulers.io())
     }
 
-    override fun getTaxInfoCurrency() : Single<MutableList<ExchangeRateData>> {
+    override fun getTaxInfoCurrency(
+        language: String,
+        category: String,
+        product: String,
+        origin: String,
+        dest: String
+    ) : Single<MutableList<ExchangeRateData>> {
         return sautiApiService.getExchangeRates()
+            .onErrorResumeNext {
+                tradeInfoRoomCache.getTIUserCurrency(language, category, product, origin, dest)
+                    .map {
+                        val exchangeList = mutableListOf<ExchangeRateData>()
+
+                        it.forEach{s->
+                            val add = ExchangeRateData(currency = s, rate = 0.0)
+                            exchangeList.add(add)
+                        }
+
+                        exchangeList
+                    }
+            }
             .subscribeOn(Schedulers.io())
     }
 
@@ -185,32 +201,45 @@ class TradeInfoRepositoryImpl(
         product: String,
         origin: String,
         dest: String,
-        value: Double
+        valueCheck: Double,
+        currencyUser: String,
+        currencyTo: String,
+        exchangeRate: Double
     ): Single<TradeInfoData> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return sautiApiService.searchTradeInfoTaxes(language, category, product, origin, dest, valueCheck)
+            .map {
+                val valueString = if (valueCheck < 2000) "under2000USD" else "over2000USD"
+                TradeInfoData(System.currentTimeMillis(),
+                    language = language,
+                    productCat = category,
+                    product = product,
+                    origin = origin,
+                    dest = dest,
+                    value = valueString,
+                    taxes = it,
+                    userCurrency = currencyUser,
+                    destinationCurrency = currencyTo,
+                    userToDestRate = exchangeRate
+                    )
+            }
+            .doOnSuccess {
+                tradeInfoRoomCache.saveTITaxes(it).blockingAwait()
+            }
+            .onErrorResumeNext {
+                tradeInfoRoomCache.searchTITaxes(
+                    language,
+                    category,
+                    product,
+                    origin,
+                    dest,
+                    valueCheck,
+                    currencyUser,
+                    currencyTo
+                )
+            }
+            .subscribeOn(Schedulers.io())
     }
 
-    //    override fun searchTradeInfoTaxes(
-//        language: String,
-//        category: String,
-//        product: String,
-//        origin: String,
-//        dest: String,
-//        value: Double
-//    ): Single<TradeInfoData> {
-//        return sautiApiService
-//            .searchTradeInfoTaxes(
-//                language,
-//                category,
-//                product,
-//                origin,
-//                dest,
-//                value)
-//            .map {
-//
-//            }
-//            .subscribeOn(Schedulers.io())
-//    }
 
 
     override fun getRegulatedGoodsCountries(language: String): Single<MutableList<String>> {

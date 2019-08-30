@@ -21,6 +21,7 @@ class DashboardFavoritesAdapter(
     companion object {
         private const val TYPE_MARKET_PRICE = 0
         private const val TYPE_EXCHANGE_RATE = 1
+        private const val TYPE_TRADE_INFO = 2
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

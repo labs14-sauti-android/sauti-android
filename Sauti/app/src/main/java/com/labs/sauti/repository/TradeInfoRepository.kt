@@ -13,10 +13,25 @@ interface TradeInfoRepository {
     fun setSelectedLanguage(language: String): Completable
 
     fun getTradeInfoProductCategory (language: String): Single<MutableList<String>>
-    fun getTradeInfoProductProducts (language: String, category: String): Single<MutableList<String>>
-    fun getTradeInfoOrigin          (language: String, category: String, product: String): Single<MutableList<String>>
-    fun getTradeInfoDestination     (language: String, category: String, product: String, origin: String): Single<MutableList<String>>
-    fun getTaxInfoCurrency() :Single<MutableList<ExchangeRateData>>
+
+    fun getTradeInfoProductProducts (language: String,
+                                     category: String): Single<MutableList<String>>
+
+    fun getTradeInfoOrigin          (language: String,
+                                     category: String,
+                                     product: String): Single<MutableList<String>>
+
+    fun getTradeInfoDestination     (language: String,
+                                     category: String,
+                                     product: String,
+                                     origin: String): Single<MutableList<String>>
+
+    fun getTaxInfoCurrency          (language: String,
+                                     category: String,
+                                     product: String,
+                                     origin: String,
+                                     dest: String):Single<MutableList<ExchangeRateData>>
+
     fun searchTradeInfoBorderProcedures
                 (language: String,
                  category: String,
@@ -47,7 +62,10 @@ interface TradeInfoRepository {
                  product: String,
                  origin: String,
                  dest: String,
-                 value: Double): Single<TradeInfoData>
+                 valueCheck: Double,
+                 currencyUser: String,
+                 currencyTo: String,
+                 exchangeRate: Double): Single<TradeInfoData>
 
     fun getRegulatedGoodsCountries  (language: String): Single<MutableList<String>>
     fun searchRegulatedGoods        (language: String, country: String, regulatedType: String) : Single<RegulatedGoodData>

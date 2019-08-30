@@ -7,9 +7,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.widget.TextViewCompat
 import com.labs.sauti.R
-import com.labs.sauti.model.trade_info.RequiredDocument
-import com.labs.sauti.model.trade_info.TradeInfo
-import com.labs.sauti.model.trade_info.TradeInfoTaxes
+import com.labs.sauti.model.trade_info.*
 import kotlinx.android.synthetic.main.item_recent_card_view.view.*
 import java.text.DecimalFormat
 
@@ -20,6 +18,7 @@ class CardViewRecentSearches @JvmOverloads constructor(
     defStyleAttr: Int = R.style.AppTheme
 ) : CardView(context, attrs, defStyleAttr) {
 
+
     private var focusObject : Any? = null
     val df by lazy { DecimalFormat("#,###.##") }
 
@@ -27,7 +26,15 @@ class CardViewRecentSearches @JvmOverloads constructor(
         inflate(getContext(), R.layout.item_recent_card_view, this)
     }
 
+    fun consumeTradeInfo(tradeInfo: TradeInfo) {
 
+        when(tradeInfo.tradeinfoTopic) {
+            "Border Agencies"->{consumeTIBorderAgencies(tradeInfo)}
+            "Border Procedures"->{consumeTIBorderProcedures(tradeInfo)}
+            "Required Documents"->{consumeTIRequiredDocuments(tradeInfo)}
+            else -> {consumeTIRegulatedGood(tradeInfo)}
+        }
+    }
 
     fun consumeTITaxes(tradeInfoTaxes: TradeInfoTaxes) {
 
@@ -57,7 +64,8 @@ class CardViewRecentSearches @JvmOverloads constructor(
             TextViewCompat.setTextAppearance(textview, R.style.CardViewTaxCalcListTextStyling)
             textview.text = "There are no taxes for this product"
         } else {
-            t_taxcalc_total.text = "Total: " + df.format(tradeInfoTaxes.totalAmount) + tradeInfoTaxes.endCurrency
+            t_taxcalc_total.text =
+                """Total: ${df.format(tradeInfoTaxes.totalAmount)} ${tradeInfoTaxes.endCurrency}"""
             t_taxcalc_total.visibility = View.VISIBLE
         }
 

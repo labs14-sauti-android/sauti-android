@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
-import com.labs.sauti.model.trade_info.RequiredDocument
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.model.trade_info.TradeInfoTaxes
+import com.labs.sauti.model.trade_info.toTradeInfo
 import com.labs.sauti.repository.TradeInfoRepository
 import io.reactivex.schedulers.Schedulers
 
@@ -32,6 +32,8 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     private val searchTradeInfoDocuments by lazy { MutableLiveData<TradeInfo>() }
     private val searchTradeInfoAgencies by lazy { MutableLiveData<TradeInfo>() }
     private val searchTaxCalculator by lazy { MutableLiveData<TradeInfoTaxes>() }
+    private val searchTradeInfoRecents by lazy {  MutableLiveData<List<TradeInfo>>() }
+
 
     fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
     fun getTradeInfoBorderCountries() : LiveData<List<String>> = tradeInfoBorderCountries
@@ -49,26 +51,41 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     fun getSearchTradeInfoDocuments(): LiveData<TradeInfo> = searchTradeInfoDocuments
     fun getSearchTradeInfoAgencies(): LiveData<TradeInfo> = searchTradeInfoAgencies
     fun getSearchTaxCalculations(): LiveData<TradeInfoTaxes> = searchTaxCalculator
+    fun getSearchTradeInfoRecents(): LiveData<List<TradeInfo>> = searchTradeInfoRecents
 
     fun searchRecentTradeInfo(){
-
-
-    }
-
-    //TODO: Finish tax calc
-    fun searchTaxCalculations(language: String, category: String, product: String, origin: String, dest: String, value: Double, currencyFrom: String, currencyTo: String, rate: Double, valueCheck: Double) {
-        addDisposable(tradeInfoRepository.searchTradeInfoTaxes(language, category, product, origin, dest, valueCheck)
+        addDisposable(tradeInfoRepository.getTwoRecentTradeInfo()
             .map {
-                TradeInfoTaxes(product,
-                    currencyFrom,
-                    currencyTo,
-                    value,
-                    it.taxes!!,
-                    rate)
+                val uiList = mutableListOf<TradeInfo>()
+                it.forEach{tiData->
+                    val convert = tiData.toTradeInfo()
+                    uiList.add(convert)
+                }
+                uiList
             }
             .subscribe(
                 {
+                    searchTradeInfoRecents.postValue(it)
+                },
+                {
+                    errorLiveData.postValue(it)
+                }
+            ))
+    }
 
+    //TODO: Finish tax calc
+    fun searchTaxCalculations(language: String, category: String, product: String, origin: String, dest: String, value: Double, currencyUser: String, currencyTo: String, rate: Double, valueCheck: Double) {
+        addDisposable(tradeInfoRepository.searchTradeInfoTaxes(language, category, product, origin, dest, valueCheck, currencyUser, currencyTo, rate)
+            .map {
+                TradeInfoTaxes(product,
+                    currencyUser,
+                    currencyTo,
+                    value,
+                    taxList = it.taxes!!,
+                    rate = it.userToDestRate!!)
+            }
+            .subscribe(
+                {
                     searchTaxCalculator.postValue(it)
                 },
                 {
@@ -150,7 +167,9 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
 
                             TradeInfo("Regulated Goods",
                                 "These commodities are prohibited",
-                                list, regulatedType = "Prohibited Goods")
+                                list,
+                                regulatedType = "Prohibited Goods",
+                                tradeInfoID = it.id)
                         }
                         .subscribe(
                             {
@@ -174,7 +193,8 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
                             TradeInfo("Regulated Goods",
                                 "These commodities are restricted",
                                 list,
-                                regulatedType = "Restricted Goods")
+                                regulatedType = "Restricted Goods",
+                                tradeInfoID = it.id)
                         }
                         .subscribe(
                             {
@@ -197,7 +217,8 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
                             TradeInfo("Regulated Goods",
                                 "These commodities are sensitive",
                                 list,
-                                regulatedType = "Sensitive Goods")
+                                regulatedType = "Sensitive Goods",
+                                tradeInfoID = it.id)
                         }
                         .subscribe(
                             {
@@ -303,8 +324,8 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
 
     }
 
-    fun  setTaxCalcCurrencySpinnerContent(){
-        addDisposable(tradeInfoRepository.getTaxInfoCurrency()
+    fun  setTaxCalcCurrencySpinnerContent(language: String, category: String, product: String, origin: String, dest: String){
+        addDisposable(tradeInfoRepository.getTaxInfoCurrency(language, category, product, origin, dest)
 /*            .map {
                 val currencies = mutableListOf<String>()
                 it.forEach{ cur ->

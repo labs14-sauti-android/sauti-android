@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Sauti</string>
 
+   
     <string name="navigation_drawer_open" translatable="false">Open</string>
     <string name="navigation_drawer_close" translatable="false">Close</string>
     <string name="nav_header_desc" translatable="false">Navigation header</string>

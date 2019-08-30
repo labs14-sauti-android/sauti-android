@@ -10,7 +10,7 @@ import io.reactivex.schedulers.Schedulers
 //Access to the DAO
 class TradeInfoRoomCache(private val sautiRoomDatabase: SautiRoomDatabase) : TradeInfoCache {
 
-    override fun getRecentTradeInfoFragment(): Single<MutableList<TradeInfoData>> {
+    override fun getTwoRecentTradeInfoModels(): Single<MutableList<TradeInfoData>> {
         return sautiRoomDatabase.tradeInfoDao().getTwoMostRecentTradeInfo()
             .subscribeOn(Schedulers.io())
     }
@@ -117,6 +117,23 @@ class TradeInfoRoomCache(private val sautiRoomDatabase: SautiRoomDatabase) : Tra
         return sautiRoomDatabase
             .tradeInfoDao()
             .getTradeInfoDestination(
+                language,
+                category,
+                product,
+                origin)
+            .subscribeOn(Schedulers.io())
+    }
+
+    override fun getTIUserCurrency(
+        language: String,
+        category: String,
+        product: String,
+        origin: String,
+        dest: String
+    ): Single<MutableList<String>> {
+        return sautiRoomDatabase
+            .tradeInfoDao()
+            .getTaxCalculatorUserCurrency(
                 language,
                 category,
                 product,
@@ -237,5 +254,48 @@ class TradeInfoRoomCache(private val sautiRoomDatabase: SautiRoomDatabase) : Tra
                 dest,
                 valueString)
             .subscribeOn(Schedulers.io())
+    }
+
+    override fun saveTITaxes(taxes: TradeInfoData): Completable {
+        return sautiRoomDatabase.tradeInfoDao().getTradeInfoTaxes(
+            taxes.language!!,
+            taxes.productCat!!,
+            taxes.product!!,
+            taxes.origin!!,
+            taxes.dest!!,
+            taxes.value!!,
+            taxes.userCurrency!!,
+            taxes.destinationCurrency!!)
+            .doOnSuccess {
+            sautiRoomDatabase.tradeInfoDao().insertTradeInfo(taxes)
+                .andThen(sautiRoomDatabase.tradeInfoDao().delete(it)).blockingAwait()
+            }
+            .onErrorResumeNext { sautiRoomDatabase.tradeInfoDao().insert(taxes).flatMapSingle { Single.just(taxes) } }
+            .flatMapCompletable { Completable.complete() }
+    }
+
+    override fun searchTITaxes(
+        language: String,
+        category: String,
+        product: String,
+        origin: String,
+        dest: String,
+        value: Double,
+        userCurrency: String,
+        destCurrency: String
+    ): Single<TradeInfoData>{
+        val valueString = if (value < 2000) "under2000USD" else "over2000USD"
+        return sautiRoomDatabase
+            .tradeInfoDao()
+            .getTradeInfoTaxes(
+                language,
+                category,
+                product,
+                origin,
+                dest,
+                valueString,
+                userCurrency,
+                destCurrency
+            ).subscribeOn(Schedulers.io())
     }
 }

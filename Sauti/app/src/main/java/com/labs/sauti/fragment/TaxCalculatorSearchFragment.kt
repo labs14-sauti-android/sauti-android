@@ -19,7 +19,6 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.labs.sauti.R
 import com.labs.sauti.SautiApp
 import com.labs.sauti.helper.NetworkHelper
-import com.labs.sauti.model.TaxCalculationData
 import com.labs.sauti.model.exchange_rate.ExchangeRateData
 import com.labs.sauti.model.trade_info.TradeInfoTaxes
 import com.labs.sauti.sp.SettingsSp
@@ -46,9 +45,9 @@ class TaxCalculatorSearchFragment : Fragment() {
     lateinit var dest : String
     lateinit var destChoice: String
     lateinit var origin : String
+    lateinit var currencyUser: String
     lateinit var currencyTo: String
-    lateinit var currencyFrom: String
-    var currencyFromToRate : Double = 1.0
+    var currencyUserToRate : Double = 1.0
     lateinit var currencyConversions : MutableList<ExchangeRateData>
 
 
@@ -133,7 +132,7 @@ class TaxCalculatorSearchFragment : Fragment() {
         tradeInfoViewModel.getTaxCalcConversionTextConent().observe(this, Observer {
 
             sscv_tax_calculator_q_6.visibility = View.VISIBLE
-            t_tax_calculator_value.text = "What is the approximate value of your goods in " + currencyFrom + "?"
+            t_tax_calculator_value.text = "What is the approximate value of your goods in " + currencyTo + "?"
 
         })
 
@@ -163,27 +162,20 @@ class TaxCalculatorSearchFragment : Fragment() {
                     var currencyToRate: Double = 1.0
 
                     currencyConversions.forEach{from ->
-                        if(from.currency == currencyFrom) {
+                        if(from.currency == currencyTo) {
                             currencyFromRate = from.rate as Double
                         }
                     }
 
                     currencyConversions.forEach{to ->
-                        if(to.currency == currencyTo) {
+                        if(to.currency == currencyUser) {
                             currencyToRate = to.rate as Double
                         }
                     }
 
-                    currencyFromToRate = currencyFromRate / currencyToRate
+                    currencyUserToRate = currencyFromRate / currencyToRate
 
-                    val usdAmount = amount * currencyToRate
-
-                    if(usdAmount < 2000) {
-                        tradeInfoViewModel.searchTaxCalculations(language, category, product, origin, dest, amount, currencyTo, currencyFrom, currencyFromToRate, 1.0)
-
-                    } else {
-                        tradeInfoViewModel.searchTaxCalculations(language, category, product, origin, dest, amount, currencyTo, currencyFrom, currencyFromToRate, 2001.0)
-                    }
+                    tradeInfoViewModel.searchTaxCalculations(language, category, product, origin, dest, amount, currencyUser, currencyTo, currencyUserToRate, 1.0)
 
                 }
             }
@@ -282,10 +274,10 @@ class TaxCalculatorSearchFragment : Fragment() {
                 if(destChoice.isNotEmpty()){
                     //TODO: Set Currency Spinner
                     dest = convertCountrytoCountryCode(destChoice)
-                    tradeInfoViewModel.setTaxCalcCurrencySpinnerContent()
+                    tradeInfoViewModel.setTaxCalcCurrencySpinnerContent(language, category, product, origin, dest)
                     when(dest) {
-                        "KEN"-> {currencyFrom = "KES" }
-                        "UGA"-> {currencyFrom = "UGX"}
+                        "KEN"-> {currencyTo = "KES" }
+                        "UGA"-> {currencyTo = "UGX"}
                     }
                 } else {
                     sscv_tax_calculator_q_6.visibility = View.INVISIBLE
@@ -304,10 +296,10 @@ class TaxCalculatorSearchFragment : Fragment() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                currencyTo = parent.getItemAtPosition(position) as String
 
-                if(currencyTo.isNotEmpty()) {
-                    tradeInfoViewModel.setTaxCalcConversionTextConent(currencyTo)
+                if(position != 0) {
+                    currencyUser = parent.getItemAtPosition(position) as String
+                    tradeInfoViewModel.setTaxCalcConversionTextConent(currencyUser)
                 } else {
                     sscv_tax_calculator_q_6.visibility = View.INVISIBLE
                 }
@@ -334,6 +326,12 @@ class TaxCalculatorSearchFragment : Fragment() {
         } else {
             throw RuntimeException("parentFragment must implement OnFragmentFullScreenStateChangedListener")
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        context?.unregisterReceiver(networkChangedReceiver)
+
     }
 
     override fun onDetach() {

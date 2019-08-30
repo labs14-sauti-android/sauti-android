@@ -270,10 +270,10 @@
 
                     <TextView
                             android:id="@+id/t_report"
+                            style="@style/DashboardBottomNavStyling"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/menu_report"
-                            style="@style/DashboardBottomNavStyling"/>
+                            android:text="@string/menu_report" />
 
                     <View
                             android:layout_width="match_parent"
@@ -282,10 +282,10 @@
 
                     <TextView
                             android:id="@+id/t_help"
+                            style="@style/DashboardBottomNavStyling"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/menu_help"
-                            style="@style/DashboardBottomNavStyling"/>
+                            android:text="@string/menu_help" />
 
                     <View
                             android:layout_width="match_parent"
