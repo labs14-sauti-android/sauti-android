@@ -19,7 +19,8 @@ data class TradeInfo (
     @Expose(serialize = false)
     var userId: Long? = null,
     @PrimaryKey
-    val tradeInfoID : Long? = null
+    val tradeInfoID : Long? = null,
+    var isFavorite: Int? = null
 )
 //TODO Markup with room annotations. Ideal way I would like data to be delivered in a list.
 //TODO: Ignore will be removed for conversion.

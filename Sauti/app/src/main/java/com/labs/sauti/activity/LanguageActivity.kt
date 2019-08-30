@@ -20,7 +20,7 @@ class LanguageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_language)
 
-        val africa = findViewById<ImageView>(R.id.i_language_activity).apply {
+        findViewById<ImageView>(R.id.i_language_activity).apply {
             setBackgroundResource(R.drawable.animated_africa)
             africaAnimation = background as AnimationDrawable
         }
