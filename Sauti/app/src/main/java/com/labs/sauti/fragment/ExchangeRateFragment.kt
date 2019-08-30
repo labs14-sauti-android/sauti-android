@@ -181,7 +181,7 @@ OnFragmentFullScreenStateChangedListener{
         val decimalFormat = DecimalFormat("#,##0.00")
         val amountStr = decimalFormat.format(exchangeRateConversionResult.amount)
         val resultStr = decimalFormat.format(exchangeRateConversionResult.result)
-        t_details_result.text = "$amountStr ${exchangeRateConversionResult.fromCurrency} is $resultStr ${exchangeRateConversionResult.toCurrency}"
+        t_details_result.text = "$amountStr ${exchangeRateConversionResult.fromCurrency} ${context!!.resources.getString(R.string.exchange_rate_is)} $resultStr ${exchangeRateConversionResult.toCurrency}"
         val toPerFromStr = decimalFormat.format(exchangeRateConversionResult.toPerFrom)
         t_details_to_per_from.text = "(1${exchangeRateConversionResult.fromCurrency} = $toPerFromStr ${exchangeRateConversionResult.toCurrency})"
 

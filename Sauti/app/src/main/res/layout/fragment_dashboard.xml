@@ -116,7 +116,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     style="@style/DashboardCardNavStyling"
-                                    android:text="Market\nPrices"
+                                    android:text="Market\nPrice"
                                     android:gravity="center"/>
 
                         </LinearLayout>
@@ -260,7 +260,7 @@
                             android:id="@+id/t_marketplace"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Sauti Marketplace"
+                            android:text="@string/menu_marketplace"
                             style="@style/DashboardBottomNavStyling"/>
 
                     <View
@@ -272,7 +272,7 @@
                             android:id="@+id/t_report"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Report"
+                            android:text="@string/menu_report"
                             style="@style/DashboardBottomNavStyling"/>
 
                     <View
@@ -284,7 +284,7 @@
                             android:id="@+id/t_help"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Help"
+                            android:text="@string/menu_help"
                             style="@style/DashboardBottomNavStyling"/>
 
                     <View
