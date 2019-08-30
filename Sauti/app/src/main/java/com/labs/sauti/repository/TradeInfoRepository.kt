@@ -65,8 +65,7 @@ interface TradeInfoRepository {
                  valueCheck: Double,
                  currencyUser: String,
                  currencyTo: String,
-                 exchangeRate: Double,
-                 goodsValue: Double): Single<TradeInfoData>
+                 exchangeRate: Double): Single<TradeInfoData>
 
     fun getRegulatedGoodsCountries  (language: String): Single<MutableList<String>>
     fun searchRegulatedGoods        (language: String, country: String, regulatedType: String) : Single<RegulatedGoodData>

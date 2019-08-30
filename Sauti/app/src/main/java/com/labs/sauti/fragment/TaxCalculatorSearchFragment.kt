@@ -175,14 +175,7 @@ class TaxCalculatorSearchFragment : Fragment() {
 
                     currencyUserToRate = currencyFromRate / currencyToRate
 
-                    val usdAmount = amount * currencyToRate
-
-                    if(usdAmount < 2000) {
-                        tradeInfoViewModel.searchTaxCalculations(language, category, product, origin, dest, amount, currencyUser, currencyTo, currencyUserToRate, 1.0)
-
-                    } else {
-                        tradeInfoViewModel.searchTaxCalculations(language, category, product, origin, dest, amount, currencyUser, currencyTo, currencyUserToRate, 2001.0)
-                    }
+                    tradeInfoViewModel.searchTaxCalculations(language, category, product, origin, dest, amount, currencyUser, currencyTo, currencyUserToRate, 1.0)
 
                 }
             }
@@ -333,6 +326,12 @@ class TaxCalculatorSearchFragment : Fragment() {
         } else {
             throw RuntimeException("parentFragment must implement OnFragmentFullScreenStateChangedListener")
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        context?.unregisterReceiver(networkChangedReceiver)
+
     }
 
     override fun onDetach() {

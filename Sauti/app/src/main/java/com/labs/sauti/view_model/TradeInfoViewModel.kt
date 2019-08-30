@@ -56,18 +56,17 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
 
     //TODO: Finish tax calc
     fun searchTaxCalculations(language: String, category: String, product: String, origin: String, dest: String, value: Double, currencyUser: String, currencyTo: String, rate: Double, valueCheck: Double) {
-        addDisposable(tradeInfoRepository.searchTradeInfoTaxes(language, category, product, origin, dest, valueCheck, currencyUser, currencyTo, rate, value)
+        addDisposable(tradeInfoRepository.searchTradeInfoTaxes(language, category, product, origin, dest, valueCheck, currencyUser, currencyTo, rate)
             .map {
                 TradeInfoTaxes(product,
                     currencyUser,
                     currencyTo,
                     value,
-                    it.taxes!!,
-                    rate)
+                    taxList = it.taxes!!,
+                    rate = it.userToDestRate!!)
             }
             .subscribe(
                 {
-
                     searchTaxCalculator.postValue(it)
                 },
                 {

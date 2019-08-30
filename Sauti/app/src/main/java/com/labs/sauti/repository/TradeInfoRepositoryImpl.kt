@@ -207,8 +207,7 @@ class TradeInfoRepositoryImpl(
         valueCheck: Double,
         currencyUser: String,
         currencyTo: String,
-        exchangeRate: Double,
-        goodsValue: Double
+        exchangeRate: Double
     ): Single<TradeInfoData> {
         return sautiApiService.searchTradeInfoTaxes(language, category, product, origin, dest, valueCheck)
             .map {
@@ -223,8 +222,7 @@ class TradeInfoRepositoryImpl(
                     taxes = it,
                     userCurrency = currencyUser,
                     destinationCurrency = currencyTo,
-                    userToDestRate = exchangeRate,
-                    approximateValue = goodsValue
+                    userToDestRate = exchangeRate
                     )
             }
             .doOnSuccess {
@@ -245,27 +243,6 @@ class TradeInfoRepositoryImpl(
             .subscribeOn(Schedulers.io())
     }
 
-    //    override fun searchTradeInfoTaxes(
-//        language: String,
-//        category: String,
-//        product: String,
-//        origin: String,
-//        dest: String,
-//        value: Double
-//    ): Single<TradeInfoData> {
-//        return sautiApiService
-//            .searchTradeInfoTaxes(
-//                language,
-//                category,
-//                product,
-//                origin,
-//                dest,
-//                value)
-//            .map {
-//
-//            }
-//            .subscribeOn(Schedulers.io())
-//    }
 
 
     override fun getRegulatedGoodsCountries(language: String): Single<MutableList<String>> {

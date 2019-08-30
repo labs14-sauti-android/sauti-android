@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name" translatable="false">Sauti</string>
 
+    <string name="sauti_api_base_url" translatable="false">https://labs-sauti.herokuapp.com/</string>
+
+    <string name="sauti_login_authorization" translatable="false">Basic bGFicy1zYXV0aS1jbGllbnQtaWQtMTpsYWJzLXNhdXRpLXNlY3JldC0y</string>
+
     <string name="navigation_drawer_open" translatable="false">Open</string>
     <string name="navigation_drawer_close" translatable="false">Close</string>
     <string name="nav_header_desc" translatable="false">Navigation header</string>
