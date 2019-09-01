@@ -118,6 +118,10 @@ OnFragmentFullScreenStateChangedListener {
 
     }
 
+    fun showeTaxCalculationDetails(taxes: TradeInfo) {
+
+    }
+
 
     override fun onFragmetFullScreenStateChanged(isFullScreen: Boolean) {
         onFragmentFullScreenStateChangedListener?.onFragmetFullScreenStateChanged(isFullScreen)

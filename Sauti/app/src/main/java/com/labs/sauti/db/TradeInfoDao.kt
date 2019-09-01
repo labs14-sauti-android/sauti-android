@@ -58,6 +58,9 @@ interface TradeInfoDao : BaseDao<TradeInfoData> {
     @Query("SELECT * FROM trade_info WHERE taxes IS NULL ORDER BY trade_info_id DESC LIMIT 2")
     fun getTwoMostRecentTradeInfo(): Single<MutableList<TradeInfoData>>
 
+    @Query("SELECT * FROM trade_info WHERE taxes IS NOT NULL ORDER BY trade_info_id DESC LIMIT 2")
+    fun getTwoMostRecentTradeInfoTaxes(): Single<MutableList<TradeInfoData>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTradeInfo(newest: TradeInfoData): Completable
 
