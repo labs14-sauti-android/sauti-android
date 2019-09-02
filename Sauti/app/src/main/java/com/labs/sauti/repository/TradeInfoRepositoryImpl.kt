@@ -17,6 +17,11 @@ class TradeInfoRepositoryImpl(
     private val tradeInfoSearchRoomCache: TradeInfoSearchRoomCache
 ) : TradeInfoRepository {
 
+    override fun getTwoRecentTaxCalculations(): Single<MutableList<TradeInfoData>> {
+        return tradeInfoRoomCache.getTwoRecentTaxCalcModels()
+            .subscribeOn(Schedulers.io())
+    }
+
     override fun getTwoRecentTradeInfo(): Single<MutableList<TradeInfoData>> {
         return tradeInfoRoomCache.getTwoRecentTradeInfoModels()
             .subscribeOn(Schedulers.io())
@@ -204,6 +209,7 @@ class TradeInfoRepositoryImpl(
         valueCheck: Double,
         currencyUser: String,
         currencyTo: String,
+        value: Double,
         exchangeRate: Double
     ): Single<TradeInfoData> {
         return sautiApiService.searchTradeInfoTaxes(language, category, product, origin, dest, valueCheck)
@@ -219,7 +225,8 @@ class TradeInfoRepositoryImpl(
                     taxes = it,
                     userCurrency = currencyUser,
                     destinationCurrency = currencyTo,
-                    userToDestRate = exchangeRate
+                    userToDestRate = exchangeRate,
+                    approximateValue = value
                     )
             }
             .doOnSuccess {
