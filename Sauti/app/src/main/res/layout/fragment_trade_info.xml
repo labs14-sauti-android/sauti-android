@@ -12,102 +12,152 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorPrimaryDark" android:id="@+id/cl_trade_info_parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:background="@color/colorInformation"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:id="@+id/cl_expanded_trade_info"
+                android:layout_width="0dp"
+                android:layout_height="360dp"
+                android:background="@color/colorInformation"
                 android:visibility="gone"
-                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5">
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
             <TextView
-                    android:textStyle="bold"
-                    android:textSize="18sp"
+                    android:id="@+id/t_trade_info_header"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginEnd="72dp"
                     android:fontFamily="sans-serif"
-                    tools:text="These commodities are banned and cannot legally cross the border:"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/t_trade_info_header" app:layout_constraintStart_toStartOf="parent"
                     android:textColor="@color/colorTextInformation"
-                    android:layout_marginTop="22dp" app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="20dp"
-                    android:layout_marginEnd="64dp"/>
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="These commodities are banned and cannot legally cross the border:" />
+
             <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/t_trade_info_sub_header"
                     style="@style/TradeInfoDetailsSubHeaderStyling"
-                    android:id="@+id/t_trade_info_sub_header" android:layout_marginTop="12dp"
-                    android:visibility="visible"
-                    app:layout_constraintTop_toBottomOf="@+id/t_trade_info_header"
-                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="95dp"/>
-            <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="95dp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/t_trade_info_header" />
+
+            <LinearLayout
                     android:id="@+id/l_trade_info_left_list"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginBottom="25dp"
+                    android:orientation="vertical"
                     android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/l_trade_info_right_list"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="@+id/t_trade_info_header"
                     app:layout_constraintTop_toBottomOf="@+id/t_trade_info_header"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintEnd_toStartOf="@+id/l_trade_info_right_list" android:layout_marginTop="18dp"
-                    android:layout_marginBottom="25dp" app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintVertical_bias="0.0">
-            </LinearLayout>
+                    app:layout_constraintVertical_bias="0.0" />
+
             <LinearLayout
-                    app:layout_constraintStart_toEndOf="@+id/l_trade_info_left_list"
-                    android:orientation="vertical"
+                    android:id="@+id/l_trade_info_right_list"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/l_trade_info_right_list"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="25dp"
+                    android:orientation="vertical"
                     android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="4dp"
-                    app:layout_constraintTop_toBottomOf="@+id/t_trade_info_header"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    android:layout_marginTop="18dp" android:layout_marginEnd="20dp" android:layout_marginBottom="25dp"
-                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.0">
-            </LinearLayout>
-            <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="0dp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:layout_height="235dp"
-                    android:layout_marginBottom="15dp"
-                    app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="13dp"
-                    app:layout_constraintTop_toBottomOf="@+id/t_trade_info_sub_header"
-                    app:layout_constraintBottom_toBottomOf="parent" android:id="@+id/rv_trade_info_required_documents"
-            />
-            <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="0dp"
-                    android:visibility="gone"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:layout_height="235dp"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginBottom="15dp" android:id="@+id/rv_trade_info_border_procedures"
-                    android:layout_marginTop="18dp" app:layout_constraintTop_toBottomOf="@+id/t_trade_info_sub_header"/>
-            <ImageView
-                    android:src="@drawable/line_divider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/l_trade_info_left_list"
+                    app:layout_constraintTop_toBottomOf="@+id/t_trade_info_header"
+                    app:layout_constraintVertical_bias="0.0" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_trade_info_required_documents"
                     android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:id="@+id/i_trade_info_divider_top" app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:scaleType="fitXY" app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintTop_toBottomOf="@+id/t_trade_info_sub_header" android:layout_marginTop="13dp"/>
-            <ImageView
-                    android:src="@drawable/line_divider"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:id="@+id/i_trade_info_divider_bottom"
-                    android:layout_marginBottom="15dp" app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="15dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:scaleType="fitXY"/>
+                    app:layout_constraintTop_toBottomOf="@+id/t_trade_info_sub_header" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_trade_info_border_procedures"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginBottom="15dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/t_trade_info_sub_header" />
+
+            <ImageView
+                    android:id="@+id/i_trade_info_divider_top"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="13dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/line_divider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/t_trade_info_sub_header" />
+
+            <ImageView
+                    android:id="@+id/i_trade_info_divider_bottom"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="15dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/line_divider"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                    android:id="@+id/i_trade_info_favorite"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginEnd="30dp"
+                    android:src="@drawable/ic_star_empty"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                    android:id="@+id/t_trade_info_favorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorText"
+                    android:text="Favorite"
+                    app:layout_constraintEnd_toEndOf="@+id/i_trade_info_favorite"
+                    app:layout_constraintStart_toStartOf="@+id/i_trade_info_favorite"
+                    app:layout_constraintTop_toBottomOf="@+id/i_trade_info_favorite" />
             <!-- TODO: textstyle, size, and font family will receive a style -->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <TextView
                 android:text="@string/your_recent_searches"
                 android:layout_width="wrap_content"
@@ -117,41 +167,54 @@
                 android:layout_marginStart="30dp" app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cl_expanded_trade_info"
                 android:layout_marginTop="18dp"/>
+
         <com.labs.sauti.views.CardViewRecentSearches
-                android:layout_width="0dp"
-                android:layout_height="0dp"
                 android:id="@+id/tiv_trade_info_recent_first"
-                app:cardCornerRadius="5dp"
-                app:cardUseCompatPadding="true"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="6dp" app:layout_constraintTop_toBottomOf="@+id/t_trade_info_total"
-                app:layout_constraintDimensionRatio="1:1" android:layout_marginStart="30dp"/>
-        <com.labs.sauti.views.CardViewRecentSearches
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:id="@+id/tiv_trade_info_recent_second"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="6dp"
+                android:visibility="gone"
                 app:cardCornerRadius="5dp"
                 app:cardUseCompatPadding="true"
-                app:layout_constraintStart_toEndOf="@+id/tiv_trade_info_recent_first"
-                app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="35dp" app:layout_constraintTop_toTopOf="@+id/tiv_trade_info_recent_first"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/t_trade_info_total"
+                tools:visibility="visible" />
+
+        <com.labs.sauti.views.CardViewRecentSearches
+                android:id="@+id/tiv_trade_info_recent_second"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="35dp"
+                android:visibility="gone"
+                app:cardCornerRadius="5dp"
+                app:cardUseCompatPadding="true"
                 app:layout_constraintBottom_toBottomOf="@+id/tiv_trade_info_recent_first"
                 app:layout_constraintDimensionRatio="1:1"
-                android:layout_marginStart="15dp" app:layout_constraintVertical_bias="1.0">
-        </com.labs.sauti.views.CardViewRecentSearches>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/tiv_trade_info_recent_first"
+                app:layout_constraintTop_toTopOf="@+id/tiv_trade_info_recent_first"
+                app:layout_constraintVertical_bias="1.0"
+                tools:visibility="invisible"></com.labs.sauti.views.CardViewRecentSearches>
+
         <TextView
-                android:text="@string/push_to_view"
-                android:layout_width="wrap_content"
-                android:textSize="14sp"
-                android:fontFamily="sans-serif"
-                android:textStyle="normal"
-                android:textColor="#ffffff"
-                android:layout_height="wrap_content"
                 android:id="@+id/t_push_to_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/push_to_view"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="12dp"
-                app:layout_constraintTop_toBottomOf="@+id/tiv_trade_info_recent_first"/>
+                app:layout_constraintTop_toBottomOf="@+id/tiv_trade_info_recent_first"
+                tools:visibility="gone" />
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_trade_info_search"
                 android:layout_margin="20dp"
@@ -165,6 +228,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/t_push_to_view"
                 app:layout_constraintVertical_bias="1.0" android:layout_marginTop="5dp"/>
+
+        <TextView
+                android:id="@+id/t_trade_info_no_recent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/you_have_no_recent_searches"
+                android:textColor="@color/colorText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/t_trade_info_total" />
         <!-- TODO: t_push_to_view could use styling but not seen anywhere -->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

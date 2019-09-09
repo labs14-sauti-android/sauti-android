@@ -193,9 +193,9 @@
                                             android:layout_height="wrap_content"
                                             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                                             app:spanCount="2"
+                                            tools:itemCount="2"
                                             tools:listitem="@layout/item_recent_market_price"
-                                            tools:itemCount="2">
-                                    </androidx.recyclerview.widget.RecyclerView>
+                                            tools:visibility="invisible"></androidx.recyclerview.widget.RecyclerView>
 
                                     <TextView
                                             android:layout_width="match_parent"
@@ -211,9 +211,10 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="40dp"
-                                        android:text="You Have No Recent Searches"
                                         android:gravity="center"
-                                        android:textColor="@color/colorText"/>
+                                        android:text="@string/you_have_no_recent_searches"
+                                        android:textColor="@color/colorText"
+                                        tools:visibility="visible" />
 
                             </ViewSwitcher>
 

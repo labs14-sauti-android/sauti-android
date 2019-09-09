@@ -92,8 +92,6 @@ OnFragmentFullScreenStateChangedListener{
             it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
         })
 
-        setTranslatableTexts()
-
         recentExchangeRateConversionResultsAdapter = RecentExchangeRateConversionResultsAdapter(mutableListOf(),
             object: RecentExchangeRateConversionResultsAdapter.OnRecentExchangeRateConversionResultClickedListener {
                 override fun onRecentExchangeRateConversionResultClicked(
@@ -177,22 +175,13 @@ OnFragmentFullScreenStateChangedListener{
         exchangeRateViewModel.syncFavoriteConversions()
     }
 
-    private fun setTranslatableTexts() {
-        val ctx = LocaleHelper.createContext(context!!)
-
-        val todaysIntlExchangeRatesSR = SpannableString(ctx.getString(R.string.today_s_intl_exchange_rates))
-        todaysIntlExchangeRatesSR.setSpan(UnderlineSpan(), 0, todaysIntlExchangeRatesSR.length, 0)
-        t_details_todays_intl_exchange_rates.text = todaysIntlExchangeRatesSR
-        t_details_todays_intl_exchange_rates.typeface = Typeface.DEFAULT_BOLD
-    }
-
     private fun setConversionResultDetails(exchangeRateConversionResult: ExchangeRateConversionResult) {
         detailConversionResult = exchangeRateConversionResult
 
         val decimalFormat = DecimalFormat("#,##0.00")
         val amountStr = decimalFormat.format(exchangeRateConversionResult.amount)
         val resultStr = decimalFormat.format(exchangeRateConversionResult.result)
-        t_details_result.text = "$amountStr ${exchangeRateConversionResult.fromCurrency} is $resultStr ${exchangeRateConversionResult.toCurrency}"
+        t_details_result.text = "$amountStr ${exchangeRateConversionResult.fromCurrency} ${context!!.resources.getString(R.string.exchange_rate_is)} $resultStr ${exchangeRateConversionResult.toCurrency}"
         val toPerFromStr = decimalFormat.format(exchangeRateConversionResult.toPerFrom)
         t_details_to_per_from.text = "(1${exchangeRateConversionResult.fromCurrency} = $toPerFromStr ${exchangeRateConversionResult.toCurrency})"
 

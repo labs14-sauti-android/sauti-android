@@ -42,8 +42,6 @@ class HelpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setTranslatableTexts()
-
         helpViewModel.getIncorrectInformationViewState().observe(this, Observer {
             if (it.isLoading) {
                 et_incorrect_information.isEnabled = false
@@ -62,15 +60,6 @@ class HelpFragment : Fragment() {
         b_submit.setOnClickListener {
             helpViewModel.submitIncorrectInformation(et_incorrect_information.text.toString())
         }
-    }
-
-    private fun setTranslatableTexts() {
-        val ctx = LocaleHelper.createContext(context!!)
-
-        t_report_incorrect_info.text = ctx.getString(R.string.report_incorrect_info)
-        t_report_incorrect_info.typeface = Typeface.DEFAULT_BOLD
-        t_did_you_notice_incorrect_information_on_the_sauti_app.text = ctx.getString(R.string.did_you_notice_incorrect_information_on_the_sauti_app)
-        et_incorrect_information.hint = ctx.getString(R.string.enter_incorrect_information)
     }
 
     companion object {

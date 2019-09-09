@@ -39,15 +39,15 @@
         <item name="android:gravity">left</item>
         <item name="android:textStyle">normal</item>
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">@color/colorCardText</item>
+        <item name="android:textColor">#de050505</item>
         <item name="android:textSize">@dimen/cardViewContentTextSize</item>
     </style>
     <style name="CardViewRecentHeaderTextStyling">
-        <item name="android:gravity">center</item>
+        <item name="android:gravity">left</item>
         <item name="android:textStyle">bold</item>
         <item name="android:breakStrategy">simple</item>
         <item name="android:textSize">@dimen/cardViewHeaderTextSize</item>
-        <item name="android:textColor">@color/colorCardText</item>
+        <item name="android:textColor">@color/colorWarningText</item>
     </style>
     <style name="CardViewRecentDetailsListTextStyling">
         <item name="android:gravity">left</item>
@@ -55,6 +55,17 @@
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">@dimen/cardViewHeaderTextSize</item>
         <item name="android:textColor">@color/colorText</item>
+    </style>
+    <style name="CardViewCategoryTextStyling">
+        <item name="android:textSize">@dimen/cardViewContentTextSize</item>
+        <item name="android:textColor">@color/colorCardViewCategory</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="CardViewTaxCalcListTextStyling">
+        <item name="android:textSize">@dimen/cardViewContentTextSize</item>
+        <item name="android:textColor">@color/colorWarningText</item>
+        <item name="android:textStyle">bold</item>
     </style>
     <style name="SearchFragmentHeaderStyling">
         <item name="android:layout_width">wrap_content</item>
@@ -80,6 +91,7 @@
     <style name="spinnerStyle">
         <item name="android:clickable">true</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:popupBackground">@color/colorSpinnerPopupBackground</item>
         <item name="android:textSize">@dimen/searchParamTextSize</item>
     </style>
     <style name="TradeInfoDetailsSubHeaderStyling">
@@ -91,6 +103,11 @@
     <style name="TradeInfoDetailsFragmentHeaderStyling">
         <item name="android:textSize">@dimen/tradeinfodetailsFragmentHeaderSize</item>
         <item name="android:textColor">@color/colorText</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TaxCalculatorDetailsListStyling">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textSize">@dimen/taxCalcListTextSize</item>
         <item name="android:textStyle">bold</item>
     </style>
 

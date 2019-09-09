@@ -8,14 +8,20 @@ import com.labs.sauti.model.trade_info.Restricted
 class RestrictedConverter {
 
     @TypeConverter
-    fun toRestricted(restricted: String) :List<Restricted> {
-        val type = object : TypeToken<List<Restricted>>(){}.type
-        return Gson().fromJson(restricted, type)
-    }
+    fun toRestricted(restricted: String?) :MutableList<Restricted>? =
+        if(restricted == null) {
+            null
+        } else {
+            val type = object : TypeToken<MutableList<Restricted>>(){}.type
+            Gson().fromJson(restricted, type)
+        }
 
     @TypeConverter
-    fun toRestrictedJson(restricted: List<Restricted>?) :String {
-        val type = object : TypeToken<List<Restricted>>(){}.type
-        return Gson().toJson(restricted, type)
-    }
+    fun toRestrictedJson(restricted: MutableList<Restricted>?) :String? =
+        if(restricted == null) {
+            null
+        } else {
+            val type = object : TypeToken<MutableList<Restricted>>(){}.type
+            Gson().toJson(restricted, type)
+        }
 }

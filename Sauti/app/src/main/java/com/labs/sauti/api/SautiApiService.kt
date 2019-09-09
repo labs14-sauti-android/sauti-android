@@ -173,4 +173,24 @@ interface SautiApiService {
         @Query("country") country: String
     ): Single<RegulatedGoodData>
 
+    @GET("/regulated-good/search/prohibiteds")
+    fun searchRegulatedProhibiteds(
+        @Query("language") language: String,
+        @Query("country") country: String
+    ): Single<MutableList<Prohibited>>
+
+    @GET("/regulated-good/search/restricteds")
+    fun searchRegulatedRestricteds(
+        @Query("language") language: String,
+        @Query("country") country: String
+    ): Single<MutableList<Restricted>>
+
+    @GET("/regulated-good/search/sensitives")
+    fun searchRegulatedSensitives(
+        @Query("language") language: String,
+        @Query("country") country: String
+    ): Single<MutableList<Sensitive>>
+
+
+
 }

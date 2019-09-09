@@ -10,4 +10,5 @@ interface RegulatedGoodDao : BaseDao<RegulatedGoodData> {
 
     @Query("SELECT DISTINCT country from regulated_good where language=:language")
     fun getRegulatedGoodsCountries(language : String) : Single<MutableList<String>>
+
 }

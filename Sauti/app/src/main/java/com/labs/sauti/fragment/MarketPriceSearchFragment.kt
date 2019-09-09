@@ -72,7 +72,6 @@ class MarketPriceSearchFragment : Fragment() {
         context!!.registerReceiver(networkChangedReceiver, IntentFilter().also {
             it.addAction("android.net.conn.CONNECTIVITY_CHANGE")
         })
-        setTranslatedTexts()
 
         vs_markets.visibility = View.GONE
         vs_categories.visibility = View.GONE
@@ -171,15 +170,6 @@ class MarketPriceSearchFragment : Fragment() {
                 firebaseAnalytics.logEvent("search_market_price", searchParams)
             }
         }
-    }
-
-    private fun setTranslatedTexts() {
-        val ctx = LocaleHelper.createContext(context!!)
-
-        t_select_country_for_markets.text = ctx.resources.getString(R.string.select_country_for_markets)
-        t_select_market.text = ctx.resources.getString(R.string.select_market)
-        t_select_category_for_commodity.text = ctx.resources.getString(R.string.select_category_for_commodity)
-        t_select_commodity.text = ctx.resources.getString(R.string.select_commodity)
     }
 
     private fun handleCountries(countryCodes: List<String>) {

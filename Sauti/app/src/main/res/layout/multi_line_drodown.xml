@@ -9,7 +9,6 @@
             android:layout_width="match_parent"
             style="?android:attr/spinnerItemStyle"
             android:singleLine="false"
-            android:background="@color/colorCardBackground"
             android:scrollHorizontally="false"
             android:ellipsize="none"
             android:textAlignment="inherit"
