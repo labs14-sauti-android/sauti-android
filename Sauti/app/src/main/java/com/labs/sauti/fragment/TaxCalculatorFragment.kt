@@ -2,6 +2,7 @@ package com.labs.sauti.fragment
 
 import android.content.Context
 import android.graphics.Paint
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -107,7 +108,7 @@ OnFragmentFullScreenStateChangedListener {
         }
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
 
         if (context is OnFragmentFullScreenStateChangedListener) {
@@ -128,7 +129,7 @@ OnFragmentFullScreenStateChangedListener {
 
         l_tax_calculator_list.removeAllViews()
 
-        tradeInfoTaxes.getTaxesConversions()
+        //tradeInfoTaxes.getTaxesConversions()
 
         cl_expanded_tax_calculator.visibility = View.VISIBLE
         t_tax_calculator_header.text =
@@ -150,7 +151,9 @@ OnFragmentFullScreenStateChangedListener {
 
             t_tax_calculator_total.visibility = View.INVISIBLE
         } else {
-            t_tax_calculator_total.setTextAppearance(R.style.TradeInfoDetailsSubHeaderStyling)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                t_tax_calculator_total.setTextAppearance(R.style.TradeInfoDetailsSubHeaderStyling)
+            }
             t_tax_calculator_total.text = "Total: " + df.format(tradeInfoTaxes.totalAmount) + tradeInfoTaxes.endCurrency
             t_tax_calculator_total.visibility = View.VISIBLE
         }

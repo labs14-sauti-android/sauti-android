@@ -138,9 +138,8 @@ class ExchangeRateConvertFragment : Fragment() {
         )
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
-
         if (parentFragment is OnConversionCompletedListener) {
             onConversionCompletedListener = parentFragment as OnConversionCompletedListener
         } else {
@@ -153,7 +152,10 @@ class ExchangeRateConvertFragment : Fragment() {
         } else {
             throw RuntimeException("parentFragment must implement OnFragmentFullScreenStateChangedListener")
         }
+
     }
+
+
 
     override fun onDetach() {
         super.onDetach()

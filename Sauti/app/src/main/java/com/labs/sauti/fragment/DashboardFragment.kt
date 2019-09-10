@@ -74,7 +74,7 @@ class DashboardFragment : Fragment() {
             DashboardFragment()
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
 
         if (context is OnReplaceFragmentListener) {
@@ -83,6 +83,7 @@ class DashboardFragment : Fragment() {
             throw RuntimeException("Context must implement OnReplaceFragmentListener")
         }
     }
+
 
     override fun onDetach() {
         super.onDetach()
