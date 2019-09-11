@@ -8,6 +8,7 @@ import com.labs.sauti.model.exchange_rate.ExchangeRateData
 import com.labs.sauti.model.trade_info.TradeInfo
 import com.labs.sauti.model.trade_info.TradeInfoTaxes
 import com.labs.sauti.model.trade_info.toTradeInfo
+import com.labs.sauti.model.trade_info.toTradeInfoTaxes
 import com.labs.sauti.repository.TradeInfoRepository
 import io.reactivex.schedulers.Schedulers
 
@@ -33,6 +34,7 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     private val searchTradeInfoAgencies by lazy { MutableLiveData<TradeInfo>() }
     private val searchTaxCalculator by lazy { MutableLiveData<TradeInfoTaxes>() }
     private val searchTradeInfoRecents by lazy {  MutableLiveData<List<TradeInfo>>() }
+    private val searchTaxCalcRecents by lazy { MutableLiveData<List<TradeInfoTaxes>>() }
 
 
     fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
@@ -52,9 +54,27 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
     fun getSearchTradeInfoAgencies(): LiveData<TradeInfo> = searchTradeInfoAgencies
     fun getSearchTaxCalculations(): LiveData<TradeInfoTaxes> = searchTaxCalculator
     fun getSearchTradeInfoRecents(): LiveData<List<TradeInfo>> = searchTradeInfoRecents
+    fun getSearchTaxCalcRecents(): LiveData<List<TradeInfoTaxes>> = searchTaxCalcRecents
 
     fun searchRecentTaxCalculator(){
+        addDisposable(tradeInfoRepository.getTwoRecentTaxCalculations()
+            .map {
+                val uiList = mutableListOf<TradeInfoTaxes>()
+                it.forEach{pre->
+                    val convert = pre.toTradeInfoTaxes()
+                    uiList.add(convert)
+                }
+                uiList
 
+            }
+            .subscribe(
+                {
+                    searchTaxCalcRecents.postValue(it)
+                },
+                {
+                    errorLiveData.postValue(it)
+                }
+            ))
     }
 
     fun searchRecentTradeInfo(){
@@ -79,14 +99,18 @@ class  TradeInfoViewModel(private val tradeInfoRepository: TradeInfoRepository):
 
     //TODO: Finish tax calc
     fun searchTaxCalculations(language: String, category: String, product: String, origin: String, dest: String, value: Double, currencyUser: String, currencyTo: String, rate: Double, valueCheck: Double) {
-        addDisposable(tradeInfoRepository.searchTradeInfoTaxes(language, category, product, origin, dest, valueCheck, currencyUser, currencyTo, rate)
+        addDisposable(tradeInfoRepository.searchTradeInfoTaxes(language, category, product, origin, dest, valueCheck, currencyUser, currencyTo, value, rate)
             .map {
-                TradeInfoTaxes(product,
+                val search = TradeInfoTaxes(product,
                     currencyUser,
                     currencyTo,
                     value,
                     taxList = it.taxes!!,
                     rate = it.userToDestRate!!)
+
+                search.getTaxesConversions()
+
+                search
             }
             .subscribe(
                 {

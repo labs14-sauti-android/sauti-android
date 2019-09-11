@@ -69,15 +69,16 @@ class DashboardRecentSearchesFragment : Fragment() {
         dashboardRecentSearchesViewModel.getRecentSearches()
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
-
         if (context is OnRecentSearchClickListener) {
             onRecentSearchClickListener = context
         } else {
             throw RuntimeException("Context must implement OnRecentSearchClickListener")
         }
     }
+
+
 
     override fun onDetach() {
         super.onDetach()

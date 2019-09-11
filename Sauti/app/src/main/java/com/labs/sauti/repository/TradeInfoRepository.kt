@@ -7,6 +7,8 @@ import io.reactivex.Single
 
 interface TradeInfoRepository {
 
+    fun getTwoRecentTaxCalculations(): Single<MutableList<TradeInfoData>>
+
     fun getTwoRecentTradeInfo(): Single<MutableList<TradeInfoData>>
 
     fun getSelectedLanguage(): Single<String>
@@ -65,6 +67,7 @@ interface TradeInfoRepository {
                  valueCheck: Double,
                  currencyUser: String,
                  currencyTo: String,
+                 value: Double,
                  exchangeRate: Double): Single<TradeInfoData>
 
     fun getRegulatedGoodsCountries  (language: String): Single<MutableList<String>>

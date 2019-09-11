@@ -171,7 +171,7 @@ OnFragmentFullScreenStateChangedListener{
     }
 
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
 
         if (context is OnFragmentFullScreenStateChangedListener) {
@@ -382,105 +382,4 @@ OnFragmentFullScreenStateChangedListener{
             .addToBackStack(null)
             .commit()
     }
-
 }
-
-/* //TODO Reimplement animated views.
-tiv_recent_first.setOnClickListener(object : View.OnClickListener {
-            var visible: Boolean = tiDetailsIsVisible
-
-            override fun onClick(v: View) {
-                t_trade_info_header.text = testTIbanned.tradeinfoTopicExpanded
-                addTIDetailsLL(testTIbanned)
-
-                //1. Check if the view is visible
-                //2. If not visibile make visible
-                if(!tiDetailsIsVisible) {
-                    TransitionManager.beginDelayedTransition(cl_fragment_container_trade_info)
-                    visible = !visible
-
-                    cl_expanded_trade_info.visibility = if (visible) View.VISIBLE else View.GONE
-                    tiDetailsIsVisible = true
-                } else {
-                    TransitionManager.beginDelayedTransition(cl_fragment_container_trade_info)
-                }
-            }
-        })
-
-        //TODO: Logic cleanup. Needs Animations!
-        tiv_recent_second.setOnClickListener(object : View.OnClickListener {
-            var visible: Boolean = tiDetailsIsVisible
-
-            override fun onClick(v: View) {
-                t_trade_info_header.text = testTIdocuments.tradeinfoTopicExpanded
-                addTIDetailsLL(testTIdocuments)
-
-                if(!tiDetailsIsVisible) {
-                    TransitionManager.beginDelayedTransition(cl_fragment_container_trade_info)
-                    visible = !visible
-                    cl_expanded_trade_info.visibility = if (visible) View.VISIBLE else View.GONE
-                    tiDetailsIsVisible = true
-                } else {
-                    TransitionManager.beginDelayedTransition(cl_fragment_container_trade_info)
-                }
-
-            }
-        })
- */
-
-
-//tiv_recent_first.setOnClickListener{
-//
-//    tiv_recent_first.animate()
-//        .translationY(tomove)
-//        .setListener(object : AnimatorListenerAdapter() {
-//
-//            override fun onAnimationEnd(animation: Animator) {
-//                super.onAnimationEnd(animation)
-//                cl_expanded_tradeinfo.visibility = View.VISIBLE
-//                cl_expanded_tradeinfo.alpha = 1.0f
-//            }
-//        })
-//}
-
-
-/*
-
-//TODO: Remove dummy data creation
-        testTIbanned = TradeInfo(
-            0,
-            "These commodities are banned:",
-            "These commodities are banned and cannot legally cross the border:",
-            listOf(
-                "-Air Zinc",
-                "-Batteries",
-                "-Batteries",
-                "-Khanga, kikoi, kitenge",
-                "-Lithium",
-                "-Maize",
-                "-Manganese Dioxide",
-                "-Matches",
-                "-Mercuric Oxide",
-                "-Rice",
-                "-Silver Oxide",
-                "-Sugar",
-                "-Tobacco",
-                "-Used clothing",
-                "-Wheat"
-            )
-        )
-
-        //TODO: Remove dummy data creation
-        testTIdocuments = TradeInfo(
-            1,
-            "Required Documents:",
-            "Required Documents...expanded",
-            listOf(
-                "1. Import ",
-                "2. Valid Invoice",
-                "3. Simplified Certificate Of Origin (SCOO)",
-                "4. National ID",
-                "5. Something"
-            )
-        )
- */

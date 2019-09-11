@@ -100,6 +100,21 @@ data class TradeInfoData(
     }
 }
 
+fun TradeInfoData.toTradeInfoTaxes(): TradeInfoTaxes {
+    val taxTI = TradeInfoTaxes(
+        taxProduct = (product as String),
+        currentCurrency = (userCurrency as String),
+        endCurrency =  (destinationCurrency as String),
+        taxList =  (taxes as MutableList<Taxes>),
+        rate = (userToDestRate as Double),
+        initialAmount = (approximateValue as Double))
+
+    taxTI.getTaxesConversions()
+
+    return taxTI
+}
+
+
 
 //TODO: Must break down
 fun TradeInfoData.toTradeInfo() =
@@ -160,47 +175,6 @@ fun TradeInfoData.toTradeInfo() =
             tradeInfoID = id)
     }
     else TradeInfo("Nothing", "Nothing")
-
-
-/*    when {
-        relevantAgencyData != null -> tradeInfo = TradeInfo(
-            tradeinfoTopic = "BorderAgencies",
-            tradeinfoTopicExpanded = "Push to View More Information About The Agency",
-            tradeInfoAgencies = relevantAgencyData,
-            tradeInfoID = id
-        )
-        procedures != null -> tradeInfo = TradeInfo()
-        requiredDocumentData != null -> {
-
-        }
-        else -> return tradeInfo
-    }*/
-
-
-fun TradeInfoData.toRequiredDocuments(){
-
-}
-
-fun TradeInfoData.toRelatedGoods() {
-
-}
-
-/*fun TradeInfoData.toTaxes(): TradeInfoTaxes {
-    return TradeInfoTaxes(
-        taxProduct = product
-        currentCurrency = currency
-    )
-}*/
-
-
-/*{
-    fun setTimestamp(){
-        this.timestamp = System.currentTimeMillis()
-    }
-
-    fun getDateFromTimestamp() = timestamp?.let { Date(it) }
-}*/
-
 
 
 
