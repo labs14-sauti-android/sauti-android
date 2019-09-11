@@ -10,7 +10,7 @@ import com.labs.sauti.fragment.DashboardRecentSearchesFragment
 class DashboardPagerAdapter(private val context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     companion object {
-        private val TAB_TITLES = listOf("Favorites", "Recent Searches")
+        private val TAB_TITLES = listOf("Recent Searches", "Favorites")
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
@@ -19,8 +19,8 @@ class DashboardPagerAdapter(private val context: Context, fm: FragmentManager) :
 
     override fun getItem(position: Int): Fragment {
         return when(position) {
-            0 -> DashboardFavoritesFragment.newInstance()
-            1 -> DashboardRecentSearchesFragment.newInstance()
+            0 -> DashboardRecentSearchesFragment.newInstance()
+            1 -> DashboardFavoritesFragment.newInstance()
             else -> throw RuntimeException("Unknown tabs position")
         }
     }
