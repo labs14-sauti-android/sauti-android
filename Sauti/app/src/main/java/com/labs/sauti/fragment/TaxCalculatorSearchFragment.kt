@@ -94,6 +94,9 @@ class TaxCalculatorSearchFragment : Fragment() {
         })
 
         language = SettingsSp(context!!).getSelectedLanguage().toUpperCase()
+        if(language == "LG") {
+            language = "LU"
+        }
         tradeInfoViewModel.setLanguage(language)
         tradeInfoViewModel.setFirstSpinnerContent("Taxes")
 
