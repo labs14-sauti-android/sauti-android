@@ -1,8 +1,10 @@
 package com.labs.sauti.activity
 
 import android.content.Context
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.LocaleList
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -56,6 +58,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
+
 
         (applicationContext as SautiApp).getAuthenticationComponent().inject(this)
 
@@ -116,16 +119,28 @@ DashboardFavoritesFragment.OnSignUpClickListener{
         })
     }
 
-    override fun attachBaseContext(newBase: Context?) {
+
+        override fun attachBaseContext(newBase: Context?) {
         // set locale based on user selected locale
         val settingsSp = SettingsSp(newBase!!)
         val locale = Locale(settingsSp.getSelectedLanguage())
         Locale.setDefault(locale)
-        val config = newBase.resources.configuration
+
+        val config = Configuration(newBase.resources.configuration)
         config.setLocale(locale)
         config.setLayoutDirection(locale)
 
-        super.attachBaseContext(LocaleHelper.createContext(newBase))
+        val newCon = newBase.createConfigurationContext(config)
+        super.attachBaseContext(newCon)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        val settingsSp = SettingsSp(this)
+        val string = settingsSp.getSelectedLanguage()
+        val y = 123
+
+
     }
 
     override fun onResume() {

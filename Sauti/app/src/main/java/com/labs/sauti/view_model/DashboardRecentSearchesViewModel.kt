@@ -11,6 +11,7 @@ import com.labs.sauti.repository.MarketPriceRepository
 import com.labs.sauti.repository.TradeInfoRepository
 import com.labs.sauti.view_state.dashboard.RecentSearchesViewState
 import io.reactivex.Single
+import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
 
 class DashboardRecentSearchesViewModel(
@@ -50,6 +51,7 @@ class DashboardRecentSearchesViewModel(
 
                 recentSearches
             }
+
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                     {
@@ -63,6 +65,8 @@ class DashboardRecentSearchesViewModel(
                         errorLiveData.postValue("An error has occurred")
                     }
                 ))
+        //Temp for dashboard crashing. when pressing buttons.
+        RxJavaPlugins.setErrorHandler{e->}
     }
 
     class Factory(
