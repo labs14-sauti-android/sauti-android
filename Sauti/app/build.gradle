@@ -12,7 +12,7 @@ android {
         applicationId "com.labs.sauti"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 12
+        versionCode 14
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -48,8 +48,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
 
     // Dagger
@@ -68,7 +68,7 @@ dependencies {
     testImplementation "androidx.room:room-testing:$room_version"
 
     // Firebase
-    implementation 'com.google.firebase:firebase-core:17.2.0'
+    implementation 'com.google.firebase:firebase-core:17.2.1'
 
     //Animations
     implementation "com.andkulikov:transitionseverywhere:2.0.0"
