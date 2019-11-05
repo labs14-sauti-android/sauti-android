@@ -9,15 +9,6 @@
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="fontFamily">@font/roboto</item>
     </style>
-
-    <style name="LightTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:fontFamily">@font/roboto_bold</item>
-        <item name="fontFamily">@font/roboto</item>
-    </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

@@ -114,7 +114,6 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                     // restart activity
                     finish()
                     startActivity(intent)
-
                 }
             }
         })
@@ -138,6 +137,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         val settingsSp = SettingsSp(this)
+        val string = settingsSp.getSelectedLanguage()
         val y = 123
 
 
