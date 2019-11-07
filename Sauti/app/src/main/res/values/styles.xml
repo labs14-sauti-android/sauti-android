@@ -9,6 +9,37 @@
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="fontFamily">@font/roboto</item>
     </style>
+
+
+
+
+    <style name="AppThemeLight" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimaryLight</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorTradeInfo</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="fontFamily">@font/roboto</item>
+        <item name="materialCardViewStyle">@style/CardViewLight</item>
+        <item name="tabStyle">@style/AppThemeLight.TabLight</item>
+    </style>
+
+    <style name="CardViewLight" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/colorAccent</item>
+    </style>
+
+    <style name="AppThemeLight.TabLight" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabTextColor">@color/colorPrimaryDark</item>
+
+    </style>
+
+
+    <style name="AppThemeLight.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

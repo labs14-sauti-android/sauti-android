@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="170dp"
+        app:cardBackgroundColor="@color/colorAccent"
         app:cardUseCompatPadding="true"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
-        app:cardBackgroundColor="@color/colorCardBackground"
         tools:layout_width="170dp"
         tools:layout_height="170dp">
 
@@ -71,4 +71,4 @@
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

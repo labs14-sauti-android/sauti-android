@@ -175,6 +175,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="6dp"
                 android:visibility="gone"
+                app:cardBackgroundColor="@color/colorTradeInfo"
                 app:cardCornerRadius="5dp"
                 app:cardUseCompatPadding="true"
                 app:layout_constraintDimensionRatio="1:1"
@@ -189,6 +190,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="35dp"
                 android:visibility="gone"
+
                 app:cardCornerRadius="5dp"
                 app:cardUseCompatPadding="true"
                 app:layout_constraintBottom_toBottomOf="@+id/tiv_trade_info_recent_first"
@@ -198,7 +200,7 @@
                 app:layout_constraintStart_toEndOf="@+id/tiv_trade_info_recent_first"
                 app:layout_constraintTop_toTopOf="@+id/tiv_trade_info_recent_first"
                 app:layout_constraintVertical_bias="1.0"
-                tools:visibility="invisible"></com.labs.sauti.views.CardViewRecentSearches>
+                tools:visibility="invisible" />
 
         <TextView
                 android:id="@+id/t_push_to_view"

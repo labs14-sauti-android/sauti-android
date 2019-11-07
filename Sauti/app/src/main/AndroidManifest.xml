@@ -15,7 +15,7 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
         <activity android:name=".activity.BaseActivity"
-                  android:theme="@style/AppTheme.NoActionBar">
+                  android:theme="@style/AppThemeLight.NoActionBar">
         </activity>
         <activity
                 android:name=".activity.LanguageActivity"

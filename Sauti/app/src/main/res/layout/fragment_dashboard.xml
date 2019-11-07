@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-             tools:context=".fragment.DashboardFragment"
-            tools:showIn="@layout/tool_app_bar_dashboard"
-             android:background="@color/colorPrimaryDark"
-            android:clickable="true"
-            android:focusable="true">
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".fragment.DashboardFragment"
+        tools:showIn="@layout/tool_app_bar_dashboard"
+        android:clickable="true"
+        android:focusable="true">
+    <!--TODO: android:background="@color/colorAccent" can be changed to reflect theme  -->
 
     <ScrollView
             android:layout_width="match_parent"
@@ -23,20 +23,20 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorInformation"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="18dp">
+                    android:layout_marginBottom="18dp"
+
+                    android:orientation="vertical">
 
                 <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tabs"
-                        app:tabTextColor="@color/colorText"
+
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
 
                 <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#ffffff"/>
+                        android:background="#ffffff" />
 
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -46,16 +46,17 @@
                     <com.labs.sauti.views.NonSwipeableViewPager
                             android:id="@+id/view_pager"
                             android:layout_width="match_parent"
-                            android:layout_height="220dp"/>
+                            android:layout_height="220dp"
+                            android:layout_marginStart="20dp" />
 
                     <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#ffffff"
                             android:layout_marginStart="18dp"
-                            android:layout_marginEnd="18dp"
                             android:layout_marginTop="11dp"
-                            android:layout_marginBottom="24dp"/>
+                            android:layout_marginEnd="18dp"
+                            android:layout_marginBottom="24dp"
+                            android:background="#ffffff" />
 
                 </LinearLayout>
 
@@ -69,204 +70,203 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Search Sections"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorText"
                         android:paddingStart="20dp"
-                        android:paddingEnd="20dp"/>
+                        android:paddingEnd="20dp"
+                        android:text="Search Sections"
+                        android:textColor="@color/colorText"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:paddingStart="20dp"
+                        android:paddingTop="15dp"
                         android:paddingEnd="20dp"
-                        android:paddingBottom="15dp"
-                        android:paddingTop="15dp">
+                        android:paddingBottom="15dp">
 
-                    <androidx.cardview.widget.CardView
+
+                    <com.google.android.material.card.MaterialCardView
                             android:id="@+id/c_market_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:cardUseCompatPadding="true"
-                            app:cardElevation="@dimen/dimenCardElevationDashboardNav"
-                            app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
-                            app:cardBackgroundColor="#fdf2f1"
+                            android:layout_marginEnd="5dp"
                             android:layout_weight="1"
-                            android:layout_marginEnd="5dp">
+                            app:cardBackgroundColor="#fdf2f1"
+                            app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
+                            app:cardElevation="@dimen/dimenCardElevationDashboardNav"
+                            app:cardUseCompatPadding="true">
 
                         <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:minWidth="60dp">
+                                android:minWidth="60dp"
+                                android:orientation="vertical">
 
                             <ImageView
-                                    android:backgroundTint="#fdf2f1"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_gravity="center"
+                                    android:background="@color/colorButtonHasGoodExperienceNotSelected"
+                                    android:backgroundTint="#fdf2f1"
                                     android:paddingTop="8dp"
                                     android:paddingBottom="8dp"
-                                    android:src="@drawable/ic_market_prices"
-                                    android:background="@color/colorButtonHasGoodExperienceNotSelected"/>
+                                    android:src="@drawable/ic_market_prices" />
 
                             <TextView
+                                    style="@style/DashboardCardNavStyling"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    style="@style/DashboardCardNavStyling"
-                                    android:text="Market\nPrice"
-                                    android:gravity="center"/>
+                                    android:gravity="center"
+                                    android:text="Market\nPrice" />
 
                         </LinearLayout>
 
-                    </androidx.cardview.widget.CardView>
+                    </com.google.android.material.card.MaterialCardView>
 
-                    <androidx.cardview.widget.CardView
+                    <com.google.android.material.card.MaterialCardView
                             android:id="@+id/c_exchange_rates"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:cardUseCompatPadding="true"
-                            app:cardElevation="@dimen/dimenCardElevationDashboardNav"
-                            app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
-                            app:cardBackgroundColor="#fdf2f1"
-                            android:layout_weight="1"
                             android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp">
+                            android:layout_marginEnd="5dp"
+                            android:layout_weight="1"
+                            app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
+                            app:cardElevation="@dimen/dimenCardElevationDashboardNav"
+                            app:cardUseCompatPadding="true">
 
                         <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:minWidth="60dp">
+                                android:minWidth="60dp"
+                                android:orientation="vertical">
 
                             <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:backgroundTint="#fdf2f1"
                                     android:layout_gravity="center"
-                                    android:tint="@color/colorExchange"
-                                    android:src="@drawable/ic_exchange_rates"
+                                    android:background="@color/colorButtonHasGoodExperienceNotSelected"
+                                    android:backgroundTint="#fdf2f1"
                                     android:paddingTop="6dp"
                                     android:paddingBottom="6dp"
-                                    android:background="@color/colorButtonHasGoodExperienceNotSelected"/>
+                                    android:src="@drawable/ic_exchange_rates"
+                                    android:tint="@color/colorExchange" />
 
                             <TextView
-                                    android:layout_width="match_parent"
-
-                                    android:layout_height="wrap_content"
                                     style="@style/DashboardCardNavStyling"
-                                    android:text="Exchange\nRates"
-                                    android:gravity="center"/>
+
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Exchange\nRates" />
 
                         </LinearLayout>
 
-                    </androidx.cardview.widget.CardView>
+                    </com.google.android.material.card.MaterialCardView>
 
-                    <androidx.cardview.widget.CardView
+                    <com.google.android.material.card.MaterialCardView
                             android:id="@+id/c_trade_info"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:cardUseCompatPadding="true"
-                            app:cardElevation="@dimen/dimenCardElevationDashboardNav"
-                            app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
-                            android:layout_weight="1"
                             android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp">
+                            android:layout_marginEnd="5dp"
+                            android:layout_weight="1"
+                            app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
+                            app:cardElevation="@dimen/dimenCardElevationDashboardNav"
+                            app:cardUseCompatPadding="true">
 
                         <LinearLayout
-                                android:backgroundTint="#d0daec"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:minWidth="60dp">
+                                android:backgroundTint="#d0daec"
+                                android:minWidth="60dp"
+                                android:orientation="vertical">
 
                             <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:paddingTop="8dp"
-                                    android:backgroundTint="#fdf2f1"
-                                    android:paddingBottom="8dp"
-                                    android:tint="@color/colorTradeInfo"
                                     android:layout_gravity="center"
+                                    android:background="@color/colorButtonHasGoodExperienceNotSelected"
+                                    android:backgroundTint="#fdf2f1"
+                                    android:paddingTop="8dp"
+                                    android:paddingBottom="8dp"
                                     android:src="@drawable/ic_trade_info"
-                                    android:background="@color/colorButtonHasGoodExperienceNotSelected"/>
+                                    android:tint="@color/colorTradeInfo" />
 
                             <TextView
+                                    style="@style/DashboardCardNavStyling"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    style="@style/DashboardCardNavStyling"
-                                    android:text="Trade\nInfo"
-                                    android:gravity="center"/>
+                                    android:gravity="center"
+                                    android:text="Trade\nInfo" />
 
                         </LinearLayout>
 
-                    </androidx.cardview.widget.CardView>
+                    </com.google.android.material.card.MaterialCardView>
 
-                    <androidx.cardview.widget.CardView
+                    <com.google.android.material.card.MaterialCardView
                             android:id="@+id/c_tax_calculator"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:cardUseCompatPadding="true"
-                            app:cardElevation="@dimen/dimenCardElevationDashboardNav"
-                            app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
-                            app:cardBackgroundColor="#fdf2f1"
+                            android:layout_marginStart="5dp"
                             android:layout_weight="1"
-                            android:layout_marginStart="5dp">
+                            app:cardBackgroundColor="#fdf2f1"
+                            app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
+                            app:cardElevation="@dimen/dimenCardElevationDashboardNav"
+                            app:cardUseCompatPadding="true">
 
                         <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:minWidth="60dp">
+                                android:minWidth="60dp"
+                                android:orientation="vertical">
 
                             <ImageView
-                                    android:backgroundTint="#fdf2f1"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:tint="@color/colorTaxCalculator"
+                                    android:layout_gravity="center"
+                                    android:background="@color/colorButtonHasGoodExperienceNotSelected"
+                                    android:backgroundTint="#fdf2f1"
                                     android:paddingTop="6dp"
                                     android:paddingBottom="6dp"
-                                    android:layout_gravity="center"
                                     android:src="@drawable/ic_tax_calculator"
-                                    android:background="@color/colorButtonHasGoodExperienceNotSelected"/>
+                                    android:tint="@color/colorTaxCalculator" />
 
                             <TextView
+                                    style="@style/DashboardCardNavStyling"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    style="@style/DashboardCardNavStyling"
-                                    android:text="Tax\nCalculator"
-                                    android:gravity="center"/>
+                                    android:gravity="center"
+                                    android:text="Tax\nCalculator" />
 
                         </LinearLayout>
 
-                    </androidx.cardview.widget.CardView>
+                    </com.google.android.material.card.MaterialCardView>
 
                 </LinearLayout>
 
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:background="@color/colorInformation">
+                        android:orientation="vertical">
 
                     <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#ffffff"/>
+                            android:background="#ffffff" />
 
                     <TextView
                             android:id="@+id/t_marketplace"
+                            style="@style/DashboardBottomNavStyling"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/menu_marketplace"
-                            style="@style/DashboardBottomNavStyling"/>
+                            android:text="@string/menu_marketplace" />
 
                     <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#ffffff"/>
+                            android:background="#ffffff" />
 
                     <TextView
                             android:id="@+id/t_report"
@@ -278,7 +278,7 @@
                     <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#ffffff"/>
+                            android:background="#ffffff" />
 
                     <TextView
                             android:id="@+id/t_help"
@@ -290,7 +290,7 @@
                     <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#ffffff"/>
+                            android:background="#ffffff" />
 
                 </LinearLayout>
 

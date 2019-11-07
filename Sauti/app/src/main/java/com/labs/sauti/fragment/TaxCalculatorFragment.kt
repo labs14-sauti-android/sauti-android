@@ -69,7 +69,7 @@ OnFragmentFullScreenStateChangedListener {
             if(it.size == 1) {
                 t_tax_calculator_push_to_view.visibility = View.VISIBLE
                 tiv_tax_calculator_recent_first.visibility = View.VISIBLE
-                tiv_tax_calculator_recent_second.visibility = View.GONE
+                tiv_tax_calculator_recent_second.visibility = View.INVISIBLE
                 t_tax_calculator_no_recent.visibility = View.GONE
 
 
