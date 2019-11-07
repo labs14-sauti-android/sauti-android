@@ -5,11 +5,14 @@
 
     <color name="colorCardBackgroundDark">#303336</color>
     <color name="colorDashboardButtonsDark">#303336</color>
-    <color name="colorTextLight">#050505</color>
+
 
     <color name="colorPrimaryLight">#ffffff</color>
+    <color name="colorTextLight">#050505</color>
     <color name="colorCardBackgroundLight">#f0f0f0</color>
     <color name="colorDashboardButtonsLight">#f0f0f0</color>
+    <color name="colorDashboardLineLight">#de000000</color>
+    <color name="colorTabTextLight">#de000000</color>
 
 
     <color name="colorAccent">#E84C3D</color>

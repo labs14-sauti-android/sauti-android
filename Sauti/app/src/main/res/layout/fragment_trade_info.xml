@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/fl_fragment_container_trade_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragment.TradeInfoFragment"
-        android:id="@+id/fl_fragment_container_trade_info"
-        android:background="@color/colorPrimaryDark">
+        tools:context=".fragment.TradeInfoFragment">
+
     <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_trade_info_parent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorPrimaryDark" android:id="@+id/cl_trade_info_parent">
+            android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_expanded_trade_info"
@@ -19,11 +18,11 @@
                 android:layout_height="360dp"
                 android:background="@color/colorInformation"
                 android:visibility="gone"
-                tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible">
 
             <TextView
                     android:id="@+id/t_trade_info_header"
@@ -147,10 +146,10 @@
                     android:id="@+id/t_trade_info_favorite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Favorite"
+                    android:textColor="@color/colorText"
                     android:textSize="12sp"
                     android:textStyle="bold"
-                    android:textColor="@color/colorText"
-                    android:text="Favorite"
                     app:layout_constraintEnd_toEndOf="@+id/i_trade_info_favorite"
                     app:layout_constraintStart_toStartOf="@+id/i_trade_info_favorite"
                     app:layout_constraintTop_toBottomOf="@+id/i_trade_info_favorite" />
@@ -159,14 +158,15 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-                android:text="@string/your_recent_searches"
+                android:id="@+id/t_trade_info_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/t_trade_info_total"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="18dp"
+                android:text="@string/your_recent_searches"
                 android:textColor="@color/colorText"
-                android:layout_marginStart="30dp" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cl_expanded_trade_info"
-                android:layout_marginTop="18dp"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_expanded_trade_info" />
 
         <com.labs.sauti.views.CardViewRecentSearches
                 android:id="@+id/tiv_trade_info_recent_first"
@@ -175,12 +175,11 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="6dp"
                 android:visibility="gone"
-                app:cardBackgroundColor="@color/colorTradeInfo"
-                app:cardCornerRadius="5dp"
                 app:cardUseCompatPadding="true"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/t_trade_info_total"
+                tools:backgroundTint="@color/colorAccent"
                 tools:visibility="visible" />
 
         <com.labs.sauti.views.CardViewRecentSearches
@@ -190,8 +189,6 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="35dp"
                 android:visibility="gone"
-
-                app:cardCornerRadius="5dp"
                 app:cardUseCompatPadding="true"
                 app:layout_constraintBottom_toBottomOf="@+id/tiv_trade_info_recent_first"
                 app:layout_constraintDimensionRatio="1:1"
@@ -199,8 +196,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/tiv_trade_info_recent_first"
                 app:layout_constraintTop_toTopOf="@+id/tiv_trade_info_recent_first"
-                app:layout_constraintVertical_bias="1.0"
-                tools:visibility="invisible" />
+                tools:visibility="visible" />
 
         <TextView
                 android:id="@+id/t_push_to_view"
@@ -217,19 +213,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tiv_trade_info_recent_first"
                 tools:visibility="gone" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_trade_info_search"
-                android:layout_margin="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="@dimen/fab_margin"
+                android:layout_marginBottom="@dimen/fab_margin"
                 android:backgroundTint="@color/colorAccent"
                 android:src="@drawable/ic_search_24dp"
-                android:layout_marginBottom="@dimen/fab_margin"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginEnd="@dimen/fab_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/t_push_to_view"
-                app:layout_constraintVertical_bias="1.0" android:layout_marginTop="5dp"/>
+                app:layout_constraintVertical_bias="1.0" />
 
         <TextView
                 android:id="@+id/t_trade_info_no_recent"

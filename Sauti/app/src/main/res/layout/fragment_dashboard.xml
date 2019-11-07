@@ -7,6 +7,7 @@
         tools:context=".fragment.DashboardFragment"
         tools:showIn="@layout/tool_app_bar_dashboard"
         android:clickable="true"
+        android:background="@color/colorPrimaryLight"
         android:focusable="true">
     <!--TODO: android:background="@color/colorAccent" can be changed to reflect theme  -->
 
@@ -20,23 +21,23 @@
                 android:orientation="vertical">
 
             <!--TODO wrap this around card to show some elevation?-->
+
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="18dp"
 
                     android:orientation="vertical">
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorDashboardLineLight" />
 
                 <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tabs"
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
-
-                <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#ffffff" />
 
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -46,17 +47,15 @@
                     <com.labs.sauti.views.NonSwipeableViewPager
                             android:id="@+id/view_pager"
                             android:layout_width="match_parent"
-                            android:layout_height="220dp"
-                            android:layout_marginStart="20dp" />
+                            android:layout_height="240dp" />
 
                     <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginStart="18dp"
-                            android:layout_marginTop="11dp"
                             android:layout_marginEnd="18dp"
                             android:layout_marginBottom="24dp"
-                            android:background="#ffffff" />
+                            android:background="@color/colorDashboardLineLight" />
 
                 </LinearLayout>
 
@@ -73,8 +72,7 @@
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
                         android:text="Search Sections"
-                        android:textColor="@color/colorText"
-                        android:textSize="14sp"
+                        android:textAppearance="@style/DashboardBottomNavStyling"
                         android:textStyle="bold" />
 
                 <LinearLayout
@@ -89,11 +87,11 @@
 
                     <com.google.android.material.card.MaterialCardView
                             android:id="@+id/c_market_price"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="5dp"
+                            android:layout_marginEnd="4dp"
                             android:layout_weight="1"
-                            app:cardBackgroundColor="#fdf2f1"
+                            app:cardBackgroundColor="@color/colorCardBackgroundLight"
                             app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
                             app:cardElevation="@dimen/dimenCardElevationDashboardNav"
                             app:cardUseCompatPadding="true">
@@ -108,10 +106,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_gravity="center"
-                                    android:background="@color/colorButtonHasGoodExperienceNotSelected"
-                                    android:backgroundTint="#fdf2f1"
                                     android:paddingTop="8dp"
-                                    android:paddingBottom="8dp"
+                                    android:paddingBottom="11dp"
                                     android:src="@drawable/ic_market_prices" />
 
                             <TextView
@@ -119,7 +115,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
-                                    android:text="Market\nPrice" />
+                                    android:text="Market\nPrices" />
 
                         </LinearLayout>
 
@@ -127,11 +123,12 @@
 
                     <com.google.android.material.card.MaterialCardView
                             android:id="@+id/c_exchange_rates"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
                             android:layout_weight="1"
+                            app:cardBackgroundColor="@color/colorCardBackgroundLight"
                             app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
                             app:cardElevation="@dimen/dimenCardElevationDashboardNav"
                             app:cardUseCompatPadding="true">
@@ -167,11 +164,12 @@
 
                     <com.google.android.material.card.MaterialCardView
                             android:id="@+id/c_trade_info"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
                             android:layout_weight="1"
+                            app:cardBackgroundColor="@color/colorCardBackgroundLight"
                             app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
                             app:cardElevation="@dimen/dimenCardElevationDashboardNav"
                             app:cardUseCompatPadding="true">
@@ -207,11 +205,11 @@
 
                     <com.google.android.material.card.MaterialCardView
                             android:id="@+id/c_tax_calculator"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
+                            android:layout_marginStart="4dp"
                             android:layout_weight="1"
-                            app:cardBackgroundColor="#fdf2f1"
+                            app:cardBackgroundColor="@color/colorCardBackgroundLight"
                             app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
                             app:cardElevation="@dimen/dimenCardElevationDashboardNav"
                             app:cardUseCompatPadding="true">
@@ -254,7 +252,7 @@
                     <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#ffffff" />
+                            android:background="@color/colorDashboardLineLight" />
 
                     <TextView
                             android:id="@+id/t_marketplace"
@@ -266,7 +264,7 @@
                     <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#ffffff" />
+                            android:background="@color/colorDashboardLineLight" />
 
                     <TextView
                             android:id="@+id/t_report"
@@ -278,7 +276,7 @@
                     <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#ffffff" />
+                            android:background="@color/colorDashboardLineLight" />
 
                     <TextView
                             android:id="@+id/t_help"
@@ -290,7 +288,7 @@
                     <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#ffffff" />
+                            android:background="@color/colorDashboardLineLight" />
 
                 </LinearLayout>
 

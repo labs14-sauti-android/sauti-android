@@ -13,4 +13,5 @@
     <dimen name="tradeinfodetailsFragmentHeaderSize">27sp</dimen>
     <dimen name="cardWidth">170dp</dimen>
     <dimen name="taxCalcListTextSize">18sp</dimen>
+    <dimen name="tabTextSize">18sp</dimen>
 </resources>

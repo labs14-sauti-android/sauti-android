@@ -15,16 +15,18 @@
 
 
     <com.google.android.material.appbar.AppBarLayout
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            tools:visibility="visible">
 
         <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorAccent"
-                app:popupTheme="@style/OverflowMenu"/>
+                app:popupTheme="@style/OverflowMenu"
+                tools:visibility="visible" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

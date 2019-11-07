@@ -16,7 +16,7 @@
                                                        android:background="@color/colorPrimaryDark"
                                                        android:id="@+id/cl_trade_info_search_fragment_container">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
                 android:text="@string/b_trade_info_border_procedures_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/t_trade_info_search_header"
                 app:layout_constraintEnd_toStartOf="@+id/b_trade_info_documents"
                 app:layout_constraintHorizontal_bias="0.5"/>
-        <Button
+        <com.google.android.material.button.MaterialButton
                 android:text="@string/b_trade_info_required_documents_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintEnd_toStartOf="@+id/b_trade_info_agencies"
                 android:layout_marginEnd="32dp" android:layout_marginStart="32dp"/>
-        <Button
+        <com.google.android.material.button.MaterialButton
                 android:text="@string/b_trade_info_border_agencies_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/t_trade_info_search_header"
                 app:layout_constraintStart_toEndOf="@+id/b_trade_info_documents"
                 app:layout_constraintHorizontal_bias="0.5"/>
-        <Button
+        <com.google.android.material.button.MaterialButton
                 android:text="@string/b_trade_info_regulated_goods_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

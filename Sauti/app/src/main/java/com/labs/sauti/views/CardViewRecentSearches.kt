@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.widget.TextViewCompat
+import com.google.android.material.card.MaterialCardView
 import com.labs.sauti.R
 import com.labs.sauti.model.trade_info.*
 import kotlinx.android.synthetic.main.item_recent_card_view.view.*
@@ -15,8 +16,8 @@ import java.text.DecimalFormat
 class CardViewRecentSearches @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = R.style.AppTheme
-) : CardView(context, attrs, defStyleAttr) {
+    defStyleAttr: Int = 0
+) : MaterialCardView(context, attrs, defStyleAttr) {
 
 
     private var focusObject : Any? = null
@@ -88,7 +89,7 @@ class CardViewRecentSearches @JvmOverloads constructor(
             val agencyList = tradeInfo.tradeInfoAgencies as MutableList
             for(i in 0..2) {
                 val textView = TextView(context, null, 0)
-                textView.setTextAppearance(R.style.CardViewTradeInfoContentTextStyling)
+                TextViewCompat.setTextAppearance(textView, R.style.CardViewTradeInfoContentTextStyling)
                 textView.text = (i + 1).toString() + ":  " + agencyList[i].agencyName
                 ll_card_list.addView(textView)
             }
@@ -112,7 +113,7 @@ class CardViewRecentSearches @JvmOverloads constructor(
         if(tradeInfo.tradeInfoProcedure!!.size > 0) {
 
             val textView = TextView(context, null, 0)
-            textView.setTextAppearance(R.style.CardViewTradeInfoContentTextStyling)
+            TextViewCompat.setTextAppearance(textView, R.style.CardViewTradeInfoContentTextStyling)
             textView.text = "1: " + tradeInfo.tradeInfoProcedure?.get(0)?.description
             ll_card_list.addView(textView)
 
@@ -141,7 +142,7 @@ class CardViewRecentSearches @JvmOverloads constructor(
             val docList = tradeInfo.tradeInfoDocs as MutableList<RequiredDocument>
             for(i in 0..3) {
                 val textView = TextView(context, null, 0)
-                textView.setTextAppearance(R.style.CardViewTradeInfoContentTextStyling)
+                TextViewCompat.setTextAppearance(textView, R.style.CardViewTradeInfoContentTextStyling)
                 textView.text = (i + 1).toString() + ":  " + docList[i].docTitle
                 ll_card_list.addView(textView)
             }
@@ -166,7 +167,7 @@ class CardViewRecentSearches @JvmOverloads constructor(
         //TODO: Hardcoded value for now. Change later.
         for (i in 0..3) {
             val textView = TextView(context, null, 0)
-            textView.setTextAppearance(R.style.CardViewTradeInfoContentTextStyling)
+            TextViewCompat.setTextAppearance(textView, R.style.CardViewTradeInfoContentTextStyling)
             textView.text = """-${tradeInfo.tradeinfoList!![i]}"""
             ll_card_list.addView(textView)
         }

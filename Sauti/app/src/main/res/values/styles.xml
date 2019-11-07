@@ -18,7 +18,6 @@
         <item name="colorPrimary">@color/colorPrimaryLight</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/colorTradeInfo</item>
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="fontFamily">@font/roboto</item>
         <item name="materialCardViewStyle">@style/CardViewLight</item>
@@ -30,8 +29,13 @@
     </style>
 
     <style name="AppThemeLight.TabLight" parent="Widget.MaterialComponents.TabLayout">
-        <item name="tabTextColor">@color/colorPrimaryDark</item>
+        <item name="tabTextColor">@color/colorTabTextLight</item>
+        <item name="tabTextAppearance">@style/TabLayoutTextStyle</item>
+    </style>
 
+    <style name="TabLayoutTextStyle">
+        <item name="android:textSize">@dimen/tabTextSize</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 
@@ -54,14 +58,17 @@
         <item name="actionMenuTextColor">@color/colorText</item>
     </style>
     <style name="DashboardCardNavStyling">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorButtonResponseText</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingStart">3dp</item>
+        <item name="android:paddingEnd">3dp</item>
     </style>
     <style name="DashboardBottomNavStyling">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColor">@color/colorDashboardLineLight</item>
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
         <item name="android:paddingStart">20dp</item>
