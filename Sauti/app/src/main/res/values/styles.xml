@@ -22,10 +22,12 @@
         <item name="fontFamily">@font/roboto</item>
         <item name="materialCardViewStyle">@style/CardViewLight</item>
         <item name="tabStyle">@style/AppThemeLight.TabLight</item>
+        <item name="android:colorBackground">@color/colorPrimaryLight</item>
+        <item name="android:textColor">@color/colorTextLight</item>
     </style>
 
     <style name="CardViewLight" parent="Widget.MaterialComponents.CardView">
-        <item name="cardBackgroundColor">@color/colorAccent</item>
+        <item name="cardBackgroundColor">@color/colorCardBackgroundLight</item>
     </style>
 
     <style name="AppThemeLight.TabLight" parent="Widget.MaterialComponents.TabLayout">
@@ -61,8 +63,8 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorButtonResponseText</item>
-        <item name="android:paddingBottom">5dp</item>
         <item name="android:paddingStart">3dp</item>
+        <item name="android:paddingBottom">5dp</item>
         <item name="android:paddingEnd">3dp</item>
     </style>
     <style name="DashboardBottomNavStyling">

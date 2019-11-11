@@ -14,7 +14,6 @@
             android:layout_height="wrap_content"
             app:cardUseCompatPadding="true"
             app:cardCornerRadius="10dp"
-            app:cardBackgroundColor="@color/colorPrimaryDark"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,32 +37,26 @@
                     android:gravity="center"
                     android:textSize="28sp"
                     android:text="@string/sauti_sign_in"
-                    android:textColor="@color/colorText"
                     android:layout_marginBottom="20dp"/>
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Username"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorText"/>
+                    android:textStyle="bold"/>
 
             <EditText
                     android:id="@+id/et_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter Username"
-                    android:textColorHint="#c4c4c4"
-                    android:backgroundTint="@color/colorText"
-                    android:textColor="@color/colorText"
                     android:maxLines="1"/>
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Password"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorText"/>
+                    android:textStyle="bold"/>
 
             <EditText
                     android:id="@+id/et_password"
@@ -71,9 +64,6 @@
                     android:layout_height="wrap_content"
                     android:hint="Enter Password"
                     android:inputType="textPassword"
-                    android:textColorHint="#c4c4c4"
-                    android:backgroundTint="@color/colorText"
-                    android:textColor="@color/colorText"
                     android:maxLines="1"/>
 
             <ViewSwitcher
@@ -109,8 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/don_t_have_an_account_sign_up"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorText"/>
+                    android:textStyle="bold"/>
 
         </LinearLayout>
 

@@ -13,8 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/fl_fragment_container"
-            tools:context=".fragment.MarketPriceFragment"
-            android:background="@color/colorPrimaryDark">
+            tools:context=".fragment.MarketPriceFragment">
 
         <FrameLayout
                 android:layout_width="match_parent"
@@ -159,9 +158,8 @@
                             android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:paddingStart="31dp"
-                            android:paddingEnd="31dp"
                             android:paddingTop="18dp"
-                            android:background="@color/colorPrimaryDark">
+                            android:paddingEnd="31dp">
 
                         <TextView
                                 android:layout_width="match_parent"
@@ -169,7 +167,7 @@
                                 android:layout_marginStart="4dp"
                                 android:text="@string/your_recent_searches"
                                 android:textColor="@color/colorText"
-                                android:textSize="14sp"/>
+                                android:textSize="14sp" />
 
                         <ViewSwitcher
                                 android:id="@+id/vs_recent_market_prices_loading"
@@ -200,10 +198,10 @@
                                     <TextView
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:text="@string/push_to_view"
                                             android:gravity="center"
+                                            android:text="@string/push_to_view"
                                             android:textColor="@color/colorText"
-                                            android:textSize="14sp"/>
+                                            android:textSize="14sp" />
 
                                 </LinearLayout>
 
@@ -220,7 +218,7 @@
 
                             <ProgressBar
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"/>
+                                    android:layout_height="match_parent" />
 
                         </ViewSwitcher>
 

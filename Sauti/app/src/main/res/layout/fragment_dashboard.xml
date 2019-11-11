@@ -81,15 +81,15 @@
                         android:orientation="horizontal"
                         android:paddingStart="20dp"
                         android:paddingTop="15dp"
-                        android:paddingEnd="20dp"
-                        android:paddingBottom="15dp">
+                        android:paddingEnd="15dp"
+                        android:paddingBottom="15dp"
+                        android:weightSum="4">
 
 
                     <com.google.android.material.card.MaterialCardView
                             android:id="@+id/c_market_price"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="4dp"
                             android:layout_weight="1"
                             app:cardBackgroundColor="@color/colorCardBackgroundLight"
                             app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
@@ -99,7 +99,6 @@
                         <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:minWidth="60dp"
                                 android:orientation="vertical">
 
                             <ImageView
@@ -107,7 +106,7 @@
                                     android:layout_height="match_parent"
                                     android:layout_gravity="center"
                                     android:paddingTop="8dp"
-                                    android:paddingBottom="11dp"
+                                    android:paddingBottom="8dp"
                                     android:src="@drawable/ic_market_prices" />
 
                             <TextView
@@ -115,7 +114,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
-                                    android:text="Market\nPrices" />
+                                    android:text="@string/menu_market_price"
+                                    android:textAlignment="center" />
 
                         </LinearLayout>
 
@@ -125,8 +125,6 @@
                             android:id="@+id/c_exchange_rates"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:layout_marginEnd="4dp"
                             android:layout_weight="1"
                             app:cardBackgroundColor="@color/colorCardBackgroundLight"
                             app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
@@ -156,7 +154,9 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
-                                    android:text="Exchange\nRates" />
+
+                                    android:text="@string/menu_exchange_rates"
+                                    android:textAlignment="center" />
 
                         </LinearLayout>
 
@@ -166,8 +166,6 @@
                             android:id="@+id/c_trade_info"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:layout_marginEnd="4dp"
                             android:layout_weight="1"
                             app:cardBackgroundColor="@color/colorCardBackgroundLight"
                             app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
@@ -196,8 +194,11 @@
                                     style="@style/DashboardCardNavStyling"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginEnd="8dp"
                                     android:gravity="center"
-                                    android:text="Trade\nInfo" />
+                                    android:text="@string/menu_trade_info"
+                                    android:textAlignment="center" />
 
                         </LinearLayout>
 
@@ -207,7 +208,6 @@
                             android:id="@+id/c_tax_calculator"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
                             android:layout_weight="1"
                             app:cardBackgroundColor="@color/colorCardBackgroundLight"
                             app:cardCornerRadius="@dimen/dimenCardRadiusDashboardNav"
@@ -236,7 +236,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
-                                    android:text="Tax\nCalculator" />
+                                    android:text="@string/menu_tax_calculator" />
 
                         </LinearLayout>
 
@@ -259,6 +259,7 @@
                             style="@style/DashboardBottomNavStyling"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:maxLines="2"
                             android:text="@string/menu_marketplace" />
 
                     <View
