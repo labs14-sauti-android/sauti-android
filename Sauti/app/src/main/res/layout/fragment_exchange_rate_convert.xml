@@ -4,7 +4,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context=".fragment.ExchangeRateConvertFragment"
-            android:background="@color/colorPrimaryDark"
+            android:background="?searchLayoutBackground"
             android:clickable="true"
             android:focusable="true">
 
@@ -25,7 +25,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Exchange Rate Convert"
-                    android:textColor="@color/colorText"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="24dp"/>
@@ -46,7 +45,6 @@
                         android:layout_height="wrap_content"
                         android:text="@string/from_which_currency_do_you_want_to_convert"
                         android:textSize="14sp"
-                        android:textColor="@color/colorText"
                         android:layout_marginBottom="5dp"/>
 
                     <RelativeLayout
@@ -91,7 +89,6 @@
                         android:layout_height="wrap_content"
                         android:text="@string/to_which_currency_do_you_want_to_convert"
                         android:textSize="14sp"
-                        android:textColor="@color/colorText"
                         android:layout_marginBottom="5dp"/>
 
                     <RelativeLayout
@@ -132,7 +129,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/how_much_do_you_want_to_exchange"
                     android:textSize="14sp"
-                    android:textColor="@color/colorText"
                     android:layout_marginBottom="5dp"/>
 
                 <EditText
@@ -157,7 +153,8 @@
                         android:id="@+id/b_convert"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Convert"
+                        android:textAllCaps="false"
+                        android:text="@string/search_button_text"
                         android:textStyle="bold"
                         android:textSize="24sp"
                         android:backgroundTint="@color/colorAccent"

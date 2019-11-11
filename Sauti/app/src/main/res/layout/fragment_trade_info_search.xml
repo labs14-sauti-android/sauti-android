@@ -8,12 +8,11 @@
         tools:context=".fragment.TradeInfoSearchFragment"
         android:clickable="true"
         android:focusable="true"
-        android:background="@color/colorPrimaryDark">
+        android:background="?searchLayoutBackground">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
                                                        android:layout_height="match_parent"
-                                                       android:background="@color/colorPrimaryDark"
                                                        android:id="@+id/cl_trade_info_search_fragment_container">
 
         <com.google.android.material.button.MaterialButton

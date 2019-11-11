@@ -41,13 +41,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:padding="20dp"
-                android:background="@color/colorPrimaryDark">
+                android:background="?searchLayoutBackground">
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Report Form"
-                    android:textColor="@color/colorText"
                     android:textSize="24sp"
                     android:textStyle="bold"/>
 
@@ -56,7 +55,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/we_will_now_ask_some_questions_about_your_border_experience"
-                    android:textColor="@color/colorText"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="40dp"/>
@@ -77,7 +75,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/which_border_did_you_cross"
-                            android:textColor="@color/colorText"
                             android:textSize="18sp"
                             android:layout_marginBottom="16dp"/>
 
@@ -118,7 +115,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/did_you_have_a_good_experience"
-                        android:textColor="@color/colorText"
                         android:textSize="18sp"
                         android:layout_marginBottom="12dp"/>
 
@@ -132,21 +128,25 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal">
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                                 android:id="@+id/b_yes"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/yes"
+                                android:textAllCaps="false"
+                                android:textSize="24sp"
                                 android:textStyle="bold"
                                 android:textColor="@color/colorButtonResponseText"
                                 android:backgroundTint="@color/colorButtonHasGoodExperienceNotSelected"
                                 android:layout_marginEnd="50dp"/>
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                                 android:id="@+id/b_no"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/no"
+                                android:textAllCaps="false"
+                                android:textSize="24sp"
                                 android:textStyle="bold"
                                 android:textColor="@color/colorButtonResponseText"
                                 android:backgroundTint="@color/colorButtonHasGoodExperienceNotSelected"/>
@@ -162,11 +162,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                         android:id="@+id/b_submit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Submit"
+                        android:textSize="24sp"
+                        android:textAllCaps="false"
                         android:textStyle="bold"
                         android:textColor="@color/colorText"
                         android:backgroundTint="@color/colorAccent"/>

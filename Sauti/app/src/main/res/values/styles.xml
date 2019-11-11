@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="fontFamily">@font/roboto</item>
+        <item name="android:colorBackground">@color/colorPrimaryLight</item>
     </style>
 
 
@@ -22,8 +23,10 @@
         <item name="fontFamily">@font/roboto</item>
         <item name="materialCardViewStyle">@style/CardViewLight</item>
         <item name="tabStyle">@style/AppThemeLight.TabLight</item>
-        <item name="android:colorBackground">@color/colorPrimaryLight</item>
+        <item name="android:windowBackground">@color/colorPrimaryLight</item>
         <item name="android:textColor">@color/colorTextLight</item>
+        <item name="searchLayoutBackground">@color/colorPrimaryLight</item>
+        <item name="detailsBackgroundColor">@color/colorPrimaryLight</item>
     </style>
 
     <style name="CardViewLight" parent="Widget.MaterialComponents.CardView">
@@ -85,7 +88,6 @@
     <style name="CardViewRecentHeaderTextStyling">
         <item name="android:gravity">left</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:breakStrategy">simple</item>
         <item name="android:textSize">@dimen/cardViewHeaderTextSize</item>
         <item name="android:textColor">@color/colorWarningText</item>
     </style>
@@ -94,7 +96,6 @@
         <item name="android:textStyle">normal</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">@dimen/cardViewHeaderTextSize</item>
-        <item name="android:textColor">@color/colorText</item>
     </style>
     <style name="CardViewCategoryTextStyling">
         <item name="android:textSize">@dimen/cardViewContentTextSize</item>
@@ -142,7 +143,6 @@
     </style>
     <style name="TradeInfoDetailsFragmentHeaderStyling">
         <item name="android:textSize">@dimen/tradeinfodetailsFragmentHeaderSize</item>
-        <item name="android:textColor">@color/colorText</item>
         <item name="android:textStyle">bold</item>
     </style>
     <style name="TaxCalculatorDetailsListStyling">

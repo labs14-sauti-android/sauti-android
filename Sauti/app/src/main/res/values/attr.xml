@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="searchLayoutBackground" format="reference" />
+    <attr name="detailsBackgroundColor" format="reference" />
     <declare-styleable name="CardViewRecentSearches">
         <attr name="headerText" format="string"/>
     </declare-styleable>
@@ -7,4 +9,3 @@
         <attr name="searchparam" format="string"/>
     </declare-styleable>
 </resources>
-<!--TODO: consider deleting.-->

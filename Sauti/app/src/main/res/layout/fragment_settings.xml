@@ -6,7 +6,7 @@
              tools:context=".fragment.SettingsFragment"
             android:clickable="true"
             android:focusable="true"
-            android:background="@color/colorPrimaryDark">
+            android:background="?searchLayoutBackground">
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -14,24 +14,24 @@
             android:orientation="vertical">
 
         <TextView
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Profile"
-                android:textStyle="bold"
-                android:textSize="14sp"
                 android:padding="20dp"
-                android:textColor="@color/colorText"/>
+                android:text="Profile"
+                android:textColor="@color/colorText"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
 
         <FrameLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
+
                     android:text="Edit Profile"
                     android:textStyle="bold"
                     android:textSize="12sp"
@@ -58,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
-                android:padding="20dp">
+                android:padding="17dp">
 
             <TextView
                     android:layout_width="wrap_content"
@@ -89,7 +89,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="English"
-                            android:textColor="@color/colorText"
                             android:layout_gravity="center"
                             android:layout_margin="7dp"/>
 
@@ -136,7 +135,7 @@
         </FrameLayout>
 
         <TextView
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Theme"
@@ -146,7 +145,7 @@
                 android:textColor="@color/colorText"/>
 
         <FrameLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -162,6 +161,7 @@
                     android:layout_gravity="center_vertical"/>
 
             <Switch
+                    android:id="@+id/sw_dark_mode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center_vertical"

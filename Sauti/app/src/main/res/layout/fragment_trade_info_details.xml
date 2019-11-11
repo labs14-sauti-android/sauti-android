@@ -9,7 +9,6 @@
                                    android:focusable="true"
                                    app:cardUseCompatPadding="false"
                                    app:cardCornerRadius="10dp"
-                                   app:cardBackgroundColor="@color/colorPrimaryDark"
                                    android:id="@+id/c_trade_info_details">
 
 

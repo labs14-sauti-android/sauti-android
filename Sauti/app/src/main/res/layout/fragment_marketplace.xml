@@ -4,7 +4,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context=".fragment.MarketplaceFragment"
-            android:background="@color/colorPrimaryDark"
+            android:background="?searchLayoutBackground"
             tools:showIn="@layout/tool_app_bar_marketplace">
 
     <LinearLayout
@@ -16,7 +16,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sauti_marketplace"
-                android:textColor="@color/colorText"
                 android:layout_marginTop="116dp"
                 android:layout_marginBottom="40dp"
                 android:textSize="32sp"
@@ -29,7 +28,6 @@
                 android:text="Coming soon"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="@color/colorText"
                 android:gravity="center"/>
 
     </LinearLayout>

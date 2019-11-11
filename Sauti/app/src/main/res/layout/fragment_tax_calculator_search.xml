@@ -8,13 +8,14 @@
         tools:context=".fragment.TaxCalculatorSearchFragment"
         android:clickable="true"
         android:focusable="true"
-        android:background="@color/colorPrimaryDark" android:id="@+id/frameLayout">
+        android:background="?searchLayoutBackground"
+        android:id="@+id/frameLayout">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-                                                       android:layout_height="match_parent"
-                                                       android:background="@color/colorPrimaryDark"
-                                                       android:id="@+id/cl_tax_calculator_search_fragment_container">
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/cl_tax_calculator_search_fragment_container">
 
         <TextView
                 android:text="@string/menu_tax_calculator"
