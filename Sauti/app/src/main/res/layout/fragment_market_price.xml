@@ -51,10 +51,9 @@
                             <ImageView
                                     android:id="@+id/i_favorite"
                                     android:layout_width="24dp"
+                                    android:tint="?starColor"
                                     android:layout_height="24dp"
-                                    android:layout_gravity="center_horizontal"
-                                    android:backgroundTint="@color/colorTextLight"
-                                    android:background="@drawable/ic_star_empty"/>
+                                    android:layout_gravity="center_horizontal" />
 
                             <TextView
                                     android:id="@+id/t_favorite"

@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -171,8 +172,13 @@ OnFragmentFullScreenStateChangedListener {
             } else {
                 ll_favorite.isEnabled = true
                 if (it.isFavorite) {
+                    //TODO: Set image resource based on theme
                     i_favorite.setImageResource(R.drawable.ic_star_filled)
+
+
+
                 } else {
+                    //TODO: Set image resource based on theme
                     i_favorite.setImageResource(R.drawable.ic_star_empty)
                 }
             }

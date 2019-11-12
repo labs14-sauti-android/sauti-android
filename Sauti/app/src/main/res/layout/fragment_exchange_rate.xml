@@ -58,8 +58,7 @@
                                 android:id="@+id/i_favorite"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:backgroundTint="@color/colorTextLight"
-
+                                android:tint="?starColor"
                                 android:layout_gravity="center_horizontal"
                                 android:background="@drawable/ic_star_empty" />
 

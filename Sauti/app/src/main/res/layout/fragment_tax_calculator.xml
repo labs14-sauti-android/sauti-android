@@ -17,7 +17,7 @@
                 android:id="@+id/cl_expanded_tax_calculator"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/colorInformation"
+                android:background="?detailsBackgroundColor"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -30,7 +30,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Favorite"
-                    android:textColor="@color/colorText"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/i_tax_calculator_favorite"
@@ -45,7 +44,6 @@
                     android:layout_marginTop="46dp"
                     android:layout_marginEnd="72dp"
                     android:fontFamily="sans-serif"
-                    android:textColor="@color/colorTextInformation"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +61,7 @@
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/t_tax_calculator_header"></LinearLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/t_tax_calculator_header" />
 
             <TextView
                     android:id="@+id/t_tax_calculator_total"
@@ -78,6 +76,7 @@
 
             <ImageView
                     android:id="@+id/i_tax_calculator_favorite"
+                    android:tint="?starColor"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginTop="22dp"
@@ -96,7 +95,6 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="18dp"
                 android:text="@string/your_recent_searches"
-                android:textColor="@color/colorText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cl_expanded_tax_calculator" />
 
@@ -106,7 +104,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text="@string/you_have_no_recent_searches"
-                android:textColor="@color/colorText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/t_tax_calculator_recent_searches" />
@@ -141,7 +138,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/tiv_tax_calculator_recent_first"
                 app:layout_constraintTop_toTopOf="@+id/tiv_tax_calculator_recent_first"
-                app:layout_constraintVertical_bias="1.0"></com.labs.sauti.views.CardViewRecentSearches>
+                app:layout_constraintVertical_bias="1.0" />
 
         <TextView
                 android:id="@+id/t_tax_calculator_push_to_view"
@@ -150,7 +147,6 @@
                 android:layout_marginTop="12dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/push_to_view"
-                android:textColor="#ffffff"
                 android:textSize="14sp"
                 android:textStyle="normal"
                 android:visibility="gone"
