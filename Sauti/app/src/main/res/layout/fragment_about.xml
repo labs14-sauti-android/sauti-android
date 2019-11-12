@@ -4,7 +4,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context=".fragment.AboutFragment"
-            android:background="@color/colorPrimaryDark">
+            android:background="?searchLayoutBackground">
 
     <ScrollView
             android:layout_width="match_parent"
@@ -44,8 +44,7 @@
                     android:paddingBottom="24dp"
                     android:text="@string/about_sauti"
                     android:textStyle="bold"
-                    android:textSize="42sp"
-                    android:textColor="@color/colorText"/>
+                    android:textSize="42sp" />
 
             <LinearLayout
                     android:layout_width="match_parent"
@@ -73,15 +72,13 @@
                             android:layout_height="wrap_content"
                             android:text="@string/about_text_header_1"
                             android:textStyle="bold"
-                            android:textSize="14sp"
-                            android:textColor="@color/colorText"/>
+                            android:textSize="14sp"/>
 
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/about_text_1"
-                            android:textSize="14sp"
-                            android:textColor="@color/colorText"/>
+                            android:textSize="14sp"/>
 
                 </LinearLayout>
 
@@ -106,15 +103,13 @@
                             android:layout_height="wrap_content"
                             android:text="@string/about_text_header_2"
                             android:textStyle="bold"
-                            android:textSize="14sp"
-                            android:textColor="@color/colorText"/>
+                            android:textSize="14sp"/>
 
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/about_text_2"
-                            android:textSize="14sp"
-                            android:textColor="@color/colorText"/>
+                            android:textSize="14sp"/>
 
                 </LinearLayout>
 
@@ -154,15 +149,13 @@
                             android:layout_height="wrap_content"
                             android:text="@string/about_text_header_3"
                             android:textStyle="bold"
-                            android:textSize="14sp"
-                            android:textColor="@color/colorText"/>
+                            android:textSize="14sp"/>
 
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/about_text_3"
-                            android:textSize="14sp"
-                            android:textColor="@color/colorText"/>
+                            android:textSize="14sp"/>
 
                 </LinearLayout>
 
@@ -187,15 +180,13 @@
                             android:layout_height="wrap_content"
                             android:text="@string/about_text_header_4"
                             android:textStyle="bold"
-                            android:textSize="14sp"
-                            android:textColor="@color/colorText"/>
+                            android:textSize="14sp"/>
 
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/about_text_4"
-                            android:textSize="14sp"
-                            android:textColor="@color/colorText"/>
+                            android:textSize="14sp"/>
 
                 </LinearLayout>
 
@@ -214,7 +205,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/about_attribution_fontawesome"
                     android:textSize="12sp"
-                    android:textColor="@color/colorText"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
                     android:layout_marginBottom="12dp"/>
