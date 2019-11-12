@@ -378,6 +378,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                     shouldReplace = true
                     baseFragment = DashboardFragment.newInstance()
                     toolbar.title = "Sauti"
+                    image_toolbar.setImageResource(0)
                     nav_view.menu.findItem(R.id.nav_dashboard).isChecked = true
                 }
             }
@@ -386,6 +387,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                     shouldReplace = true
                     baseFragment = MarketPriceFragment.newInstance(data as MarketPrice?)
                     toolbar.title = resources.getString(R.string.menu_market_price)
+                    image_toolbar.setImageResource(R.drawable.ic_market_prices)
                     nav_view.menu.findItem(R.id.nav_market_prices).isChecked = true
                 }
             }
@@ -394,6 +396,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                     shouldReplace = true
                     baseFragment = TaxCalculatorFragment.newInstance()
                     toolbar.title = resources.getString(R.string.menu_tax_calculator)
+                    image_toolbar.setImageResource(R.drawable.ic_tax_calculator)
                     nav_view.menu.findItem(R.id.nav_tax_calculator).isChecked = true
                 }
             }
@@ -402,6 +405,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                     shouldReplace = true
                     baseFragment = TradeInfoFragment.newInstance()
                     toolbar.title = resources.getString(R.string.menu_trade_info)
+                    image_toolbar.setImageResource(R.drawable.ic_trade_info)
                     nav_view.menu.findItem(R.id.nav_trade_info).isChecked = true
                 }
             }
@@ -410,6 +414,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                     shouldReplace = true
                     baseFragment = ExchangeRateFragment.newInstance(data as ExchangeRateConversionResult?)
                     toolbar.title = resources.getString(R.string.menu_exchange_rates)
+                    image_toolbar.setImageResource(R.drawable.ic_exchange_rates)
                     nav_view.menu.findItem(R.id.nav_exchange_rates).isChecked = true
                 }
             }
@@ -418,6 +423,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                     shouldReplace = true
                     baseFragment = MarketplaceFragment.newInstance()
                     toolbar.title = resources.getString(R.string.menu_marketplace)
+                    image_toolbar.setImageResource(0)
                     nav_view.menu.findItem(R.id.nav_marketplace).isChecked = true
                 }
             }
@@ -426,6 +432,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                     shouldReplace = true
                     baseFragment = ReportFragment.newInstance()
                     toolbar.title = resources.getString(R.string.menu_report)
+                    image_toolbar.setImageResource(0)
                     nav_view.menu.findItem(R.id.nav_report).isChecked = true
                 }
             }
@@ -434,6 +441,7 @@ DashboardFavoritesFragment.OnSignUpClickListener{
                     shouldReplace = true
                     baseFragment = HelpFragment.newInstance()
                     toolbar.title = resources.getString(R.string.menu_help)
+                    image_toolbar.setImageResource(0)
                     nav_view.menu.findItem(R.id.nav_help).isChecked = true
                 }
             }
