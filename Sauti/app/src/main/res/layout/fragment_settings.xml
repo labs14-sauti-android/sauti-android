@@ -18,7 +18,6 @@
                 android:layout_height="wrap_content"
                 android:padding="20dp"
                 android:text="Profile"
-                android:textColor="@color/colorText"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:visibility="visible" />
@@ -26,17 +25,18 @@
         <FrameLayout
                 android:visibility="visible"
                 android:layout_width="match_parent"
+                android:background="?settingsHighlight"
+
                 android:layout_height="wrap_content">
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:text="Edit Profile"
                     android:textStyle="bold"
                     android:textSize="12sp"
                     android:padding="20dp"
-                    android:textColor="@color/colorTextDim"
+                    android:textColor="?settingTextColor"
                     android:layout_gravity="center_vertical"/>
 
             <ImageView
@@ -51,46 +51,48 @@
                 android:text="Language"
                 android:textStyle="bold"
                 android:textSize="14sp"
-                android:padding="20dp"
-                android:textColor="@color/colorText"/>
+                android:padding="20dp"/>
+
 
         <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:padding="17dp">
+                android:background="?settingsHighlight">
 
             <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
                     android:text="Select Language"
-                    android:textStyle="bold"
+                    android:textColor="?settingTextColor"
                     android:textSize="12sp"
-                    android:textColor="@color/colorTextDim"
-                    android:layout_gravity="center_vertical"/>
+                    android:textStyle="bold" />
 
             <LinearLayout
                     android:id="@+id/ll_languages"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_gravity="end">
+                    android:layout_gravity="end|center_vertical">
 
                 <FrameLayout
                         android:id="@+id/fl_language_english"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/s_selected_language_background"
-                        android:backgroundTint="@color/colorSelectedLanguage"
-                        android:layout_margin="2dp">
+                        android:backgroundTint="?settingsHighlight">
 
                     <TextView
                             android:id="@+id/t_language_english"
+                            android:textColor="?settingTextColor"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="English"
                             android:layout_gravity="center"
-                            android:layout_margin="7dp"/>
+                            android:layout_margin="7dp"
+                            android:text="English" />
 
                 </FrameLayout>
 
@@ -99,14 +101,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/s_selected_language_background"
-                        android:backgroundTint="@color/colorPrimary">
+                        android:backgroundTint="@android:color/transparent">
 
                     <TextView
                             android:id="@+id/t_language_swahili"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Swahili"
-                            android:textColor="@color/colorTextDim"
+                            android:textColor="?settingTextColor"
                             android:layout_gravity="center"
                             android:layout_margin="7dp"/>
 
@@ -117,14 +119,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/s_selected_language_background"
-                        android:backgroundTint="@color/colorPrimary">
+                        android:backgroundTint="@android:color/transparent">
 
                     <TextView
                             android:id="@+id/t_language_luganda"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Luganda"
-                            android:textColor="@color/colorTextDim"
+                            android:textColor="?settingTextColor"
                             android:layout_gravity="center"
                             android:layout_margin="7dp"/>
 
@@ -141,8 +143,7 @@
                 android:text="Theme"
                 android:textStyle="bold"
                 android:textSize="14sp"
-                android:padding="20dp"
-                android:textColor="@color/colorText"/>
+                android:padding="20dp"/>
 
         <FrameLayout
                 android:visibility="visible"
@@ -152,12 +153,12 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
+                    android:background="?settingsHighlight"
                     android:text="Dark Mode"
                     android:textStyle="bold"
                     android:textSize="12sp"
                     android:padding="20dp"
-                    android:textColor="@color/colorTextDim"
+                    android:textColor="?settingTextColor"
                     android:layout_gravity="center_vertical"/>
 
             <Switch

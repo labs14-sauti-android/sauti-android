@@ -28,6 +28,30 @@
         <item name="searchLayoutBackground">@color/colorPrimaryLight</item>
         <item name="detailsBackgroundColor">@color/colorPrimaryLight</item>
         <item name="starColor">@color/colorTextLight</item>
+        <item name="settingsHighlight">@color/settingHighlightLight</item>
+        <item name="popThemeStyle">@style/OverflowMenuLight</item>
+        <item name="settingTextColor">@color/settingTextLight</item>
+
+    </style>
+
+    <style name="TitleTextAppearance">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="OverflowMenuLight" parent="Widget.AppCompat.PopupMenu">
+        <item name="overlapAnchor">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:colorBackground">@color/popupBackgroundColorLight</item>
+        <item name="android:textColor">@color/popupTextColorLight</item>
+    </style>
+
+    <style name="OverflowMenu" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:windowDisablePreview">true</item>
+        <item name="overlapAnchor">false</item>
+        <item name="android:dropDownVerticalOffset">5dp</item>
+        <item name="android:popupBackground">@color/colorPrimaryDark</item>
+        <item name="actionMenuTextColor">@color/colorText</item>
     </style>
 
     <style name="CardViewLight" parent="Widget.MaterialComponents.CardView">
@@ -56,13 +80,10 @@
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-    <style name="OverflowMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
-        <item name="android:windowDisablePreview">true</item>
-        <item name="overlapAnchor">false</item>
-        <item name="android:dropDownVerticalOffset">5dp</item>
-        <item name="android:popupBackground">@color/colorPrimaryDark</item>
-        <item name="actionMenuTextColor">@color/colorText</item>
-    </style>
+
+
+
+
     <style name="DashboardCardNavStyling">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>

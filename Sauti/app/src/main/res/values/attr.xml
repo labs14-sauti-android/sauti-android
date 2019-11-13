@@ -3,6 +3,9 @@
     <attr name="searchLayoutBackground" format="reference" />
     <attr name="detailsBackgroundColor" format="reference" />
     <attr name="starColor" format="reference"/>
+    <attr name="settingsHighlight" format="reference"/>
+    <attr name="settingTextColor" format="reference"/>
+    <attr name="popThemeStyle" format="reference"/>
     <declare-styleable name="CardViewRecentSearches">
         <attr name="headerText" format="string"/>
     </declare-styleable>

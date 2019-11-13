@@ -13,7 +13,11 @@
     <color name="colorDashboardButtonsLight">#f0f0f0</color>
     <color name="colorDashboardLineLight">#de000000</color>
     <color name="colorTabTextLight">#de000000</color>
-
+    <color name="settingHighlightLight">#99c4c4c4</color>
+    <color name="settingTextLight">#6d6d6d</color>
+    <color name="settingLanguageSelected">#a1a1a1</color>
+    <color name="popupTextColorLight">#050505</color>
+    <color name="popupBackgroundColorLight">#f8c8c4</color>
 
     <color name="colorAccent">#E84C3D</color>
     <color name="colorText">#ffffff</color>

@@ -59,18 +59,20 @@ class SettingsFragment : Fragment() {
 
             // TODO refresh main fragments
 
+
+            //TODO: Check the dark or light settings
             when (it) {
                 LANG_EN -> {
-                    fl_language_english.background.setTint(ContextCompat.getColor(context!!, R.color.colorSelectedLanguage))
-                    t_language_english.setTextColor(ContextCompat.getColor(context!!, R.color.colorText))
+                    fl_language_english.background.setTint(ContextCompat.getColor(context!!, R.color.settingLanguageSelected))
+                    t_language_english.setTextColor(ContextCompat.getColor(context!!, R.color.colorTextLight))
                 }
                 LANG_SW -> {
-                    fl_language_swahili.background.setTint(ContextCompat.getColor(context!!, R.color.colorSelectedLanguage))
-                    t_language_swahili.setTextColor(ContextCompat.getColor(context!!, R.color.colorText))
+                    fl_language_swahili.background.setTint(ContextCompat.getColor(context!!, R.color.settingLanguageSelected))
+                    t_language_swahili.setTextColor(ContextCompat.getColor(context!!, R.color.colorTextLight))
                 }
                 "lg" -> {
-                    fl_language_luganda.background.setTint(ContextCompat.getColor(context!!, R.color.colorSelectedLanguage))
-                    t_language_luganda.setTextColor(ContextCompat.getColor(context!!, R.color.colorText))
+                    fl_language_luganda.background.setTint(ContextCompat.getColor(context!!, R.color.settingLanguageSelected))
+                    t_language_luganda.setTextColor(ContextCompat.getColor(context!!, R.color.colorTextLight))
                 }
             }
 
@@ -96,9 +98,12 @@ class SettingsFragment : Fragment() {
     }
 
     private fun unSelectLanguages() {
+
+        //TODO: Check the dark or light settings
         ll_languages.children.iterator().forEach {
-            it.background.setTint(ContextCompat.getColor(context!!, R.color.colorPrimary))
-            ((it as ViewGroup).children.iterator().next() as TextView).setTextColor(ContextCompat.getColor(context!!, R.color.colorTextDim))
+
+            it.background.setTint(ContextCompat.getColor(context!!, android.R.color.transparent))
+            ((it as ViewGroup).children.iterator().next() as TextView).setTextColor(ContextCompat.getColor(context!!, R.color.settingTextLight))
         }
     }
 

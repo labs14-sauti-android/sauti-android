@@ -25,7 +25,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorAccent"
-                app:popupTheme="@style/OverflowMenu"
+                app:titleTextAppearance="@style/TitleTextAppearance"
+                app:popupTheme="?popThemeStyle"
                 tools:visibility="visible">
 
             <androidx.appcompat.widget.AppCompatImageView
